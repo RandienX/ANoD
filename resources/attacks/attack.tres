@@ -1,24 +1,13 @@
-[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://bm2swlibbpbh4"]
+[gd_resource type="Resource" script_class="Attack" load_steps=3 format=3 uid="uid://bm2swlibbpbh4"]
 
 [ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="1_1kbci"]
-[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="1_d26ie"]
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_suj0y"]
-[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_t4f1g"]
-[ext_resource type="AudioStream" uid="uid://cevij21muvjw1" path="res://assets/sound/sfx/attack/scream_sfx.mp3" id="2_d4a2r"]
-[ext_resource type="EffekseerEffect" uid="uid://wvld7k73hj75" path="res://assets/vfx/HitEffect.efkefc" id="6_svw4d"]
-[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="7_svw4d"]
-
-[sub_resource type="Resource" id="Resource_l7agv"]
-script = ExtResource("7_svw4d")
-effect = ExtResource("6_svw4d")
-speed = 0.8
-on_target = 4
-color = Color(1, 0.9192285, 0.8729805, 1)
-metadata/_custom_type_script = "uid://bqcm6g85k8bau"
+[ext_resource type="AudioStream" uid="uid://cevij21muvjw1" path="res://assets/sound/battle/scream_sfx.mp3" id="2_d4a2r"]
 
 [resource]
 script = ExtResource("1_1kbci")
-skill_name = "Scream"
-vfx = SubResource("Resource_l7agv")
+attack_type = 0
+target_type = 0
+name = "Attack"
+attack_multiplier = 1.0
 sfx = ExtResource("2_d4a2r")
 metadata/_custom_type_script = "uid://o74imedfcjis"

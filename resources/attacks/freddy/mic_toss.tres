@@ -1,61 +1,18 @@
-[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://dn2gyrpdrrwdk"]
+[gd_resource type="Resource" script_class="Skill" load_steps=2 format=3 uid="uid://dn2gyrpdrrwdk"]
 
 [ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="1_bepge"]
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_l43ub"]
-[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_udnms"]
-[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_ibynw"]
-[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect/battle_effect_stat_modifier.gd" id="3_5vf5q"]
-[ext_resource type="Script" uid="uid://bdxyu3e5w0856" path="res://code/battle/battle_effect/battle_effect_status_definition.gd" id="4_5vf5q"]
-[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="6_lr7ub"]
-[ext_resource type="AudioStream" uid="uid://dfbtjbw8n3hj4" path="res://assets/sound/sfx/attack/Attack3.mp3" id="8_d522o"]
-[ext_resource type="EffekseerEffect" uid="uid://bxtbolj2hnkpi" path="res://assets/vfx/PiercePhysical.efkefc" id="9_d522o"]
-[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="11_y2uqi"]
-
-[sub_resource type="Resource" id="Resource_7ddfk"]
-script = ExtResource("3_5vf5q")
-stat_key = "hp"
-value = -9999.0
-duration_type = 0
-stacking_rule = 0
-max_stacks = 1
-metadata/_custom_type_script = "uid://btu5sgbysqdfq"
-
-[sub_resource type="Resource" id="Resource_udnms"]
-script = ExtResource("4_5vf5q")
-id = "instakill"
-name = "Instakill"
-stat_modifiers = Array[ExtResource("3_5vf5q")]([SubResource("Resource_7ddfk")])
-duration_value = 1
-metadata/_custom_type_script = "uid://bdxyu3e5w0856"
-
-[sub_resource type="Resource" id="Resource_d8wla"]
-script = ExtResource("1_l43ub")
-effect_id = "instakill"
-effect_name = "Instakill"
-effect_type = 4
-target_type = 2
-timing = 1
-base_value = 9999.0
-status_ref = SubResource("Resource_udnms")
-status_apply_chance = 1.0
-metadata/_custom_type_script = "uid://ch7hoesea8vrf"
-
-[sub_resource type="Resource" id="Resource_y2uqi"]
-script = ExtResource("11_y2uqi")
-effect = ExtResource("9_d522o")
-speed = 1.3
-on_target = 4
-metadata/_custom_type_script = "uid://bqcm6g85k8bau"
 
 [resource]
 script = ExtResource("1_bepge")
-skill_name = "Mic Toss"
+attack_type = 0
+target_type = 0
 mana_cost = 5
-tp_cost = 15
-accuracy = 0.96
+name = "Mic Toss"
+desc = "Freddy throws his mic at an enemy, deals a bit more than a simgle attack. Has a chance to deform enemy's head and make it meet god."
+effects = Dictionary[int, Array]({
+10: [5, 1]
+})
 attack_multiplier = 1.1
 attack_bonus = 5
-on_hit_effects = Array[ExtResource("1_l43ub")]([SubResource("Resource_d8wla")])
-vfx = SubResource("Resource_y2uqi")
-sfx = ExtResource("8_d522o")
+accuracy = 0.95
 metadata/_custom_type_script = "uid://o74imedfcjis"
