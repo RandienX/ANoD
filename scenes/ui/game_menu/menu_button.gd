@@ -12,7 +12,5 @@ func change_menu() -> void:
 			
 	if menu_path != "":
 		display.add_child(load(menu_path).instantiate())
-	elif id == 2:  # Quests button - use open_quests method
-		var parent_menu = get_parent().get_parent().get_parent().get_parent()
-		if parent_menu and parent_menu.has_method("open_quests"):
-			parent_menu.open_quests()
+
+			
