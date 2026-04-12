@@ -7,8 +7,6 @@ var effect_manager
 func setup(broot, e_mgr):
 	root = broot
 	effect_manager = e_mgr
-	if !Settings.battle_log:
-		root.get_node("Control/enemy_ui/CenterContainer/output").visible = false
 
 # Each log entry stores the text and its remaining display time
 var battle_log: Array[Dictionary] = []
@@ -45,11 +43,8 @@ func add_to_battle_log(text: String) -> void:
 	update_battle_log_display()
 
 func remove_oldest_log_entry() -> void:
-	if battle_log.size() > 1:
+	if not battle_log.is_empty():
 		battle_log.remove_at(0)
-		update_battle_log_display()
-	elif battle_log.size() == 1:
-		battle_log.clear()
 		update_battle_log_display()
 
 func update_battle_log_display() -> void:
@@ -61,14 +56,13 @@ func update_battle_log_display() -> void:
 			if i > 0:
 				display_text += "\n"
 			display_text += battle_log[i]["text"]
-		if root:
-			root.get_node("Control/enemy_ui/CenterContainer/output").text = display_text
+		root.get_node("Control/enemy_ui/CenterContainer/output").text = display_text
 
 func print_outcome(atk: Object, targets: Array, attack: Skill, dmg: int, crit: bool, miss: bool, mp_cost: int = 0, effects_applied: Array = []):
 	var t = ""
 	if targets.size() > 0:
-		var attacker_color = "#4CAF50" if atk.role == Entity.Role.PARTY else "#F44336"
-		var target_color = "#FF5722" if targets[0].role == Entity.Role.ENEMY else "#4CAF50"
+		var attacker_color = "#4CAF50" if atk is Party else "#F44336"
+		var target_color = "#FF5722" if targets[0] is Enemy else "#4CAF50"
 		
 		if atk == targets[0]:
 			t = "[color=" + attacker_color + "]" + atk.name + "[/color] used [color=#2196F3]" + attack.name + "[/color] on self"

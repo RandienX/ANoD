@@ -2,49 +2,43 @@ extends Node
 class_name AttackExecutor
 
 var root
-var root_nodepath
 var death_manager
 var effect_manager
 var log_manager
-var vfx_manager
 var battle
 
 var attack_array: Dictionary = {}
 
-func setup(broot, d_mgr, e_mgr, l_mgr, batt, vfx):
+func setup(broot, d_mgr, e_mgr, l_mgr, batt):
 	root = broot
-	root_nodepath = root.get_path()
 	death_manager = d_mgr
 	effect_manager = e_mgr
 	log_manager = l_mgr
-	vfx_manager = vfx
 	battle = batt
 
 func do_attacks() -> void:
-	if death_manager.game_over_active: return
 	for actor in root.initiative:
-		if attack_array.has(actor) and root:
-			root.current_attacker = actor
-			await execute_single_attack(actor)
-			await death_manager.check_enemy_death_and_xp()
-	if root:
-		root.start_round()
+		if attack_array.has(actor):
+			if actor is Party:
+				root.current_attacker = actor
+				await execute_single_attack(actor)
+				await death_manager.check_enemy_death_and_xp()
+				await root.get_tree().create_timer(0.5).timeout
+	root.start_round()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Main Entry Point
 # ──────────────────────────────────────────────────────────────────────────────
 
 func execute_single_attack(attacker: Object) -> void:
-	if death_manager.game_over_active: 
-		return
 	var targets: Array = attack_array[attacker][0]
 	var atk: Skill = attack_array[attacker][1]
-		
+	
 	# Step 1: Filter alive targets
 	var alive: Array = _get_alive_targets(targets)
 	
 	# Step 2: Handle Check skill (special case)
-	if atk.skill_name == "Check":
+	if atk.name == "Check ":
 		await _handle_check_skill(attacker, targets)
 		return
 	
@@ -57,33 +51,39 @@ func execute_single_attack(attacker: Object) -> void:
 			return
 	
 	# Step 4: Route to appropriate handler based on attack type
-	await _route_attack_execution(attacker, targets, atk)
+	await _route_attack_execution(attacker, alive, atk)
+
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Attack Routing Logic
 # ──────────────────────────────────────────────────────────────────────────────
 
 func _route_attack_execution(attacker: Object, alive: Array, atk: Skill) -> void:
-	"""Unified skill execution with comprehensive customization support."""
-	if death_manager.game_over_active: 
+	"""Routes the attack to the appropriate handler based on attack properties."""
+	
+	# Item usage (attack_type == 3)
+	if atk.attack_type == 3:
+		await _handle_item_usage(attacker, attack_array[attacker][0], atk)
 		return
 	
-	var targets: Array = attack_array[attacker][0]
-	
-	# Step 1: Apply on_use effects
-	_apply_on_use_effects(attacker, alive, atk)
-	
-	# Step 2: Check if this is an item-based skill
-	if atk.is_item_skill:
-		await _handle_item_usage(attacker, targets, atk)
-	
-	# Step 3: Handle non-damaging skills (buffs/debuffs without targeting enemies)
-	if atk.target_type in [1, 2]:  # Self or Party
-		await _handle_support_skill(attacker, alive, atk)
+	# Multi-attack skills (attack_type == 2)
+	if atk.attack_type == 2:
+		await _handle_multi_attack(attacker, alive, atk)
 		return
 	
-	# Step 4: Execute attack logic (single or multi-hit)
-	await _execute_attack_sequence(attacker, alive, atk)
+	# Single-target attacks (attack_type == 0, target_type == 0)
+	if atk.attack_type == 0 and atk.target_type == 0:
+		await _handle_single_attack(attacker, alive[0], atk)
+		return
+	
+	# Buff skills (attack_type == 1)
+	if atk.attack_type == 1:
+		_handle_buff_skill(attacker, atk)
+		return
+	
+	# Cleanup - check for deaths (fallback for unhandled cases)
+	await _cleanup_deaths(attacker, alive)
+
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helper Functions
@@ -92,310 +92,281 @@ func _route_attack_execution(attacker: Object, alive: Array, atk: Skill) -> void
 func _get_alive_targets(targets: Array) -> Array:
 	var alive: Array = []
 	for t in targets:
-		if t is Entity:
-			if t.stats["hp"] > 0:
-				alive.append(t)
+		if t.hp > 0:
+			alive.append(t)
 	return alive
 
-func _handle_check_skill(_attacker: Entity, targets: Array) -> void:
-	if death_manager.game_over_active: return
-	if targets.size() > 0 and targets[0].role == Entity.Role.ENEMY:
-		var target_enemy: Entity = targets[0] as Entity
-		var dialogue = DialogueData.new()
-		var dialogue_node = DialogueNode.new()
-		dialogue_node.label = "start"
-		dialogue_node.text = "%s   HP: %d/%d \n%s" % [target_enemy.name, target_enemy.stats["hp"], target_enemy.max_stats["hp"], target_enemy.description]
-		dialogue.nodes = [dialogue_node as DialogueNode] as Array[DialogueNode]
-		DialogueInitiator.start_dialogue(dialogue, false, true)
-		root.state = root.states.Waiting
-	await root.get_tree().create_timer(2.5).timeout
 
-func _assign_random_target(attacker: Entity, _atk: Skill) -> bool:
-	# For enemies, target party members; for party members, target enemies
-	var valid_targets: Array = []
-	if attacker.role == Entity.Role.ENEMY:
-		valid_targets = root.party.filter(func(p): return p and p.stats["hp"] > 0)
-	else:
-		valid_targets = root.get_alive_enemies()
-	
-	if not valid_targets.is_empty():
-		var new_target = [valid_targets[randi_range(0, valid_targets.size()-1)]]
+func _handle_check_skill(attacker: Object, targets: Array) -> void:
+	var desc = "[color=#2196F3]━━━ ENEMY INFO ━━━[/color]"
+	if targets.size() > 0 and targets[0] is Enemy:
+		var target_enemy = targets[0]
+		desc += "\n[color=#FF5722]" + target_enemy.name + "[/color]: " + target_enemy.description
+		desc += "\n[color=#4CAF50]HP: " + str(target_enemy.hp) + "/" + str(target_enemy.max_hp) + "[/color] [color=#FFC107]ATK: " + str(target_enemy.damage) + "[/color]"
+	log_manager.add_to_battle_log(desc)
+	await root.get_tree().create_timer(1.5).timeout
+
+
+func _assign_random_target(attacker: Object, atk: Skill) -> bool:
+	var enemies: Array = []
+	for e in range(5):
+		if battle.get('enemy_pos'+str(e+1)) and battle.get('enemy_pos'+str(e+1)).hp > 0:
+			enemies.append(battle.get('enemy_pos'+str(e+1)))
+	if not enemies.is_empty():
+		var new_target = [enemies[randi_range(0, enemies.size()-1)]]
 		attack_array[attacker][0] = new_target
 		return true
 	return false
 
-func _handle_item_usage(attacker: Entity, targets: Array, _atk: Skill) -> void:
-	if death_manager.game_over_active: return
-	var used_item = root.item_manager.item_ref
-	var target = targets[0]
-	if used_item:
-		var item_log = ""
-		item_log += "[color=#4CAF50]" + attacker.name + "[/color] used [color=#2196F3]" + used_item.item_name + "[/color] on [color=#FF5722]" + target.name + "[/color] "
+
+func _handle_item_usage(attacker: Object, targets: Array, atk: Skill) -> void:
+	var used_item = atk.item_reference
+	
+	if used_item and targets.size() > 0:
+		var target = targets[0]
+		var success = Global.use_item(used_item, target)
 		
-		if used_item.revive_amount > 0 and target.stats["hp"] <= 0:
-			target.stats["hp"] = used_item.revive_amount
-			target.hp_changed.emit(0, target.stats["hp"])
-			# Ensure they are added back to the active initiative if they were removed
-			if not root.initiative.has(target):
-				root.initiative.append(target)
-				root.party_initiative_order.pop_at(root.party_initiative_order.find(target))
-				root.party_initiative_order.append(target)
-			
-			item_log += " [color=#4CAF50]Revived with " + str(used_item.revive_amount) + " HP![/color] "
-		
-		# 2. HEAL (Target is alive)
-		if used_item.heal_amount > 0 and target.stats["hp"] > 0:
-			var actual_heal = target.heal_hp(used_item.heal_amount)
-			item_log += " [color=#4CAF50](+ " + str(actual_heal) + " HP)[/color] "
-		
-		# 3. MANA
-		if used_item.mana_amount > 0:
-			target.stats["mp"] = min(target.max_stats["mp"], target.stats["mp"] + used_item.mana_amount)
-			item_log += " [color=#2196F3](+ " + str(used_item.mana_amount) + " MP)[/color] "
-			
+		if success:
+			var item_log = "[color=#FFD700]━━━ ITEM ━━━[/color]"
+			item_log += "\n[color=#4CAF50]" + attacker.name + "[/color] used [color=#2196F3]" + atk.name + "[/color] on [color=#FF5722]" + target.name + "[/color]"
+			if used_item.heal_amount > 0:
+				item_log += " [color=#4CAF50](+" + str(used_item.heal_amount) + " HP)[/color]"
+			if used_item.mana_amount > 0:
+				item_log += " [color=#2196F3](+" + str(used_item.mana_amount) + " MP)[/color]"
 			log_manager.add_to_battle_log(item_log)
+			root.update_party_ui()
+			effect_manager.update_effect_ui(target)
+		else:
+			log_manager.add_to_battle_log("[color=#F44336]Item use failed![/color]")
 		
-		# 4. CONSUME EFFECTS (Buffs/Debuffs applied AFTER revival so they aren't skipped)
-		if not used_item.consume_effects.is_empty():
-			for effect in used_item.consume_effects:
-				root.effect_manager.execute_effect(effect, attacker)
-	
-	else:
-		log_manager.add_to_battle_log("[color=#F44336]Item use failed![/color]")
-		
-		await root.get_tree().create_timer(1.25 / Settings.battle_speed).timeout
+		await root.get_tree().create_timer(0.75).timeout
 
-# ──────────────────────────────────────────────────────────────────────────────
-# New Unified Attack Execution System
-# ──────────────────────────────────────────────────────────────────────────────
 
-func _apply_on_use_effects(attacker: Object, targets: Array, atk: Skill) -> void:
-	"""Apply effects that trigger on skill use (before attack lands) via BattleEffectManager."""
-	if atk.skill_name == "Defend":
-		root.tp += attacker.stats["tp"] / 10
-	if not atk.on_use_effects.is_empty():
-		for effect in atk.on_use_effects:
-			effect_manager.execute_effect(effect, attacker, {"selected_enemy": targets[0] if targets.size() > 0 else null})
-
-func _handle_support_skill(attacker: Entity, _alive: Array, atk: Skill) -> void:
-	if death_manager.game_over_active: return
-	"""Handle buffs/debuffs and other non-damaging skills via BattleEffectManager."""
-	var support_log = ""
-
-	if atk.target_type == 1:  # Self
-		# Execute on_use effects already handled, now apply on_hit effects for self-buffs
-		for effect in atk.on_hit_effects:
-			effect_manager.execute_effect(effect, attacker, {}, 0.0)
-		support_log += "\n[color=#4CAF50]" + attacker.name + "[/color] used [color=#2196F3]" + atk.skill_name + "[/color] on self"
-	elif atk.target_type == 2:  # Party
-		support_log += "\n[color=#4CAF50]" + attacker.name + "[/color] used [color=#2196F3]" + atk.skill_name + "[/color] on party"
-		for p in root.party:
-			if p.stats["hp"] > 0:
-				for effect in atk.on_hit_effects:
-					effect_manager.execute_effect(effect, attacker, {}, 0.0)
-	
-	if atk.mana_cost > 0:
-		support_log += " [color=#9C27B0](" + str(atk.mana_cost) + " MP)[/color]"
-	
-	if atk.sfx:
-		Sfx.stream = atk.sfx
-		Sfx.play()
-	
-	log_manager.add_to_battle_log(support_log)
-	attacker.stats["mp"] = max(0, attacker.stats["mp"] - atk.mana_cost)
-	attacker.stats["hp"] = max(0, attacker.stats["hp"] - atk.hp_cost)
-	if attacker.role == Entity.Role.PARTY:
-		root.tp = max(0, root.tp - atk.tp_cost)
-	
-	if atk.sfx:
-		await Sfx.finished
-
-func _execute_attack_sequence(attacker: Entity, alive: Array, atk: Skill) -> void:
-	if death_manager.game_over_active: return
-	"""Unified attack execution handling both single and multi-hit attacks."""
-	if alive.is_empty():
-		return
-		
-	var attack_log = ""
-	var play_animation_once = alive.size() > 1
-	var animation_played = false
-	
-	attacker.stats["mp"] = max(0, attacker.stats["mp"] - atk.mana_cost)
-	attacker.stats["hp"] = max(0, attacker.stats["hp"] - atk.hp_cost)
-	if attacker.role == Entity.Role.PARTY:
-		root.tp = max(0, root.tp - atk.tp_cost)
-		
-	if atk.sfx:
-		Sfx.stream = atk.sfx
-		Sfx.play()
-	
-	var hit_count = max(1, atk.hit_count)
+func _handle_multi_attack(attacker: Object, alive: Array, atk: Skill) -> void:
 	var total_dmg = 0
 	var total_crits = 0
 	var total_misses = 0
-	var target: Entity
-	var target_names: String = ""
-	for e in range(len(alive)):
-		target = alive[e]
-		if e == 0:
-			target_names += target.name
+	var target = alive[0] if alive.size() > 0 else null
+	if not target:
+		return
+	
+	var multi_log = "[color=#FFD700]━━━ MULTI-ATTACK ━━━[/color]"
+	multi_log += "\n[color=#4CAF50]" + attacker.name + "[/color] used [color=#2196F3]" + atk.name + "[/color] on [color=#FF5722]" + target.name + "[/color]"
+	
+	for i in range(atk.hit_count):
+		await root.get_tree().create_timer(0.15).timeout
+		
+		var hit_result = _calculate_hit(attacker, target, atk)
+		var dmg = hit_result.dmg
+		var crit = hit_result.crit
+		var hit = hit_result.hit
+		
+		# Check for instakill
+		if effect_manager.check_instakill(attacker, target):
+			target.hp = 0
+			multi_log += "\n[color=#FF0000]Hit " + str(i+1) + ": ★★★ INSTAKILL ★★★[/color]"
+			await root.get_tree().create_timer(0.5).timeout
+			if attacker is Party and target is Enemy:
+				await death_manager.animate_enemy_death(target)
+				death_manager.death(target)
+			log_manager.add_to_battle_log(multi_log)
+			await root.get_tree().create_timer(1.0).timeout
+			return
+		
+		if hit:
+			root.get_node("AnimationPlayer").play("move_around_screen")
+			await root.get_node("AnimationPlayer").animation_finished
+			target.hp -= dmg
+			total_dmg += dmg
+			if crit:
+				total_crits += 1
+			
+			var hit_color = "#FF0000" if crit else "#FFFFFF"
+			multi_log += "\n[color=" + hit_color + "]Hit " + str(i+1) + ": " + str(dmg) + " DMG"
+			if crit:
+				multi_log += " ★CRIT★"
+			multi_log += "[/color]"
+			
+			# Check for sleep wake
+			if target.effects.has(Global.effect.Sleep):
+				var sleep_level = target.effects[Global.effect.Sleep][0]
+				if randf() < (1.0 - (0.1 * sleep_level)):
+					effect_manager.remove_effect(target, Global.effect.Sleep)
+					multi_log += "\n[color=#FFD700]" + target.name + " woke up![/color]"
+			
+			# Update enemy UI
+			for e in range(5):
+				var node = get_node_or_null("Control/enemy_ui/enemies/enemy"+str(e+1))
+				if node and battle.get('enemy_pos'+str(e+1)):
+					node.hp = max(0, battle.get('enemy_pos'+str(e+1)).hp)
 		else:
-			target_names += ", " + target.name
-			
+			total_misses += 1
+			multi_log += "\n[color=#FF9800]Hit " + str(i+1) + ": MISSED[/color]"
 		
-	for i in range(hit_count):
-		if atk.vfx and Settings.battle_animations:
-			vfx_manager.get_vfx_target(atk.vfx, alive, attacker)
-			
-		for e in range(len(alive)):
-			target = alive[e]
-			await root.get_tree().create_timer(0.15 / Settings.battle_speed).timeout
-			# Step 1: Calculate accuracy and determine hit/miss
-			var hit_result = _calculate_hit(attacker, target, atk)
-			var dmg = hit_result.dmg
-			var crit = hit_result.crit
-			var hit = hit_result.hit
-			var play_animation = true
-			if play_animation_once:
-				play_animation = not animation_played
-			
-			# Step 2: Check for instakill
-			if target.has_status("instakill"):
-				target.stats["hp"] = 0
-				attack_log += "\n[color=#FF0000]Hit " + str(i+1) + ": ★★★ INSTAKILL ★★★[/color]"
-				if target.role == Entity.Role.ENEMY:
-					await death_manager.animate_enemy_death(target)
-				log_manager.add_to_battle_log(attack_log)
-				await root.get_tree().create_timer(0.5 / Settings.battle_speed).timeout
-				return
-			
-			# Step 3: Process hit or miss
-			if hit:
-				await _process_hit(attacker, target, atk, dmg, crit, attack_log, play_animation)
-				Sfx2.stream = atk.hit_sound
-				Sfx2.play()
-				if play_animation:
-					animation_played = true
-				total_dmg += dmg
-				if crit:
-					total_crits += 1
-			else:
-				_process_miss(attacker, target, atk, attack_log, i)
-				Sfx2.stream = atk.miss_sound
-				Sfx2.play()
-				total_misses += 1
-		
-		# Step 4: Check for death (enemy)
-		if target.stats["hp"] <= 0:
-			if target.role == Entity.Role.ENEMY:
-				await root.death_manager.animate_enemy_death(target)
-						
-	# Step 5: Log final results
-	attack_log += "\n[color=#4CAF50]" + attacker.name + "[/color] used [color=#2196F3]" + atk.skill_name + "[/color] on [color=#FF5722]" + target_names + "[/color]"
-	attack_log += "\n[color=#03A9F4]Total: " + str(total_dmg) + " DMG | "
-	attack_log += str(hit_count - total_misses) + "/" + str(hit_count) + " hits"
+		attacker.mp = max(0, attacker.mp - atk.mana_cost)
+	
+	multi_log += "\n[color=#03A9F4]Total: " + str(total_dmg) + " DMG | "
+	multi_log += str(atk.hit_count - total_misses) + "/" + str(atk.hit_count) + " hits"
 	if total_crits > 0:
-		attack_log += " | " + str(total_crits) + " CRITs"
+		multi_log += " | " + str(total_crits) + " CRITs"
 	if atk.mana_cost > 0:
-		attack_log += " | " + str(atk.mana_cost) + " MP"
-	attack_log += "[/color]"
-	log_manager.add_to_battle_log(attack_log)
+		multi_log += " | " + str(atk.mana_cost) + " MP"
+	multi_log += "[/color]"
 	
-	if root:
-		await root.get_tree().create_timer(1.0 / Settings.battle_speed).timeout
-	# Step 6: Die
-	_cleanup_deaths(attacker, alive)
-		
+	log_manager.add_to_battle_log(multi_log)
+	await root.get_tree().create_timer(1.5).timeout
+	
+	if target.hp <= 0:
+		if attacker is Party and target is Enemy:
+			await death_manager.animate_enemy_death(target)
+			death_manager.death(target)
 
-@warning_ignore("unused_parameter")
-func _process_hit(attacker: Entity, target: Entity, atk: Skill, dmg: int, _crit: bool, attack_log: String, play_animation: bool = true) -> void:
-	if !root: return
-	"""Process a successful hit: apply damage, effects, and wake from sleep via BattleEffectManager."""
 
-	if play_animation and root.get_node("AnimationPlayer"):
+func _handle_single_attack(attacker: Object, target: Object, atk: Skill) -> void:
+	var crit = randi_range(1, 10 if attacker is Enemy else 8) == 1
+	var base = (attacker.damage if attacker is Enemy else attacker.max_stats['atk']) * atk.attack_multiplier
+	
+	var power_mult = effect_manager.get_effect_multiplier(attacker, Global.effect.Power)
+	var weak_mult = effect_manager.get_effect_multiplier(attacker, Global.effect.Weak)
+	base *= power_mult * weak_mult
+	
+	if Global.effect.Power in attacker.effects:
+		base *= 2
+	base *= randf_range(0.86 if attacker is Enemy else 0.9, 1.16 if attacker is Enemy else 1.2)
+	if crit:
+		base *= 1.5
+	base += atk.attack_bonus
+	
+	var was_instakill = false
+	if effect_manager.check_instakill(attacker, target):
+		target.hp = 0
+		attacker.mp = max(0, attacker.mp - atk.mana_cost)
+		was_instakill = true
+		if attacker is Party and target is Enemy:
+			await death_manager.animate_enemy_death(target)
+			death_manager.death(target)
+	
+	var tough_mult = effect_manager.get_effect_multiplier(target, Global.effect.Tough)
+	var sick_mult = effect_manager.get_effect_multiplier(target, Global.effect.Sick)
+	var def_stat = target.max_stats["def"] if attacker is Enemy else target.defense * 2
+	var defend_mult = 1.5 if Global.effect.Defend in target.effects else 1.0
+	var def_mult = clampf(1.0 - (float(def_stat) / (100.0 / (tough_mult * sick_mult))), 0.0, 1.0)
+	def_mult /= defend_mult
+	def_mult = clampf(def_mult, 0.0, 1.0)
+	
+	var dmg = max(0, floor(base * def_mult))
+	
+	var focus_mult = effect_manager.get_effect_multiplier(attacker, Global.effect.Focus)
+	var blind_mult = effect_manager.get_effect_multiplier(target, Global.effect.Blind)
+	var hit = randf() <= (atk.accuracy * focus_mult * blind_mult)
+	
+	var effects_applied: Array = []
+	if hit and not was_instakill:
 		root.get_node("AnimationPlayer").play("move_around_screen")
-		await root.get_node("AnimationPlayer").animation_finished
-	target.stats["hp"] -= dmg
-
-	# Apply on-hit effects via BattleEffectManager
-	for effect in atk.on_hit_effects:
-		effect_manager.execute_effect(effect, attacker, {"selected_enemy": target})
-
-	# Check for sleep wake using new status API
-	var sleep_stacks = target.get_status_stacks("sleep_debuff")
-	if sleep_stacks > 0:
-		if sleep_stacks < 1: sleep_stacks = 1
-		if randf() < (1.0 - (0.1 * float(sleep_stacks))):
-			target.remove_status("sleep_debuff")
-			attack_log += "\n[color=#FFD700]" + target.name + " woke up![/color]"
+		target.hp -= dmg
+		effect_manager.apply_effects(target, atk)
+		
+		if atk.effects:
+			for effect in atk.effects.keys():
+				var level = atk.effects[effect][0]
+				var duration = atk.effects[effect][1]
+				effects_applied.append([effect, level])
+		
+		if target.effects.has(Global.effect.Sleep):
+			var sleep_level = target.effects[Global.effect.Sleep][0]
+			if randf() < (1.0 - (0.1 * sleep_level)):
+				effect_manager.remove_effect(target, Global.effect.Sleep)
+		
+		if attacker is Party and target is Enemy and target.hp <= 0:
+			await death_manager.animate_enemy_death(target)
 	
-	# Update enemy UI
-	for i in range(5):
-		var e = root.enemies_by_slot[i]
-		if e and e.stats["hp"] > 0:
-			var node = get_node_or_null("Control/enemy_ui/enemies/enemy"+str(i+1))
-			if node:
-				node.stats["hp"] = max(0, e.hp)
+	attacker.mp = max(0, attacker.mp - atk.mana_cost)
+	if not was_instakill:
+		log_manager.print_outcome(attacker, [target], atk, dmg, crit, not hit, atk.mana_cost, effects_applied)
+	else:
+		log_manager.add_to_battle_log("[color=#FF0000]" + attacker.name + " used " + atk.name + ": ★★★ INSTAKILL ★★★[/color]")
 
-func _process_miss(attacker: Entity, target: Entity, atk: Skill, _attack_log: String, _hit_index: int) -> void:
-	if death_manager.game_over_active: return
-	"""Process a missed attack: apply on-miss effects via BattleEffectManager."""
-	# Apply on-miss effects if any
-	if not atk.on_miss_effects.is_empty():
-		for effect in atk.on_miss_effects:
-			effect_manager.execute_effect(effect, attacker, {"selected_enemy": target})
 
-func _cleanup_deaths(_attacker: Entity, alive: Array) -> void:
-	if death_manager.game_over_active: return
+func _handle_buff_skill(attacker: Object, atk: Skill) -> void:
+	var buff_log = "[color=#FFD700]━━━ BUFF ━━━[/color]"
+	var effects_applied: Array = []
+	
+	if atk.target_type == 1:
+		# Self-buff
+		effect_manager.apply_effects(attacker, atk)
+		effect_manager.update_effect_ui(attacker)
+		buff_log += "\n[color=#4CAF50]" + attacker.name + "[/color] buffed self"
+		if atk.effects:
+			for effect in atk.effects.keys():
+				var level = atk.effects[effect][0]
+				var duration = atk.effects[effect][1]
+				effects_applied.append([effect, level])
+				buff_log += " [color=#E91E63]" + effect_manager.get_effect_name_with_level(effect, level) + " (" + str(duration) + "t)[/color]"
+		if atk.mana_cost > 0:
+			buff_log += " [color=#9C27B0](" + str(atk.mana_cost) + " MP)[/color]"
+		log_manager.add_to_battle_log(buff_log)
+	
+	elif atk.target_type == 2:
+		# Party buff
+		buff_log += "\n[color=#4CAF50]" + attacker.name + "[/color] buffed party"
+		for p in root.party:
+			if p.hp > 0:
+				effect_manager.apply_effects(p, atk)
+				effect_manager.update_effect_ui(p)
+		if atk.effects:
+			for effect in atk.effects.keys():
+				var level = atk.effects[effect][0]
+				var duration = atk.effects[effect][1]
+				if not effects_applied.any(func(e): return e[0] == effect):
+					effects_applied.append([effect, level])
+				buff_log += " [color=#E91E63]" + effect_manager.get_effect_name_with_level(effect, level) + " (" + str(duration) + "t)[/color]"
+		if atk.mana_cost > 0:
+			buff_log += " [color=#9C27B0](" + str(atk.mana_cost) + " MP)[/color]"
+		log_manager.add_to_battle_log(buff_log)
+
+
+func _cleanup_deaths(attacker: Object, alive: Array) -> void:
 	for t in alive:
-		if t.stats["hp"] <= 0:
+		if t.hp <= 0:
 			death_manager.death(t)
-			await root.get_tree().create_timer(0.15 / Settings.battle_speed).timeout
+			await root.get_tree().create_timer(0.5).timeout
+
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Combat Calculation Helpers
 # ──────────────────────────────────────────────────────────────────────────────
 
-func _calculate_hit(attacker: Entity, target: Entity, atk: Skill) -> Dictionary:
-	var crit = randi_range(1, 10 if attacker.role == Entity.Role.ENEMY else 8) == 1
-	var atk_stat = attacker.get_effective_stat("atk")
-	if atk.skill_type == Skill.Skill_Types.Magical:
-		atk_stat = attacker.get_effective_stat("magic")
-	var base = atk_stat * atk.attack_multiplier * (atk.hit_damage_multiplier if atk.hit_count > 1 else 1.0)
+func _calculate_hit(attacker: Object, target: Object, atk: Skill) -> Dictionary:
+	var crit = randi_range(1, 10 if attacker is Enemy else 8) == 1
+	var base = (attacker.damage if attacker is Enemy else attacker.max_stats['atk']) * atk.attack_multiplier * atk.hit_damage_multiplier
 	
-	base *= randf_range(0.9 if attacker.role == Entity.Role.ENEMY else 1.0, 1.33 if attacker.role == Entity.Role.ENEMY else 1.5)
+	var power_mult = effect_manager.get_effect_multiplier(attacker, Global.effect.Power)
+	var weak_mult = effect_manager.get_effect_multiplier(attacker, Global.effect.Weak)
+	base *= power_mult * weak_mult
+	
+	if Global.effect.Power in attacker.effects:
+		base *= 2
+	base *= randf_range(0.86 if attacker is Enemy else 0.9, 1.16 if attacker is Enemy else 1.2)
 	if crit:
-		base *= 1.75
+		base *= 1.5
 	base += atk.attack_bonus
 	
-	var def_stat = target.get_effective_stat("def")
-	if atk.skill_type == Skill.Skill_Types.Magical:
-		def_stat = target.get_effective_stat("magic_def")
+	var tough_mult = effect_manager.get_effect_multiplier(target, Global.effect.Tough)
+	var sick_mult = effect_manager.get_effect_multiplier(target, Global.effect.Sick)
+	var def_stat = target.max_stats["def"] if attacker is Enemy else target.defense * 2
+	var defend_mult = 1.5 if Global.effect.Defend in target.effects else 1.0
+	var def_mult = clampf(1.0 - (float(def_stat) / (100.0 / (tough_mult * sick_mult))), 0.0, 1.0)
+	def_mult /= defend_mult
+	def_mult = clampf(def_mult, 0.0, 1.0)
 	
-	# Check for Defend status
-	var defend_mult = 2.0 if target.has_status("defend") else 1.0
+	var dmg = max(0, floor(base * def_mult))
 	
-	var dmg = max(1, ceili(base - def_stat*defend_mult))
-	if target.role == Entity.Role.PARTY:
-		root.tp += ceili(float(dmg) / float(target.stats["hp"]) * target.stats["tp"]/2)
-	
-	# Accuracy multipliers from statuses
-	var focus_mult = _get_status_multiplier(attacker, "focus", 0.15)
-	var blind_mult = _get_status_multiplier(target, "blind", -0.5)
+	var focus_mult = effect_manager.get_effect_multiplier(attacker, Global.effect.Focus)
+	var blind_mult = effect_manager.get_effect_multiplier(target, Global.effect.Blind)
 	var hit = randf() <= (atk.accuracy * focus_mult * blind_mult)
 	
 	return {
-			"dmg": dmg,
-			"crit": crit,
-			"hit": hit
+		"dmg": dmg,
+		"crit": crit,
+		"hit": hit
 	}
-
-func _get_status_multiplier(entity: Entity, status_id: String, per_stack_value: float, flat: bool = false) -> float:
-	"""Get multiplier from a status effect. If flat=true, returns additive value instead."""
-	if not entity.has_status(status_id):
-		return 1.0 if not flat else 0.0
-	var stacks = entity.get_status_stacks(status_id)
-	if flat:
-		return per_stack_value * stacks
-	else:
-		return 1.0 + (float(stacks) * per_stack_value)

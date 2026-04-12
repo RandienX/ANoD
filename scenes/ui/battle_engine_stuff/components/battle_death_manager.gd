@@ -16,83 +16,72 @@ var game_over_active: bool = false
 var game_over_overlay: ColorRect
 var game_over_texture: TextureRect
 var can_reload = false
+
+func setup_game_over_ui() -> void:
+	game_over_overlay = ColorRect.new()
+	game_over_overlay.name = "GameOverOverlay"
+	game_over_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	game_over_overlay.color = Color(0, 0, 0, 0)
+	game_over_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(game_over_overlay)
+
+	game_over_texture = TextureRect.new()
+	game_over_texture.name = "GameOverTexture"
+	game_over_texture.set_anchors_preset(Control.PRESET_CENTER)
+	game_over_texture.texture = load("res://assets/ui/game_over.png") if ResourceLoader.exists("res://assets/ui/game_over.png") else null
+	game_over_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	game_over_texture.modulate.a = 0
+	game_over_texture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(game_over_texture)
 	
-func add_defeated_enemies():
-	for slot in root.battle.enemies:
-		if slot and slot.enemy:
-			Global.enemies_killed.merge({slot.enemy.name: Global.enemies_killed[slot.enemy.name] + 1 if Global.enemies_killed.keys().has(slot.enemy.name) else 1}, true)
-	Global.battles_won.merge({root.battle.battle_name: Global.battles_won[root.battle.battle_name] + 1 if Global.battles_won.keys().has(root.battle.battle_name) else 1}, true)
-	
-var victory = false
 func check_enemy_death_and_xp():
-	if root:
-		if not root.are_all_enemies_defeated():
-			return
-	else:
+	var all_dead = true
+	for e in range(5):
+		if battle.get('enemy_pos'+str(e+1)) and battle.get('enemy_pos'+str(e+1)).hp > 0:
+			all_dead = false
+			break
+	if all_dead:
+		var total_xp = 0
+		for e in range(5):
+			if battle.get('enemy_pos'+str(e+1)):
+				total_xp += battle.get('enemy_pos'+str(e+1)).xp_reward
+		for actor in root.initiative:
+			if actor is Party:
+				actor.xp += total_xp
+				$Control/enemy_ui/CenterContainer/output.text = actor.name + " gained " + str(total_xp) + " XP! "
+				while actor.xp >= actor.xp_to_level_up:
+					actor.xp -= actor.xp_to_level_up
+					actor.level += 1
+					actor.xp_to_level_up = ceil(actor.xp_to_level_up * actor.level_up_xp_multilpier)
+					for stat in ["hp", "mp", "atk", "def", "ai"]:
+						actor.max_stats[stat] += int(actor.level_up[stat] * actor.level)
+						actor.base_stats[stat] += int(actor.level_up[stat] * actor.level)
+					actor.hp = actor.max_stats["hp"]
+					actor.mp = actor.max_stats["mp"]
+					$Control/enemy_ui/CenterContainer/output.text = actor.name + " leveled up to " + str(actor.level) + "! "
+					await get_tree().create_timer(1.0).timeout
+		await end_battle_victory()
 		return
-	
-	if victory:
-		return
-	
-	victory = true
-	var total_xp = 0        
-	var total_currency = 0
-	
-	await add_defeated_enemies()
-	
-	# Calculate XP and currency rewards from all enemy slots (using override values if set.
-	for slot in root.battle.enemies:
-		if slot and slot.enemy:
-			total_xp += slot.get_xp_reward()
-			total_currency += slot.get_currency_reward()
-	
-	Sfx.stream = load("res://assets/sound/sfx/battle_win.mp3")
-	Sfx.play()
-	if battle:
-		total_currency += battle.currency_reward
-	
-	for actor in root.party:
-		actor.xp += total_xp
-		if root:
-			root.get_node("Control/enemy_ui/CenterContainer/output").text = actor.name + " gained " + str(total_xp) + " XP! "
-		while actor.xp >= actor.xp_to_level_up:
-			actor.xp -= actor.xp_to_level_up
-			actor.level += 1
-			actor.recalculate_level_stats()
-			actor.xp_to_level_up = ceil(actor.xp_to_level_up * actor.level_up_xp_multiplier)
-			actor.stats["hp"] = actor.max_stats["hp"]
-			actor.stats["mp"] = actor.max_stats["mp"]
-			if root:
-				root.get_node("Control/enemy_ui/CenterContainer/output").visible = true
-				root.get_node("Control/enemy_ui/CenterContainer/output").text = actor.name + " leveled up to " + str(actor.level) + "! "
-		await Global.get_tree().create_timer(1.0).timeout
-				
-	# Add currency reward to player
-	if total_currency > 0:
-		PlayerStats.add_currency(total_currency, PlayerStats.CurrencyType.GOLD)
-		if root:
-			root.get_node("Control/enemy_ui/CenterContainer/output").text += "Gained " + str(total_currency) + " gold!"
-		
-	end_battle_victory()
 
 func end_battle_victory() -> void:
-	if game_over_active:
-		return
-	game_over_active = true #not game_over but still stop functions
-	Global.battle_bg = null
-	Global.process_frame()
+	await get_tree().create_timer(1.0).timeout
+	Global.player_position = root.battle_start_position
 	Global.loading = true
-	Global.get_tree().change_scene_to_file(Global.current_scene)
+	get_tree().change_scene_to_file(Global.current_scene)
 	Global.loading = false
 
-func animate_enemy_death(e: Entity) -> void:
+func animate_enemy_death(e: Enemy) -> void:
 	if is_animating_death: return
 	is_animating_death = true
-	var slot = root.get_enemy_index(e)
-	if slot < 0:
+	var slot = 0
+	for i in range(5):
+		if battle.get('enemy_pos'+str(i+1)) == e:
+			slot = i + 1
+			break
+	if slot == 0:
 		is_animating_death = false
 		return
-	var node = get_node_or_null("Control/enemy_ui/enemies/enemy" + str(slot + 1))
+	var node = get_node_or_null("Control/enemy_ui/enemies/enemy" + str(slot))
 	if not node:
 		is_animating_death = false
 		return
@@ -119,30 +108,26 @@ func animate_enemy_death(e: Entity) -> void:
 	is_animating_death = false
 
 func move_flash_to_next_enemy(slot: int):
-	for i in range(1, 5):
-		var next_slot = wrapi(slot + i, 0, 5)
-		var enemy_at_slot = root.get_enemy(next_slot)
-		if enemy_at_slot and enemy_at_slot.stats["hp"] > 0:
-			root.selected_enemy = next_slot
+	for i in range(1, 6):
+		var next = ((slot + i - 1) % 5) + 1
+		if battle.get('enemy_pos'+str(next)) and battle.get('enemy_pos'+str(next)).hp > 0:
+			root.selected_enemy = next
 			return
-	root.selected_enemy = -1
+	root.selected_enemy = 0
 
-func death(obj: Entity):
+func death(obj):
 	for i in range(root.initiative.size()-1, -1, -1):
 		if root.initiative[i] == obj:
 			root.initiative.remove_at(i)
-			if root.attack_executor.attack_array.has(obj): root.attack_executor.attack_array.erase(obj)
-			if obj.role == Entity.Role.PARTY and root.planning_phase and root.action_history.has(obj):
-
+			if root.attack_array.has(obj): root.attack_array.erase(obj)
+			if obj is Party and root.planning_phase and root.action_history.has(obj):
 				root.action_history.erase(obj)
 				root.current_party_plan_index -= 1
-	if obj.role == Entity.Role.PARTY:
-		check_party_wipe()
 
 func check_party_wipe() -> void:
 	var alive = false
-	for p in root.party:
-		if p.stats["hp"] > 0:
+	for p in Global.party:
+		if p.hp > 0:
 			alive = true
 			break
 	if not alive:
@@ -151,17 +136,18 @@ func check_party_wipe() -> void:
 func trigger_game_over() -> void:
 	game_over_active = true
 	root.state = root.states.Waiting
-	root.get_node("WhoMoves").visible = false
+	$Control/gui/HBoxContainer2.visible = false
+	$Control/enemy_ui.visible = false
+	$WhoMoves.visible = false
 	
-	var gitgud = preload("res://scenes/ui/game_over.tscn").instantiate()
-	gitgud.z_index = 999
-	root.add_child(gitgud)
-	BackgroundMusic.playing = false
-	Sfx.playing = false
-	Sfx2.playing = false
-	BackgroundMusic.stream = load("res://assets/sound/sfx/death.wav")
-	BackgroundMusic.play()
-	gitgud.get_node("AnimationPlayer").play("gitgud")
+	var tween = create_tween()
+	tween.tween_property(game_over_overlay, "modulate:a", 1.0, 2.0)
+	await tween.finished
 	
-	await root.get_tree().create_timer(1.5).timeout
+	if game_over_texture.texture:
+		tween = create_tween()
+		tween.tween_property(game_over_texture, "modulate:a", 1.0, 1.0)
+		await tween.finished
+	
+	await get_tree().create_timer(1.0).timeout
 	can_reload = true
