@@ -5,7 +5,7 @@ extends Resource
 ## A single enemy slot in a battle configuration
 
 @export_group("Enemy")
-@export var enemy: Entity
+@export var enemy: Enemy
 
 @export_group("Spawn Settings")
 @export var spawn_delay: float = 0.0              # Seconds before enemy appears
@@ -14,7 +14,6 @@ extends Resource
 
 @export_group("Positioning")
 @export var position_index: int = 0               # Visual position slot (0-4)
-@export var ui_position: Vector2 = Vector2.ZERO
 @export var is_reinforcement: bool = false        # True = spawned mid-battle
 
 @export_group("Rewards (Override)")
@@ -25,10 +24,10 @@ extends Resource
 @export var drop_items: Array[BattleItemDrop] = []
 
 
-func duplicate_enemy() -> Entity:
+func duplicate_enemy() -> Enemy:
 	if not enemy:
 		return null
-	return enemy.duplicate_deep_custom()
+	return enemy.duplicate_deep()
 
 
 func get_xp_reward() -> int:
@@ -40,4 +39,4 @@ func get_xp_reward() -> int:
 func get_currency_reward() -> int:
 	if override_currency:
 		return currency_override
-	return enemy.currency_reward if enemy else 0
+	return 0

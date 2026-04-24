@@ -1,11 +1,54 @@
-[gd_scene format=3 uid="uid://duee2xl28nl3p"]
+[gd_scene load_steps=16 format=3 uid="uid://duee2xl28nl3p"]
 
 [ext_resource type="Script" uid="uid://d8n1r58k2vo5" path="res://scenes/ui/shop/shop.gd" id="1_b72a6"]
 [ext_resource type="Texture2D" uid="uid://cfoscxh3td7hk" path="res://assets/battleui/backgrounds/FNaF 1 - Dining Area.png" id="1_h6h54"]
+[ext_resource type="Script" uid="uid://b2nv155ae50jn" path="res://code/shop/shop_item.gd" id="2_6mwi1"]
 [ext_resource type="Texture2D" uid="uid://bly8f2c01poij" path="res://assets/menu/shop/bb_shop.png" id="2_14h7y"]
+[ext_resource type="Resource" uid="uid://dlxeylilwh1gg" path="res://resources/items/consumables/small_pizza.tres" id="3_evphj"]
+[ext_resource type="Script" uid="uid://dqtfnwt45e6s6" path="res://code/shop/shop_data.gd" id="3_o4tlq"]
 [ext_resource type="Texture2D" uid="uid://byldo041hj3cn" path="res://assets/ui/button.png" id="3_robsg"]
+[ext_resource type="Resource" uid="uid://bw0e1yparf4hs" path="res://resources/items/consumables/small_soda.tres" id="4_6vsgs"]
+[ext_resource type="Resource" uid="uid://ckt7kwce5bnkx" path="res://resources/items/consumables/degreaser.tres" id="5_0cijk"]
+[ext_resource type="Resource" uid="uid://blq4np0unbgga" path="res://resources/items/armor/EndoBodyA.tres" id="6_8gq3t"]
 
-[node name="Shop" type="Control" unique_id=2130105394]
+[sub_resource type="Resource" id="Resource_fwt8y"]
+script = ExtResource("2_6mwi1")
+item = ExtResource("3_evphj")
+price = 15
+tags = Array[StringName]([&"consumable"])
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_hj4dh"]
+script = ExtResource("2_6mwi1")
+item = ExtResource("4_6vsgs")
+price = 20
+tags = Array[StringName]([&"consumable"])
+sort_order = 1
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_gj6xf"]
+script = ExtResource("2_6mwi1")
+item = ExtResource("5_0cijk")
+tags = Array[StringName]([&"consumable"])
+sort_order = 2
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_h45c7"]
+script = ExtResource("2_6mwi1")
+item = ExtResource("6_8gq3t")
+tags = Array[StringName]([&"armor"])
+sort_order = 3
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_1q0x5"]
+script = ExtResource("3_o4tlq")
+shop_name = "Enragement Shop Pizzaria"
+shop_description = "bitch"
+items = Array[ExtResource("2_6mwi1")]([SubResource("Resource_fwt8y"), SubResource("Resource_hj4dh"), SubResource("Resource_gj6xf"), SubResource("Resource_h45c7")])
+categories = Array[StringName]([&"all", &"consumable", &"armor", &"weapon"])
+metadata/_custom_type_script = "uid://dqtfnwt45e6s6"
+
+[node name="Control" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,24 +56,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_b72a6")
+current_shop_data = SubResource("Resource_1q0x5")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=273151749]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 clip_contents = true
 layout_mode = 0
 offset_right = 864.0
 offset_bottom = 648.0
 theme_override_constants/separation = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=107559831]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 custom_minimum_size = Vector2(576, 648)
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="HBoxContainer/VBoxContainer" unique_id=944129466]
+[node name="background" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 486)
 layout_mode = 2
 texture = ExtResource("1_h6h54")
 
-[node name="shopkeep" type="TextureRect" parent="HBoxContainer/VBoxContainer/background" unique_id=561887301]
+[node name="shopkeep" type="TextureRect" parent="HBoxContainer/VBoxContainer/background"]
 layout_mode = 0
 offset_top = 216.0
 offset_right = 576.0
@@ -38,14 +82,14 @@ offset_bottom = 486.0
 texture = ExtResource("2_14h7y")
 stretch_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1990647552]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=480138216]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(576, 158)
 layout_mode = 2
 
-[node name="buttons" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect" unique_id=698867547]
+[node name="buttons" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect"]
 layout_mode = 0
 offset_right = 192.0
 offset_bottom = 158.0
@@ -54,15 +98,15 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons" unique_id=2119230481]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons"]
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons" unique_id=509368413]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons"]
 layout_mode = 2
 theme_override_constants/separation = 1
 
-[node name="Buy" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer" unique_id=2012652379]
+[node name="Buy" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer"]
 z_index = 1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 2
@@ -70,7 +114,7 @@ theme_override_font_sizes/font_size = 25
 text = "Buy"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Buy" unique_id=451780686]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Buy"]
 z_index = -1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 0
@@ -82,7 +126,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="Talk" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer" unique_id=1043531204]
+[node name="Talk" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer"]
 z_index = 1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 2
@@ -90,7 +134,7 @@ theme_override_font_sizes/font_size = 25
 text = "Talk"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Talk" unique_id=596902984]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Talk"]
 z_index = -1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 0
@@ -102,7 +146,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="Sell" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer" unique_id=374351838]
+[node name="Sell" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer"]
 z_index = 1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 2
@@ -110,7 +154,7 @@ theme_override_font_sizes/font_size = 25
 text = "Sell"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Sell" unique_id=1902738277]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Sell"]
 z_index = -1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 0
@@ -122,7 +166,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="Exit" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer" unique_id=2054760494]
+[node name="Exit" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer"]
 z_index = 1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 2
@@ -130,7 +174,7 @@ theme_override_font_sizes/font_size = 25
 text = "Exit"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Exit" unique_id=764207826]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Exit"]
 z_index = -1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 0
@@ -142,7 +186,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect" unique_id=660959681]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect"]
 layout_mode = 0
 offset_left = 188.0
 offset_right = 580.0
@@ -152,11 +196,11 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer" unique_id=832631418]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer"]
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer/ColorRect" unique_id=645959080]
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer/ColorRect"]
 layout_mode = 0
 offset_right = 380.0
 offset_bottom = 150.0
@@ -166,38 +210,34 @@ theme_override_font_sizes/bold_italics_font_size = 21
 theme_override_font_sizes/italics_font_size = 21
 theme_override_font_sizes/mono_font_size = 21
 bbcode_enabled = true
+text = "BB TALK BOX"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer" unique_id=295693594]
-layout_mode = 2
-horizontal_scroll_mode = 0
+[node name="QuestionContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer/ColorRect"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 150.0
 
-[node name="TextContainer" type="GridContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer/ScrollContainer" unique_id=953892920]
-custom_maximum_size = Vector2(384, -1)
-layout_mode = 2
-columns = 2
-
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer" unique_id=1223591764]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
 custom_minimum_size = Vector2(288, 0)
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ColorRect" unique_id=2015294885]
-custom_maximum_size = Vector2(288, -1)
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ColorRect"]
 layout_mode = 0
-offset_right = 400.0
+offset_right = 288.0
 offset_bottom = 648.0
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/ColorRect/MarginContainer" unique_id=269099427]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/ColorRect/MarginContainer"]
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer" unique_id=1227705845]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer" unique_id=1620008236]
+[node name="Label" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
@@ -205,36 +245,27 @@ text = "Category:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ItemCategoryButtons" type="GridContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer" unique_id=50870960]
+[node name="ItemCategoryButtons" type="HBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
+z_index = 10
 custom_minimum_size = Vector2(0, 100)
-custom_maximum_size = Vector2(280, 100)
 layout_mode = 2
-size_flags_vertical = 3
-columns = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer" unique_id=1172061540]
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
-size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1719970586]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer/ScrollContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="Currencies" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer" unique_id=524327803]
+[node name="Currencies" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
-text = "Gold: 10000
-Shit: 0
-FazTokens: 25"
+text = "Gold:
+Shit:
+FazTokens:"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Dialogue" type="CanvasLayer" parent="." unique_id=195734552]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Dialogue" unique_id=988900524]
-
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
