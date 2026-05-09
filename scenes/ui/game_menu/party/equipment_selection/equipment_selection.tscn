@@ -1,22 +1,11 @@
-[gd_scene format=3 uid="uid://dhu0rjvcqicb7"]
+[gd_scene load_steps=3 format=3 uid="uid://dhu0rjvcqicb7"]
 
 [ext_resource type="Script" uid="uid://dutdq7hjy6fe2" path="res://scenes/ui/game_menu/party/equipment_selection/equipment_selection.gd" id="1_equip"]
-[ext_resource type="Texture2D" uid="uid://c6t3yqacgcfe1" path="res://assets/menu/Window.png" id="2_njb03"]
-[ext_resource type="Texture2D" uid="uid://byldo041hj3cn" path="res://assets/ui/button.png" id="3_v182l"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4x7s8"]
-texture = ExtResource("2_njb03")
-texture_region_size = Vector2i(64, 64)
-0:0/0 = 0
-1:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wt8uq"]
+bg_color = Color(0.15686275, 0.16078432, 0.15686275, 1)
 
-[sub_resource type="TileSet" id="TileSet_18og1"]
-tile_size = Vector2i(64, 64)
-sources/0 = SubResource("TileSetAtlasSource_4x7s8")
-
-[node name="EquipmentSelection" type="Control" unique_id=84343740]
+[node name="EquipmentSelection" type="Control"]
 custom_minimum_size = Vector2(648, 0)
 layout_mode = 3
 anchor_right = 0.75000006
@@ -26,12 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_equip")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=751842401]
-scale = Vector2(2, 2)
-tile_set = SubResource("TileSet_18og1")
-
-[node name="Panel" type="Panel" parent="." unique_id=1919915542]
-self_modulate = Color(1, 1, 1, 0)
+[node name="Panel" type="Panel" parent="."]
 custom_minimum_size = Vector2(616, 616)
 layout_mode = 1
 anchors_preset = 8
@@ -45,8 +29,9 @@ offset_right = 308.0
 offset_bottom = 308.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wt8uq")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1466806358]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,92 +39,70 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2044520320]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=640388651]
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "Select Equipment"
 horizontal_alignment = 1
 
-[node name="MemberNameLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=997586795]
+[node name="MemberNameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Member Name"
 horizontal_alignment = 1
 
-[node name="SlotLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1010189849]
+[node name="SlotLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Slot: Weapon (L)"
 horizontal_alignment = 1
 
-[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer" unique_id=1702380380]
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ItemsPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer" unique_id=1718080492]
-self_modulate = Color(1, 1, 1, 0)
-z_index = 1
-custom_minimum_size = Vector2(285, 0)
+[node name="ItemsPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+custom_minimum_size = Vector2(262, 0)
 layout_mode = 2
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel" unique_id=833914333]
-z_index = -1
+[node name="ItemsGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel"]
 layout_mode = 0
-offset_right = 285.0
-offset_bottom = 398.0
-texture = ExtResource("3_v182l")
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
+anchor_right = 1.0
+anchor_bottom = 1.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel" unique_id=1870112208]
-layout_mode = 0
-offset_right = 279.0
-offset_bottom = 398.0
-
-[node name="ItemsGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel/ScrollContainer" unique_id=804565772]
-layout_mode = 2
-
-[node name="CurrentEquipPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer" unique_id=1915273165]
-self_modulate = Color(1, 1, 1, 0)
-z_index = 1
+[node name="CurrentEquipPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel" unique_id=1563197945]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.058000002
-anchor_right = 0.058000002
-offset_left = -17.226004
-offset_right = 274.774
-offset_bottom = 216.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel"]
+layout_mode = 0
+offset_right = 262.0
+offset_bottom = 54.0
 theme_override_constants/separation = 12
 
-[node name="CurrentLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer" unique_id=1109232188]
+[node name="CurrentLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 20
 text = "Currently Equipped"
 horizontal_alignment = 1
 
-[node name="CurrentItemName" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer" unique_id=480047634]
+[node name="CurrentItemName" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 16
 text = "None"
 horizontal_alignment = 1
 
-[node name="CurrentItemStats" type="TextEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer" unique_id=1915158421]
+[node name="CurrentItemStats" type="TextEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer"]
 custom_minimum_size = Vector2(260, 150)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -147,61 +110,20 @@ size_flags_vertical = 2
 text = "Stats"
 editable = false
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel" unique_id=23037923]
-z_index = -1
-layout_mode = 0
-offset_left = 1.7539978
-offset_right = 292.754
-offset_bottom = 398.0
-texture = ExtResource("3_v182l")
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1848930050]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="UnequipButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2134077755]
-z_index = 1
+[node name="UnequipButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(150, 45)
 layout_mode = 2
 text = "Unequip"
-flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HBoxContainer/UnequipButton" unique_id=1840571982]
-z_index = -1
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 45.0
-texture = ExtResource("3_v182l")
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1640962686]
-z_index = 1
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(150, 45)
 layout_mode = 2
 text = "Cancel"
-flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HBoxContainer/CancelButton" unique_id=193513266]
-z_index = -1
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 45.0
-texture = ExtResource("3_v182l")
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel" to="." method="_on_items_panel_mouse_entered"]
-[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/UnequipButton" to="." method="_on_unequip_button_focus_entered"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/UnequipButton" to="." method="_on_unequip_button_pressed"]
-[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_items_panel_mouse_entered"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]

@@ -20,7 +20,7 @@ var battle_speed: float = 1.0
 var text_speed: float = 1.0
 var show_damage_numbers: bool = true
 var battle_animations: bool = true
-var battle_log: bool = false
+var skip_cutscenes: bool = false
 
 # === Control Settings (stored as strings for key mappings) ===
 var control_mappings: Dictionary = {
@@ -37,33 +37,23 @@ var control_mappings: Dictionary = {
 const SETTINGS_FILE := "user://settings.json"
 
 func _ready() -> void:
-	process_mode = Node.ProcessMode.PROCESS_MODE_ALWAYS
 	load_settings()
 	_apply_audio_settings()
 	_apply_display_settings()
 
 func _apply_audio_settings() -> void:
-	_apply_master_volume()
-	_apply_music_volume()
-	_apply_sfx_volume()
-	_apply_voice_volume()
-
-func _apply_master_volume() -> void:
 	var master_bus = AudioServer.get_bus_index("Master")
 	if master_bus >= 0:
 		AudioServer.set_bus_volume_db(master_bus, linear_to_db(master_volume))
-
-func _apply_music_volume() -> void:
+	
 	var music_bus = AudioServer.get_bus_index("Music")
 	if music_bus >= 0:
 		AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
-
-func _apply_sfx_volume() -> void:
+	
 	var sfx_bus = AudioServer.get_bus_index("SFX")
 	if sfx_bus >= 0:
 		AudioServer.set_bus_volume_db(sfx_bus, linear_to_db(sfx_volume))
-
-func _apply_voice_volume() -> void:
+	
 	var voice_bus = AudioServer.get_bus_index("Voice")
 	if voice_bus >= 0:
 		AudioServer.set_bus_volume_db(voice_bus, linear_to_db(voice_volume))
@@ -139,11 +129,11 @@ func set_battle_animations(value: bool) -> void:
 	battle_animations = value
 	settings_changed.emit("gameplay", "battle_animations", battle_animations)
 
-## Toggle battle animations
-func set_battle_log(value: bool) -> void:
-	battle_log = value
-	settings_changed.emit("gameplay", "battle_log", battle_log)
-	
+## Toggle cutscene skipping
+func set_skip_cutscenes(value: bool) -> void:
+	skip_cutscenes = value
+	settings_changed.emit("gameplay", "skip_cutscenes", skip_cutscenes)
+
 ## Update a control mapping
 func set_control_mapping(action: String, key_name: String) -> void:
 	control_mappings[action] = key_name
@@ -168,7 +158,7 @@ func get_save_data() -> Dictionary:
 			"text_speed": text_speed,
 			"show_damage_numbers": show_damage_numbers,
 			"battle_animations": battle_animations,
-			"battle_log": battle_log,
+			"skip_cutscenes": skip_cutscenes
 		},
 		"controls": control_mappings.duplicate()
 	}
@@ -195,7 +185,7 @@ func load_from_data(data: Dictionary) -> void:
 		text_speed = gameplay.get("text_speed", text_speed)
 		show_damage_numbers = gameplay.get("show_damage_numbers", show_damage_numbers)
 		battle_animations = gameplay.get("battle_animations", battle_animations)
-		battle_log = gameplay.get("battle_log", battle_log)
+		skip_cutscenes = gameplay.get("skip_cutscenes", skip_cutscenes)
 	
 	if data.has("controls"):
 		for key in data["controls"]:
@@ -252,7 +242,7 @@ func reset_to_defaults() -> void:
 	text_speed = 1.0
 	show_damage_numbers = true
 	battle_animations = true
-	battle_log = false
+	skip_cutscenes = false
 	control_mappings = {
 		"left": "A",
 		"up": "W", 

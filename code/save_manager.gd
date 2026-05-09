@@ -30,7 +30,6 @@ const SAVE_VERSION := "1.1"  # Schema version for backward compatibility
 var _autosave_timer: float = 0.0
 var _autosave_enabled: bool = false
 var _visited_objects: Dictionary = {}  # Used as Set[int] for circular reference detection
-@warning_ignore("unused_private_class_variable")
 var _max_recursion_depth: int = 50
 
 var last_slot: int = 1
@@ -79,7 +78,6 @@ func _connect_signals() -> void:
 
 func _on_scene_changed() -> void:
 	await get_tree().process_frame
-	@warning_ignore("unused_variable")
 	var scene_root = get_tree().root
 
 # ============================================================================
@@ -178,8 +176,7 @@ func get_slot_info(slot: int) -> Dictionary:
 		"time_played": save_data.get("time_played", 0.0),
 		"save_version": save_data.get("schema_version", "unknown"),
 		"current_scene": save_data.get("global_data", {}).get("current_scene", ""),
-		"timestamp": save_data.get("timestamp", ""),
-		"global_data": save_data.get("global_data")
+		"timestamp": save_data.get("timestamp", "")
 	}
 
 ## Delete a save slot
@@ -219,18 +216,13 @@ func _capture_global_data() -> Dictionary:
 		"current_scene": Global.current_scene,
 		"player_position": var_to_str(PlayerStats.player_position),
 		"time_played": Global.time_played,
-		"global_internal_data": Global.get_internal_save_data(),
-		"player_stats": PlayerStats.get_save_data(),
+		"player_stats": PlayerStats.get_save_data()
 	}
 	
-	# Add quest system data if available
-	if QuestSystem:
-		data["quests"] = QuestSystem.get_save_data()
-
 	return data
 
 func _get_all_autoload_names() -> PackedStringArray:
-	var autoloads := PackedStringArray(["Global", "Save", "PlayerStats", "SaveManager"])
+	var autoloads := PackedStringArray(["Global", "Save", "PlayerStats", "SaveManager", "Settings"])
 	return autoloads
 
 func _serialize_object_deep(obj: Object, visited: Dictionary = {}, depth: int = 0) -> Dictionary:
@@ -265,16 +257,7 @@ func _serialize_object_deep(obj: Object, visited: Dictionary = {}, depth: int = 
 	
 	# Handle Resources specially - serialize ALL their properties
 	if obj is Resource:
-		if obj is Item:
-			data["_resource_type"] = "Item"
-		elif obj is Entity:
-			data["_resource_type"] = "Entity"
-		elif obj is Skill:
-			data["_resource_type"] = "Skill"
-		elif obj is BattleEffect:
-			data["_resource_type"] = "BattleEffect"
-		else:
-			data["_resource_type"] = obj.get_class()
+		data["_resource_type"] = obj.get_class()
 		data["_resource_path"] = obj.resource_path if obj.resource_path else ""
 		
 		# Get ALL properties including exports and runtime values
@@ -282,7 +265,6 @@ func _serialize_object_deep(obj: Object, visited: Dictionary = {}, depth: int = 
 		for prop in prop_list:
 			var prop_name: String = prop["name"]
 			var prop_type: int = prop["type"]
-			@warning_ignore("unused_variable")
 			var usage: int = prop["usage"]
 			
 			# Skip only internal/resource management properties
@@ -333,7 +315,6 @@ func _capture_all_scenes_data() -> Dictionary:
 	
 	return scenes_data
 
-@warning_ignore("unused_parameter")
 func _serialize_object_properties(obj: Object, visited: Dictionary = {}, depth: int = 0) -> Dictionary:
 	var data: Dictionary = {}
 
@@ -464,13 +445,12 @@ func serialize_value(value: Variant, type_hint: int = TYPE_NIL) -> Variant:
 func deserialize_value(value: Variant, type_hint: int = TYPE_NIL) -> Variant:
 	_visited_objects.clear()  # Reset visited set for new deserialization
 	_current_depth = 0  # Reset depth counter
-	return await _deserialize_value(value, type_hint)
+	return _deserialize_value(value, type_hint)
 
 # === Circular Reference Detection Constants ===
 const MAX_RECURSION_DEPTH := 50  # Prevent stack overflow from deeply nested structures
 var _current_depth: int = 0  # Track current recursion depth
 
-@warning_ignore("unused_parameter")
 func _serialize_value(value: Variant, type_hint: int = TYPE_NIL) -> Variant:
 	if value == null:
 		return null
@@ -519,6 +499,9 @@ func _serialize_value(value: Variant, type_hint: int = TYPE_NIL) -> Variant:
 	if value is Object:
 
 		return _serialize_object_properties(value)
+	
+	# Unknown type - try string conversion as fallback
+	push_warning("[AutoSaveManager] Cannot serialize value of type: %s" % typeof(value))
 	return null
 
 func _serialize_init_dictionary(value: Dictionary):
@@ -553,7 +536,6 @@ func _serialize_init_dictionary(value: Dictionary):
 			result[serialized_key] = serialized_value
 	return result
 
-@warning_ignore("unused_parameter")
 func _deserialize_value(value: Variant, type_hint: int = TYPE_NIL) -> Variant:
 	if value == null:
 		return null
@@ -574,20 +556,20 @@ func _deserialize_value(value: Variant, type_hint: int = TYPE_NIL) -> Variant:
 	elif value is Array:
 		var arr_result: Array = []
 		for item in value:
-			arr_result.append(await _deserialize_value(item, TYPE_NIL))
+			arr_result.append(_deserialize_value(item, TYPE_NIL))
 		result = arr_result
 	
 	# Handle Dictionaries - check if it's a deep-serialized Resource
 	elif value is Dictionary:
 		if value.has("_resource_type"):
 			# This is a deep-serialized Resource, reconstruct it
-			result = await _deserialize_resource_from_dict(value)
+			result = _deserialize_resource_from_dict(value)
 		else:
 			var dict_result: Dictionary = {}
 			for key in value.keys():
-				var deserialized_key = await _deserialize_value(key, TYPE_NIL)
+				var deserialized_key = _deserialize_value(key, TYPE_NIL)
 				var dict_val = value[key]
-				var deserialized_value = await _deserialize_value(dict_val, TYPE_NIL)
+				var deserialized_value = _deserialize_value(dict_val, TYPE_NIL)
 				dict_result[deserialized_key] = deserialized_value
 			result = dict_result
 	
@@ -735,19 +717,8 @@ func _deserialize_resource_from_dict(data: Dictionary, parent_visited: Dictionar
 	# Mark as "currently constructing"
 	parent_visited[data_id] = true
 	
-	var resource_type: String = data.get("_resource_type", "Resource")
-
-	# Fix legacy saves where custom resources were serialized as generic "Resource"
-	if resource_type == "Resource":
-		if data.has("item_name") or data.has("item_bonuses") or data.has("consume_effects"):
-			resource_type = "Item"
-		elif data.has("base_stats") or data.has("level_up_gains") or data.has("xp_to_level_up"):
-			resource_type = "Entity"
-		elif data.has("skill_name") or data.has("mana_cost") or data.has("hit_count"):
-			resource_type = "Skill"
-		elif data.has("effect_id") or data.has("effect_type"):
-			resource_type = "BattleEffect"
-
+	var resource_type: String = data["_resource_type"]
+	
 	var new_resource: Resource
 	
 	# Try to load from path first if available (for Entity, Item, Skill resources)
@@ -758,14 +729,14 @@ func _deserialize_resource_from_dict(data: Dictionary, parent_visited: Dictionar
 			new_resource = loaded_resource.duplicate(true)
 		else:
 			push_warning("[AutoSaveManager] Resource exists at path but failed to load: %s" % resource_path)
-			new_resource = await _create_resource_by_type(resource_type)
+			new_resource = _create_resource_by_type(resource_type)
 	elif resource_path:
 		# Path exists but resource doesn't - handle gracefully
 		push_warning("[AutoSaveManager] Resource path does not exist: %s. Creating new instance." % resource_path)
-		new_resource = await _create_resource_by_type(resource_type)
+		new_resource = _create_resource_by_type(resource_type)
 	else:
 		# No path - runtime resource, create new instance
-		new_resource = await _create_resource_by_type(resource_type)
+		new_resource = _create_resource_by_type(resource_type)
 	
 	if not new_resource:
 		push_error("[AutoSaveManager] Failed to create resource of type: %s" % resource_type)
@@ -783,8 +754,7 @@ func _deserialize_resource_from_dict(data: Dictionary, parent_visited: Dictionar
 func _create_resource_by_type(resource_type: String) -> Resource:
 	"""Create a new resource instance by type name"""
 	if resource_type == "Entity":
-		@warning_ignore("redundant_await")
-		return await Entity.new()
+		return Entity.new()
 	elif resource_type == "Skill":
 		return Skill.new()
 	elif resource_type == "Item":
@@ -829,7 +799,7 @@ func _copy_resource_properties_direct(target: Resource, data: Dictionary, visite
 		if key in target:
 			# Handle nested structures inline without calling _deserialize_value
 			# to preserve visited set state and depth counter
-			var deserialized_value = await _deserialize_nested_value_inline(value, visited)
+			var deserialized_value = _deserialize_nested_value_inline(value, visited)
 			target.set(key, deserialized_value)
 		else:
 			print("[DEBUG]   Property '%s' not found in target, skipping" % key)
@@ -852,8 +822,14 @@ func _deserialize_nested_value_inline(value: Variant, visited: Dictionary) -> Va
 		var arr_result: Array = []
 		for i in range(value.size()):
 			var item = value[i]
-			var deserialized_item = await _deserialize_nested_value_inline(item, visited)
+			var deserialized_item = _deserialize_nested_value_inline(item, visited)
 			arr_result.append(deserialized_item)
+		
+		for i in range(arr_result.size()):
+			var item = arr_result[i]
+			if item is Resource and item.get_class() == "Resource":
+				if "item_name" in item or "type" in item:
+					arr_result[i] = item as Item
 		
 		return arr_result
 	
@@ -861,14 +837,20 @@ func _deserialize_nested_value_inline(value: Variant, visited: Dictionary) -> Va
 	elif value is Dictionary:
 		if value.has("_resource_type"):
 			# This is a deep-serialized Resource, reconstruct it with visited set
-			var resource_result = await _deserialize_resource_from_dict(value, visited)
+			var resource_result = _deserialize_resource_from_dict(value, visited)
 			return resource_result
 		else:
 			var dict_result: Dictionary = {}
 			for dict_key in value.keys():
-				var deserialized_key = await _deserialize_nested_value_inline(dict_key, visited)
+				var deserialized_key = _deserialize_nested_value_inline(dict_key, visited)
 				var dict_val = value[dict_key]
-				var deserialized_value = await _deserialize_nested_value_inline(dict_val, visited)
+				var deserialized_value = _deserialize_nested_value_inline(dict_val, visited)
+				
+				if deserialized_value is Resource and deserialized_value.get_class() == "Resource":
+					# Check if this looks like an Item resource (has item_name or type property)
+					if "item_name" in deserialized_value or "type" in deserialized_value:
+						# Cast to Item by using 'as' operator
+						deserialized_value = deserialized_value as Item
 				
 				dict_result[deserialized_key] = deserialized_value
 			return dict_result
@@ -922,13 +904,6 @@ func _apply_global_data(global_data: Dictionary) -> void:
 	# Restore PlayerStats using its load_save_data() method if available
 	if global_data.has("player_stats"):
 		PlayerStats.load_save_data(global_data["player_stats"])
-	
-	# Restore quest system data if available
-	if global_data.has("quests") and QuestSystem:
-		QuestSystem.load_save_data(global_data["quests"])
-		
-	if global_data.has("global_internal_data"):
-		Global.internally_load_save_data(global_data["global_internal_data"])
 
 func _apply_scenes_data(scenes_data: Dictionary) -> void:
 	var current_scene: Node = get_tree().current_scene
@@ -957,7 +932,7 @@ func _deserialize_into_object(obj: Object, data: Dictionary) -> void:
 		if key in SKIP_PROPERTIES:
 			continue
 		
-		var value = await _deserialize_value(data[key])
+		var value = _deserialize_value(data[key])
 		
 		# Special handling for Resources - recreate from path and apply properties
 		if obj is Resource and key == "_resource_path" and value:
@@ -968,29 +943,36 @@ func _deserialize_into_object(obj: Object, data: Dictionary) -> void:
 			obj.set(key, value)
 		else:
 			obj.set(key, value)
-
-func _restore_party_array(party_data: Array) -> Array:
-	"""Special handling to restore the Party array in PlayerStats"""
 	
-	var new_party: Array = []
-	var stat_fix = []
-	for p_dict in party_data:
-		var base_entity: Entity = load(p_dict["path_to"])
-		if base_entity:
-			var resource: Entity = base_entity.duplicate_deep()
-			for prop_name in p_dict.keys():
-				var prop_value = await deserialize_value(p_dict[prop_name])
-				if prop_name in resource:
-					resource.set(prop_name, prop_value)
-					if prop_name == "stats":
-						stat_fix.append(prop_value)
-			new_party.append(resource)
+	# Special post-processing for PlayerStats to restore party array properly
+	if obj.get_class() == "Node" and data.has("party"):
+		_restore_party_array(obj, data["party"])
+
+func _restore_party_array(player_stats: Node, party_data: Array) -> void:
+	"""Special handling to restore the Party array in PlayerStats"""
+	var new_party: Array[Entity] = []
+	
+	for member_data in party_data:
+		if member_data is Dictionary and member_data.has("_resource_type"):
+			# Deep-serialized Party resource - pass visited set for cycle detection
+			var party_member = _deserialize_resource_from_dict(member_data)
+			if party_member and party_member.role == Entity.Role.PARTY:
+				new_party.append(party_member)
+		elif member_data is String:
+			# Resource path - validate existence before loading
+			if ResourceLoader.exists(member_data):
+				var party_member = load(member_data)
+				if party_member and party_member.role == Entity.Role.PARTY:
+					new_party.append(party_member.duplicate())
+			else:
+				push_warning("[AutoSaveManager] Party member resource not found: %s" % member_data)
 	
 	if new_party.size() > 0:
-		for p in range(len(new_party)):
-			new_party[p].current_stat_load_fix(stat_fix[p])
-		return new_party
-	return [load("res://resources/party/freddy.tres").duplicate_deep()]
+		player_stats.set("party", new_party)
+		# Re-apply equipment stats after loading
+		for p in new_party:
+			if p.has_method("equip_stats_change"):
+				p.equip_stats_change()
 
 func _copy_resource_properties(target: Resource, source: Resource) -> void:
 	"""Copy all properties from source resource to target resource"""
@@ -1007,7 +989,7 @@ func _copy_resource_properties(target: Resource, source: Resource) -> void:
 			var value = source.get(prop_name)
 			if prop_name in target:
 				# Use the centralized deserialization to handle all nested structures
-				target.set(prop_name, await _deserialize_value(value, TYPE_NIL))
+				target.set(prop_name, _deserialize_value(value, TYPE_NIL))
 
 # ============================================================================
 # UTILITY FUNCTIONS

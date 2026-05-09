@@ -4,7 +4,7 @@ extends Control
 
 @onready var member_name_label: Label = $MarginContainer/VBoxContainer/MemberNameLabel
 @onready var slot_label: Label = $MarginContainer/VBoxContainer/SlotLabel
-@onready var items_grid: GridContainer = $MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel/ScrollContainer/ItemsGrid
+@onready var items_grid: GridContainer = $MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel/ItemsGrid
 @onready var current_item_name: Label = $MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer/CurrentItemName
 @onready var current_item_stats: TextEdit = $MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer/CurrentItemStats
 @onready var unequip_button: Button = $MarginContainer/VBoxContainer/HBoxContainer/UnequipButton
@@ -44,11 +44,11 @@ func _get_slot_display_name(slot: String) -> String:
 
 func _get_required_item_type(slot: String) -> int:
 	if slot in ["weapon_left", "weapon_right"]:
-		return Item.ItemType.Weapon
+		return 0  # Weapon
 	elif slot in ["head", "body", "legs", "shield"]:
-		return Item.ItemType.Armor
+		return 1  # Armor
 	elif slot in ["accessory_1", "accessory_2"]:
-		return Item.ItemType.Accessory
+		return 4  # Accessory
 	return -1
 
 func _get_required_armor_type(slot: String) -> int:
@@ -62,7 +62,7 @@ func _get_required_armor_type(slot: String) -> int:
 func _filter_available_items(slot: String) -> void:
 	available_items.clear()
 	
-	var inventory = PlayerStats.inventory
+	var inventory = PlayerStats.get_inventory()
 	var required_item_type = _get_required_item_type(slot)
 	var required_armor_type = _get_required_armor_type(slot)
 	
@@ -82,6 +82,8 @@ func _filter_available_items(slot: String) -> void:
 			if item.armor_type != required_armor_type:
 				continue
 		
+		if target_member and not item.can_equip(target_member):
+			continue
 		if item == current_equipped_item:
 			continue
 		
@@ -100,6 +102,8 @@ func _populate_items_grid() -> void:
 	
 	for item in available_items:
 		var btn = Button.new()
+		btn.custom_minimum_size = Vector2(180, 80)
+		
 		var vbox = VBoxContainer.new()
 		vbox.size_flags_horizontal = SIZE_EXPAND_FILL
 		
@@ -115,10 +119,8 @@ func _populate_items_grid() -> void:
 			icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			vbox.add_child(icon_rect)
 		
-		btn.custom_minimum_size = Vector2(180, 80)
 		btn.add_child(vbox)
 		btn.pressed.connect(_on_item_selected.bind(item))
-		btn.mouse_entered.connect(_on_items_panel_mouse_entered)
 		items_grid.add_child(btn)
 
 func _update_current_equip_display() -> void:
@@ -131,8 +133,7 @@ func _update_current_equip_display() -> void:
 			for stat in current_equipped_item.item_bonuses:
 				var value = current_equipped_item.item_bonuses[stat]
 				if value != 0:
-					@warning_ignore("shadowed_global_identifier")
-					var sign = "+" if value > 0 else "-"
+					var sign = "+" if value > 0 else ""
 					stats_text += "  " + stat.to_upper() + ": " + sign + str(value) + "\n"
 		else:
 			stats_text = "No stat bonuses"
@@ -151,13 +152,10 @@ func _on_item_selected(item: Item) -> void:
 	PlayerStats.remove_item(item, 1)
 	target_member.equipped[target_slot] = item
 	
-	Sfx.stream = load("res://assets/sound/sfx/select.wav")
-	Sfx.play()
 	if target_member.has_method("equip_stats_change"):
 		target_member.equip_stats_change()
 	
 	visible = false
-	$"../MarginContainer".visible = true
 	$"..".refresh()
 	$"..".update_equipment_grid(target_member)
 
@@ -168,28 +166,14 @@ func _on_unequip_button_pressed() -> void:
 	PlayerStats.add_item(current_equipped_item, 1)
 	target_member.equipped[target_slot] = null
 	
-	Sfx.stream = load("res://assets/sound/sfx/select.wav")
-	Sfx.play()
 	if target_member.has_method("equip_stats_change"):
 		target_member.equip_stats_change()
 	
 	visible = false
-	$"../MarginContainer".visible = true
 	$"..".refresh()
 	$"..".update_equipment_grid(target_member)
 
 func _on_cancel_button_pressed() -> void:
 	visible = false
-	Sfx.stream = load("res://assets/sound/sfx/select.wav")
-	Sfx.play()
-	$"../MarginContainer".visible = true
 	$"..".refresh()
 	$"..".update_equipment_grid(target_member)
-
-func _on_unequip_button_focus_entered() -> void:
-	Sfx.stream = load("res://assets/sound/sfx/button_squeak.wav")
-	Sfx.play()
-
-func _on_items_panel_mouse_entered() -> void:
-	Sfx.stream = load("res://assets/sound/sfx/button_squeak.wav")
-	Sfx.play()

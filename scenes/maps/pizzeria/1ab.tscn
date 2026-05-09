@@ -1,730 +1,384 @@
-[gd_scene format=4 uid="uid://d0ffrrya75s2a"]
+[gd_scene load_steps=53 format=4 uid="uid://d0ffrrya75s2a"]
 
 [ext_resource type="Script" uid="uid://duek0uk444kjf" path="res://code/root_script.gd" id="1_deyg0"]
 [ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="2_02set"]
 [ext_resource type="Resource" uid="uid://d0alullmmxp3b" path="res://resources/battles/pizzeria/alpha_party_hat_1.tres" id="3_tx4yc"]
 [ext_resource type="Resource" uid="uid://w5pvbq2h36v2" path="res://resources/battles/pizzeria/alpha_party_hat_2.tres" id="4_y1m43"]
 [ext_resource type="Resource" uid="uid://hcjum4b6iriu" path="res://resources/battles/pizzeria/alpha_party_hat_3.tres" id="5_rh3l4"]
-[ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office.mp3" id="6_id31a"]
-[ext_resource type="Texture2D" uid="uid://cfoscxh3td7hk" path="res://assets/battleui/backgrounds/FNaF 1 - Dining Area.png" id="6_wy3q7"]
-[ext_resource type="TileSet" uid="uid://cpxfb26nr2i26" path="res://assets/tilemaps/tilesets/wall_tileset.tres" id="6_ytf3l"]
-[ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="7_id31a"]
-[ext_resource type="Script" uid="uid://dgvw756arkoyr" path="res://code/dialogue/DialoguePauseAnimation.gd" id="8_y1m43"]
-[ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="9_id31a"]
+[ext_resource type="Texture2D" uid="uid://tpsaxglf4u38" path="res://assets/tilemaps/Walls.png" id="6_ytf3l"]
+[ext_resource type="Texture2D" uid="uid://c5te14cvg4qke" path="res://assets/tilemaps/Objects.png" id="7_id31a"]
+[ext_resource type="Texture2D" uid="uid://dexwxvdtim46r" path="res://assets/ui/button_pressed.png" id="8_wy3q7"]
 [ext_resource type="PackedScene" uid="uid://cgs08pp0l2gmg" path="res://scenes/objects/textbox_maker.tscn" id="9_m0x8p"]
-[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="10_l0887"]
-[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="12_02set"]
-[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="12_eubvm"]
-[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="14_tx4yc"]
-[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="14_uaprm"]
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/textbox/DialogueNode.gd" id="10_l0887"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/textbox/DialogueBranch.gd" id="11_n31lr"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/textbox/DialogueChoice.gd" id="12_eubvm"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/textbox/DialogueEffect.gd" id="13_g2arf"]
+[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/party/Classics+Swag.png" id="14_uaprm"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/textbox/DialogueData.gd" id="15_ycv80"]
+[ext_resource type="Texture2D" uid="uid://d2f8bgy630i5y" path="res://assets/battlesprites/unknown_face.png" id="16_axkmx"]
 [ext_resource type="PackedScene" uid="uid://yq7stgud35n5" path="res://scenes/objects/player.tscn" id="17_2ylxe"]
-[ext_resource type="SpriteFrames" uid="uid://bumms83h0snyj" path="res://assets/spriteframes/foxy.tres" id="17_ytf3l"]
 [ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="18_02set"]
-[ext_resource type="AudioStream" uid="uid://bstv8puremnyq" path="res://assets/sound/tts_lines/dining_hall/beginning/are you ready for freddy.mp3" id="18_m0x8p"]
-[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="18_tx4yc"]
 [ext_resource type="Script" uid="uid://d0nafiufwuqos" path="res://code/tests/battle_test.gd" id="18_ut725"]
-[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="18_y1m43"]
-[ext_resource type="Script" uid="uid://8xdjua3jhdqd" path="res://scenes/maps/black_flash_on_scene.gd" id="23_rh3l4"]
-
-[sub_resource type="FontVariation" id="FontVariation_wy3q7"]
-base_font = ExtResource("9_id31a")
-spacing_glyph = -1
-spacing_space = -4
-
-[sub_resource type="GDScript" id="GDScript_m0x8p"]
-resource_name = "1ab_animations"
-script/source = "extends Node
-
-func _ready() -> void:
-	await get_tree().create_timer(0.2).timeout
-	if \"Foxy\" in Global.enemies_killed.keys() and not \"foxy_defeat\" in get_tree().current_scene.done_things:
-		$foxy_join.play(\"foxy_join\")
-"
-
-[sub_resource type="Animation" id="Animation_rh3l4"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../transition/black_flash:self_modulate:a")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../player:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(268, 128)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../TileMap/objects/fire:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../player:stop_move")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../player:can_menu")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../TileMap/objects/fire/foxy:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("../TileMap/objects/fire/foxy:position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(82, 211)]
-}
-
-[sub_resource type="Animation" id="Animation_tx4yc"]
-resource_name = "burning_tent"
-length = 12.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../TileMap/objects/fire:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../player:global_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(175, 190)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../transition/black_flash:self_modulate:a")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.6, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [0.0, 1.0, 1.0, 0.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../player:stop_move")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 3.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../player:can_menu")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 3.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/5/type = "method"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../player")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [-1, true],
-"method": &"animate"
-}]
-}
-tracks/6/type = "method"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("burning_tent")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(1, 3.5),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [0],
-"method": &"start_dialogue_id"
-}, {
-"args": [1],
-"method": &"start_dialogue_id"
-}]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("../TileMap/objects/fire/foxy:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0.033333335, 1.3333334),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("../TileMap/objects/fire/foxy:position")
-tracks/8/interp = 2
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(1.8, 2, 2.2, 2.4, 2.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(82, 211), Vector2(98, 195), Vector2(105, 193), Vector2(113, 210), Vector2(120, 223)]
-}
-tracks/9/type = "method"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("../TileMap/objects/fire/foxy")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(1.3333334, 1.8, 3.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"values": [{
-"args": [&"run0", 2.0, false],
-"method": &"play"
-}, {
-"args": [&"run1", 2.0, false],
-"method": &"play"
-}, {
-"args": [&"idle1", 1.0, false],
-"method": &"play"
-}]
-}
-tracks/10/type = "method"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("..")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(3.5333333),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["burnt_cove", true],
-"method": &"done_thing"
-}]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_y1m43"]
-_data = {
-&"RESET": SubResource("Animation_rh3l4"),
-&"burning_tent": SubResource("Animation_tx4yc")
-}
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l0887"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_6h4rs"]
-script = ExtResource("10_l0887")
-text = "What's that smell?"
-portrait = SubResource("AtlasTexture_l0887")
-label = "start"
-next_label = "end"
-beep_type = 4
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_r2f0f"]
-script = ExtResource("14_tx4yc")
-effect_type = 9
-param_string = "res://resources/quests/pizzeria/foxy_burn.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_175ep"]
-script = ExtResource("10_l0887")
-text = "OH SHIT!!!"
-portrait = SubResource("AtlasTexture_l0887")
-label = "end"
-beep_type = 4
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_r2f0f")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_efxjf"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_6h4rs"), SubResource("Resource_175ep")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_n31lr"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_6ua38"]
-script = ExtResource("10_l0887")
-text = "WHAT THE FUCK FREDDY!?"
-portrait = SubResource("AtlasTexture_n31lr")
-label = "start"
-next_label = "burn_1"
-beep_type = 4
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_2us40"]
-script = ExtResource("10_l0887")
-text = "YER BURNED ME HOME AGAIN!!!"
-portrait = SubResource("AtlasTexture_n31lr")
-label = "burn_1"
-next_label = "burn_2"
-beep_type = 4
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vg0cf"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_584dt"]
-script = ExtResource("10_l0887")
-text = "That is what you get for not joining on my adventure bitch."
-portrait = SubResource("AtlasTexture_vg0cf")
-label = "burn_2"
-next_label = "burn_3"
-beep_type = 1
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_eubvm"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_ib3f2"]
-script = ExtResource("10_l0887")
-text = "Oh you shit-colored,"
-portrait = SubResource("AtlasTexture_eubvm")
-label = "burn_3"
-next_label = "burn_4"
-beep_type = 4
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g2arf"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_3ij2e"]
-script = ExtResource("10_l0887")
-text = "Narcisistic,"
-portrait = SubResource("AtlasTexture_g2arf")
-label = "burn_4"
-next_label = "burn_5"
-beep_type = 4
-text_speed = 20
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_yxeec"]
-script = ExtResource("14_tx4yc")
-effect_type = 11
-param_string = "start_battle"
-param_value = "res://resources/battles/pizzeria/special/foxy_bossfight.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uaprm"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_waa2h"]
-script = ExtResource("10_l0887")
-text = "Piece of stupid koala-brained bear."
-portrait = SubResource("AtlasTexture_uaprm")
-label = "burn_5"
-beep_type = 4
-text_speed = 12
-on_exit_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_yxeec")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_xs0tp"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_6ua38"), SubResource("Resource_2us40"), SubResource("Resource_584dt"), SubResource("Resource_ib3f2"), SubResource("Resource_3ij2e"), SubResource("Resource_waa2h")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Animation" id="Animation_l0887"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../TileMap/objects/fire/foxy:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../player:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(268, 128)]
-}
-
-[sub_resource type="Animation" id="Animation_n31lr"]
-resource_name = "foxy_join"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../TileMap/objects/fire/foxy:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../player:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(176, 193), Vector2(268, 128)]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../player")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.93333334),
-"transitions": PackedFloat32Array(1, 1, 1),
-"values": [{
-"args": [-1, false],
-"method": &"animate"
-}, {
-"args": [],
-"method": &"textbox"
-}, {
-"args": [],
-"method": &"textbox_end"
-}]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("foxy_join")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.6),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [0],
-"method": &"start_dialogue_id"
-}]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_eubvm"]
-_data = {
-&"RESET": SubResource("Animation_l0887"),
-&"foxy_join": SubResource("Animation_n31lr")
-}
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ytf3l"]
-load_path = "res://.godot/imported/Classics+Swag.png-1e1f309977366ea2832fac9388b483bf.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_axkmx"]
-atlas = SubResource("CompressedTexture2D_ytf3l")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_2muvj"]
-script = ExtResource("10_l0887")
-text = "Huff...
-Puff....
-Fine I will join your party, cretin."
-portrait = SubResource("AtlasTexture_axkmx")
-label = "start"
-next_label = "1"
-beep_type = 4
-text_speed = 15
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2ylxe"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_voami"]
-script = ExtResource("10_l0887")
-text = "As you shall have done all along."
-portrait = SubResource("AtlasTexture_2ylxe")
-label = "1"
-next_label = "2"
-beep_type = 1
-text_speed = 25
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_87jaw"]
-script = ExtResource("14_tx4yc")
-effect_type = 11
-param_string = "done_thing"
-param_value = "foxy_defeat"
-param_value2 = "true"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_042pg"]
-script = ExtResource("14_tx4yc")
-effect_type = 5
-param_string = "res://resources/party/foxy.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_p1gsy"]
-script = ExtResource("14_tx4yc")
-effect_type = 15
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_880h7"]
-script = ExtResource("14_tx4yc")
-effect_type = 14
-param_string = "res://assets/sound/sfx/party_join.mp3"
-param_value = "1"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_rfy1d"]
-script = ExtResource("10_l0887")
-text = "Foxy has joined the party."
-label = "2"
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_87jaw"), SubResource("Resource_042pg"), SubResource("Resource_p1gsy"), SubResource("Resource_880h7")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_wnc12"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_2muvj"), SubResource("Resource_voami"), SubResource("Resource_rfy1d")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="GDScript" id="GDScript_ytf3l"]
-resource_name = "burnt_cove"
-script/source = "extends TileMapLayer
-
-func _ready() -> void:
-	if \"burnt_cove\" in get_tree().current_scene.done_things.keys():
-		visible = true
-		$foxy.visible = false
-"
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_id31a"]
-size = Vector2(8, 32)
-
-[sub_resource type="GDScript" id="GDScript_id31a"]
-resource_name = "remove_coll"
-script/source = "extends CollisionShape2D
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	if \"Pizzeria - Backstage\" in Global.scene_data.keys():
-		disabled = true
-		$TextboxMaker/CollisionShape2D.disabled = true
-		$\"../..\".erase_cell(Vector2i(0, 1))
-"
-
-[sub_resource type="Resource" id="Resource_34n7i"]
-script = ExtResource("14_tx4yc")
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_efbvy"]
-script = ExtResource("10_l0887")
-text = "(The door is locked.)"
-label = "start"
-next_label = "door1"
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_34n7i")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fqt1e"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_8wuni"]
-script = ExtResource("10_l0887")
-text = "Motherfucker closed himself in that room again..."
-portrait = SubResource("AtlasTexture_fqt1e")
-label = "door1"
-next_label = "door2"
-beep_type = 1
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_efbvy"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_67wsl"]
-script = ExtResource("10_l0887")
-text = "and I don't wanna pay for another damaged door."
-portrait = SubResource("AtlasTexture_efbvy")
-label = "door2"
-beep_type = 1
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_qcwiy"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_efbvy"), SubResource("Resource_8wuni"), SubResource("Resource_67wsl")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ytf3l"]
-size = Vector2(32, 8)
-
-[sub_resource type="GDScript" id="GDScript_wy3q7"]
-resource_name = "remove_coll"
-script/source = "extends CollisionShape2D
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	if \"Pizzeria - Kitchen\" in Global.scene_data.keys():
-		disabled = true
-		$\"../..\".erase_cell(Vector2i(14,11))
-		
-"
-
-[sub_resource type="Resource" id="Resource_8vgn7"]
-script = ExtResource("10_l0887")
-text = "(The door is locked.)"
-label = "start"
-next_label = "door1"
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_34n7i")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_0mnuh"]
-script = ExtResource("10_l0887")
-text = "ehh, where is that stupid key to the kitchen?"
-portrait = SubResource("AtlasTexture_fqt1e")
-label = "door1"
-beep_type = 1
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_j58ao"]
-script = ExtResource("14_tx4yc")
-effect_type = 11
-param_string = "change_room"
-param_value = "res://scenes/maps/pizzeria/6.tscn"
-param_value2 = "(176.0, 90.0)"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_ar3lr"]
-script = ExtResource("14_tx4yc")
-effect_type = 15
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_8jbod"]
-script = ExtResource("14_tx4yc")
-effect_type = 14
-param_string = "res://assets/sound/sfx/door_open.mp3"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ycv80"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_6dabd"]
-script = ExtResource("10_l0887")
-text = "Now to just open this door..."
-portrait = SubResource("AtlasTexture_ycv80")
-label = "has_key"
-beep_type = 1
-on_exit_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_j58ao"), SubResource("Resource_ar3lr"), SubResource("Resource_8jbod")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_7d1jc"]
-script = ExtResource("18_tx4yc")
-param_string = "res://resources/items/key/kitchen_key.tres"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_ckolk"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_7d1jc")])
-target_label = "has_key"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_fqt1e"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_8vgn7"), SubResource("Resource_0mnuh"), SubResource("Resource_6dabd")])
-start_branches = Array[ExtResource("12_02set")]([SubResource("Resource_ckolk")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_xo48n"]
-script = ExtResource("14_tx4yc")
-effect_type = 15
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+[ext_resource type="Script" uid="uid://bjs86ij5fvwmn" path="res://code/tests/item_add_test.gd" id="19_vo8e8"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_02set"]
+texture = ExtResource("6_ytf3l")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_bdh5l"]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_02set")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tx4yc"]
+texture = ExtResource("6_ytf3l")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 12, -16, 12, 16, -16, 16)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(16, -16, -12, -16, -12, 16, 16, 16)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+4:0/0 = 0
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(12, -16, -16, -16, -16, 16, 12, 16)
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-12, -16, 16, -16, 16, 16, -12, 16)
+3:1/0 = 0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+4:1/0 = 0
+0:1/0 = 0
+5:0/0 = 0
+5:1/0 = 0
+6:0/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+7:0/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, -12, -16, -12)
+2:2/0 = 0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, -12, -16, -12, -12, -16, -12)
+2:2/0/physics_layer_0/polygon_1/points = PackedVector2Array(16, -16, -16, -16, -16, 16, -12, 16, -12, -12, 16, -12)
+3:2/0 = 0
+1:3/0 = 0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, -12, -16, -12, -12, -16, -12)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rkg1h"]
+load_path = "res://.godot/imported/Pizza B.png-6723de64f078fb51891bba94021e3fa8.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y1m43"]
+texture = SubResource("CompressedTexture2D_rkg1h")
+texture_region_size = Vector2i(32, 32)
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+14:0/0 = 0
+15:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+14:1/0 = 0
+15:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+12:2/0 = 0
+13:2/0 = 0
+14:2/0 = 0
+15:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+13:3/0 = 0
+14:3/0 = 0
+15:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+14:4/0 = 0
+15:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+14:5/0 = 0
+15:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+15:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
+14:7/0 = 0
+15:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+8:8/0 = 0
+9:8/0 = 0
+10:8/0 = 0
+11:8/0 = 0
+12:8/0 = 0
+13:8/0 = 0
+14:8/0 = 0
+15:8/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+4:9/0 = 0
+5:9/0 = 0
+6:9/0 = 0
+7:9/0 = 0
+8:9/0 = 0
+9:9/0 = 0
+10:9/0 = 0
+11:9/0 = 0
+12:9/0 = 0
+13:9/0 = 0
+14:9/0 = 0
+15:9/0 = 0
+0:10/0 = 0
+1:10/0 = 0
+2:10/0 = 0
+3:10/0 = 0
+4:10/0 = 0
+5:10/0 = 0
+6:10/0 = 0
+7:10/0 = 0
+8:10/0 = 0
+9:10/0 = 0
+10:10/0 = 0
+11:10/0 = 0
+12:10/0 = 0
+13:10/0 = 0
+14:10/0 = 0
+15:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+4:11/0 = 0
+5:11/0 = 0
+6:11/0 = 0
+7:11/0 = 0
+8:11/0 = 0
+9:11/0 = 0
+10:11/0 = 0
+11:11/0 = 0
+12:11/0 = 0
+13:11/0 = 0
+14:11/0 = 0
+15:11/0 = 0
+0:12/0 = 0
+1:12/0 = 0
+2:12/0 = 0
+3:12/0 = 0
+4:12/0 = 0
+5:12/0 = 0
+6:12/0 = 0
+7:12/0 = 0
+8:12/0 = 0
+9:12/0 = 0
+10:12/0 = 0
+11:12/0 = 0
+12:12/0 = 0
+13:12/0 = 0
+14:12/0 = 0
+15:12/0 = 0
+0:13/0 = 0
+1:13/0 = 0
+2:13/0 = 0
+3:13/0 = 0
+4:13/0 = 0
+5:13/0 = 0
+6:13/0 = 0
+7:13/0 = 0
+8:13/0 = 0
+9:13/0 = 0
+10:13/0 = 0
+11:13/0 = 0
+12:13/0 = 0
+13:13/0 = 0
+14:13/0 = 0
+15:13/0 = 0
+0:14/0 = 0
+1:14/0 = 0
+2:14/0 = 0
+3:14/0 = 0
+4:14/0 = 0
+5:14/0 = 0
+6:14/0 = 0
+7:14/0 = 0
+8:14/0 = 0
+9:14/0 = 0
+10:14/0 = 0
+11:14/0 = 0
+12:14/0 = 0
+13:14/0 = 0
+14:14/0 = 0
+15:14/0 = 0
+0:15/0 = 0
+1:15/0 = 0
+2:15/0 = 0
+3:15/0 = 0
+4:15/0 = 0
+5:15/0 = 0
+6:15/0 = 0
+7:15/0 = 0
+8:15/0 = 0
+9:15/0 = 0
+10:15/0 = 0
+11:15/0 = 0
+12:15/0 = 0
+13:15/0 = 0
+14:15/0 = 0
+15:15/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_43ts4"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/2 = SubResource("TileSetAtlasSource_tx4yc")
+sources/3 = SubResource("TileSetAtlasSource_y1m43")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rh3l4"]
+texture = ExtResource("7_id31a")
+texture_region_size = Vector2i(32, 32)
+1:0/0 = 0
+2:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:0/size_in_atlas = Vector2i(1, 3)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -48, 16, -48, 16, 40, -16, 40)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 8, -16, 8)
+4:1/0 = 0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -8, 16, -8, 16, 8, -16, 8)
+5:1/0 = 0
+5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -8, 16, -8, 16, 8, -16, 8)
+4:0/0 = 0
+5:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_1yfuh"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/1 = SubResource("TileSetAtlasSource_rh3l4")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ytf3l"]
+texture = ExtResource("7_id31a")
+texture_region_size = Vector2i(32, 32)
+1:0/0 = 0
+2:0/0 = 0
+2:1/0 = 0
+1:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_kx7qs"]
+tile_size = Vector2i(32, 32)
+sources/1 = SubResource("TileSetAtlasSource_ytf3l")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6j8ev"]
 atlas = ExtResource("14_uaprm")
@@ -732,12 +386,11 @@ region = Rect2(0, 0, 96, 96)
 
 [sub_resource type="Resource" id="Resource_rv3ip"]
 script = ExtResource("10_l0887")
-text = "oh my fucking dog."
+label = "freddy_monologue_1"
+text = "fuck it."
+speaker = "Freddy"
 portrait = SubResource("AtlasTexture_6j8ev")
-label = "start"
 next_label = "freddy_monologue_2"
-beep_type = 1
-on_exit_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_xo48n")])
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b8cxy"]
@@ -746,11 +399,11 @@ region = Rect2(0, 0, 96, 96)
 
 [sub_resource type="Resource" id="Resource_haaxq"]
 script = ExtResource("10_l0887")
-text = "i'm bored more than than anytime this week."
-portrait = SubResource("AtlasTexture_b8cxy")
 label = "freddy_monologue_2"
+text = "i'm bored."
+speaker = "Freddy"
+portrait = SubResource("AtlasTexture_b8cxy")
 next_label = "freddy_monologue_3"
-beep_type = 1
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e2jjj"]
@@ -759,11 +412,11 @@ region = Rect2(0, 0, 96, 96)
 
 [sub_resource type="Resource" id="Resource_uf0ra"]
 script = ExtResource("10_l0887")
-text = "Welp, time to begin a new night of debauchery."
-portrait = SubResource("AtlasTexture_e2jjj")
 label = "freddy_monologue_3"
+text = "time to do some debauchery."
+speaker = "Freddy"
+portrait = SubResource("AtlasTexture_e2jjj")
 next_label = "freddy_monologue_4"
-beep_type = 1
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bdh5l"]
@@ -772,897 +425,92 @@ region = Rect2(0, 0, 96, 96)
 
 [sub_resource type="Resource" id="Resource_dqpnd"]
 script = ExtResource("10_l0887")
-text = "Are you ready for Freddy?"
-portrait = SubResource("AtlasTexture_bdh5l")
 label = "freddy_monologue_4"
-next_label = "end"
-beep_type = 6
-voiceline = ExtResource("18_m0x8p")
+text = "Are you ready for Freddy?"
+speaker = "Freddy"
+portrait = SubResource("AtlasTexture_bdh5l")
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
-[sub_resource type="Resource" id="Resource_4ihga"]
-script = ExtResource("14_tx4yc")
-effect_type = 8
-param_string = "res://resources/quests/pizzeria/gather_party.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_ut725"]
-script = ExtResource("10_l0887")
-text = "(Started the Involve the co. quest.)"
-label = "end"
-next_label = "end2"
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_4ihga")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_vo8e8"]
-script = ExtResource("10_l0887")
-text = "(You can open pause menu by tapping the ESC key, unless you changed it in settings)"
-label = "end2"
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_ytf3l"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_rv3ip"), SubResource("Resource_haaxq"), SubResource("Resource_uf0ra"), SubResource("Resource_dqpnd"), SubResource("Resource_ut725"), SubResource("Resource_vo8e8")])
+[sub_resource type="Resource" id="Resource_kx7qs"]
+script = ExtResource("15_ycv80")
+nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_rv3ip"), SubResource("Resource_haaxq"), SubResource("Resource_uf0ra"), SubResource("Resource_dqpnd")])
+start_label = "freddy_monologue_1"
 metadata/_custom_type_script = "uid://nfr8xstn6iuk"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rh3l4"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_eubvm"]
-script = ExtResource("10_l0887")
-text = "whats that?"
-portrait = SubResource("AtlasTexture_rh3l4")
-label = "start"
-next_label = "2"
-beep_type = 1
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_xcjc6"]
-script = ExtResource("14_tx4yc")
-effect_type = 11
-param_string = "start_battle"
-param_value = "res://resources/battles/pizzeria/alpha_party_hat_1.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_60k8i"]
-script = ExtResource("14_tx4yc")
-effect_type = 13
-wait_seconds = 0.4
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_uaprm"]
-script = ExtResource("10_l0887")
-text = "oh shit."
-portrait = SubResource("AtlasTexture_rh3l4")
-label = "2"
-beep_type = 1
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_xcjc6"), SubResource("Resource_60k8i")])
-unskippable = true
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_ycv80"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_eubvm"), SubResource("Resource_uaprm")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_ok6lt"]
-script = ExtResource("18_tx4yc")
-condition_type = 7
-param_string = "Alpha Battle Hat 1"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_05e4l"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_ok6lt")])
-target_label = "defeated enemy"
+[sub_resource type="Resource" id="Resource_6j8ev"]
+script = ExtResource("11_n31lr")
+param_string = "res://resources/items/consumables/attack_item.tres"
+target_label = "has_item"
+param_string = "res://resources/items/consumables/attack_item.tres"
 metadata/_custom_type_script = "uid://q863dboya0u8"
 
-[sub_resource type="Resource" id="Resource_gblfk"]
-script = ExtResource("18_tx4yc")
-condition_type = 7
-param_string = "Alpha Battle Hat 1"
-param_value = 0.0
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_3siir"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_gblfk")])
-target_label = "ran away"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_id31a"]
+[sub_resource type="Resource" id="Resource_v61lw"]
 script = ExtResource("10_l0887")
-text = "well that was annoying"
-portrait = SubResource("AtlasTexture_rh3l4")
 label = "start"
-beep_type = 1
-branches = Array[ExtResource("12_02set")]([SubResource("Resource_05e4l"), SubResource("Resource_3siir")])
+text = "u might have item"
+speaker = "god"
+portrait = ExtResource("16_axkmx")
+next_label = "not_has_item"
+branches = Array[ExtResource("11_n31lr")]([SubResource("Resource_6j8ev")])
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_m0x8p"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_l0887"]
+[sub_resource type="Resource" id="Resource_op5xx"]
 script = ExtResource("10_l0887")
-text = "that reminds me. I got money. Enragement child has that shop."
-portrait = SubResource("AtlasTexture_m0x8p")
-label = "defeated enemy"
-next_label = "de2"
-beep_type = 1
+label = "not_has_item"
+text = "u not have item"
+speaker = "god"
+portrait = ExtResource("16_axkmx")
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
-[sub_resource type="Resource" id="Resource_7xn4b"]
-script = ExtResource("14_tx4yc")
-effect_type = 8
-param_string = "res://resources/quests/pizzeria/find_bb.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_n31lr"]
-script = ExtResource("10_l0887")
-text = "(Started Look for the Enragement Child quest.)"
-label = "de2"
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_7xn4b")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_l64ts"]
-script = ExtResource("14_tx4yc")
-effect_type = 15
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_2ylxe"]
-script = ExtResource("10_l0887")
-text = "but that was very cowardly of me, running away instead of comitting debauchery on that hat."
-portrait = SubResource("AtlasTexture_rh3l4")
-label = "ran away"
-beep_type = 1
-on_exit_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_l64ts")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_swei1"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_id31a"), SubResource("Resource_l0887"), SubResource("Resource_n31lr"), SubResource("Resource_2ylxe")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_mwdmy"]
-script = ExtResource("10_l0887")
-text = "Minigame not unlocked."
-label = "start"
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_x2pr8"]
-script = ExtResource("14_tx4yc")
-effect_type = 11
-param_string = "foxy_track"
-param_value = "res://scenes/minigames/foxyGoon/resources/tracks/you_are_a_pirate.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_qtwsv"]
-script = ExtResource("10_l0887")
-label = "open"
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_x2pr8")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_6g0o0"]
-script = ExtResource("18_tx4yc")
-condition_type = 9
-param_string = "foxy_goon"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_ood8v"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_6g0o0")])
-target_label = "open"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_5wb64"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_mwdmy"), SubResource("Resource_qtwsv")])
-start_branches = Array[ExtResource("12_02set")]([SubResource("Resource_ood8v")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_1ahfe"]
-script = ExtResource("10_l0887")
-text = "Minigame coming in later updates!"
-label = "start"
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_ymvw0"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_1ahfe")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_o3ww3"]
-script = ExtResource("10_l0887")
-text = "Minigame coming in later updates!"
-label = "start"
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_th2op"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_o3ww3")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_duuk6"]
-script = ExtResource("10_l0887")
-text = "Minigame coming in later updates!"
-label = "start"
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_8yxfe"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_duuk6")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_qy0m5"]
-script = ExtResource("10_l0887")
-text = "Minigame coming in later updates!"
-label = "start"
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_kdguw"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_qy0m5")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_ngqg6"]
-script = ExtResource("10_l0887")
-text = "Minigame coming in later updates!"
-label = "start"
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_ywfiu"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_ngqg6")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_4adns"]
-script = ExtResource("10_l0887")
-text = "Fuckboy's Casino Empire coming in later updates."
-label = "start"
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_nloqj"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_4adns")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_02set"]
+[sub_resource type="Resource" id="Resource_cyj86"]
 script = ExtResource("12_eubvm")
-text = "Involve Foxy."
-target_label = "inv_fox1"
+text = "Yes"
+target_label = "gib_item"
 metadata/_custom_type_script = "uid://cns0ts3txlu6v"
 
-[sub_resource type="Resource" id="Resource_qurel"]
-script = ExtResource("18_tx4yc")
-param_string = "res://resources/items/consumables/degreaser.tres"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_tx4yc"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_qurel")])
-target_label = "goon_fox"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_y1m43"]
+[sub_resource type="Resource" id="Resource_vnief"]
 script = ExtResource("12_eubvm")
-text = "Goon with the Fox."
-always_available = false
-availability_branch = SubResource("Resource_tx4yc")
-target_label = "goon_fox"
+text = "Naw"
+target_label = "not_gib_item"
 metadata/_custom_type_script = "uid://cns0ts3txlu6v"
 
-[sub_resource type="Resource" id="Resource_h1ean"]
-script = ExtResource("18_tx4yc")
-condition_type = 4
-param_string = "foxy_interaction_inv_fox6"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_731aj"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_h1ean")])
-target_label = "foxy_goon_ask"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_c0dy0"]
-script = ExtResource("12_eubvm")
-text = "Do you even 
-get enjoyment 
-from gooning?"
-always_available = false
-availability_branch = SubResource("Resource_731aj")
-target_label = "foxy_goon_ask"
-metadata/_custom_type_script = "uid://cns0ts3txlu6v"
-
-[sub_resource type="Resource" id="Resource_kcef6"]
-script = ExtResource("12_eubvm")
-text = "Nothin."
-metadata/_custom_type_script = "uid://cns0ts3txlu6v"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uawci"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_ivcvx"]
+[sub_resource type="Resource" id="Resource_p7n5o"]
 script = ExtResource("10_l0887")
-text = "Fuck you want Fuckboy?"
-portrait = SubResource("AtlasTexture_uawci")
-label = "start"
-beep_type = 4
-choices = Array[ExtResource("12_eubvm")]([SubResource("Resource_02set"), SubResource("Resource_y1m43"), SubResource("Resource_c0dy0"), SubResource("Resource_kcef6")])
+label = "has_item"
+text = "u has item. gib item?"
+speaker = "god"
+portrait = ExtResource("16_axkmx")
+choices = Array[ExtResource("12_eubvm")]([SubResource("Resource_cyj86"), SubResource("Resource_vnief")])
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_05kig"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_tcojc"]
-script = ExtResource("10_l0887")
-text = "Stop gooning you dirty canine to Jennifer Wakeman and join my crusade."
-portrait = SubResource("AtlasTexture_05kig")
-label = "inv_fox1"
-next_label = "inv_fox2"
-beep_type = 1
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_arl77"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_xp6c4"]
-script = ExtResource("10_l0887")
-text = "No. Get out. I wanna goon in peace."
-portrait = SubResource("AtlasTexture_arl77")
-label = "inv_fox2"
-next_label = "inv_fox3"
-beep_type = 4
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_6xac7"]
-script = ExtResource("10_l0887")
-text = "Shut the hell up and move your ass for once."
-portrait = SubResource("AtlasTexture_05kig")
-label = "inv_fox3"
-next_label = "inv_fox4"
-beep_type = 1
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wc4vq"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_f4akm"]
-script = ExtResource("10_l0887")
-text = "no. "
-portrait = SubResource("AtlasTexture_wc4vq")
-label = "inv_fox4"
-next_label = "inv_fox5"
-beep_type = 4
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_4vr50"]
-script = ExtResource("18_tx4yc")
-condition_type = 10
-param_string = "foxy_burn"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_wp0xn"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_4vr50")])
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_731aj"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_r5tbo"]
-script = ExtResource("10_l0887")
-text = "Well fine bitch."
-portrait = SubResource("AtlasTexture_731aj")
-label = "inv_fox5"
-next_label = "inv_fox6"
-beep_type = 1
-branches = Array[ExtResource("12_02set")]([SubResource("Resource_wp0xn")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_t8f1m"]
-script = ExtResource("14_tx4yc")
-effect_type = 8
-param_string = "res://resources/quests/pizzeria/foxy_burn.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_miijb"]
-script = ExtResource("14_tx4yc")
-effect_type = 15
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_rxm5c"]
-script = ExtResource("10_l0887")
-text = "(Burn that tent down!!! quest added.)"
-label = "inv_fox6"
-on_exit_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_t8f1m"), SubResource("Resource_miijb")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_02set"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_uawci"]
-script = ExtResource("10_l0887")
-text = "Yes."
-portrait = SubResource("AtlasTexture_02set")
-label = "foxy_goon_ask"
-next_label = "foxy_goon_ask2"
-beep_type = 4
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tx4yc"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_05kig"]
-script = ExtResource("10_l0887")
-text = "Are you sure?"
-portrait = SubResource("AtlasTexture_tx4yc")
-label = "foxy_goon_ask2"
-next_label = "foxy_goon_ask3"
-beep_type = 1
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_y1m43"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_arl77"]
-script = ExtResource("10_l0887")
-text = "No."
-portrait = SubResource("AtlasTexture_y1m43")
-label = "foxy_goon_ask3"
-beep_type = 4
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ytf3l"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_wc4vq"]
-script = ExtResource("10_l0887")
-text = "Could I join menstruation practices of yours?"
-portrait = SubResource("AtlasTexture_ytf3l")
-label = "goon_fox"
-next_label = "goon_fox2"
-beep_type = 1
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_i08jg"]
-script = ExtResource("18_tx4yc")
-param_string = "res://resources/items/consumables/degreaser.tres"
-param_value = 10.0
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_su6r4"]
-script = ExtResource("18_tx4yc")
-param_string = "res://resources/items/key/toilet_paper.tres"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_uno6o"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_i08jg"), SubResource("Resource_su6r4")])
-target_label = "foxy_goon_has_item"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_m771y"]
-script = ExtResource("12_eubvm")
-text = "Yes."
-always_available = false
-availability_branch = SubResource("Resource_uno6o")
-metadata/_custom_type_script = "uid://cns0ts3txlu6v"
-
-[sub_resource type="Resource" id="Resource_sjaus"]
-script = ExtResource("12_eubvm")
-text = "No."
-target_label = "goon_fox3"
-metadata/_custom_type_script = "uid://cns0ts3txlu6v"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g3wyr"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_hqm8g"]
-script = ExtResource("10_l0887")
-text = "Aight bet. But do ya have the the thingies?"
-portrait = SubResource("AtlasTexture_g3wyr")
-label = "goon_fox2"
-beep_type = 4
-choices = Array[ExtResource("12_eubvm")]([SubResource("Resource_m771y"), SubResource("Resource_sjaus")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_sio7l"]
-script = ExtResource("18_tx4yc")
-condition_type = 10
-param_string = "res://resources/quests/pizzeria/foxy_goon.tres"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_yxkrm"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_sio7l")])
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8f1dc"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_plycl"]
-script = ExtResource("10_l0887")
-text = "SCRAM away then. Come when ya have da goodies."
-portrait = SubResource("AtlasTexture_8f1dc")
-label = "goon_fox3"
-next_label = "goon_fox4"
-beep_type = 4
-branches = Array[ExtResource("12_02set")]([SubResource("Resource_yxkrm")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_80rg3"]
-script = ExtResource("18_tx4yc")
-condition_type = 2
-param_string = " Bonnie"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_qwwv5"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_80rg3")])
-target_label = "bonnie_away"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_g3wyr"]
-script = ExtResource("14_tx4yc")
-effect_type = 8
-param_string = "res://resources/quests/pizzeria/foxy_goon.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_kdcub"]
-script = ExtResource("14_tx4yc")
-effect_type = 15
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_mts7e"]
-script = ExtResource("10_l0887")
-text = "Added Quest \"Foxy's Gooning List\"."
-label = "goon_fox4"
-branches = Array[ExtResource("12_02set")]([SubResource("Resource_qwwv5")])
-on_exit_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_g3wyr"), SubResource("Resource_kdcub")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hqm8g"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(96, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_8f1dc"]
-script = ExtResource("10_l0887")
-text = "Wait Foxy."
-portrait = SubResource("AtlasTexture_hqm8g")
-label = "bonnie_away"
-next_label = "bonnie_away3"
-beep_type = 2
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_jkqce"]
-script = ExtResource("10_l0887")
-text = "Can I join in tho? Got the stuff."
-portrait = SubResource("AtlasTexture_hqm8g")
-label = "bonnie_away3"
-next_label = "bonnie_away4"
-beep_type = 2
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_id31a"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_ftyww"]
-script = ExtResource("10_l0887")
-text = "Aight Betcha you can!"
-portrait = SubResource("AtlasTexture_id31a")
-label = "bonnie_away4"
-next_label = "bonnie_away5"
-beep_type = 4
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_7d7r2"]
-script = ExtResource("14_tx4yc")
-effect_type = 6
-param_string = "Bonnie"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_fiv4n"]
-script = ExtResource("10_l0887")
-text = "Bonnie has left your party."
-label = "bonnie_away5"
-on_exit_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_7d7r2")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wy3q7"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_wyego"]
-script = ExtResource("10_l0887")
-text = "Here."
-portrait = SubResource("AtlasTexture_wy3q7")
-label = "foxy_goon_has_item"
-next_label = "foxy_goon_has_item2"
-beep_type = 1
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_nweuq"]
-script = ExtResource("14_tx4yc")
-effect_type = 11
-param_string = "foxy_track"
-param_value = "res://scenes/minigames/foxyGoon/resources/tracks/you_are_a_pirate.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_2jj28"]
-script = ExtResource("14_tx4yc")
-effect_type = 5
-param_string = "res://resources/party/foxy.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_608u6"]
-script = ExtResource("14_tx4yc")
-effect_type = 9
-param_string = "res://resources/quests/pizzeria/foxy_goon.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yxkrm"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_5s4l8"]
-script = ExtResource("10_l0887")
-text = "Aight then, come on in."
-portrait = SubResource("AtlasTexture_yxkrm")
-label = "foxy_goon_has_item2"
-next_label = "add_fox"
-beep_type = 4
-on_exit_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_nweuq"), SubResource("Resource_2jj28"), SubResource("Resource_608u6")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_t870f"]
-script = ExtResource("14_tx4yc")
+[sub_resource type="Resource" id="Resource_4ontn"]
+script = ExtResource("13_g2arf")
 effect_type = 2
-param_string = "res://resources/items/consumables/molotov.tres"
-param_value = "5"
+param_string = "res://resources/items/consumables/attack_item.tres"
+wait_seconds = 0.2
+item_id = null
 metadata/_custom_type_script = "uid://t5qfe8igpeg3"
 
-[sub_resource type="Resource" id="Resource_ji3yw"]
-script = ExtResource("14_tx4yc")
-effect_type = 9
-param_string = "res://resources/quests/pizzeria/foxy_burn.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_vg0cf"]
-script = ExtResource("14_tx4yc")
-effect_type = 12
-param_string = "burning_tent"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ymvw0"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_0ds6g"]
+[sub_resource type="Resource" id="Resource_pf416"]
 script = ExtResource("10_l0887")
-text = "That masturbator will know not to fuck with Freddy."
-portrait = SubResource("AtlasTexture_ymvw0")
-label = "burn_cove"
-beep_type = 1
-on_exit_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_t870f"), SubResource("Resource_ji3yw"), SubResource("Resource_vg0cf")])
+label = "gib_item"
+text = "yippie"
+speaker = "god"
+portrait = ExtResource("16_axkmx")
+on_exit_effects = Array[ExtResource("13_g2arf")]([SubResource("Resource_4ontn")])
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
-[sub_resource type="Resource" id="Resource_em406"]
-script = ExtResource("14_tx4yc")
-effect_type = 15
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_a5028"]
+[sub_resource type="Resource" id="Resource_qwy8c"]
 script = ExtResource("10_l0887")
-text = "rest of Foxy's story in 0.4 :}"
-label = "add_fox"
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_em406")])
+label = "not_gib_item"
+text = "awwwww"
+speaker = "god"
+portrait = ExtResource("16_axkmx")
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
-[sub_resource type="Resource" id="Resource_uuni3"]
-script = ExtResource("18_tx4yc")
-condition_type = 2
-param_string = "Foxy"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_wccj0"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_uuni3")])
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_wdt3e"]
-script = ExtResource("18_tx4yc")
-condition_type = 10
-param_string = "foxy_burn"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_beo8c"]
-script = ExtResource("18_tx4yc")
-param_string = "res://resources/items/consumables/molotov.tres"
-param_value = 5.0
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_toc68"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_wdt3e"), SubResource("Resource_beo8c")])
-target_label = "burn_cove"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_m0x8p"]
-script = ExtResource("18_tx4yc")
-condition_type = 10
-param_string = "foxy_goon"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_g2arf"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_m0x8p")])
-target_label = "goon_fox"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_rh3l4"]
-script = ExtResource("18_tx4yc")
-condition_type = 10
-param_string = "foxy_burn"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_wy3q7"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_rh3l4")])
-target_label = "inv_fox1"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_axkmx"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_ivcvx"), SubResource("Resource_tcojc"), SubResource("Resource_xp6c4"), SubResource("Resource_6xac7"), SubResource("Resource_f4akm"), SubResource("Resource_r5tbo"), SubResource("Resource_rxm5c"), SubResource("Resource_uawci"), SubResource("Resource_05kig"), SubResource("Resource_arl77"), SubResource("Resource_wc4vq"), SubResource("Resource_hqm8g"), SubResource("Resource_plycl"), SubResource("Resource_mts7e"), SubResource("Resource_8f1dc"), SubResource("Resource_jkqce"), SubResource("Resource_ftyww"), SubResource("Resource_fiv4n"), SubResource("Resource_wyego"), SubResource("Resource_5s4l8"), SubResource("Resource_0ds6g"), SubResource("Resource_a5028")])
-start_branches = Array[ExtResource("12_02set")]([SubResource("Resource_wccj0"), SubResource("Resource_toc68"), SubResource("Resource_g2arf"), SubResource("Resource_wy3q7")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_idpgf"]
-script = ExtResource("10_l0887")
-text = "It is a vent, a bit rusty."
-label = "start"
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_wc2m7"]
-script = ExtResource("18_tx4yc")
-param_string = "res://resources/items/key/screwdriver.tres"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_uxvnc"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_wc2m7")])
-target_label = "open"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_mf3ub"]
-script = ExtResource("12_eubvm")
-text = "Yes."
-always_available = false
-availability_branch = SubResource("Resource_uxvnc")
-target_label = "open"
-metadata/_custom_type_script = "uid://cns0ts3txlu6v"
-
-[sub_resource type="Resource" id="Resource_6upsm"]
-script = ExtResource("12_eubvm")
-text = "No."
-metadata/_custom_type_script = "uid://cns0ts3txlu6v"
-
-[sub_resource type="Resource" id="Resource_usoys"]
-script = ExtResource("10_l0887")
-text = "Use Screwdriver to open the vent?"
-label = "screwdriver"
-choices = Array[ExtResource("12_eubvm")]([SubResource("Resource_mf3ub"), SubResource("Resource_6upsm")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_2sq17"]
-script = ExtResource("14_tx4yc")
-effect_type = 11
-param_string = "done_thing"
-param_value = "open_vent"
-param_value2 = "true"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_erk8s"]
-script = ExtResource("14_tx4yc")
-effect_type = 11
-param_string = "change_room"
-param_value = "res://scenes/maps/pizzeria/vents.tscn"
-param_value2 = "(304.0, 220.0)"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uuni3"]
-atlas = ExtResource("14_uaprm")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_xssnb"]
-script = ExtResource("10_l0887")
-text = "Time to enter the chambers of sheet."
-portrait = SubResource("AtlasTexture_uuni3")
-label = "open"
-beep_type = 1
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_2sq17"), SubResource("Resource_erk8s")])
-on_exit_effects = Array[ExtResource("14_tx4yc")]([null])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_km3ya"]
-script = ExtResource("14_tx4yc")
-effect_type = 11
-param_string = "change_room"
-param_value = "res://scenes/maps/pizzeria/vents.tscn"
-param_value2 = "(304.0, 220.0)"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_nvpmt"]
-script = ExtResource("10_l0887")
-label = "just go"
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_km3ya")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_alkty"]
-script = ExtResource("18_tx4yc")
-condition_type = 3
-param_string = "open_vent"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_iliog"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_alkty")])
-target_label = "just go"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_tii5b"]
-script = ExtResource("12_02set")
-conditions = Array[ExtResource("18_tx4yc")]([SubResource("Resource_wc2m7")])
-target_label = "screwdriver"
-metadata/_custom_type_script = "uid://q863dboya0u8"
-
-[sub_resource type="Resource" id="Resource_mkbj8"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_idpgf"), SubResource("Resource_usoys"), SubResource("Resource_xssnb"), SubResource("Resource_nvpmt")])
-start_branches = Array[ExtResource("12_02set")]([SubResource("Resource_iliog"), SubResource("Resource_tii5b")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_0yb21"]
-script = ExtResource("14_tx4yc")
-param_string = "res://resources/items/weapon/Dildo6.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_qcn2l"]
-script = ExtResource("10_l0887")
-text = "Found Degreaser."
-label = "start"
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_0yb21")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_efek7"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_qcn2l")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_7nfhg"]
-script = ExtResource("10_l0887")
-text = "Found 6cm Dildo."
-label = "start"
-on_enter_effects = Array[ExtResource("14_tx4yc")]([SubResource("Resource_0yb21")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_jmnvs"]
-script = ExtResource("18_y1m43")
-nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_7nfhg")])
+[sub_resource type="Resource" id="Resource_b8cxy"]
+script = ExtResource("15_ycv80")
+nodes = Array[ExtResource("10_l0887")]([SubResource("Resource_v61lw"), SubResource("Resource_op5xx"), SubResource("Resource_p7n5o"), SubResource("Resource_pf416"), SubResource("Resource_qwy8c")])
 metadata/_custom_type_script = "uid://nfr8xstn6iuk"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tx4yc"]
@@ -1670,291 +518,136 @@ size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6w4eh"]
 
-[node name="Dining Hall" type="Node2D" unique_id=1620906395 node_paths=PackedStringArray("player")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b8cxy"]
+
+[node name="Dining Hall" type="Node2D" node_paths=PackedStringArray("player")]
 script = ExtResource("1_deyg0")
 room_name = "Pizzeria - Dining Hall"
 possible_battles = Array[ExtResource("2_02set")]([ExtResource("3_tx4yc"), ExtResource("4_y1m43"), ExtResource("5_rh3l4")])
 enemy_intensity = 100
 enemy_agressiveness = 70
-battle_bg = ExtResource("6_wy3q7")
-bg_music = ExtResource("6_id31a")
-bg_music_amp = 0.5
 player = NodePath("player")
 room_size = Rect2(1, -8, 15, 20)
 
-[node name="transition" type="CanvasLayer" parent="." unique_id=1455665628]
+[node name="TileMap" type="Node2D" parent="."]
 
-[node name="black_flash" type="ColorRect" parent="transition" unique_id=1591027841]
-process_mode = 3
-modulate = Color(1, 1, 1, 0)
-self_modulate = Color(1, 1, 1, 0)
-z_index = 990
-offset_right = 864.0
-offset_bottom = 648.0
-mouse_filter = 1
-color = Color(0, 0, 0, 1)
-script = ExtResource("23_rh3l4")
+[node name="roof" type="TileMapLayer" parent="TileMap"]
+z_index = 5
+tile_set = SubResource("TileSet_bdh5l")
 
-[node name="Label" type="Label" parent="transition/black_flash" unique_id=1666498012]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 19.0
-theme_override_fonts/font = SubResource("FontVariation_wy3q7")
-theme_override_font_sizes/font_size = 24
-text = "Pizzeria - Dining Hall"
+[node name="walls" type="TileMapLayer" parent="TileMap"]
+tile_map_data = PackedByteArray("AAABAAAAAgAAAAAAAAACAAAAAgAAAAAAAAADAAAAAgAAAAAAAAAEAAAAAgAAAAAAAAAFAAAAAgAAAAAAAAAGAAAAAgAAAAAAAAAHAAAAAgAAAAAAAAAJAAAAAgAAAAAAAAAKAAAAAgAAAAAAAAALAAAAAgAAAAAAAAAMAAAAAgAAAAAAAAANAAAAAgAAAAAAAAAOAAAAAgAAAAAAAAAOAAoAAgAAAAAAAAANAAoAAgAAAAAAAAAMAAoAAgAAAAAAAAALAAoAAgAAAAAAAAAKAAoAAgAAAAAAAAAJAAoAAgAAAAAAAAAIAAoAAgAAAAAAAAAHAAoAAgAAAAAAAAAGAAoAAgAAAAAAAAAFAAoAAgAAAAAAAAAEAAoAAgAAAAAAAAADAAoAAgAAAAAAAAACAAoAAgAAAAAAAAABAAoAAgAAAAAAAAAJAAMAAgAAAAAAAAAJAAIAAgAAAAAAAAAJAAEAAgAAAAAAAAAIAAEAAgAAAAAAAAAHAAEAAgAAAAAAAAAGAAEAAgAAAAAAAAAFAAEAAgAAAAAAAAAEAAEAAgAAAAAAAAADAAEAAgAAAAAAAAACAAEAAgAAAAAAAAABAAEAAgAAAAAAAAABAAIAAgAAAAAAAAABAAMAAgAAAAAAAAABAAQAAgAAAAAAAAABAAUAAgAAAAAAAAABAAYAAgAAAAAAAAABAAcAAgAAAAAAAAABAAgAAgAAAAAAAAABAAkAAgAAAAAAAAACAAkAAgAAAAAAAAACAAgAAgAAAAAAAAACAAcAAgAAAAAAAAACAAYAAgAAAAAAAAACAAUAAgAAAAAAAAACAAQAAgAAAAAAAAACAAMAAgAAAAAAAAACAAIAAgAAAAAAAAADAAIAAgAAAAAAAAADAAMAAgAAAAAAAAADAAQAAgAAAAAAAAADAAUAAgAAAAAAAAADAAYAAgAAAAAAAAADAAcAAgAAAAAAAAADAAgAAgAAAAAAAAADAAkAAgAAAAAAAAAEAAkAAgAAAAAAAAAEAAgAAgAAAAAAAAAEAAcAAgAAAAAAAAAEAAYAAgAAAAAAAAAEAAUAAgAAAAAAAAAEAAQAAgAAAAAAAAAEAAMAAgAAAAAAAAAEAAIAAgAAAAAAAAAFAAIAAgAAAAAAAAAFAAMAAgAAAAAAAAAFAAQAAgAAAAAAAAAFAAUAAgAAAAAAAAAFAAYAAgAAAAAAAAAFAAcAAgAAAAAAAAAFAAgAAgAAAAAAAAAFAAkAAgAAAAAAAAAGAAkAAgAAAAAAAAAGAAgAAgAAAAAAAAAGAAcAAgAAAAAAAAAGAAYAAgAAAAAAAAAGAAUAAgAAAAAAAAAGAAQAAgAAAAAAAAAGAAMAAgAAAAAAAAAGAAIAAgAAAAAAAAAHAAIAAgAAAAAAAAAHAAMAAgAAAAAAAAAHAAQAAgAAAAAAAAAHAAUAAgAAAAAAAAAHAAYAAgAAAAAAAAAHAAcAAgAAAAAAAAAHAAgAAgAAAAAAAAAHAAkAAgAAAAAAAAAIAAkAAgAAAAAAAAAIAAgAAgAAAAAAAAAIAAcAAgAAAAAAAAAIAAYAAgAAAAAAAAAIAAUAAgAAAAAAAAAIAAQAAgAAAAAAAAAIAAMAAgAAAAAAAAAIAAIAAgAAAAAAAAAJAAQAAgAAAAAAAAAJAAUAAgAAAAAAAAAJAAYAAgAAAAAAAAAJAAcAAgAAAAAAAAAJAAgAAgAAAAAAAAAJAAkAAgAAAAAAAAAKAAkAAgAAAAAAAAAKAAgAAgAAAAAAAAAKAAcAAgAAAAAAAAAKAAYAAgAAAAAAAAAKAAMAAgAAAAAAAAAKAAIAAgAAAAAAAAAKAAEAAgAAAAAAAAALAAEAAgAAAAAAAAALAAIAAgAAAAAAAAALAAMAAgAAAAAAAAALAAUAAgAAAAAAAAALAAYAAgAAAAAAAAALAAcAAgAAAAAAAAALAAgAAgAAAAAAAAALAAkAAgAAAAAAAAAMAAkAAgAAAAAAAAAMAAgAAgAAAAAAAAAMAAcAAgAAAAAAAAAMAAYAAgAAAAAAAAAMAAUAAgAAAAAAAAAMAAMAAgAAAAAAAAAMAAIAAgAAAAAAAAAMAAEAAgAAAAAAAAANAAEAAgAAAAAAAAANAAIAAgAAAAAAAAANAAQAAgAAAAAAAAANAAUAAgAAAAAAAAANAAYAAgAAAAAAAAANAAcAAgAAAAAAAAANAAgAAgAAAAAAAAANAAkAAgAAAAAAAAAOAAkAAgAAAAAAAAAOAAgAAgAAAAAAAAAOAAcAAgAAAAAAAAAOAAYAAgAAAAAAAAAOAAUAAgAAAAAAAAAOAAQAAgAAAAAAAAAOAAMAAgAAAAAAAAAOAAIAAgAAAAAAAAAOAAEAAgAAAAAAAAAFAP//AgAGAAAAAAAFAP3/AgAFAAAAAAAFAP7/AgAFAAAAAAAGAP3/AgAFAAAAAAAGAP7/AgAFAAAAAAAHAP3/AgAFAAAAAAAHAP7/AgAFAAAAAAAIAP3/AgAFAAAAAAAIAP7/AgAFAAAAAAAJAP3/AgAFAAAAAAAJAP7/AgAFAAAAAAAKAP3/AgAFAAAAAAAKAP7/AgAFAAAAAAAGAP//AgADAAEAAAAHAP//AgADAAEAAAAIAP//AgADAAEAAAAJAP//AgADAAEAAAAKAP//AgADAAEAAAAEAP3/AgADAAAAACAEAP7/AgADAAAAAAALAP3/AgAFAAAAAAALAP7/AgAFAAAAAAAEAPz/AgACAAIAADAFAPz/AgADAAEAAAAGAPz/AgADAAEAAAAHAPz/AgADAAEAAAAIAPz/AgADAAEAAAAJAPz/AgADAAEAAAAKAPz/AgADAAEAAAALAPz/AgADAAEAAAAFAPr/AgADAAAAACAFAPv/AgADAAAAAAAGAPr/AgADAAAAACAGAPv/AgADAAAAAAAHAPr/AgADAAAAACAHAPv/AgADAAAAAAAIAPr/AgADAAAAACAIAPv/AgADAAAAAAAJAPr/AgADAAAAACAJAPv/AgADAAAAAAAKAPr/AgADAAAAACAKAPv/AgADAAAAAAAEAPr/AgABAAIAAHAEAPv/AgABAAIAAHALAPr/AgADAAAAACALAPv/AgADAAAAAAAEAPn/AgABAAMAADAFAPn/AgABAAIAACAGAPn/AgABAAIAACAHAPn/AgABAAIAACAIAPn/AgABAAIAACAJAPn/AgABAAIAACAKAPn/AgABAAIAACALAPn/AgABAAIAACAMAPv/AgABAAIAAGAEAP//AgADAAEAAAALAP//AgAGAAAAAAADAP7/AgADAAAAAAACAP7/AgADAAAAAAABAP7/AgADAAAAAAAAAP7/AgACAAIAADADAP3/AgADAAAAACACAP3/AgADAAAAACABAP3/AgADAAAAACAAAP3/AgABAAIAAHADAP//AgADAAEAAAACAP//AgADAAEAAAABAP//AgADAAEAAAAAAP//AgADAAAAAAAMAP//AgABAAEAAAANAP//AgAAAAEAAAAOAP//AgACAAEAAAAPAP//AgADAAEAAAAMAP7/AgABAAAAAAANAP7/AgAEAAAAAAAOAP7/AgACAAAAAAAPAP7/AgADAAAAAAAPAP3/AgADAAAAACAOAP3/AgADAAAAACANAP3/AgADAAAAACAMAP3/AgADAAAAACAIAAAAAgAAAAAAAAAQAAEAAgAAAAAAAAAOAAsAAgAAAAAAAAAMAPz/AgACAAIAACANAPz/AgABAAIAACAOAPz/AgABAAIAACAPAPz/AgABAAIAACAQAPz/AgABAAMAAGAQAP3/AgABAAIAAGAQAP7/AgACAAIAACAQAP//AgADAAAAAAAQAAAAAgADAAEAAAAQAAIAAgACAAIAAAAQAAMAAgABAAIAAGAQAAQAAgABAAIAAGAQAAUAAgABAAIAAGAQAAYAAgABAAIAAGAQAAcAAgABAAIAAGAQAAgAAgABAAIAAGAQAAkAAgABAAIAAGAQAAoAAgABAAIAAGAPAAwAAgAAAAEAAAAJAAwAAgAAAAEAAAAIAAwAAgAAAAEAAAAHAAwAAgAAAAEAAAAGAAwAAgAAAAEAAAAFAAwAAgAAAAEAAAABAAwAAgAAAAEAAAAAAAwAAgAAAAEAAAAAAAsAAgABAAMAAFABAAsAAgABAAIAAAAFAAsAAgACAAIAAAAGAAsAAgABAAIAAAAHAAsAAgABAAIAAAAIAAsAAgABAAIAAAAJAAsAAgABAAIAAAAPAAsAAgACAAIAAAADAPz/AgABAAIAACACAPz/AgABAAIAACABAPz/AgABAAIAACAAAPz/AgABAAMAADAAAA0AAgAAAAEAAAABAA0AAgAAAAEAAAAFAA0AAgAAAAEAAAAOAAwAAgAAAAEAAAAKAAwAAgAAAAEAAAALAAwAAgAAAAEAAAAMAAwAAgAAAAEAAAACAAwAAgAAAAEAAAADAAwAAgAAAAEAAAAEAAwAAgAAAAEAAAAEAA0AAgAAAAEAAAADAA0AAgAAAAEAAAACAA0AAgAAAAEAAAALAA0AAgAAAAEAAAAJAA0AAgAAAAEAAAAKAAsAAgACAAIAAFALAAsAAgAAAAAAAAAMAAsAAgACAAIAAAACAAsAAgABAAIAAAADAAsAAgACAAIAAFAEAAsAAgAAAAAAAAAGAA0AAgAAAAEAAAAHAA0AAgAAAAEAAAAIAA0AAgAAAAEAAAAPAA0AAgAAAAEAAAAQAA0AAgAAAAEAAAAQAAsAAgABAAMAAAAQAAwAAgAAAAEAAAAFAPf/AgAAAAEAAAAFAPj/AgAAAAEAAAAGAPf/AgAAAAEAAAAGAPj/AgAAAAEAAAAHAPf/AgAAAAEAAAAHAPj/AgAAAAEAAAAIAPf/AgAAAAEAAAAIAPj/AgAAAAEAAAAJAPf/AgAAAAEAAAAJAPj/AgAAAAEAAAAKAPf/AgAAAAEAAAAKAPj/AgAAAAEAAAALAPf/AgAAAAEAAAALAPj/AgAAAAEAAAAMAPf/AgAAAAEAAAAMAPj/AgAAAAEAAAANAPf/AgAAAAEAAAANAPj/AgAAAAEAAAAOAPf/AgAAAAEAAAAOAPj/AgAAAAEAAAAPAPP/AgAAAAEAAAAPAPT/AgAAAAEAAAAPAPX/AgAAAAEAAAAPAPb/AgAAAAEAAAAPAPf/AgAAAAEAAAAPAPj/AgAAAAEAAAAQAPP/AgAAAAEAAAAQAPT/AgAAAAEAAAAQAPX/AgAAAAEAAAAQAPb/AgAAAAEAAAAQAPf/AgAAAAEAAAAQAPj/AgAAAAEAAAARAPP/AgAAAAEAAAARAPT/AgAAAAEAAAARAPX/AgAAAAEAAAARAPb/AgAAAAEAAAARAPf/AgAAAAEAAAARAPj/AgAAAAEAAAASAPP/AgAAAAEAAAASAPT/AgAAAAEAAAASAPX/AgAAAAEAAAASAPb/AgAAAAEAAAASAPf/AgAAAAEAAAASAPj/AgAAAAEAAAATAPP/AgAAAAEAAAATAPT/AgAAAAEAAAATAPX/AgAAAAEAAAATAPb/AgAAAAEAAAATAPf/AgAAAAEAAAATAPj/AgAAAAEAAAAUAPP/AgAAAAEAAAAUAPT/AgAAAAEAAAAUAPX/AgAAAAEAAAAUAPb/AgAAAAEAAAAUAPf/AgAAAAEAAAAUAPj/AgAAAAEAAAAVAPP/AgAAAAEAAAAVAPT/AgAAAAEAAAAVAPX/AgAAAAEAAAAVAPb/AgAAAAEAAAAVAPf/AgAAAAEAAAAVAPj/AgAAAAEAAAD4//P/AgAAAAEAAAD4//T/AgAAAAEAAAD4//X/AgAAAAEAAAD4//b/AgAAAAEAAAD4//f/AgAAAAEAAAD5//P/AgAAAAEAAAD5//T/AgAAAAEAAAD5//X/AgAAAAEAAAD5//b/AgAAAAEAAAD5//f/AgAAAAEAAAD6//P/AgAAAAEAAAD6//T/AgAAAAEAAAD6//X/AgAAAAEAAAD6//b/AgAAAAEAAAD6//f/AgAAAAEAAAD7//P/AgAAAAEAAAD7//T/AgAAAAEAAAD7//X/AgAAAAEAAAD7//b/AgAAAAEAAAD7//f/AgAAAAEAAAD8//P/AgAAAAEAAAD8//T/AgAAAAEAAAD8//X/AgAAAAEAAAD8//b/AgAAAAEAAAD8//f/AgAAAAEAAAD9//P/AgAAAAEAAAD9//T/AgAAAAEAAAD9//X/AgAAAAEAAAD9//b/AgAAAAEAAAD9//f/AgAAAAEAAAD+//P/AgAAAAEAAAD+//T/AgAAAAEAAAD+//X/AgAAAAEAAAD+//b/AgAAAAEAAAD+//f/AgAAAAEAAAD///P/AgAAAAEAAAD///T/AgAAAAEAAAD///X/AgAAAAEAAAD///b/AgAAAAEAAAD///f/AgAAAAEAAAAAAPP/AgAAAAEAAAAAAPT/AgAAAAEAAAAAAPX/AgAAAAEAAAAAAPb/AgAAAAEAAAAAAPf/AgAAAAEAAAABAPP/AgAAAAEAAAABAPT/AgAAAAEAAAABAPX/AgAAAAEAAAABAPb/AgAAAAEAAAABAPf/AgAAAAEAAAACAPP/AgAAAAEAAAACAPT/AgAAAAEAAAACAPX/AgAAAAEAAAACAPb/AgAAAAEAAAACAPf/AgAAAAEAAAADAPP/AgAAAAEAAAADAPT/AgAAAAEAAAADAPX/AgAAAAEAAAADAPb/AgAAAAEAAAADAPf/AgAAAAEAAAAEAPP/AgAAAAEAAAAEAPT/AgAAAAEAAAAEAPX/AgAAAAEAAAAEAPb/AgAAAAEAAAAEAPf/AgAAAAEAAAAFAPP/AgAAAAEAAAAFAPT/AgAAAAEAAAAFAPX/AgAAAAEAAAAFAPb/AgAAAAEAAAAGAPP/AgAAAAEAAAAGAPT/AgAAAAEAAAAGAPX/AgAAAAEAAAAGAPb/AgAAAAEAAAAHAPP/AgAAAAEAAAAHAPT/AgAAAAEAAAAHAPX/AgAAAAEAAAAHAPb/AgAAAAEAAAAIAPP/AgAAAAEAAAAIAPT/AgAAAAEAAAAIAPX/AgAAAAEAAAAIAPb/AgAAAAEAAAAJAPP/AgAAAAEAAAAJAPT/AgAAAAEAAAAJAPX/AgAAAAEAAAAJAPb/AgAAAAEAAAAKAPP/AgAAAAEAAAAKAPT/AgAAAAEAAAAKAPX/AgAAAAEAAAAKAPb/AgAAAAEAAAALAPP/AgAAAAEAAAALAPT/AgAAAAEAAAALAPX/AgAAAAEAAAALAPb/AgAAAAEAAAAMAPP/AgAAAAEAAAAMAPT/AgAAAAEAAAAMAPX/AgAAAAEAAAAMAPb/AgAAAAEAAAANAPP/AgAAAAEAAAANAPT/AgAAAAEAAAANAPX/AgAAAAEAAAANAPb/AgAAAAEAAAAOAPP/AgAAAAEAAAAOAPT/AgAAAAEAAAAOAPX/AgAAAAEAAAAOAPb/AgAAAAEAAAD4//j/AgAAAAEAAAD4//n/AgAAAAEAAAD4//r/AgAAAAEAAAD4//v/AgAAAAEAAAD4//z/AgAAAAEAAAD4//3/AgAAAAEAAAD4//7/AgAAAAEAAAD4////AgAAAAEAAAD4/wAAAgAAAAEAAAD4/wEAAgAAAAEAAAD4/wIAAgAAAAEAAAD4/wMAAgAAAAEAAAD4/wQAAgAAAAEAAAD4/wUAAgAAAAEAAAD4/wYAAgAAAAEAAAD4/wcAAgAAAAEAAAD4/wgAAgAAAAEAAAD4/wkAAgAAAAEAAAD4/woAAgAAAAEAAAD4/wsAAgAAAAEAAAD4/wwAAgAAAAEAAAD4/w0AAgAAAAEAAAD4/w4AAgAAAAEAAAD5//j/AgAAAAEAAAD5//n/AgAAAAEAAAD5//r/AgAAAAEAAAD5//v/AgAAAAEAAAD5//z/AgAAAAEAAAD5//3/AgAAAAEAAAD5//7/AgAAAAEAAAD5////AgAAAAEAAAD5/wAAAgAAAAEAAAD5/wEAAgAAAAEAAAD5/wIAAgAAAAEAAAD5/wMAAgAAAAEAAAD5/wQAAgAAAAEAAAD5/wUAAgAAAAEAAAD5/wYAAgAAAAEAAAD5/wcAAgAAAAEAAAD5/wgAAgAAAAEAAAD5/wkAAgAAAAEAAAD5/woAAgAAAAEAAAD5/wsAAgAAAAEAAAD5/wwAAgAAAAEAAAD5/w0AAgAAAAEAAAD5/w4AAgAAAAEAAAD6//j/AgAAAAEAAAD6//n/AgAAAAEAAAD6//r/AgAAAAEAAAD6//v/AgAAAAEAAAD6//z/AgAAAAEAAAD6//3/AgAAAAEAAAD6//7/AgAAAAEAAAD6////AgAAAAEAAAD6/wAAAgAAAAEAAAD6/wEAAgAAAAEAAAD6/wIAAgAAAAEAAAD6/wMAAgAAAAEAAAD6/wQAAgAAAAEAAAD6/wUAAgAAAAEAAAD6/wYAAgAAAAEAAAD6/wcAAgAAAAEAAAD6/wgAAgAAAAEAAAD6/wkAAgAAAAEAAAD6/woAAgAAAAEAAAD6/wsAAgAAAAEAAAD6/wwAAgAAAAEAAAD6/w0AAgAAAAEAAAD6/w4AAgAAAAEAAAD7//j/AgAAAAEAAAD7//n/AgAAAAEAAAD7//r/AgAAAAEAAAD7//v/AgAAAAEAAAD7//z/AgAAAAEAAAD7//3/AgAAAAEAAAD7//7/AgAAAAEAAAD7////AgAAAAEAAAD7/wAAAgAAAAEAAAD7/wEAAgAAAAEAAAD7/wIAAgAAAAEAAAD7/wMAAgAAAAEAAAD7/wQAAgAAAAEAAAD7/wUAAgAAAAEAAAD7/wYAAgAAAAEAAAD7/wcAAgAAAAEAAAD7/wgAAgAAAAEAAAD7/wkAAgAAAAEAAAD7/woAAgAAAAEAAAD7/wsAAgAAAAEAAAD7/wwAAgAAAAEAAAD7/w0AAgAAAAEAAAD7/w4AAgAAAAEAAAD8//j/AgAAAAEAAAD8//n/AgAAAAEAAAD8//r/AgAAAAEAAAD8//v/AgAAAAEAAAD8//z/AgAAAAEAAAD8//3/AgAAAAEAAAD8//7/AgAAAAEAAAD8////AgAAAAEAAAD8/wAAAgAAAAEAAAD8/wEAAgAAAAEAAAD8/wIAAgAAAAEAAAD8/wMAAgAAAAEAAAD8/wQAAgAAAAEAAAD8/wUAAgAAAAEAAAD8/wYAAgAAAAEAAAD8/wcAAgAAAAEAAAD8/wgAAgAAAAEAAAD8/wkAAgAAAAEAAAD8/woAAgAAAAEAAAD8/wsAAgAAAAEAAAD8/wwAAgAAAAEAAAD8/w0AAgAAAAEAAAD8/w4AAgAAAAEAAAD9//j/AgAAAAEAAAD9//n/AgAAAAEAAAD9//r/AgAAAAEAAAD9//v/AgAAAAEAAAD9//z/AgAAAAEAAAD9//3/AgAAAAEAAAD9//7/AgAAAAEAAAD9////AgAAAAEAAAD9/wAAAgAAAAEAAAD9/wEAAgAAAAEAAAD9/wIAAgAAAAEAAAD9/wMAAgAAAAEAAAD9/wQAAgAAAAEAAAD9/wUAAgAAAAEAAAD9/wYAAgAAAAEAAAD9/wcAAgAAAAEAAAD9/wgAAgAAAAEAAAD9/wkAAgAAAAEAAAD9/woAAgAAAAEAAAD9/wsAAgAAAAEAAAD9/wwAAgAAAAEAAAD9/w0AAgAAAAEAAAD9/w4AAgAAAAEAAAD+//j/AgAAAAEAAAD+//n/AgAAAAEAAAD+//r/AgAAAAEAAAD+//v/AgAAAAEAAAD+//z/AgAAAAEAAAD+//3/AgAAAAEAAAD+//7/AgAAAAEAAAD+////AgAAAAEAAAD+/wAAAgAAAAEAAAD+/wEAAgAAAAEAAAD+/wIAAgAAAAEAAAD+/wMAAgAAAAEAAAD+/wQAAgAAAAEAAAD+/wUAAgAAAAEAAAD+/wYAAgAAAAEAAAD+/wcAAgAAAAEAAAD+/wgAAgAAAAEAAAD+/wkAAgAAAAEAAAD+/woAAgAAAAEAAAD+/wsAAgAAAAEAAAD+/wwAAgAAAAEAAAD+/w0AAgAAAAEAAAD+/w4AAgAAAAEAAAD4/w8AAgAAAAEAAAD4/xAAAgAAAAEAAAD4/xEAAgAAAAEAAAD5/w8AAgAAAAEAAAD5/xAAAgAAAAEAAAD5/xEAAgAAAAEAAAD6/w8AAgAAAAEAAAD6/xAAAgAAAAEAAAD6/xEAAgAAAAEAAAD7/w8AAgAAAAEAAAD7/xAAAgAAAAEAAAD7/xEAAgAAAAEAAAD8/w8AAgAAAAEAAAD8/xAAAgAAAAEAAAD8/xEAAgAAAAEAAAD9/w8AAgAAAAEAAAD9/xAAAgAAAAEAAAD9/xEAAgAAAAEAAAD+/w8AAgAAAAEAAAD+/xAAAgAAAAEAAAD+/xEAAgAAAAEAAAD//w4AAgAAAAEAAAD//w8AAgAAAAEAAAD//xAAAgAAAAEAAAD//xEAAgAAAAEAAAAAAA4AAgAAAAEAAAAAAA8AAgAAAAEAAAAAABAAAgAAAAEAAAAAABEAAgAAAAEAAAABAA4AAgAAAAEAAAABAA8AAgAAAAEAAAABABAAAgAAAAEAAAABABEAAgAAAAEAAAACAA4AAgAAAAEAAAACAA8AAgAAAAEAAAACABAAAgAAAAEAAAACABEAAgAAAAEAAAADAA4AAgAAAAEAAAADAA8AAgAAAAEAAAADABAAAgAAAAEAAAADABEAAgAAAAEAAAAEAA4AAgAAAAEAAAAEAA8AAgAAAAEAAAAEABAAAgAAAAEAAAAEABEAAgAAAAEAAAAFAA4AAgAAAAEAAAAFAA8AAgAAAAEAAAAFABAAAgAAAAEAAAAFABEAAgAAAAEAAAAGAA4AAgAAAAEAAAAGAA8AAgAAAAEAAAAGABAAAgAAAAEAAAAGABEAAgAAAAEAAAAHAA4AAgAAAAEAAAAHAA8AAgAAAAEAAAAHABAAAgAAAAEAAAAHABEAAgAAAAEAAAAIAA4AAgAAAAEAAAAIAA8AAgAAAAEAAAAIABAAAgAAAAEAAAAIABEAAgAAAAEAAAAJAA4AAgAAAAEAAAAJAA8AAgAAAAEAAAAJABAAAgAAAAEAAAAJABEAAgAAAAEAAAAKAA4AAgAAAAEAAAAKAA8AAgAAAAEAAAAKABAAAgAAAAEAAAAKABEAAgAAAAEAAAALAA4AAgAAAAEAAAALAA8AAgAAAAEAAAALABAAAgAAAAEAAAALABEAAgAAAAEAAAAMAA4AAgAAAAEAAAAMAA8AAgAAAAEAAAAMABAAAgAAAAEAAAAMABEAAgAAAAEAAAANAA4AAgAAAAEAAAANAA8AAgAAAAEAAAANABAAAgAAAAEAAAANABEAAgAAAAEAAAAOAA4AAgAAAAEAAAAOAA8AAgAAAAEAAAAOABAAAgAAAAEAAAAOABEAAgAAAAEAAAAPAA4AAgAAAAEAAAAPAA8AAgAAAAEAAAAPABAAAgAAAAEAAAAPABEAAgAAAAEAAAAQAA4AAgAAAAEAAAAQAA8AAgAAAAEAAAAQABAAAgAAAAEAAAAQABEAAgAAAAEAAAARAA4AAgAAAAEAAAARAA8AAgAAAAEAAAARABAAAgAAAAEAAAARABEAAgAAAAEAAAASAA4AAgAAAAEAAAASAA8AAgAAAAEAAAASABAAAgAAAAEAAAASABEAAgAAAAEAAAATAA4AAgAAAAEAAAATAA8AAgAAAAEAAAATABAAAgAAAAEAAAATABEAAgAAAAEAAAAUAA4AAgAAAAEAAAAUAA8AAgAAAAEAAAAUABAAAgAAAAEAAAAUABEAAgAAAAEAAAAVAA4AAgAAAAEAAAAVAA8AAgAAAAEAAAAVABAAAgAAAAEAAAAVABEAAgAAAAEAAAAWAA4AAgAAAAEAAAAWAA8AAgAAAAEAAAAWABAAAgAAAAEAAAAWABEAAgAAAAEAAAARAPn/AgAAAAEAAAARAPr/AgAAAAEAAAARAPv/AgAAAAEAAAARAPz/AgAAAAEAAAARAP3/AgAAAAEAAAARAP7/AgAAAAEAAAARAP//AgAAAAEAAAARAAAAAgAAAAEAAAARAAEAAgAAAAEAAAARAAIAAgAAAAEAAAARAAMAAgAAAAEAAAARAAQAAgAAAAEAAAARAAUAAgAAAAEAAAARAAYAAgAAAAEAAAARAAcAAgAAAAEAAAARAAgAAgAAAAEAAAARAAkAAgAAAAEAAAARAAoAAgAAAAEAAAARAAsAAgAAAAEAAAARAAwAAgAAAAEAAAARAA0AAgAAAAEAAAASAPn/AgAAAAEAAAASAPr/AgAAAAEAAAASAPv/AgAAAAEAAAASAPz/AgAAAAEAAAASAP3/AgAAAAEAAAASAP7/AgAAAAEAAAASAP//AgAAAAEAAAASAAAAAgAAAAEAAAASAAEAAgAAAAEAAAASAAIAAgAAAAEAAAASAAMAAgAAAAEAAAASAAQAAgAAAAEAAAASAAUAAgAAAAEAAAASAAYAAgAAAAEAAAASAAcAAgAAAAEAAAASAAgAAgAAAAEAAAASAAkAAgAAAAEAAAASAAoAAgAAAAEAAAASAAsAAgAAAAEAAAASAAwAAgAAAAEAAAASAA0AAgAAAAEAAAATAPn/AgAAAAEAAAATAPr/AgAAAAEAAAATAPv/AgAAAAEAAAATAPz/AgAAAAEAAAATAP3/AgAAAAEAAAATAP7/AgAAAAEAAAATAP//AgAAAAEAAAATAAAAAgAAAAEAAAATAAEAAgAAAAEAAAATAAIAAgAAAAEAAAATAAMAAgAAAAEAAAATAAQAAgAAAAEAAAATAAUAAgAAAAEAAAATAAYAAgAAAAEAAAATAAcAAgAAAAEAAAATAAgAAgAAAAEAAAATAAkAAgAAAAEAAAATAAoAAgAAAAEAAAATAAsAAgAAAAEAAAATAAwAAgAAAAEAAAATAA0AAgAAAAEAAAAUAPn/AgAAAAEAAAAUAPr/AgAAAAEAAAAUAPv/AgAAAAEAAAAUAPz/AgAAAAEAAAAUAP3/AgAAAAEAAAAUAP7/AgAAAAEAAAAUAP//AgAAAAEAAAAUAAAAAgAAAAEAAAAUAAEAAgAAAAEAAAAUAAIAAgAAAAEAAAAUAAMAAgAAAAEAAAAUAAQAAgAAAAEAAAAUAAUAAgAAAAEAAAAUAAYAAgAAAAEAAAAUAAcAAgAAAAEAAAAUAAgAAgAAAAEAAAAUAAkAAgAAAAEAAAAUAAoAAgAAAAEAAAAUAAsAAgAAAAEAAAAUAAwAAgAAAAEAAAAUAA0AAgAAAAEAAAAVAPn/AgAAAAEAAAAVAPr/AgAAAAEAAAAVAPv/AgAAAAEAAAAVAPz/AgAAAAEAAAAVAP3/AgAAAAEAAAAVAP7/AgAAAAEAAAAVAP//AgAAAAEAAAAVAAAAAgAAAAEAAAAVAAEAAgAAAAEAAAAVAAIAAgAAAAEAAAAVAAMAAgAAAAEAAAAVAAQAAgAAAAEAAAAVAAUAAgAAAAEAAAAVAAYAAgAAAAEAAAAVAAcAAgAAAAEAAAAVAAgAAgAAAAEAAAAVAAkAAgAAAAEAAAAVAAoAAgAAAAEAAAAVAAsAAgAAAAEAAAAVAAwAAgAAAAEAAAAVAA0AAgAAAAEAAAAWAPj/AgAAAAEAAAAWAPn/AgAAAAEAAAAWAPr/AgAAAAEAAAAWAPv/AgAAAAEAAAAWAPz/AgAAAAEAAAAWAP3/AgAAAAEAAAAWAP7/AgAAAAEAAAAWAP//AgAAAAEAAAAWAAAAAgAAAAEAAAAWAAEAAgAAAAEAAAAWAAIAAgAAAAEAAAAWAAMAAgAAAAEAAAAWAAQAAgAAAAEAAAAWAAUAAgAAAAEAAAAWAAYAAgAAAAEAAAAWAAcAAgAAAAEAAAAWAAgAAgAAAAEAAAAWAAkAAgAAAAEAAAAWAAoAAgAAAAEAAAAWAAsAAgAAAAEAAAAWAAwAAgAAAAEAAAAWAA0AAgAAAAEAAAAWAPP/AgAAAAEAAAAWAPT/AgAAAAEAAAAWAPX/AgAAAAEAAAAWAPb/AgAAAAEAAAAWAPf/AgAAAAEAAAAMAPn/AgABAAMAAGAMAPr/AgABAAIAAGANAPn/AgAAAAEAAAANAPr/AgAAAAEAAAANAPv/AgAAAAEAAAAOAPn/AgAAAAEAAAAOAPr/AgAAAAEAAAAOAPv/AgAAAAEAAAAPAPn/AgAAAAEAAAAPAPr/AgAAAAEAAAAPAPv/AgAAAAEAAAAQAPn/AgAAAAEAAAAQAPr/AgAAAAEAAAAQAPv/AgAAAAEAAAAEAPj/AgAAAAEAAAD///j/AgAAAAEAAAD///n/AgAAAAEAAAD///r/AgAAAAEAAAD///v/AgAAAAEAAAAAAPj/AgAAAAEAAAAAAPn/AgAAAAEAAAAAAPr/AgAAAAEAAAAAAPv/AgAAAAEAAAABAPj/AgAAAAEAAAABAPn/AgAAAAEAAAABAPr/AgAAAAEAAAABAPv/AgAAAAEAAAACAPj/AgAAAAEAAAACAPn/AgAAAAEAAAACAPr/AgAAAAEAAAACAPv/AgAAAAEAAAADAPj/AgAAAAEAAAADAPn/AgAAAAEAAAADAPr/AgAAAAEAAAADAPv/AgAAAAEAAAANAAMAAgAAAAAAAAAMAAQAAgAAAAAAAAALAAQAAgAAAAAAAAAKAAQAAgAAAAAAAAAKAAUAAgAAAAAAAAAPAAAAAgAAAAAAAAAPAAEAAgAAAAAAAAAPAAIAAgAAAAAAAAAPAAMAAgAAAAAAAAAPAAQAAgAAAAAAAAAPAAUAAgAAAAAAAAAPAAYAAgAAAAAAAAAPAAcAAgAAAAAAAAAPAAgAAgAAAAAAAAAPAAkAAgAAAAAAAAAPAAoAAgAAAAAAAAAKAA0AAgAAAAEAAAANAA0AAgAAAAEAAAANAAwAAgAAAAEAAAAAAAoAAgABAAIAAHAAAAkAAgABAAIAAHAAAAgAAgABAAIAAHAAAAcAAgABAAIAAHAAAAYAAgABAAIAAHAAAAUAAgABAAIAAHAAAAQAAgABAAIAAHAAAAMAAgABAAIAAHAAAAIAAgACAAIAAFAAAAEAAgAAAAAAAAAAAAAAAgADAAEAAAD//w0AAgAAAAEAAAD//wwAAgAAAAEAAAD//wsAAgAAAAEAAAD//woAAgAAAAEAAAD//wkAAgAAAAEAAAD//wgAAgAAAAEAAAD//wcAAgAAAAEAAAD//wYAAgAAAAEAAAD//wUAAgAAAAEAAAD//wQAAgAAAAEAAAD//wMAAgAAAAEAAAD//wIAAgAAAAEAAAD//wEAAgAAAAEAAAD//wAAAgAAAAEAAAD/////AgAAAAEAAAD///7/AgAAAAEAAAD///3/AgAAAAEAAAD///z/AgAAAAEAAAANAAsAAgACAAIAAFAOAA0AAgAAAAEAAAAMAA0AAgAAAAEAAAA=")
+tile_set = SubResource("TileSet_43ts4")
 
-[node name="Cutscenes" type="Node" parent="." unique_id=1329480857]
-script = SubResource("GDScript_m0x8p")
+[node name="objects" type="TileMapLayer" parent="TileMap"]
+tile_map_data = PackedByteArray("AAAIAAQAAQAAAAAAAAAIAAgAAQAAAAAAAAAPAAAAAQADAAAAAAAPAAoAAQADAAAAAAAFAAQAAQAAAAAAAAALAAQAAQAAAAAAAAALAAgAAQAAAAAAAAAFAAgAAQAAAAAAAAADAAAAAQADAAAAAAABAAAAAQAEAAEAAAACAAAAAQAFAAEAAAABAP//AQAEAAAAAAACAP//AQAFAAAAAAA=")
+tile_set = SubResource("TileSet_1yfuh")
 
-[node name="burning_tent" type="AnimationPlayer" parent="Cutscenes" unique_id=1596721097]
-process_mode = 3
-libraries/ = SubResource("AnimationLibrary_y1m43")
-script = ExtResource("8_y1m43")
-dialogue_data = Array[ExtResource("18_y1m43")]([SubResource("Resource_efxjf"), SubResource("Resource_xs0tp")])
-
-[node name="foxy_join" type="AnimationPlayer" parent="Cutscenes" unique_id=1747414734]
-libraries/ = SubResource("AnimationLibrary_eubvm")
-script = ExtResource("8_y1m43")
-dialogue_data = Array[ExtResource("18_y1m43")]([SubResource("Resource_wnc12")])
-
-[node name="TileMap" type="Node2D" parent="." unique_id=1403292346]
-
-[node name="walls" type="TileMapLayer" parent="TileMap" unique_id=280814980]
-tile_map_data = PackedByteArray("AAABAAAAAgAAAAAAAAACAAAAAgAAAAAAAAADAAAAAgAAAAAAAAAEAAAAAgAAAAAAAAAFAAAAAgAAAAAAAAAGAAAAAgAAAAAAAAAHAAAAAgAAAAAAAAAJAAAAAgAAAAAAAAAKAAAAAgAAAAAAAAALAAAAAgAAAAAAAAAMAAAAAgAAAAAAAAANAAAAAgAAAAAAAAAOAAAAAgAAAAAAAAAOAAoAAgAAAAAAAAANAAoAAgAAAAAAAAAMAAoAAgAAAAAAAAALAAoAAgAAAAAAAAAKAAoAAgAAAAAAAAAJAAoAAgAAAAAAAAAIAAoAAgAAAAAAAAAHAAoAAgAAAAAAAAAGAAoAAgAAAAAAAAAFAAoAAgAAAAAAAAAEAAoAAgAAAAAAAAADAAoAAgAAAAAAAAACAAoAAgAAAAAAAAABAAoAAgAAAAAAAAAJAAMAAgAAAAAAAAAJAAIAAgAAAAAAAAAJAAEAAgAAAAAAAAAIAAEAAgAAAAAAAAAHAAEAAgAAAAAAAAAGAAEAAgAAAAAAAAAFAAEAAgAAAAAAAAAEAAEAAgAAAAAAAAADAAEAAgAAAAAAAAACAAEAAgAAAAAAAAABAAEAAgAAAAAAAAABAAIAAgAAAAAAAAABAAMAAgAAAAAAAAABAAQAAgAAAAAAAAABAAUAAgAAAAAAAAABAAYAAgAAAAAAAAABAAcAAgAAAAAAAAABAAgAAgAAAAAAAAABAAkAAgAAAAAAAAACAAkAAgAAAAAAAAACAAgAAgAAAAAAAAACAAcAAgAAAAAAAAACAAYAAgAAAAAAAAACAAUAAgAAAAAAAAACAAQAAgAAAAAAAAACAAMAAgAAAAAAAAACAAIAAgAAAAAAAAADAAIAAgAAAAAAAAADAAMAAgAAAAAAAAADAAQAAgAAAAAAAAADAAUAAgAAAAAAAAADAAYAAgAAAAAAAAADAAcAAgAAAAAAAAADAAgAAgAAAAAAAAADAAkAAgAAAAAAAAAEAAkAAgAAAAAAAAAEAAgAAgAAAAAAAAAEAAcAAgAAAAAAAAAEAAYAAgAAAAAAAAAEAAUAAgAAAAAAAAAEAAQAAgAAAAAAAAAEAAMAAgAAAAAAAAAEAAIAAgAAAAAAAAAFAAIAAgAAAAAAAAAFAAMAAgAAAAAAAAAFAAQAAgAAAAAAAAAFAAUAAgAAAAAAAAAFAAYAAgAAAAAAAAAFAAcAAgAAAAAAAAAFAAgAAgAAAAAAAAAFAAkAAgAAAAAAAAAGAAkAAgAAAAAAAAAGAAgAAgAAAAAAAAAGAAcAAgAAAAAAAAAGAAYAAgAAAAAAAAAGAAUAAgAAAAAAAAAGAAQAAgAAAAAAAAAGAAMAAgAAAAAAAAAGAAIAAgAAAAAAAAAHAAIAAgAAAAAAAAAHAAMAAgAAAAAAAAAHAAQAAgAAAAAAAAAHAAUAAgAAAAAAAAAHAAYAAgAAAAAAAAAHAAcAAgAAAAAAAAAHAAgAAgAAAAAAAAAHAAkAAgAAAAAAAAAIAAkAAgAAAAAAAAAIAAgAAgAAAAAAAAAIAAcAAgAAAAAAAAAIAAYAAgAAAAAAAAAIAAUAAgAAAAAAAAAIAAQAAgAAAAAAAAAIAAMAAgAAAAAAAAAIAAIAAgAAAAAAAAAJAAQAAgAAAAAAAAAJAAUAAgAAAAAAAAAJAAYAAgAAAAAAAAAJAAcAAgAAAAAAAAAJAAgAAgAAAAAAAAAJAAkAAgAAAAAAAAAKAAkAAgAAAAAAAAAKAAgAAgAAAAAAAAAKAAcAAgAAAAAAAAAKAAYAAgAAAAAAAAAKAAMAAgAAAAAAAAAKAAIAAgAAAAAAAAAKAAEAAgAAAAAAAAALAAEAAgAAAAAAAAALAAIAAgAAAAAAAAALAAMAAgAAAAAAAAALAAUAAgAAAAAAAAALAAYAAgAAAAAAAAALAAcAAgAAAAAAAAALAAgAAgAAAAAAAAALAAkAAgAAAAAAAAAMAAkAAgAAAAAAAAAMAAgAAgAAAAAAAAAMAAcAAgAAAAAAAAAMAAYAAgAAAAAAAAAMAAUAAgAAAAAAAAAMAAMAAgAAAAAAAAAMAAIAAgAAAAAAAAAMAAEAAgAAAAAAAAANAAEAAgAAAAAAAAANAAIAAgAAAAAAAAANAAQAAgAAAAAAAAANAAUAAgAAAAAAAAANAAYAAgAAAAAAAAANAAcAAgAAAAAAAAANAAgAAgAAAAAAAAANAAkAAgAAAAAAAAAOAAkAAgAAAAAAAAAOAAgAAgAAAAAAAAAOAAcAAgAAAAAAAAAOAAYAAgAAAAAAAAAOAAUAAgAAAAAAAAAOAAQAAgAAAAAAAAAOAAMAAgAAAAAAAAAOAAIAAgAAAAAAAAAOAAEAAgAAAAAAAAAFAP//AgAGAAAAAAAFAP3/AgAFAAAAAAAFAP7/AgAFAAAAAAAGAP3/AgAFAAAAAAAGAP7/AgAFAAAAAAAHAP3/AgAFAAAAAAAHAP7/AgAFAAAAAAAIAP3/AgAFAAAAAAAIAP7/AgAFAAAAAAAJAP3/AgAFAAAAAAAJAP7/AgAFAAAAAAAKAP3/AgAFAAAAAAAKAP7/AgAFAAAAAAAGAP//AgAEAAMAAAAHAP//AgAEAAMAAAAIAP//AgAEAAMAAAAJAP//AgAEAAMAAAAKAP//AgAEAAMAAAAEAP3/AgADAAQAAHAEAP7/AgADAAAAAAALAP3/AgAFAAAAAAALAP7/AgAFAAAAAAAEAPz/AgADAAMAAHAFAPz/AgAEAAMAAAAGAPz/AgAEAAMAAAAHAPz/AgAEAAMAAAAIAPz/AgAEAAMAAAAJAPz/AgAEAAMAAAAKAPz/AgAEAAMAAAALAPz/AgAEAAMAAAAFAPr/AgADAAMAACAFAPv/AgAEAAIAAAAGAPr/AgADAAMAACAGAPv/AgAEAAIAAAAHAPr/AgADAAMAACAHAPv/AgAEAAIAAAAIAPr/AgADAAMAACAIAPv/AgAEAAIAAAAJAPr/AgADAAMAACAJAPv/AgAEAAIAAAAKAPr/AgADAAMAACAKAPv/AgAEAAIAAAAEAPr/AgACAAMAAHAEAPv/AgADAAMAAFALAPr/AgADAAMAACALAPv/AgAEAAIAAAAEAPn/AgAAAAEAAAAFAPn/AgAAAAEAAAAGAPn/AgAAAAEAAAAHAPn/AgAAAAEAAAAIAPn/AgAAAAEAAAAJAPn/AgAAAAEAAAAKAPn/AgAAAAEAAAALAPn/AgAAAAEAAAAMAPv/AgADAAMAAGAEAP//AgAGAAEAAAALAP//AgAGAAAAAAADAP7/AgADAAAAAAACAP7/AgADAAAAAAABAP7/AgADAAAAAAAAAP7/AgACAAIAAgADAP3/AgABAAIAACACAP3/AgABAAIAACABAP3/AgABAAIAACAAAP3/AgABAAMAAgADAP//AgADAAEAAAACAP//AgADAAEAAAABAP//AgADAAEAAAAAAP//AgADAAAAAAAMAP//AgABAAEAAAANAP//AgAAAAEAAAAOAP//AgACAAEAAAAPAP//AgADAAEAAAAMAP7/AgABAAAAAAANAP7/AgAEAAAAAAAOAP7/AgACAAAAAAAPAP7/AgADAAAAAAAPAP3/AgABAAIAAgAOAP3/AgABAAIAAgANAP3/AgABAAIAAgAMAP3/AgADAAQAAGAIAAAAAgAAAAAAAAAQAAEAAgAAAAAAAAAOAAsAAgAAAAAAAAAMAPz/AgADAAMAAGANAPz/AgAAAAEAAAAOAPz/AgAAAAEAAAAPAPz/AgAAAAEAAAAQAPz/AgAAAAEAAAAQAP3/AgABAAMAAwAQAP7/AgACAAIAAQAQAP//AgADAAAAAAAQAAAAAgADAAEAAAAQAAIAAgACAAIAAAAQAAMAAgABAAIAAQAQAAQAAgABAAIAAQAQAAUAAgABAAIAAQAQAAYAAgABAAIAAQAQAAcAAgABAAIAAQAQAAgAAgABAAIAAQAQAAkAAgABAAIAAQAQAAoAAgABAAIAAQAPAAwAAgABAAMAAAAJAAwAAgAAAAEAAAAIAAwAAgAAAAEAAAAHAAwAAgAAAAEAAAAGAAwAAgAAAAEAAAAFAAwAAgABAAMAAAABAAwAAgAAAAEAAAAAAAwAAgAAAAEAAAAAAAsAAgABAAMAAQABAAsAAgABAAIAAAAFAAsAAgACAAIAAAAGAAsAAgABAAIAAAAHAAsAAgABAAIAAAAIAAsAAgABAAIAAAAJAAsAAgABAAIAAAAPAAsAAgACAAIAAAADAPz/AgAAAAEAAAACAPz/AgAAAAEAAAABAPz/AgAAAAEAAAAAAPz/AgAAAAEAAAAOAAwAAgAAAAEAAAAKAAwAAgABAAMAAQALAAwAAgAAAAEAAAAMAAwAAgABAAMAAAACAAwAAgAAAAEAAAADAAwAAgABAAMAAQAEAAwAAgAAAAEAAAAKAAsAAgACAAIAAwAMAAsAAgACAAIAAAACAAsAAgABAAIAAAADAAsAAgACAAIAAwAEAAsAAgAAAAAAAAAQAAsAAgABAAMAAAAQAAwAAgAAAAEAAAARAPn/AgAAAAEAAAARAPr/AgAAAAEAAAARAPv/AgAAAAEAAAARAPz/AgAAAAEAAAARAP3/AgAAAAEAAAARAP7/AgAAAAEAAAARAP//AgAAAAEAAAARAAAAAgAAAAEAAAARAAEAAgAAAAEAAAARAAIAAgAAAAEAAAARAAMAAgAAAAEAAAARAAQAAgAAAAEAAAARAAUAAgAAAAEAAAARAAYAAgAAAAEAAAARAAcAAgAAAAEAAAARAAgAAgAAAAEAAAARAAkAAgAAAAEAAAARAAoAAgAAAAEAAAARAAsAAgAAAAEAAAARAAwAAgAAAAEAAAAMAPn/AgAAAAEAAAAMAPr/AgACAAMAAGANAPn/AgAAAAEAAAANAPr/AgAAAAEAAAANAPv/AgAAAAEAAAAOAPn/AgAAAAEAAAAOAPr/AgAAAAEAAAAOAPv/AgAAAAEAAAAPAPn/AgAAAAEAAAAPAPr/AgAAAAEAAAAPAPv/AgAAAAEAAAAQAPn/AgAAAAEAAAAQAPr/AgAAAAEAAAAQAPv/AgAAAAEAAAD///n/AgAAAAEAAAD///r/AgAAAAEAAAD///v/AgAAAAEAAAAAAPn/AgAAAAEAAAAAAPr/AgAAAAEAAAAAAPv/AgAAAAEAAAABAPn/AgAAAAEAAAABAPr/AgAAAAEAAAABAPv/AgAAAAEAAAACAPn/AgAAAAEAAAACAPr/AgAAAAEAAAACAPv/AgAAAAEAAAADAPn/AgAAAAEAAAADAPr/AgAAAAEAAAADAPv/AgAAAAEAAAANAAMAAgAAAAAAAAAMAAQAAgAAAAAAAAALAAQAAgAAAAAAAAAKAAQAAgAAAAAAAAAKAAUAAgAAAAAAAAAPAAAAAgAAAAAAAAAPAAEAAgAAAAAAAAAPAAIAAgAAAAAAAAAPAAMAAgAAAAAAAAAPAAQAAgAAAAAAAAAPAAUAAgAAAAAAAAAPAAYAAgAAAAAAAAAPAAcAAgAAAAAAAAAPAAgAAgAAAAAAAAAPAAkAAgAAAAAAAAAPAAoAAgAAAAAAAAANAAwAAgABAAMAAQAAAAoAAgABAAIAAwAAAAkAAgABAAIAAwAAAAgAAgABAAIAAwAAAAcAAgABAAIAAwAAAAYAAgABAAIAAwAAAAUAAgABAAIAAwAAAAQAAgABAAIAAwAAAAMAAgABAAIAAwAAAAIAAgACAAIAAwAAAAEAAgAAAAAAAAAAAAAAAgADAAEAAAD//wwAAgAAAAEAAAD//wsAAgAAAAEAAAD//woAAgAAAAEAAAD//wkAAgAAAAEAAAD//wgAAgAAAAEAAAD//wcAAgAAAAEAAAD//wYAAgAAAAEAAAD//wUAAgAAAAEAAAD//wQAAgAAAAEAAAD//wMAAgAAAAEAAAD//wIAAgAAAAEAAAD//wEAAgAAAAEAAAD//wAAAgAAAAEAAAD/////AgAAAAEAAAD///7/AgAAAAEAAAD///3/AgAAAAEAAAD///z/AgAAAAEAAAANAAsAAgACAAIAAwALAAsAAgAAAAAAAAA=")
-tile_set = ExtResource("6_ytf3l")
-
-[node name="objects" type="TileMapLayer" parent="TileMap" unique_id=200153204]
-z_index = 1
-y_sort_enabled = true
-tile_map_data = PackedByteArray("AAAIAAQAAQAAAAAAAAAIAAgAAQAAAAAAAAAPAAAAAQADAAAAAAAPAAoAAQADAAAAAAAFAAQAAQAAAAAAAAALAAQAAQAAAAAAAAALAAgAAQAAAAAAAAAFAAgAAQAAAAAAAAADAAAAAQAGAAEAAAACAAAAAQAHAAEAAAAGAAkAAQABAAIAAAAGAAgAAQABAAIAAAAGAAcAAQABAAIAAAAGAAMAAQABAAIAAAAGAAQAAQABAAIAAAAGAAUAAQABAAIAAAAJAAMAAQABAAIAAAAJAAQAAQABAAIAAAAJAAUAAQABAAIAAAAMAAMAAQABAAIAAAAMAAQAAQABAAIAAAAMAAUAAQABAAIAAAAMAAcAAQABAAIAAAAMAAgAAQABAAIAAAAMAAkAAQABAAIAAAAJAAcAAQABAAIAAAAJAAgAAQABAAIAAAAJAAkAAQABAAIAAAAKAAcAAQABAAIAABAKAAgAAQABAAIAABAKAAkAAQABAAIAABAKAAMAAQABAAIAABAKAAQAAQABAAIAABAKAAUAAQABAAIAABAEAAMAAQABAAIAABAEAAQAAQABAAIAABAEAAUAAQABAAIAABAEAAcAAQABAAIAABAEAAgAAQABAAIAABAEAAkAAQABAAIAABAHAAcAAQABAAIAABAHAAgAAQABAAIAABAHAAkAAQABAAIAABAHAAUAAQABAAIAABAHAAQAAQABAAIAABAHAAMAAQABAAIAABAPAAMAAQAGAAAAAAAPAAQAAQAIAAAAAAAPAAYAAQAHAAAAAAAPAAcAAQAJAAAAAAALAP3/AQAAAAMAAAAFAP3/AQAAAAMAABAKAPv/AQABAAMAAAAIAPv/AQACAAMAAAABAAQAAQAJAAEAABACAAYAAQADAAMAAAACAAUAAQADAAIAAAACAAcAAQADAAQAAAAAAAEAAQAJAAkAAAAGAPz/AQACAAMAAAA=")
-tile_set = ExtResource("7_id31a")
-
-[node name="objects_top" type="TileMapLayer" parent="TileMap/objects" unique_id=1789314723]
-z_index = 10
+[node name="objects_top" type="TileMapLayer" parent="TileMap/objects"]
 tile_map_data = PackedByteArray("AAAIAAMAAQABAAEAAAAIAAgAAQACAAEAAAAIAAQAAQACAAEAAAAIAAcAAQACAAAAAAALAAMAAQABAAAAAAALAAQAAQABAAEAAAALAAgAAQABAAEAAAAFAAgAAQABAAEAAAAFAAcAAQACAAAAAAAFAAQAAQACAAAAAAALAAcAAQACAAEAAAAFAAMAAQACAAEAAAA=")
-tile_set = ExtResource("7_id31a")
+tile_set = SubResource("TileSet_kx7qs")
 
-[node name="fire" type="TileMapLayer" parent="TileMap/objects" unique_id=347023284]
-visible = false
-z_index = 2
-tile_map_data = PackedByteArray("AAABAAUAAQAAAAUAAAABAAYAAQAAAAYAAAABAAcAAQAAAAcAAAACAAUAAQABAAUAAAACAAYAAQABAAYAAAACAAcAAQABAAcAAAA=")
-tile_set = ExtResource("7_id31a")
-script = SubResource("GDScript_ytf3l")
+[node name="Sprite2D2" type="Sprite2D" parent="TileMap/objects"]
+position = Vector2(400, 16)
+scale = Vector2(1.0000005, 1)
+texture = ExtResource("8_wy3q7")
 
-[node name="foxy" type="AnimatedSprite2D" parent="TileMap/objects/fire" unique_id=642351001]
-z_index = 2
-position = Vector2(82, 211)
-sprite_frames = ExtResource("17_ytf3l")
-animation = &"run0"
-frame_progress = 0.54702747
-speed_scale = 2.0
+[node name="Textboxes" type="Node2D" parent="."]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="TileMap/objects" unique_id=281824954]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/objects/StaticBody2D" unique_id=1075859849]
-position = Vector2(16, 48)
-shape = SubResource("RectangleShape2D_id31a")
-script = SubResource("GDScript_id31a")
-
-[node name="TextboxMaker" parent="TileMap/objects/StaticBody2D/CollisionShape2D" unique_id=1229065991 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-process_mode = 3
-dialogue_data = SubResource("Resource_qcwiy")
-require_input_to_start = true
-player_node_path = NodePath("../../../../../player")
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="TileMap/objects" unique_id=1658303222]
-position = Vector2(448, 321)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/objects/StaticBody2D2" unique_id=1779683517]
-position = Vector2(16, 47)
-shape = SubResource("RectangleShape2D_ytf3l")
-script = SubResource("GDScript_wy3q7")
-
-[node name="TextboxMaker" parent="TileMap/objects/StaticBody2D2/CollisionShape2D" unique_id=700927241 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-process_mode = 3
-dialogue_data = SubResource("Resource_fqt1e")
-require_input_to_start = true
-player_node_path = NodePath("../../../../../player")
-
-[node name="Textboxes" type="Node2D" parent="." unique_id=646723841]
-
-[node name="begin" parent="Textboxes" unique_id=248817701 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
+[node name="begin" parent="Textboxes" node_paths=PackedStringArray("textbox_node") instance=ExtResource("9_m0x8p")]
 position = Vector2(271, -63)
-dialogue_data = SubResource("Resource_ytf3l")
-once_per_session = true
+dialogue_data = SubResource("Resource_kx7qs")
+textbox_node = NodePath("../../Dialogue")
 player_node_path = NodePath("../../player")
 
-[node name="battle_tutorial" parent="Textboxes" unique_id=916874877 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(274, -16)
-scale = Vector2(8.24, 1)
-dialogue_data = SubResource("Resource_ycv80")
-once_per_session = true
+[node name="test_item" parent="Textboxes" node_paths=PackedStringArray("textbox_node") instance=ExtResource("9_m0x8p")]
+position = Vector2(399, 17)
+dialogue_data = SubResource("Resource_b8cxy")
+textbox_node = NodePath("../../Dialogue")
+once_per_session = false
 player_node_path = NodePath("../../player")
 
-[node name="shop_tutorial2" parent="Textboxes" unique_id=850725091 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(270, -9.000002)
-scale = Vector2(-7.1083517, 0.80845666)
-dialogue_data = SubResource("Resource_swei1")
-once_per_session = true
-player_node_path = NodePath("../../player")
+[node name="player" parent="." instance=ExtResource("17_2ylxe")]
+position = Vector2(464, 350)
+move_speed = 100.0
 
-[node name="minigame" type="Node" parent="Textboxes" unique_id=1025044414]
+[node name="Dialogue" type="CanvasLayer" parent="."]
 
-[node name="minigame1" parent="Textboxes/minigame" unique_id=823418271 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(496, 112)
-scale = Vector2(1, 0.52)
-dialogue_data = SubResource("Resource_5wb64")
-require_input_to_start = true
-player_node_path = NodePath("../../../player")
+[node name="SceneTriggers" type="Node2D" parent="."]
 
-[node name="minigame2" parent="Textboxes/minigame" unique_id=1578318083 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(496, 144.00002)
-scale = Vector2(1, 0.5104)
-dialogue_data = SubResource("Resource_ymvw0")
-require_input_to_start = true
-player_node_path = NodePath("../../../player")
-
-[node name="minigame3" parent="Textboxes/minigame" unique_id=308093526 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(496, 208.00002)
-scale = Vector2(1, 0.5104)
-dialogue_data = SubResource("Resource_th2op")
-require_input_to_start = true
-player_node_path = NodePath("../../../player")
-
-[node name="minigame4" parent="Textboxes/minigame" unique_id=1801052182 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(112.00001, 18)
-scale = Vector2(0.43999755, 1.1103988)
-dialogue_data = SubResource("Resource_8yxfe")
-require_input_to_start = true
-player_node_path = NodePath("../../../player")
-
-[node name="minigame5" parent="Textboxes/minigame" unique_id=2138543393 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(80, 18)
-scale = Vector2(0.43999755, 1.1103988)
-dialogue_data = SubResource("Resource_kdguw")
-require_input_to_start = true
-player_node_path = NodePath("../../../player")
-
-[node name="minigame6" parent="Textboxes/minigame" unique_id=1140872968 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(48, 146.00002)
-scale = Vector2(1, 0.51040006)
-dialogue_data = SubResource("Resource_ywfiu")
-require_input_to_start = true
-player_node_path = NodePath("../../../player")
-
-[node name="minigame7" parent="Textboxes/minigame" unique_id=621128780 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(496, 240)
-scale = Vector2(1, 0.52)
-dialogue_data = SubResource("Resource_nloqj")
-require_input_to_start = true
-player_node_path = NodePath("../../../player")
-
-[node name="foxy_interaction" parent="Textboxes" unique_id=1796912197 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(72, 239)
-scale = Vector2(1.6799988, 1)
-dialogue_data = SubResource("Resource_axkmx")
-require_input_to_start = true
-player_node_path = NodePath("../../player")
-
-[node name="vent" parent="Textboxes" unique_id=298145602 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(145, -10.999985)
-scale = Vector2(0.87999994, 0.99999994)
-dialogue_data = SubResource("Resource_mkbj8")
-require_input_to_start = true
-player_node_path = NodePath("../../player")
-
-[node name="degreaser" parent="Textboxes" unique_id=1745626062 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(490, 328)
-scale = Vector2(0.87999994, 0.99999994)
-dialogue_data = SubResource("Resource_efek7")
-once_per_session = true
-require_input_to_start = true
-player_node_path = NodePath("../../player")
-
-[node name="dildo" parent="Textboxes" unique_id=1762755762 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_m0x8p")]
-position = Vector2(490, 20)
-scale = Vector2(0.87999994, 0.99999994)
-dialogue_data = SubResource("Resource_jmnvs")
-once_per_session = true
-require_input_to_start = true
-player_node_path = NodePath("../../player")
-
-[node name="SceneTriggers" type="Node2D" parent="." unique_id=1701123769]
-
-[node name="ChangeRoomTrigger" type="Area2D" parent="SceneTriggers" unique_id=1116926312]
+[node name="ChangeRoomTrigger" type="Area2D" parent="SceneTriggers"]
 script = ExtResource("18_02set")
 player_position = Vector2(-16, 92)
 next_room_path = "res://scenes/maps/pizzeria/7.tscn"
 metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger" unique_id=1312998671]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger"]
 position = Vector2(560, 48)
 shape = SubResource("RectangleShape2D_tx4yc")
 
-[node name="ChangeRoomTrigger2" type="Area2D" parent="SceneTriggers" unique_id=144071108]
+[node name="ChangeRoomTrigger2" type="Area2D" parent="SceneTriggers"]
 position = Vector2(-576, 0)
 script = ExtResource("18_02set")
-player_position = Vector2(178, 26)
+player_position = Vector2(146, 90)
 next_room_path = "res://scenes/maps/pizzeria/5.tscn"
 metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger2" unique_id=2136328908]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger2"]
 position = Vector2(560, 48)
 shape = SubResource("RectangleShape2D_tx4yc")
 
-[node name="ChangeRoomTrigger3" type="Area2D" parent="SceneTriggers" unique_id=1484409567]
+[node name="ChangeRoomTrigger3" type="Area2D" parent="SceneTriggers"]
 position = Vector2(-416, 352)
 script = ExtResource("18_02set")
 player_position = Vector2(112, -1)
 next_room_path = "res://scenes/maps/pizzeria/2-4.tscn"
 metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger3" unique_id=967268547]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger3"]
 position = Vector2(560, 48)
 shape = SubResource("RectangleShape2D_tx4yc")
 
-[node name="ChangeRoomTrigger4" type="Area2D" parent="SceneTriggers" unique_id=371842169]
+[node name="ChangeRoomTrigger4" type="Area2D" parent="SceneTriggers"]
 position = Vector2(-192, 352)
 script = ExtResource("18_02set")
-player_position = Vector2(368, -1)
+player_position = Vector2(400, -1)
 next_room_path = "res://scenes/maps/pizzeria/2-4.tscn"
 metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger4" unique_id=1977231002]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger4"]
 position = Vector2(560, 48)
 shape = SubResource("RectangleShape2D_tx4yc")
 
-[node name="ChangeRoomTrigger5" type="Area2D" parent="SceneTriggers" unique_id=472607330]
+[node name="ChangeRoomTrigger5" type="Area2D" parent="SceneTriggers"]
 position = Vector2(-96, 352)
 script = ExtResource("18_02set")
 player_position = Vector2(176, 90)
 next_room_path = "res://scenes/maps/pizzeria/6.tscn"
 metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger5" unique_id=992148660]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger5"]
 position = Vector2(560, 48)
 shape = SubResource("RectangleShape2D_tx4yc")
 
-[node name="Tests" type="Node" parent="." unique_id=8990291]
+[node name="Tests" type="Node" parent="."]
 
-[node name="battleTest" type="Area2D" parent="Tests" unique_id=368863204]
+[node name="battleTest" type="Area2D" parent="Tests"]
 position = Vector2(367, 111)
 scale = Vector2(1.88, 1.84)
 script = ExtResource("18_ut725")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Tests/battleTest" unique_id=1164262212]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tests/battleTest"]
 shape = SubResource("RectangleShape2D_6w4eh")
 
-[node name="player" parent="." unique_id=1902970977 instance=ExtResource("17_2ylxe")]
-z_index = 3
-position = Vector2(268, 128)
-move_speed = 100.0
+[node name="item_add_test" type="Area2D" parent="Tests"]
+position = Vector2(431.5, 16)
+script = ExtResource("19_vo8e8")
 
-[node name="Dialogue" type="CanvasLayer" parent="." unique_id=779929825]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tests/item_add_test"]
+shape = SubResource("RectangleShape2D_b8cxy")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Dialogue" unique_id=299925707]
-volume_db = 4.0
-bus = &"Voice"
+[node name="Sprite2D" type="Sprite2D" parent="Tests/item_add_test"]
+texture = ExtResource("8_wy3q7")
 
 [connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger" to="SceneTriggers/ChangeRoomTrigger" method="_on_body_entered"]
 [connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger2" to="SceneTriggers/ChangeRoomTrigger2" method="_on_body_entered"]
@@ -1962,3 +655,4 @@ bus = &"Voice"
 [connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger4" to="SceneTriggers/ChangeRoomTrigger4" method="_on_body_entered"]
 [connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger5" to="SceneTriggers/ChangeRoomTrigger5" method="_on_body_entered"]
 [connection signal="body_entered" from="Tests/battleTest" to="Tests/battleTest" method="_on_body_entered"]
+[connection signal="body_entered" from="Tests/item_add_test" to="Tests/item_add_test" method="_on_body_entered"]
