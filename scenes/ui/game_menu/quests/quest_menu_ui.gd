@@ -7,15 +7,14 @@ class_name QuestMenuUI
 
 signal quest_tab_opened()
 signal quest_tab_closed()
-@export var quest_container: VBoxContainer = %QuestContainer if has_node("%QuestContainer") else null
 
-var _quest_items: Dictionary = {}  ## Maps quest_id -> UI item
+@onready var quest_container: VBoxContainer = %QuestContainer if has_node("%QuestContainer") else null
+
+var _quest_items: Dictionary = {}  ## Maps unique_id -> UI item
+var _is_initialized := false
 
 func _ready() -> void:
 	_connect_to_quest_system()
-	# Initial population if QuestSystem exists and has quests
-	if QuestSystem and is_visible_in_tree():
-		refresh_quest_list()
 
 func _connect_to_quest_system() -> void:
 	if QuestSystem:
@@ -26,7 +25,7 @@ func _connect_to_quest_system() -> void:
 
 		# Set reference for notifications
 		if not QuestSystem.quest_log_ui:
-			QuestSystem.quest_log_ui = self
+				QuestSystem.quest_log_ui = self
 
 func _disconnect_from_quest_system() -> void:
 	if QuestSystem:
@@ -69,7 +68,7 @@ func _create_quest_item(quest: Quest) -> void:
 
 	var item = quest_item_scene.instantiate()
 	quest_container.add_child(item)
-	_quest_items[quest.quest_id] = item  # Use quest_id instead of unique_id
+	_quest_items[quest.unique_id] = item
 
 	# Initialize the quest item with data
 	if item.has_method("initialize"):
@@ -84,20 +83,20 @@ func _on_quest_added(quest: Quest) -> void:
 		_create_quest_item(quest)
 
 func _on_quest_removed(quest: Quest) -> void:
-	if quest.quest_id in _quest_items:
-		var item = _quest_items[quest.quest_id]
+	if quest.unique_id in _quest_items:
+		var item = _quest_items[quest.unique_id]
 		if item:
 			item.queue_free()
-		_quest_items.erase(quest.quest_id)
+		_quest_items.erase(quest.unique_id)
 
 func _on_quest_completed(quest: Quest) -> void:
 	_on_quest_removed(quest)
 
-func _on_quest_progress_updated(quest: Quest, point_index: int) -> void:
-	if quest.quest_id in _quest_items:
-		var item = _quest_items[quest.quest_id]
+func _on_quest_progress_updated(quest: Quest, step_index: int, point_index: int) -> void:
+	if quest.unique_id in _quest_items:
+		var item = _quest_items[quest.unique_id]
 		if item and item.has_method("update_progress"):
-			item.update_progress(quest, point_index)
+			item.update_progress(quest, step_index, point_index)
 
 func _on_tab_opened() -> void:
 	refresh_quest_list()
