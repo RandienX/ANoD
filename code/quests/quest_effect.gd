@@ -85,8 +85,70 @@ func _execute_add_currency() -> void:
 func _execute_start_dialogue() -> void:
 	if not target_key.is_empty():
 		var dialogue = _load_resource(target_key, "res://resources/dialogues/")
-		if dialogue and Global.battle_ref and Global.battle_ref.has_method("start_dialogue"):
-			Global.battle_ref.start_dialogue(dialogue)
+		if dialogue:
+			# Reuse DialogueTrigger's UI and runner setup logic
+			var root = Global.get_tree().root.get_child(-1)
+			var textbox_node: CanvasLayer = null
+			
+			# Find or create CanvasLayer for dialogue UI
+			for child in root.get_children():
+				if child is CanvasLayer and (child.name.contains("textbox") or child.name.contains("Dialogue")):
+					textbox_node = child as CanvasLayer
+					break
+			
+			if not textbox_node:
+				textbox_node = CanvasLayer.new()
+				textbox_node.name = "DialogueContainer"
+				root.add_child(textbox_node)
+			
+			# Create UI instance if needed (same as DialogueTrigger does)
+			var ui_instance: Control = null
+			for child in textbox_node.get_children():
+				if child is Control and child.has_method("connect_to_runner"):
+					ui_instance = child
+					break
+			
+			if not ui_instance:
+				ui_instance = load("res://scenes/ui/textbox/textbox.tscn").instantiate()
+				textbox_node.add_child(ui_instance)
+				ui_instance.set_anchors_preset(Control.PRESET_FULL_RECT)
+			
+			# Clean up any existing runner
+			for child in textbox_node.get_children():
+				if child is DialogueRunner:
+					child.queue_free()
+			
+			# Create new runner (same as DialogueTrigger does)
+			var dialogue_runner = DialogueRunner.new()
+			textbox_node.add_child(dialogue_runner)
+			
+			# Connect signals (same as DialogueTrigger does)
+			dialogue_runner.dialogue_started.connect(_on_dialogue_started.bind(ui_instance))
+			dialogue_runner.dialogue_ended.connect(_on_dialogue_ended.bind(ui_instance, dialogue_runner))
+			
+			# Connect UI to runner (same as DialogueTrigger does)
+			if ui_instance.has_method("connect_to_runner"):
+				ui_instance.connect_to_runner(dialogue_runner)
+			
+			# Start dialogue (same as DialogueTrigger does)
+			dialogue_runner.start(dialogue, DialogueConditionEvaluator.new())
+
+func _on_dialogue_started(_data: Object, ui_instance: Control) -> void:
+	ui_instance.visible = true
+	# Disable player movement (same as DialogueTrigger does)
+	if PlayerStats and PlayerStats.player and PlayerStats.player.has_method("stop_move"):
+		PlayerStats.player.stop_move = true
+		PlayerStats.player.can_menu = false
+
+func _on_dialogue_ended(_node: DialogueNode, ui_instance: Control, runner: DialogueRunner) -> void:
+	ui_instance.visible = false
+	# Re-enable player movement (same as DialogueTrigger does)
+	if PlayerStats and PlayerStats.player and PlayerStats.player.has_method("stop_move"):
+		PlayerStats.player.stop_move = false
+		PlayerStats.player.can_menu = true
+	# Clean up runner (same as DialogueTrigger does)
+	if is_instance_valid(runner):
+		runner.queue_free()
 
 func _execute_start_battle() -> void:
 	if not target_key.is_empty():

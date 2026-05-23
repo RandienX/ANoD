@@ -223,6 +223,10 @@ func _capture_global_data() -> Dictionary:
 	if QuestSystem:
 		data["quests"] = QuestSystem.get_save_data()
 	
+	# Add settings data if available
+	if Settings:
+		data["settings"] = Settings.get_save_data()
+	
 	return data
 
 func _get_all_autoload_names() -> PackedStringArray:
@@ -912,6 +916,10 @@ func _apply_global_data(global_data: Dictionary) -> void:
 	# Restore quest system data if available
 	if global_data.has("quests") and QuestSystem:
 		QuestSystem.load_save_data(global_data["quests"])
+	
+	# Restore settings data if available
+	if global_data.has("settings") and Settings:
+		Settings.load_from_data(global_data["settings"])
 
 func _apply_scenes_data(scenes_data: Dictionary) -> void:
 	var current_scene: Node = get_tree().current_scene
