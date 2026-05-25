@@ -21,6 +21,7 @@
 size = Vector2(32, 32)
 
 [node name="RootScene" type="Node2D" unique_id=359492884 node_paths=PackedStringArray("player")]
+z_index = -1
 script = ExtResource("1_moar0")
 room_name = "Pizzeria - Kitchen"
 possible_battles = Array[ExtResource("2_xiu6t")]([ExtResource("3_wsfus"), ExtResource("4_mtjjf"), ExtResource("5_3ia20"), ExtResource("6_mx00a"), ExtResource("7_egpm4"), ExtResource("8_4fj1y"), ExtResource("9_jvdsm"), ExtResource("10_6qdx3"), ExtResource("11_mtjjf")])
@@ -51,6 +52,7 @@ tile_set = ExtResource("13_3ia20")
 [node name="Textboxes" type="Node2D" parent="." unique_id=2095524871]
 
 [node name="player" parent="." unique_id=1965555612 instance=ExtResource("6_ppu6t")]
+z_index = 1
 position = Vector2(176, 90)
 move_speed = 100.0
 
