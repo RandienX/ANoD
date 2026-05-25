@@ -14,13 +14,13 @@ sell_price = Dictionary[int, int]({
 1: 1000,
 2: 0
 })
-item_bonuses = Dictionary[String, int]({
-"atk": 0,
-"def": 0,
-"hp": 0,
-"magic": 0,
-"mp": 0,
-"speed": 0
+item_bonuses = Dictionary[StringName, int]({
+&"atk": 0,
+&"def": 0,
+&"hp": 0,
+&"magic": 0,
+&"mp": 0,
+&"speed": 0
 })
 is_item_attack = true
 item_attack = ExtResource("2_bhi66")

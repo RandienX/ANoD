@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ShopData" load_steps=23 format=3 uid="uid://bl6fq4p6ulpwx"]
+[gd_resource type="Resource" script_class="ShopData" format=3 uid="uid://bl6fq4p6ulpwx"]
 
 [ext_resource type="Script" uid="uid://b2nv155ae50jn" path="res://code/shop/shop_item.gd" id="1_n4ldh"]
 [ext_resource type="Resource" uid="uid://dlxeylilwh1gg" path="res://resources/items/consumables/tiny_pizza.tres" id="2_qyfhw"]

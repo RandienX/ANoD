@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="5_nwd5i"]
 [ext_resource type="Resource" uid="uid://b5yjitpcodq3o" path="res://resources/attacks/bonnie/guitarist_inspiration.tres" id="7_ohk4t"]
 [ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/battle/entity.gd" id="7_y3y4j"]
+[ext_resource type="SpriteFrames" uid="uid://c4boiumxjyycq" path="res://assets/spriteframes/bonnie.tres" id="10_y56t2"]
 
 [resource]
 script = ExtResource("7_y3y4j")
@@ -18,6 +19,7 @@ portrait = ExtResource("1_wktog")
 portrait_rect = Rect2(96, 0, 96, 96)
 battle_sprite = ExtResource("2_7ddu4")
 back_sprite = ExtResource("2_7ddu4")
+sprite = ExtResource("10_y56t2")
 path_to = "res://resources/party/bonnie.tres"
 base_stats = Dictionary[StringName, int]({
 &"atk": 6,

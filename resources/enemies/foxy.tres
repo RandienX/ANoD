@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://0fx5e8sy4hgk"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_bm5ln"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="2_20w03"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/battle/entity.gd" id="3_undqo"]
+
+[resource]
+script = ExtResource("3_undqo")
+metadata/_custom_type_script = "uid://c2cret7fy87bn"
