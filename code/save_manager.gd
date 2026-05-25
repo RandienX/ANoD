@@ -216,17 +216,16 @@ func _capture_global_data() -> Dictionary:
 		"current_scene": Global.current_scene,
 		"player_position": var_to_str(PlayerStats.player_position),
 		"time_played": Global.time_played,
-		"player_stats": PlayerStats.get_save_data()
+		"global_internal_data": Global.get_internal_save_data(),
+		"player_stats": PlayerStats.get_save_data(),
 	}
 	
 	# Add quest system data if available
 	if QuestSystem:
 		data["quests"] = QuestSystem.get_save_data()
-	
-	# Add settings data if available
 	if Settings:
 		data["settings"] = Settings.get_save_data()
-	
+
 	return data
 
 func _get_all_autoload_names() -> PackedStringArray:
@@ -916,8 +915,10 @@ func _apply_global_data(global_data: Dictionary) -> void:
 	# Restore quest system data if available
 	if global_data.has("quests") and QuestSystem:
 		QuestSystem.load_save_data(global_data["quests"])
-	
-	# Restore settings data if available
+		
+	if global_data.has("global_internal_data"):
+		Global.internally_load_save_data(global_data["global_internal_data"])
+		
 	if global_data.has("settings") and Settings:
 		Settings.load_from_data(global_data["settings"])
 
