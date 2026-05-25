@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/Revolutionary Girl Utena.mp3-480e93904c2e70a3
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
 bpm=0
 beat_count=0

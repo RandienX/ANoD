@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/Black Knife.mp3-6437409b42dba1029649fb2c85eea
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
 bpm=0
 beat_count=0
