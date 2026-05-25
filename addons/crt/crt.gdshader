@@ -6,7 +6,7 @@ shader_type canvas_item;
 uniform sampler2D SCREEN_TEXTURE: hint_screen_texture;
 
 // Base resolution for pixel-perfect effects (lower values = larger pixels)
-uniform vec2 resolution = vec2(320.0, 180.0);
+uniform vec2 resolution = vec2(864.0, 648.0);
 uniform float brightness : hint_range(0.0, 1.0) = 0.9;
 
 // ===== Effect Controls =====
