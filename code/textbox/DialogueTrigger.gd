@@ -32,6 +32,9 @@ func _ready() -> void:
 			for err in validation_errors:
 				push_error("DialogueTriggerArea2D: %s" % err)
 				
+	if get_tree().current_scene.has_node("Dialogue"):
+		if get_tree().current_scene.get_node("Dialogue").get_children().size() > 1:
+			_ui_instance = get_tree().current_scene.get_node("Dialogue").get_child(1)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("use") and require_input_to_start:
@@ -108,6 +111,8 @@ func _on_dialogue_ended(node: DialogueNode = DialogueNode.new()) -> void:
 	if _dialogue_runner:
 		_dialogue_runner.queue_free()
 		_dialogue_runner = null
+		
+	get_tree().current_scene.completed_dialogues.append(str(self.name + "_" + node.label))
 
 
 func _input(event: InputEvent) -> void:

@@ -173,21 +173,21 @@ func _effect_remove_status(status_id: String) -> void:
 	pass
 
 func _effect_start_quest(quest_id: String) -> void:
-	# Hook this to your quest system
-	pass
+	var quest = load(quest_id)
+	QuestSystem.add_quest(quest)
 
 func _effect_complete_quest(quest_id: String) -> void:
-	# Hook this to your quest system
-	pass
+	QuestSystem.complete_quest(load(quest_id))
 
 func _effect_trigger_event(event_name: String, event_var: String) -> void:
 	if event_name.to_lower() == "open shop" or event_name.to_lower() == "open_shop":
 		Global.shop_current = load(event_var)
 		get_tree().change_scene_to_file("res://scenes/ui/shop/shop.tscn")
+	elif event_name.to_lower() == "start battle" or event_name.to_lower() == "start_battle":
+		Global.get_tree().current_scene.create_battle(event_var)
 
 func _effect_wait(seconds: float) -> void:
-	# Pause dialogue - UI should handle this
-	pass
+	await get_tree().create_timer(seconds).timeout
 
 func _effect_custom(effect: DialogueEffect) -> void:
 	if effect.custom_script.is_empty():
