@@ -52,6 +52,7 @@ metadata/_custom_type_script = "uid://nfr8xstn6iuk"
 size = Vector2(32, 32)
 
 [node name="RootScene" type="Node2D" unique_id=2055121524 node_paths=PackedStringArray("player")]
+z_index = -1
 script = ExtResource("1_4a4t6")
 room_name = "Pizzeria - Closet"
 possible_battles = Array[ExtResource("2_yobt7")]([ExtResource("3_ml5db")])
@@ -94,6 +95,7 @@ require_input_to_start = true
 player_node_path = NodePath("../../player")
 
 [node name="player" parent="." unique_id=124558449 instance=ExtResource("6_2grc0")]
+z_index = 1
 position = Vector2(336, 223)
 move_speed = 100.0
 
