@@ -25,49 +25,37 @@ func do_attacks() -> void:
 			root.current_attacker = actor
 			await execute_single_attack(actor)
 			await death_manager.check_enemy_death_and_xp()
-	root.start_round()
+	if root:
+		root.start_round()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Main Entry Point
 # ──────────────────────────────────────────────────────────────────────────────
 
 func execute_single_attack(attacker: Object) -> void:
-	print("battle_attack_executor.gd: execute_single_attack: START - attacker=%s" % (attacker.name if attacker else "null"))
 	if death_manager.game_over_active: 
-		print("battle_attack_executor.gd: execute_single_attack: game over active, returning")
 		return
 	var targets: Array = attack_array[attacker][0]
 	var atk: Skill = attack_array[attacker][1]
-	
-	print("battle_attack_executor.gd: execute_single_attack: target_count=%d, skill=%s" % [targets.size(), atk.skill_name])
-	
+		
 	# Step 1: Filter alive targets
 	var alive: Array = _get_alive_targets(targets)
-	print("battle_attack_executor.gd: execute_single_attack: alive_targets=%d" % alive.size())
 	
 	# Step 2: Handle Check skill (special case)
 	if atk.skill_name == "Check ":
-		print("battle_attack_executor.gd: execute_single_attack: handling Check skill")
 		await _handle_check_skill(attacker, targets)
 		return
 	
 	# Step 3: Ensure valid target for single-target attacks
 	if alive.is_empty() and atk.target_type == 0:
-		print("battle_attack_executor.gd: execute_single_attack: no alive targets for single-target, assigning random")
 		if not _assign_random_target(attacker, atk):
-			print("battle_attack_executor.gd: execute_single_attack: failed to assign random target, returning")
 			return
 		alive = _get_alive_targets(attack_array[attacker][0])
-		print("battle_attack_executor.gd: execute_single_attack: new alive count=%d" % alive.size())
 		if alive.is_empty():
-			print("battle_attack_executor.gd: execute_single_attack: still no alive targets, returning")
 			return
 	
 	# Step 4: Route to appropriate handler based on attack type
-	print("battle_attack_executor.gd: execute_single_attack: routing to attack execution")
 	await _route_attack_execution(attacker, alive, atk)
-	print("battle_attack_executor.gd: execute_single_attack: END")
-
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Attack Routing Logic
@@ -75,32 +63,23 @@ func execute_single_attack(attacker: Object) -> void:
 
 func _route_attack_execution(attacker: Object, alive: Array, atk: Skill) -> void:
 	"""Unified skill execution with comprehensive customization support."""
-	print("battle_attack_executor.gd: _route_attack_execution: START - attacker=%s, alive_count=%d, skill=%s" % [attacker.name if attacker else "null", alive.size(), atk.skill_name])
 	if death_manager.game_over_active: 
-		print("battle_attack_executor.gd: _route_attack_execution: game over active, returning")
 		return
 	
 	# Step 1: Apply on_use effects
-	print("battle_attack_executor.gd: _route_attack_execution: applying on_use effects")
 	await _apply_on_use_effects(attacker, alive, atk)
 	
 	# Step 2: Check if this is an item-based skill
 	if atk.is_item_skill:
-		print("battle_attack_executor.gd: _route_attack_execution: handling item skill")
 		await _handle_item_usage(attacker, alive, atk)
 	
 	# Step 3: Handle non-damaging skills (buffs/debuffs without targeting enemies)
 	if atk.target_type in [1, 2]:  # Self or Party
-		print("battle_attack_executor.gd: _route_attack_execution: handling support skill, target_type=%d" % atk.target_type)
 		await _handle_support_skill(attacker, alive, atk)
-		print("battle_attack_executor.gd: _route_attack_execution: support skill complete, returning")
 		return
 	
 	# Step 4: Execute attack logic (single or multi-hit)
-	print("battle_attack_executor.gd: _route_attack_execution: executing attack sequence")
 	await _execute_attack_sequence(attacker, alive, atk)
-	print("battle_attack_executor.gd: _route_attack_execution: END")
-
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helper Functions
@@ -144,7 +123,6 @@ func _assign_random_target(attacker: Entity, atk: Skill) -> bool:
 func _handle_item_usage(attacker: Entity, targets: Array, atk: Skill) -> void:
 	if death_manager.game_over_active: return
 	var used_item = root.item_manager.item_ref
-	print("e")
 	if used_item and targets.size() > 0:
 		var success = PlayerStats.use_item(used_item, targets)
 		
@@ -163,9 +141,7 @@ func _handle_item_usage(attacker: Entity, targets: Array, atk: Skill) -> void:
 			for t in targets:
 				effect_manager.status_applied.emit(t, "", 0)
 			if not atk.on_hit_effects.is_empty():
-				print("battle_attack_executor.gd: _handle_item_usage: executing on_hit_effects, count=%d" % atk.on_hit_effects.size())
 				for effect in atk.on_hit_effects:
-					print("battle_attack_executor.gd: _handle_item_usage: executing effect=%s" % (effect.effect_name if effect else "null"))
 					for target in targets:
 						effect_manager.execute_effect(effect, attacker, {"selected_enemy": target})
 
@@ -181,46 +157,35 @@ func _handle_item_usage(attacker: Entity, targets: Array, atk: Skill) -> void:
 
 func _apply_on_use_effects(attacker: Object, targets: Array, atk: Skill) -> void:
 	"""Apply effects that trigger on skill use (before attack lands) via BattleEffectManager."""
-	print("battle_attack_executor.gd: _apply_on_use_effects: START - attacker=%s, skill=%s, on_use_effect_count=%d" % [attacker.name if attacker else "null", atk.skill_name, atk.on_use_effects.size()])
 	if not atk.on_use_effects.is_empty():
 		for effect in atk.on_use_effects:
-			print("battle_attack_executor.gd: _apply_on_use_effects: executing effect=%s" % (effect.effect_name if effect else "null"))
 			effect_manager.execute_effect(effect, attacker, {"selected_enemy": targets[0] if targets.size() > 0 else null})
-	print("battle_attack_executor.gd: _apply_on_use_effects: END")
 
 
 func _handle_support_skill(attacker: Entity, alive: Array, atk: Skill) -> void:
 	if death_manager.game_over_active: return
-	print("battle_attack_executor.gd: _handle_support_skill: START - attacker=%s, skill=%s" % [attacker.name, atk.skill_name])
 	"""Handle buffs/debuffs and other non-damaging skills via BattleEffectManager."""
 	var support_log = "[color=#FFD700]━━━ SKILL ━━━[/color]"
 
 	if atk.target_type == 1:  # Self
-		print("battle_attack_executor.gd: _handle_support_skill: target type SELF")
 		# Execute on_use effects already handled, now apply on_hit effects for self-buffs
 		for effect in atk.on_hit_effects:
-			print("battle_attack_executor.gd: _handle_support_skill: applying on_hit effect=%s to self" % (effect.effect_name if effect else "null"))
 			effect_manager.execute_effect(effect, attacker, {}, 0.0)
 		support_log += "\n[color=#4CAF50]" + attacker.name + "[/color] used [color=#2196F3]" + atk.skill_name + "[/color] on self"
 	elif atk.target_type == 2:  # Party
-		print("battle_attack_executor.gd: _handle_support_skill: target type PARTY")
 		support_log += "\n[color=#4CAF50]" + attacker.name + "[/color] used [color=#2196F3]" + atk.skill_name + "[/color] on party"
 		for p in root.party:
 			if p.hp > 0:
 				for effect in atk.on_hit_effects:
-					print("battle_attack_executor.gd: _handle_support_skill: applying on_hit effect=%s to party member=%s" % [effect.effect_name if effect else "null", p.name])
 					effect_manager.execute_effect(effect, attacker, {}, 0.0)
 	
 	if atk.mana_cost > 0:
 		support_log += " [color=#9C27B0](" + str(atk.mana_cost) + " MP)[/color]"
-		print("battle_attack_executor.gd: _handle_support_skill: mana cost=%d" % atk.mana_cost)
 	
 	log_manager.add_to_battle_log(support_log)
 	attacker.mp = max(0, attacker.mp - atk.mana_cost)
 	if root:
 		await root.get_tree().create_timer(1.0 / Settings.battle_speed).timeout
-	print("battle_attack_executor.gd: _handle_support_skill: END")
-
 
 func _execute_attack_sequence(attacker: Entity, alive: Array, atk: Skill) -> void:
 	if death_manager.game_over_active: return
@@ -350,42 +315,34 @@ func _calculate_hit(attacker: Entity, target: Entity, atk: Skill) -> Dictionary:
 	var atk_stat = attacker.get_base_stat(&"atk")
 	var base = atk_stat * atk.attack_multiplier * atk.hit_damage_multiplier
 	
-	print("battle_attack_executor.gd: _calculate_hit: START - attacker=%s, target=%s, role=%d" % [attacker.name if attacker else "null", target.name if target else "null", attacker.role])
-	print("battle_attack_executor.gd: _calculate_hit: atk_stat=%d (effective), multiplier=%f, hit_dmg_mult=%f" % [atk_stat, atk.attack_multiplier, atk.hit_damage_multiplier])
 	# Get multipliers from status effects using new API
 	var power_mult = _get_status_multiplier(attacker, "power", 0.25)
 	var weak_mult = _get_status_multiplier(attacker, "weak", -0.25)
 	base *= power_mult * weak_mult
-	print("battle_attack_executor.gd: _calculate_hit: after status mults - base=%f, power_mult=%f, weak_mult=%f" % [base, power_mult, weak_mult])
 	# Check for Power status durationy
 	
 	base *= randf_range(0.86 if attacker.role == Entity.Role.ENEMY else 0.9, 1.16 if attacker.role == Entity.Role.ENEMY else 1.2)
 	if crit:
 		base *= 1.5
-		print("battle_attack_executor.gd: _calculate_hit: CRITICAL HIT! base=%f" % base)
 	base += atk.attack_bonus
 	
 	# Defense multipliers from statuses
 	var tough_mult = _get_status_multiplier(target, "tough", 0.2)
 	var sick_mult = _get_status_multiplier(target, "sick", -0.2)
 	var def_stat = target.get_base_stat(&"def")
-	print("battle_attack_executor.gd: _calculate_hit: def_stat=%d (effective), tough_mult=%f, sick_mult=%f" % [def_stat, tough_mult, sick_mult])
 	
 	# Check for Defend status
 	var defend_mult = 1.5 if target.has_status("defend") else 1.0
 	var def_mult = clampf(1.0 - (float(def_stat) / (100.0 / (tough_mult * sick_mult))), 0.0, 1.0)
 	def_mult /= defend_mult
 	def_mult = clampf(def_mult, 0.0, 1.0)
-	print("battle_attack_executor.gd: _calculate_hit: defend_mult=%f, def_mult=%f (before clamp)" % [defend_mult, def_mult])
 	
 	var dmg = max(0, floor(base * def_mult))
-	print("battle_attack_executor.gd: _calculate_hit: final dmg=%d (base=%f * def_mult=%f)" % [dmg, base, def_mult])
 	
 	# Accuracy multipliers from statuses
 	var focus_mult = _get_status_multiplier(attacker, "focus", 0.15)
 	var blind_mult = _get_status_multiplier(target, "blind", -0.5)
 	var hit = randf() <= (atk.accuracy * focus_mult * blind_mult)
-	print("battle_attack_executor.gd: _calculate_hit: hit=%s (accuracy=%f * focus_mult=%f * blind_mult=%f)" % ["true" if hit else "false", atk.accuracy, focus_mult, blind_mult])
 	
 	return {
 			"dmg": dmg,

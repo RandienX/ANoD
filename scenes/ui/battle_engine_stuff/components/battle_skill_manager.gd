@@ -93,7 +93,7 @@ func update_skill_selection():
 		var affordable = skill_affordable[i]
 		
 		if i == current_skill_index and affordable:
-			box.modulate = Color(1, 1, 0.5)  # Yellow highlight
+			box.modulate = Color(1.0, 0.5, 0.0, 1.0)  # Yellow highlight
 			box.can_select = true
 		else:
 			# Keep affordable skills white, unaffordable gray

@@ -128,7 +128,7 @@ func update_item_selection():
 		var has_items = item_amounts[i] > 0
 		
 		if i == current_item_index and has_items:
-			box.modulate = Color(1, 1, 0.5)
+			box.modulate = Color(1.0, 0.5, 0.0, 1.0) 
 		else:
 			box.modulate = Color(1, 1, 1) if has_items else Color(0.5, 0.5, 0.5)
 	

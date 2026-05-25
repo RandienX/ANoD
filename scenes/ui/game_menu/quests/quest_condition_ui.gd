@@ -81,21 +81,21 @@ func _get_condition_description() -> String:
 	# Generate description based on type and target
 	match _condition.type:
 		QuestPointCondition.ConditionType.HAS_ITEM:
-			return "Collect %d %s" % [_condition.progress_target, _condition.target_key]
+			return ("Collect %d %s" % [_condition.progress_target, _condition.target_key]) if _condition.description != "" else _condition.description
 		QuestPointCondition.ConditionType.KILLED_ENEMY:
-			return "Defeat %d %s" % [_condition.progress_target, _condition.target_key]
+			return ("Defeat %d %s" % [_condition.progress_target, _condition.target_key]) if _condition.description != "" else _condition.description
 		QuestPointCondition.ConditionType.DONE_DIALOGUE:
-			return "Complete dialogue: %s" % _condition.target_key
+			return ("Complete dialogue: %s" % _condition.target_key) if _condition.description != "" else _condition.description
 		QuestPointCondition.ConditionType.TALKED_TO_NPC:
-			return "Talk to %s" % _condition.target_key
+			return ("Talk to %s" % _condition.target_key) if _condition.description != "" else _condition.description
 		QuestPointCondition.ConditionType.BATTLE_WON:
-			return "Win battle: %s" % _condition.target_key
+			return ("Win battle: %s" % _condition.target_key) if _condition.description != "" else _condition.description
 		QuestPointCondition.ConditionType.HAS_STATUS:
-			return "Have status: %s" % _condition.target_key
+			return ("Have status: %s" % _condition.target_key) if _condition.description != "" else _condition.description
 		QuestPointCondition.ConditionType.DONE_THING:
-			return "Complete: %s" % _condition.target_key
+			return ("Complete: %s" % _condition.target_key) if _condition.description != "" else _condition.description
 		QuestPointCondition.ConditionType.CUSTOM:
-			return "Custom: %s" % _condition.target_key
+			return ("Custom: %s" % _condition.target_key) if _condition.description != "" else _condition.description
 
 	return _condition.target_key
 
