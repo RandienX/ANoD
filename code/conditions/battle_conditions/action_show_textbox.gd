@@ -1,7 +1,7 @@
 extends RefCounted
 class_name BattleActionShowTextbox
 
-@export var textbox_data: TextboxData
+@export var textbox_data: DialogueData
 @export var simple_text: String = ""
 @export var simple_speaker: int = 0
 @export var wait_for_completion: bool = true
@@ -12,7 +12,7 @@ func execute(battle_engine: Node):
 	
 	# If no full data but simple text is provided, create it on the fly
 	if not data_to_use and simple_text != "":
-		data_to_use = TextboxData.new()
+		data_to_use = DialogueData.new()
 		data_to_use.texts = [simple_text]
 		data_to_use.speakers = [simple_speaker]
 		data_to_use.has_swag = [false]
