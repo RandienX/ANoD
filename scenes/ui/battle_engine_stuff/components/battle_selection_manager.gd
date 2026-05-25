@@ -58,7 +58,7 @@ func update_selection():
 
 func set_button_glow(btn: Button, is_glowing: bool):
 	if is_glowing:
-		btn.add_theme_color_override("font_color", Color.YELLOW)
+		btn.add_theme_color_override("font_color", Color.DARK_ORANGE)
 	else:
 		btn.remove_theme_color_override("font_color")
 

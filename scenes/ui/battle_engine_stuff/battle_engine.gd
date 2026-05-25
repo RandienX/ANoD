@@ -44,41 +44,30 @@ func _ready() -> void:
 		$Control/enemy_ui/bg.texture = battle.background
 
 func _setup_managers():
-	print("battle_engine.gd: _setup_managers: START")
 	effect_manager = EffectManager.new()
-	print("battle_engine.gd: _setup_managers: created EffectManager, initializing with party_count=%d, enemy_count=%d" % [party.size(), enemy_instances.size()])
 	effect_manager.initialize(party, enemy_instances)
 	effect_manager.status_applied.connect(_on_status_applied)
-	print("battle_engine.gd: _setup_managers: connected status_applied signal to _on_status_applied")
 	
 	item_manager = ItemManager.new()
-	print("battle_engine.gd: _setup_managers: created ItemManager")
 	item_manager.setup_items_ui(self)
 	
 	skill_manager = SkillManager.new()
-	print("battle_engine.gd: _setup_managers: created SkillManager")
 	skill_manager.setup_skills_ui(self)
 	
 	death_manager = DeathManager.new()
-	print("battle_engine.gd: _setup_managers: created DeathManager")
 	death_manager.setup(self, battle)
 	
 	log_manager = LogManager.new()
-	print("battle_engine.gd: _setup_managers: created LogManager")
 	log_manager.setup(self, effect_manager)
 	
 	attack_executor = AttackExecutor.new()
-	print("battle_engine.gd: _setup_managers: created AttackExecutor")
 	attack_executor.setup(self, death_manager, effect_manager, log_manager, battle)
-	print("battle_engine.gd: _setup_managers: END - all managers initialized")
 	
 func _on_status_applied(entity: Entity, status_id: String, stacks: int) -> void:
-	print("battle_engine.gd: _on_status_applied: entity=%s, status_id=%s, stacks=%d" % [entity.name if entity else "null", status_id, stacks])
 	# Update UI for both party and enemies
 	_update_all_battle_faces()
 
 func _update_all_battle_faces() -> void:
-	print("battle_engine.gd: _update_all_battle_faces: updating all party and enemy UIs")
 	# Update party faces
 	var party_container = $Control/gui/HBoxContainer2/party
 	if party_container:
@@ -86,7 +75,6 @@ func _update_all_battle_faces() -> void:
 			var ui = party_container.get_child(i)
 			if ui.has_method("update_effects_ui"):
 				ui.update_effects_ui()
-				print("battle_engine.gd: _update_all_battle_faces: updated party face %d" % i)
 	# Update enemy faces
 	var enemy_container = $Control/enemy_ui/enemies
 	if enemy_container:
@@ -94,7 +82,6 @@ func _update_all_battle_faces() -> void:
 			var ui = enemy_container.get_child(i)
 			if ui.has_method("update_effects_ui"):
 				ui.update_effects_ui()
-				print("battle_engine.gd: _update_all_battle_faces: updated enemy face %d" % i)
 								
 func setup_enemies():
 	enemy_instances.clear()

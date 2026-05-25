@@ -76,7 +76,7 @@ func _on_battle_speed_changed(value: float) -> void:
 
 func _on_text_speed_changed(value: float) -> void:
 	if Settings:
-		Settings.set_text_speed(value*30)
+		Settings.set_text_speed(value)
 	_update_value_labels()
 
 func _on_show_damage_toggled(toggled_on: bool) -> void:

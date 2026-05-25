@@ -36,3 +36,13 @@ func open_inventory() -> void:
 
 	var inv_scene = load("res://scenes/ui/game_menu/inventory/inventory.tscn").instantiate()
 	display.add_child(inv_scene)
+
+func open_quests() -> void:
+	"""Open the quest log UI"""
+	for c in display.get_children():
+		c.queue_free()
+
+	var quest_log_scene = load("res://scenes/ui/game_menu/quests/quest_menu.tscn")
+	if quest_log_scene:
+		var quest_log_ui = quest_log_scene.instantiate()
+		display.add_child(quest_log_ui)

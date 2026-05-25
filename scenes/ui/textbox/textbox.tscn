@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("1_w1bcc")
 text_label = NodePath("Container/HBoxContainer/textbox/MarginContainer/RichTextLabel")
-choices_container = NodePath("ChoiceContainer")
+choices_container = NodePath("NinePatchRect/ChoiceContainer")
 portrait_texture = NodePath("Container/HBoxContainer/face/Sprite2D")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1909256835]
@@ -130,21 +130,23 @@ theme_override_font_sizes/italics_font_size = 32
 theme_override_font_sizes/mono_font_size = 32
 text = "shit"
 
-[node name="ChoiceContainer" type="VBoxContainer" parent="." unique_id=2071314064]
-custom_minimum_size = Vector2(200, 0)
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1303253119]
+custom_minimum_size = Vector2(200, 150)
 layout_mode = 0
 offset_left = 664.0
 offset_top = -151.0
 offset_right = 864.0
-offset_bottom = -111.0
-size_flags_horizontal = 8
-alignment = 2
-
-[node name="NinePatchRect" type="NinePatchRect" parent="ChoiceContainer" unique_id=1303253119]
-custom_minimum_size = Vector2(200, 150)
-layout_mode = 2
+offset_bottom = -1.0
 texture = ExtResource("6_hyn88")
 patch_margin_left = 5
 patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
+
+[node name="ChoiceContainer" type="VBoxContainer" parent="NinePatchRect" unique_id=2071314064]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 40.0
+size_flags_horizontal = 8
+alignment = 2
