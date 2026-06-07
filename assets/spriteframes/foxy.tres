@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dabt8811ek4bt" path="res://assets/party/$RemasteredFoxy.png" id="1_erwd8"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_erwd8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbcxh"]
 atlas = ExtResource("1_erwd8")
 region = Rect2(96, 128, 96, 64)
 
@@ -14,15 +14,15 @@ region = Rect2(96, 0, 96, 64)
 atlas = ExtResource("1_erwd8")
 region = Rect2(96, 192, 96, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sbcxh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltc02"]
 atlas = ExtResource("1_erwd8")
 region = Rect2(0, 128, 96, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ltc02"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4gm6"]
 atlas = ExtResource("1_erwd8")
 region = Rect2(96, 128, 96, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q4gm6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qt1s1"]
 atlas = ExtResource("1_erwd8")
 region = Rect2(192, 128, 96, 64)
 
@@ -54,7 +54,7 @@ region = Rect2(192, 192, 96, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_erwd8")
+"texture": SubResource("AtlasTexture_sbcxh")
 }],
 "loop": 1,
 "name": &"idle0",
@@ -78,13 +78,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sbcxh")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_ltc02")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_q4gm6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qt1s1")
 }],
 "loop": 1,
 "name": &"run0",

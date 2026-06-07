@@ -8,29 +8,42 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="another night of debauchery"
 config/description="Tech demo for bigger FNaFb project."
 config/version="0.1v"
 run/main_scene="uid://dnsq0e6j3twp0"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="uid://diis85slboe5b"
+
+[audio]
+
+buses/default_bus_layout="uid://vp1qeduy4p1g"
 
 [autoload]
 
 Global="*res://code/global.gd"
 Save="*res://code/saves.gd"
 PlayerStats="*res://code/player_stats.gd"
-QuestSystem="*res://code/quests/quest_system.gd"
 SaveManager="*res://code/save_manager.gd"
 Settings="*res://code/settings.gd"
+AchievementSystem="*uid://b5nm57jxsp4a2"
+QuestSystem="*uid://cfodximjnmuu6"
+QuestNotificationUi="*uid://b4yj2h87ucp4d"
 
 [display]
 
 window/size/viewport_width=864
-window/size/mode=1
 window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/crt/plugin.cfg")
 
 [gui]
 
@@ -105,6 +118,11 @@ back={
 ]
 }
 
+[network]
+
+limits/debugger/max_chars_per_second=262144
+limits/debugger/max_queued_messages=16384
+
 [physics]
 
 2d/default_gravity_vector=Vector2(0, 0)
@@ -112,5 +130,6 @@ back={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-textures/canvas_textures/default_texture_repeat=1
+textures/canvas_textures/default_texture_repeat=2
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 2d/snap/snap_2d_transforms_to_pixel=true

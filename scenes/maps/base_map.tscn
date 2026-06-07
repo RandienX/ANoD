@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://q88lvfpqtyi7"]
+
+[ext_resource type="Script" uid="uid://duek0uk444kjf" path="res://code/root_script.gd" id="1_iciq6"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="2_y42xl"]
+[ext_resource type="Resource" uid="uid://d0alullmmxp3b" path="res://resources/battles/pizzeria/alpha_party_hat_1.tres" id="3_rbkgq"]
+[ext_resource type="TileSet" uid="uid://cpxfb26nr2i26" path="res://assets/tilemaps/tilesets/wall_tileset.tres" id="4_iciq6"]
+[ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office-running-sfx-made-with-Voicemod.mp3" id="4_y42xl"]
+[ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="5_y42xl"]
+[ext_resource type="PackedScene" uid="uid://yq7stgud35n5" path="res://scenes/objects/player.tscn" id="6_qngx7"]
+[ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="7_8rvf5"]
+[ext_resource type="Script" uid="uid://8xdjua3jhdqd" path="res://scenes/maps/black_flash_on_scene.gd" id="9_rbkgq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ywghk"]
+size = Vector2(32, 32)
+
+[node name="RootScene" type="Node2D" unique_id=1519412412 node_paths=PackedStringArray("player")]
+script = ExtResource("1_iciq6")
+room_name = "Pizzeria - Closet"
+possible_battles = Array[ExtResource("2_y42xl")]([ExtResource("3_rbkgq")])
+player = NodePath("player")
+room_size = Rect2(0, 0, 18, 15)
+metadata/_custom_type_script = "uid://duek0uk444kjf"
+
+[node name="transition" type="CanvasLayer" parent="." unique_id=1540840805]
+
+[node name="black_flash" type="ColorRect" parent="transition" unique_id=373268548]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 999
+offset_right = 864.0
+offset_bottom = 648.0
+mouse_filter = 1
+color = Color(0, 0, 0, 1)
+script = ExtResource("9_rbkgq")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=1201953903]
+stream = ExtResource("4_y42xl")
+volume_db = 4.0
+autoplay = true
+
+[node name="Cutscenes" type="Node" parent="." unique_id=1174815890]
+
+[node name="TileMap" type="Node2D" parent="." unique_id=1697236339]
+
+[node name="walls" type="TileMapLayer" parent="TileMap" unique_id=386399745]
+tile_set = ExtResource("4_iciq6")
+
+[node name="objects" type="TileMapLayer" parent="TileMap" unique_id=1267639804]
+tile_set = ExtResource("5_y42xl")
+
+[node name="objects_top" type="TileMapLayer" parent="TileMap/objects" unique_id=970906488]
+tile_set = ExtResource("5_y42xl")
+
+[node name="Textboxes" type="Node2D" parent="." unique_id=1024677748]
+
+[node name="player" parent="." unique_id=1002093154 instance=ExtResource("6_qngx7")]
+position = Vector2(336, 223)
+move_speed = 100.0
+
+[node name="Dialogue" type="CanvasLayer" parent="." unique_id=1044641630]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Dialogue" unique_id=465900755]
+
+[node name="SceneTriggers" type="Node2D" parent="." unique_id=2147108983]
+
+[node name="ChangeRoomTrigger" type="Area2D" parent="SceneTriggers" unique_id=65924589]
+position = Vector2(-192, 225)
+script = ExtResource("7_8rvf5")
+player_position = Vector2(48, 94)
+next_room_path = "res://scenes/maps/pizzeria/2-4.tscn"
+metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger" unique_id=578206076]
+position = Vector2(560, 15)
+shape = SubResource("RectangleShape2D_ywghk")
+
+[connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger" to="SceneTriggers/ChangeRoomTrigger" method="_on_body_entered"]
