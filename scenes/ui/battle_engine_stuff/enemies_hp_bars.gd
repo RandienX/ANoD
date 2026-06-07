@@ -12,10 +12,15 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if enemy:
-		$ProgressBar.value = enemy.hp
-		$ProgressBar.max_value = enemy.base_stats["hp"]
+		$VBoxContainer/hp.value = enemy.hp
+		$VBoxContainer/hp.max_value = enemy.base_stats["hp"]
+		$VBoxContainer/mp.value = enemy.mp
+		$VBoxContainer/mp.max_value = enemy.base_stats["mp"]
+		$name.text = enemy.name
+		$name/NinePatchRect2.size.x = $name.size.x + 6
 	else:
-		$ProgressBar.visible = false
+		$VBoxContainer/hp.visible = false
+		visible = false
 	update_effects_ui()
 
 ## Updates status effects display for enemy

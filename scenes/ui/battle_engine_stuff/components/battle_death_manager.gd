@@ -70,6 +70,7 @@ func check_enemy_death_and_xp():
 
 func end_battle_victory() -> void:
 	game_over_active = true #not game_over but still stop functions
+	Global.battle_bg = null
 	if root:
 		await root.get_tree().create_timer(3.0).timeout
 		Global.process_frame()
