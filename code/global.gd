@@ -4,6 +4,7 @@ extends Node
 enum effect {Heal, Mana_Heal, Blind, Poison, Bleed, Power, Tough, Focus, Defend, Kill, Absorb, Revive, Sick, Weak, Slow, Sleep, Burn, Freeze, Paralyzed, Shock, Confuse}
 enum AI {Dumb, Casual, Violent, Defensive, Intelligent, Flexible}
 var battle_ref: Node = null
+var battle_bg: Texture2D = null
 
 var battle_current = null
 var shop_current: ShopData = null

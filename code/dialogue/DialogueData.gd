@@ -5,10 +5,10 @@ extends Resource
 ## Simple RPG Maker-style dialogue system
 ## Data-driven, label-based navigation with built-in conditions
 
-@export_category("Nodes (Dialogue Entries)")
+@export_group("Nodes (Dialogue Entries)")
 @export var nodes: Array[DialogueNode] = []
 
-@export_category("Settings")
+@export_group("Settings")
 @export var start_branches: Array[DialogueBranch] = []
 @export var start_label: String = "start"
 @export var auto_advance: bool = false
@@ -52,6 +52,9 @@ func validate() -> Array[String]:
 	for node in nodes:
 		if not node:
 			continue
+		for effect in node.on_enter_effects:
+			if effect and effect.effect_type == DialogueEffect.EffectType.CUSTOM and effect.custom_script.is_empty():
+				errors.append("Node '%s' has custom effect with no script path" % node.label)
 	
 	return errors
 

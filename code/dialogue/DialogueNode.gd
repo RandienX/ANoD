@@ -2,37 +2,29 @@
 class_name DialogueNode
 extends Resource
 
-enum BeepType {
-	DEFAULT,
-	FREDDY,
-	BONNIE,
-	CHICA,
-	FOXY,
-	GOLDEN,
-	NONE,
-}
-
 ## A single dialogue entry with text, branches, and choices
 
-@export_category("Node Identity")
-@export_multiline var text: String = ""
-@export var portrait: Texture2D
+@export_group("Node Identity")
 @export var label: String = ""
-@export var next_label: String = ""  # Empty = end dialogue
 
-@export_group("Settings")
-@export var beep_type: BeepType
-@export var voiceline: AudioStream
-@export var text_speed: int = 30
+@export_group("Display")
+@export_multiline var text: String = ""
+@export var speaker: String = ""
+@export var portrait: Texture2D
+@export var voiceline: AudioStream	
+
+@export_group("Flow Control")
+@export var next_label: String = ""  # Empty = end dialogue
 
 @export_group("Conditional Branches")
 @export var branches: Array[DialogueBranch] = []
+
+@export_group("Player Choices")
 @export var choices: Array[DialogueChoice] = []
 
 @export_group("Effects")
-@export var on_enter_effects: Array[Effect] = []
-@export var on_exit_effects: Array[Effect] = []
-@export var unskippable: bool = false
+@export var on_enter_effects: Array[DialogueEffect] = []
+@export var on_exit_effects: Array[DialogueEffect] = []
 
 func has_branches() -> bool:
 	return not branches.is_empty()

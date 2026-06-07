@@ -8,12 +8,13 @@ signal stat_changed(stat_name: StringName, new_value: Variant)
 
 enum CurrencyType {GOLD, SHIT, FAZTOKENS}
 
-@export var gold: int = 100
+@export var gold: int = 10000
 @export var shit: int = 0
 @export var tokens: int = 25
 
 var stats: Dictionary[StringName, Variant] = {}
 var party: Array[Object] = [load("res://resources/party/freddy.tres").duplicate_deep(), load("res://resources/party/bonnie.tres").duplicate_deep()]
+var stored_party: Array[Object] = []
 var inventory: Dictionary[Item, int] = {}
 var player_position: Vector2 = Vector2(272, -82)
 

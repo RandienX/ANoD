@@ -72,6 +72,7 @@ func _input(event: InputEvent) -> void:
 
 func create_battle(var_battle = null):
 	Global.set_scene_data(self)
+	Global.battle_bg = battle_bg
 	$player.battle_zoom()
 	var battle
 	if var_battle == null:
@@ -85,3 +86,6 @@ func create_battle(var_battle = null):
 	
 func outbattle_root_check():
 	pass
+	
+func done_thing(thing: String, value = true):
+	done_things.assign({thing: value})

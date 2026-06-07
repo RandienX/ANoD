@@ -23,32 +23,20 @@ var current_index: int = 0
 var type_timer: Timer
 var auto_advance_timer: Timer
 var voiceline_player: AudioStreamPlayer
-var beep_player: AudioStreamPlayer2D
 
 # Choice navigation
 var choice_buttons: Array[Button] = []
 var current_choice_index: int = 0
 var is_choosing: bool = false
 
-var beep_in_progress: bool = false
-var BeepResources := {
-	"Default": [load("res://assets/sound/party_beeps/default_beep.mp3")],
-	"Freddy": [load("res://assets/sound/party_beeps/freddy_ur_1.mp3"), load("res://assets/sound/party_beeps/freddy_ur_2.mp3"), load("res://assets/sound/party_beeps/freddy_ur_3.mp3"), ],
-	"Bonnie": [load("res://assets/sound/party_beeps/bonnie_er_1.mp3"), load("res://assets/sound/party_beeps/bonnie_er_2.mp3")],
-	"Chica": [load("res://assets/sound/party_beeps/chica_er_1.mp3"), load("res://assets/sound/party_beeps/chica_er_2.mp3")],
-	"Foxy": [load("res://assets/sound/party_beeps/foxy_re_1.mp3"), load("res://assets/sound/party_beeps/foxy_re_2.mp3")],
-	"Golden": [null],
-}
-
 func _ready() -> void:
 	_setup_timers()
 	_hide_ui()
 	voiceline_player = $"../AudioStreamPlayer"
-	beep_player = $beep_player
 
 func _setup_timers() -> void:
 	type_timer = Timer.new()
-	type_timer.wait_time = 1.0 / chars_per_second / Settings.text_speed
+	type_timer.wait_time = 1.0 / (chars_per_second * (chars_per_second / Settings.text_speed))
 	type_timer.timeout.connect(_on_type_tick)
 	add_child(type_timer)
 	
@@ -60,12 +48,11 @@ func _setup_timers() -> void:
 func connect_to_runner(dialogue_runner: DialogueRunner) -> void:
 	runner = dialogue_runner
 	
-	if !runner.is_connected("dialogue_started", _on_dialogue_started):
-		runner.dialogue_started.connect(_on_dialogue_started)
-		runner.node_entered.connect(display_node)
-		runner.text_displayed.connect(_on_text_displayed)
-		runner.choice_available.connect(_on_choice_available)
-		runner.dialogue_ended.connect(_on_dialogue_ended)
+	runner.dialogue_started.connect(_on_dialogue_started)
+	runner.node_entered.connect(display_node)
+	runner.text_displayed.connect(_on_text_displayed)
+	runner.choice_available.connect(_on_choice_available)
+	runner.dialogue_ended.connect(_on_dialogue_ended)
 
 func _hide_ui() -> void:
 	visible = false
@@ -78,7 +65,6 @@ func _show_ui() -> void:
 
 func _on_dialogue_started(_data: Object) -> void:
 	_show_ui()
-	_setup_timers()
 
 func display_node(node: DialogueNode) -> void:
 	# Clear previous choices
@@ -100,64 +86,30 @@ func display_node(node: DialogueNode) -> void:
 	if voiceline_player and node.voiceline:
 		voiceline_player.stream = node.voiceline
 		voiceline_player.play()
-		
-	if node.text_speed > 0:
-		chars_per_second = node.text_speed
-	else:
-		chars_per_second = 30
-		
 	# Start typewriter effect
 	_on_text_displayed(node.text)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	$NinePatchRect.visible = true if choice_buttons.size() != 0 else false
 
 func _on_text_displayed(text: String) -> void:
 	full_text = text
-	text_label.text = text
-	text_label.visible_characters = 0
 	current_index = 0
+	text_label.text = ""
 	is_typing = true
 	type_timer.start()
 
 func _on_type_tick() -> void:
 	if current_index < full_text.length():
-		text_label.visible_characters += 1
+		text_label.text += full_text[current_index]
 		current_index += 1
-		_do_beeps()
 	else:
 		_finish_typing()
-
-func _do_beeps():
-	if !runner or !runner.current_node or beep_in_progress:
-		return
-	
-	beep_in_progress = true
-	match runner.current_node.beep_type:
-		DialogueNode.BeepType.NONE:
-			beep_in_progress = false
-		DialogueNode.BeepType.DEFAULT:
-			beep_player.stream = BeepResources["Default"][0]
-			beep_player.play()
-		DialogueNode.BeepType.FREDDY:
-			beep_player.stream = BeepResources["Freddy"][randi_range(0, len(BeepResources["Freddy"])-1)]
-			beep_player.play()
-		DialogueNode.BeepType.BONNIE:
-			beep_player.stream = BeepResources["Bonnie"][randi_range(0, len(BeepResources["Bonnie"])-1)]
-			beep_player.play()
-		DialogueNode.BeepType.CHICA:
-			beep_player.stream = BeepResources["Chica"][randi_range(0, len(BeepResources["Chica"])-1)]
-			beep_player.play()
-		DialogueNode.BeepType.FOXY:
-			beep_player.stream = BeepResources["Foxy"][randi_range(0, len(BeepResources["Foxy"])-1)]
-			beep_player.play()
-	
 
 func _finish_typing() -> void:
 	is_typing = false
 	type_timer.stop()
-	text_label.visible_characters = len(full_text)
-	current_index = len(full_text)
+	text_label.text = full_text
 	
 	if auto_advance_after_typing and runner and runner.current_node:
 		if not runner.current_node.has_choices():
@@ -217,9 +169,6 @@ func _on_choice_pressed(choice: DialogueChoice) -> void:
 func _on_dialogue_ended(_node: DialogueNode) -> void:
 	if voiceline_player:
 		voiceline_player.stop()
-	if beep_player:
-		beep_player.stop()
-		beep_in_progress = false
 
 # Input handling for skipping typewriter or advancing
 func _input(event: InputEvent) -> void:
@@ -236,7 +185,7 @@ func _input(event: InputEvent) -> void:
 			_navigate_choices(1)
 			get_viewport().set_input_as_handled()
 			return
-		elif event.is_action("use"):
+		elif event.is_action("use") or event.keycode == KEY_SPACE:
 			# Select current choice
 			if current_choice_index >= 0 and current_choice_index < choice_buttons.size():
 				var selected_button = choice_buttons[current_choice_index]
@@ -247,18 +196,15 @@ func _input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if current_index < full_text.length():
+			while current_index < full_text.length():
+				_on_type_tick()
 			_finish_typing()
-		else:
-			_handle_advance_input()
 	elif event is InputEventKey and event.pressed and event.is_action("use"):
 		if current_index < full_text.length():
+			while current_index < full_text.length():
+				_on_type_tick()
 			_finish_typing()
-		else:
-			_handle_advance_input()
 
 func _handle_advance_input() -> void:
 	if runner.current_node and not runner.current_node.has_choices():
 		runner.advance()
-
-func _on_beep_player_finished() -> void:
-	beep_in_progress = false
