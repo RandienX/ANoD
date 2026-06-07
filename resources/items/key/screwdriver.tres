@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://dkeh4erjbo8yv"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_ky3h5"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/player/item.gd" id="2_2pp6x"]
+
+[resource]
+script = ExtResource("2_2pp6x")
+item_name = "Screwdriver"
+description = "Standard Torx Star Drive Screwdriver - 100mm with a magnetic head."
+type = 3
+sell_price = Dictionary[int, int]({})
+can_use_in_battle = false
+can_use_outside_battle = false
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

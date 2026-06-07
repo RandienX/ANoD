@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://dc3six02ul61o"]
+
+[ext_resource type="Texture2D" uid="uid://coejlcf8sdlw2" path="res://assets/battlesprites/Foxy.png" id="1_yju1s"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="2_iyecq"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="3_hyq8n"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/battle/entity.gd" id="4_xcmxb"]
+
+[resource]
+script = ExtResource("4_xcmxb")
+name = "Foxy"
+role = 1
+battle_sprite = ExtResource("1_yju1s")
+back_sprite = ExtResource("1_yju1s")
+base_stats = Dictionary[StringName, int]({
+&"atk": 15,
+&"def": 6,
+&"hp": 1067,
+&"magic": 8,
+&"mp": 250,
+&"speed": 12
+})
+hp = 1067
+mp = 250
+xp_reward = 150
+is_boss = true
+metadata/_custom_type_script = "uid://c2cret7fy87bn"

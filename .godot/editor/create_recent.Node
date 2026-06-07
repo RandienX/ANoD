@@ -1,0 +1,15 @@
+AnimatedSprite2D
+CanvasLayer
+TileMapLayer
+Node
+AnimationPlayer
+AnimationTree
+ScrollContainer
+TextureRect
+CanvasModulate
+ColorRect
+ProgressBar
+MarginContainer
+VBoxContainer
+Label
+Button

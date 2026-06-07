@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://bi6176lmddi5u"]
+
+[ext_resource type="Shader" uid="uid://78ytsnaia8ko" path="res://resources/battles/white_flash.tres" id="1_g6pro"]
+[ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="2_85g3w"]
+[ext_resource type="Script" uid="uid://jghaqibniequ" path="res://scenes/ui/game_menu/menu_button.gd" id="3_7cdm8"]
+[ext_resource type="Texture2D" uid="uid://byldo041hj3cn" path="res://assets/ui/button.png" id="4_13s50"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqsro"]
+content_margin_right = 98.0
+bg_color = Color(0.19793725, 0.19793722, 0.19793728, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.15847227, 0.15847233, 0.15847221, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o0w63"]
+bg_color = Color(0.88235295, 0.84705883, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.70275724, 0.5586243, 0, 1)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_35wjy"]
+shader = ExtResource("1_g6pro")
+shader_parameter/is_flashing = false
+shader_parameter/FlashColor = Color(1, 1, 1, 1)
+shader_parameter/FlashSpeed = 1.0000000475
+shader_parameter/FlashIntensity = 1.0
+
+[node name="ProgressBar" type="ProgressBar" unique_id=388380716]
+custom_minimum_size = Vector2(400, 40)
+offset_right = 197.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/background = SubResource("StyleBoxFlat_eqsro")
+theme_override_styles/fill = SubResource("StyleBoxFlat_o0w63")
+value = 60.0
+
+[node name="party" type="Button" parent="." unique_id=1983851872]
+material = SubResource("ShaderMaterial_35wjy")
+custom_minimum_size = Vector2(180, 87)
+layout_mode = 0
+offset_top = 58.0
+offset_right = 180.0
+offset_bottom = 145.0
+theme_override_fonts/font = ExtResource("2_85g3w")
+theme_override_font_sizes/font_size = 22
+text = "Cutscenes
+(Story Begin)"
+flat = true
+script = ExtResource("3_7cdm8")
+menu_path = "res://scenes/ui/game_menu/party/party.tscn"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="party" unique_id=815629729]
+z_index = -1
+use_parent_material = true
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 87.0
+texture = ExtResource("4_13s50")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[connection signal="pressed" from="party" to="party" method="change_menu"]

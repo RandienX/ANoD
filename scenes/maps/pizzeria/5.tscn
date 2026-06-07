@@ -1,0 +1,90 @@
+[gd_scene format=4 uid="uid://d0l5ubkujn5p8"]
+
+[ext_resource type="Script" uid="uid://duek0uk444kjf" path="res://code/root_script.gd" id="1_ec16l"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="2_2ps5s"]
+[ext_resource type="Resource" uid="uid://hcjum4b6iriu" path="res://resources/battles/pizzeria/alpha_party_hat_3.tres" id="3_3ex05"]
+[ext_resource type="Resource" uid="uid://jvs5l0db7omo" path="res://resources/battles/pizzeria/beta_party_hat_1.tres" id="4_uhr3v"]
+[ext_resource type="Resource" uid="uid://ipowsvu8u24u" path="res://resources/battles/pizzeria/beta_party_hat_2.tres" id="5_ql856"]
+[ext_resource type="Resource" uid="uid://ddcvj0kdlk1hv" path="res://resources/battles/pizzeria/beta_party_hat_3.tres" id="6_6hbv8"]
+[ext_resource type="PackedScene" uid="uid://yq7stgud35n5" path="res://scenes/objects/player.tscn" id="6_b83tt"]
+[ext_resource type="Resource" uid="uid://d873e24mcjba" path="res://resources/battles/pizzeria/b1_a1.tres" id="7_0ffpj"]
+[ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="7_uhr3v"]
+[ext_resource type="Resource" uid="uid://diki2hhwqkao6" path="res://resources/battles/pizzeria/b1_a2.tres" id="8_cr155"]
+[ext_resource type="Resource" uid="uid://degevskgheqp6" path="res://resources/battles/pizzeria/b2_a1.tres" id="9_2os2b"]
+[ext_resource type="TileSet" uid="uid://cpxfb26nr2i26" path="res://assets/tilemaps/tilesets/wall_tileset.tres" id="10_uhr3v"]
+[ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="11_ql856"]
+[ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office-running-sfx-made-with-Voicemod.mp3" id="12_ql856"]
+[ext_resource type="Script" uid="uid://8xdjua3jhdqd" path="res://scenes/maps/black_flash_on_scene.gd" id="15_6hbv8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_csy5g"]
+size = Vector2(32, 32)
+
+[node name="Backrooms" type="Node2D" unique_id=1484876738 node_paths=PackedStringArray("player")]
+z_index = -1
+script = ExtResource("1_ec16l")
+room_name = "Pizzeria - Backstage"
+possible_battles = Array[ExtResource("2_2ps5s")]([ExtResource("3_3ex05"), ExtResource("4_uhr3v"), ExtResource("5_ql856"), ExtResource("6_6hbv8"), ExtResource("7_0ffpj"), ExtResource("8_cr155"), ExtResource("9_2os2b")])
+enemy_intensity = 150
+enemy_agressiveness = 87
+player = NodePath("player")
+room_size = Rect2(-6, -6, 18, 14)
+metadata/_custom_type_script = "uid://duek0uk444kjf"
+metadata/_edit_horizontal_guides_ = [735.0]
+
+[node name="transition" type="CanvasLayer" parent="." unique_id=365887827]
+
+[node name="black_flash" type="ColorRect" parent="transition" unique_id=812739638]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 999
+offset_right = 864.0
+offset_bottom = 648.0
+mouse_filter = 1
+color = Color(0, 0, 0, 1)
+script = ExtResource("15_6hbv8")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=1202454660]
+stream = ExtResource("12_ql856")
+volume_db = -0.5
+autoplay = true
+bus = &"Music"
+
+[node name="Cutscenes" type="Node" parent="." unique_id=426438431]
+
+[node name="TileMap" type="Node2D" parent="." unique_id=1457658479]
+
+[node name="walls" type="TileMapLayer" parent="TileMap" unique_id=1715844055]
+tile_map_data = PackedByteArray("AAABAAAAAgAAAAIAAAABAAEAAgAAAAIAAAABAAIAAgAAAAIAAAABAAMAAgAAAAIAAAABAAQAAgAAAAIAAAABAAUAAgAAAAIAAAABAAYAAgAAAAIAAAACAAAAAgAAAAIAAAACAAEAAgAAAAIAAAACAAIAAgAAAAIAAAACAAMAAgAAAAIAAAACAAQAAgAAAAIAAAACAAUAAgAAAAIAAAACAAYAAgAAAAIAAAADAAAAAgAAAAIAAAADAAEAAgAAAAIAAAADAAIAAgAAAAIAAAADAAMAAgAAAAIAAAADAAQAAgAAAAIAAAADAAUAAgAAAAIAAAADAAYAAgAAAAIAAAAEAAAAAgAAAAIAAAAEAAEAAgAAAAIAAAAEAAIAAgAAAAIAAAAEAAMAAgAAAAIAAAAEAAQAAgAAAAIAAAAEAAUAAgAAAAIAAAAEAAYAAgAAAAIAAAAFAAAAAgAAAAIAAAAFAAEAAgAAAAIAAAABAP//AgADAAIAAAACAP//AgADAAIAAAADAP//AgADAAIAAAAEAP//AgADAAIAAAAFAP//AgADAAIAAAACAP7/AgADAAAAAAADAP7/AgADAAAAAAAEAP7/AgADAAAAAAAFAP7/AgADAAAAAAABAP7/AgADAAAAAAABAPz/AgABAAIAACABAP3/AgADAAAAACACAPz/AgABAAIAACACAP3/AgADAAAAACADAPz/AgABAAIAACADAP3/AgADAAAAACAEAPz/AgABAAIAACAEAP3/AgADAAAAACAFAPz/AgABAAIAACAFAP3/AgADAAAAACABAAcAAgABAAIAAAACAAcAAgABAAIAAAADAAcAAgABAAIAAAAEAAcAAgABAAIAAAAFAAcAAgABAAMAAAAAAAcAAgABAAMAAFAAAPz/AgABAAMAADAGAPz/AgABAAMAAGAGAAIAAgABAAMAAAAGAP3/AgABAAIAAGAGAP7/AgABAAIAAGAGAP//AgABAAIAAGAGAAAAAgABAAIAAGAGAAEAAgABAAIAAGAFAAIAAgACAAIAAAAFAAQAAgABAAIAAGAFAAUAAgABAAIAAGAFAAYAAgABAAIAAGAAAAIAAgABAAIAAHAAAAMAAgABAAIAAHAAAAQAAgABAAIAAHAAAAUAAgABAAIAAHAAAAYAAgABAAIAAHAAAAAAAgABAAIAAHAAAAEAAgABAAIAAHAAAP3/AgABAAIAAHAAAP7/AgABAAIAAHAAAP//AgABAAIAAHD8//z/AgAAAAEAAAD8//3/AgAAAAEAAAD8//7/AgAAAAEAAAD8////AgAAAAEAAAD8/wAAAgAAAAEAAAD8/wEAAgAAAAEAAAD8/wIAAgAAAAEAAAD8/wMAAgAAAAEAAAD8/wQAAgAAAAEAAAD8/wUAAgAAAAEAAAD8/wYAAgAAAAEAAAD8/wcAAgAAAAEAAAD9//z/AgAAAAEAAAD9//3/AgAAAAEAAAD9//7/AgAAAAEAAAD9////AgAAAAEAAAD9/wAAAgAAAAEAAAD9/wEAAgAAAAEAAAD9/wIAAgAAAAEAAAD9/wMAAgAAAAEAAAD9/wQAAgAAAAEAAAD9/wUAAgAAAAEAAAD9/wYAAgAAAAEAAAD9/wcAAgAAAAEAAAD+//z/AgAAAAEAAAD+//3/AgAAAAEAAAD+//7/AgAAAAEAAAD+////AgAAAAEAAAD+/wAAAgAAAAEAAAD+/wEAAgAAAAEAAAD+/wIAAgAAAAEAAAD+/wMAAgAAAAEAAAD+/wQAAgAAAAEAAAD+/wUAAgAAAAEAAAD+/wYAAgAAAAEAAAD+/wcAAgAAAAEAAAD///z/AgAAAAEAAAD///3/AgAAAAEAAAD///7/AgAAAAEAAAD/////AgAAAAEAAAD//wAAAgAAAAEAAAD//wEAAgAAAAEAAAD//wIAAgAAAAEAAAD//wMAAgAAAAEAAAD//wQAAgAAAAEAAAD//wUAAgAAAAEAAAD//wYAAgAAAAEAAAD//wcAAgAAAAEAAAAHAPz/AgAAAAEAAAAHAP3/AgAAAAEAAAAHAP7/AgAAAAEAAAAHAP//AgAAAAEAAAAHAAAAAgAAAAEAAAAHAAEAAgAAAAEAAAAHAAIAAgAAAAEAAAAHAAMAAgAAAAEAAAAHAAQAAgAAAAEAAAAHAAUAAgAAAAEAAAAHAAYAAgAAAAEAAAAIAPz/AgAAAAEAAAAIAP3/AgAAAAEAAAAIAP7/AgAAAAEAAAAIAP//AgAAAAEAAAAIAAAAAgAAAAEAAAAIAAEAAgAAAAEAAAAIAAIAAgAAAAEAAAAIAAMAAgAAAAEAAAAIAAQAAgAAAAEAAAAIAAUAAgAAAAEAAAAIAAYAAgAAAAEAAAAJAPz/AgAAAAEAAAAJAP3/AgAAAAEAAAAJAP7/AgAAAAEAAAAJAP//AgAAAAEAAAAJAAAAAgAAAAEAAAAJAAEAAgAAAAEAAAAJAAIAAgAAAAEAAAAJAAMAAgAAAAEAAAAJAAQAAgAAAAEAAAAJAAUAAgAAAAEAAAAJAAYAAgAAAAEAAAAKAPz/AgAAAAEAAAAKAP3/AgAAAAEAAAAKAP7/AgAAAAEAAAAKAP//AgAAAAEAAAAKAAAAAgAAAAEAAAAKAAEAAgAAAAEAAAAKAAIAAgAAAAEAAAAKAAMAAgAAAAEAAAAKAAQAAgAAAAEAAAAKAAUAAgAAAAEAAAAKAAYAAgAAAAEAAAAFAAMAAgAAAAEAAAAGAAMAAgAAAAEAAAAGAAQAAgAAAAEAAAAGAAUAAgAAAAEAAAAGAAYAAgAAAAEAAAAGAAcAAgAAAAEAAAAHAAcAAgAAAAEAAAAIAAcAAgAAAAEAAAAJAAcAAgAAAAEAAAAKAAcAAgAAAAEAAAD8/wgAAgAAAAEAAAD9/wgAAgAAAAEAAAD+/wgAAgAAAAEAAAD//wgAAgAAAAEAAAAAAAgAAgAAAAEAAAABAAgAAgAAAAEAAAACAAgAAgAAAAEAAAADAAgAAgAAAAEAAAAEAAgAAgAAAAEAAAAFAAgAAgAAAAEAAAAGAAgAAgAAAAEAAAAHAAgAAgAAAAEAAAAIAAgAAgAAAAEAAAAJAAgAAgAAAAEAAAAKAAgAAgAAAAEAAAD8//v/AgAAAAEAAAD9//v/AgAAAAEAAAD+//v/AgAAAAEAAAD///v/AgAAAAEAAAAAAPv/AgAAAAEAAAABAPv/AgAAAAEAAAACAPv/AgAAAAEAAAADAPv/AgAAAAEAAAAEAPv/AgAAAAEAAAAFAPv/AgAAAAEAAAAGAPv/AgAAAAEAAAAHAPv/AgAAAAEAAAAIAPv/AgAAAAEAAAAJAPv/AgAAAAEAAAAKAPv/AgAAAAEAAAD6//v/AgAAAAEAAAD6//z/AgAAAAEAAAD6//3/AgAAAAEAAAD6//7/AgAAAAEAAAD6////AgAAAAEAAAD6/wAAAgAAAAEAAAD6/wEAAgAAAAEAAAD6/wIAAgAAAAEAAAD6/wMAAgAAAAEAAAD6/wQAAgAAAAEAAAD6/wUAAgAAAAEAAAD6/wYAAgAAAAEAAAD6/wcAAgAAAAEAAAD6/wgAAgAAAAEAAAD7//v/AgAAAAEAAAD7//z/AgAAAAEAAAD7//3/AgAAAAEAAAD7//7/AgAAAAEAAAD7////AgAAAAEAAAD7/wAAAgAAAAEAAAD7/wEAAgAAAAEAAAD7/wIAAgAAAAEAAAD7/wMAAgAAAAEAAAD7/wQAAgAAAAEAAAD7/wUAAgAAAAEAAAD7/wYAAgAAAAEAAAD7/wcAAgAAAAEAAAD7/wgAAgAAAAEAAAALAPv/AgAAAAEAAAALAPz/AgAAAAEAAAALAP3/AgAAAAEAAAALAP7/AgAAAAEAAAALAP//AgAAAAEAAAALAAAAAgAAAAEAAAALAAEAAgAAAAEAAAALAAIAAgAAAAEAAAALAAMAAgAAAAEAAAALAAQAAgAAAAEAAAALAAUAAgAAAAEAAAALAAYAAgAAAAEAAAALAAcAAgAAAAEAAAALAAgAAgAAAAEAAAAMAPv/AgAAAAEAAAAMAPz/AgAAAAEAAAAMAP3/AgAAAAEAAAAMAP7/AgAAAAEAAAAMAP//AgAAAAEAAAAMAAAAAgAAAAEAAAAMAAEAAgAAAAEAAAAMAAIAAgAAAAEAAAAMAAMAAgAAAAEAAAAMAAQAAgAAAAEAAAAMAAUAAgAAAAEAAAAMAAYAAgAAAAEAAAAMAAcAAgAAAAEAAAAMAAgAAgAAAAEAAAD6//r/AgAAAAEAAAD7//r/AgAAAAEAAAD8//r/AgAAAAEAAAD9//r/AgAAAAEAAAD+//r/AgAAAAEAAAD///r/AgAAAAEAAAAAAPr/AgAAAAEAAAABAPr/AgAAAAEAAAACAPr/AgAAAAEAAAADAPr/AgAAAAEAAAAEAPr/AgAAAAEAAAAFAPr/AgAAAAEAAAAGAPr/AgAAAAEAAAAHAPr/AgAAAAEAAAAIAPr/AgAAAAEAAAAJAPr/AgAAAAEAAAAKAPr/AgAAAAEAAAALAPr/AgAAAAEAAAAMAPr/AgAAAAEAAAD6/wkAAgAAAAEAAAD7/wkAAgAAAAEAAAD8/wkAAgAAAAEAAAD9/wkAAgAAAAEAAAD+/wkAAgAAAAEAAAD//wkAAgAAAAEAAAAAAAkAAgAAAAEAAAABAAkAAgAAAAEAAAACAAkAAgAAAAEAAAADAAkAAgAAAAEAAAAEAAkAAgAAAAEAAAAFAAkAAgAAAAEAAAAGAAkAAgAAAAEAAAAHAAkAAgAAAAEAAAAIAAkAAgAAAAEAAAAJAAkAAgAAAAEAAAAKAAkAAgAAAAEAAAALAAkAAgAAAAEAAAAMAAkAAgAAAAEAAAA=")
+tile_set = ExtResource("10_uhr3v")
+
+[node name="objects" type="TileMapLayer" parent="TileMap" unique_id=1059238655]
+tile_set = ExtResource("11_ql856")
+
+[node name="objects_top" type="TileMapLayer" parent="TileMap/objects" unique_id=2087153375]
+tile_set = ExtResource("11_ql856")
+
+[node name="Textboxes" type="Node2D" parent="." unique_id=1542097592]
+
+[node name="player" parent="." unique_id=213896978 instance=ExtResource("6_b83tt")]
+z_index = 1
+position = Vector2(146, 89)
+move_speed = 100.0
+
+[node name="Dialogue" type="CanvasLayer" parent="." unique_id=1181714843]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Dialogue" unique_id=768235694]
+bus = &"Voice"
+
+[node name="SceneTriggers" type="Node2D" parent="." unique_id=730644989]
+
+[node name="ChangeRoomTrigger" type="Area2D" parent="SceneTriggers" unique_id=986384223]
+position = Vector2(-384, 64)
+script = ExtResource("7_uhr3v")
+player_position = Vector2(16, 32)
+next_room_path = "res://scenes/maps/pizzeria/1ab.tscn"
+metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger" unique_id=363654170]
+position = Vector2(560, 48)
+shape = SubResource("RectangleShape2D_csy5g")
+
+[connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger" to="SceneTriggers/ChangeRoomTrigger" method="_on_body_entered"]
