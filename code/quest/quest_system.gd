@@ -36,8 +36,6 @@ func _ready() -> void:
 
 func _setup_evaluator_hooks() -> void:
 	# Connect evaluator to game systems (similar to DialogueRunner)
-	evaluator.has_item_func = _check_has_item
-	evaluator.has_status_func = _check_has_status
 	evaluator.is_quest_complete_func = _is_quest_completed
 	evaluator.is_quest_active_func = _is_quest_active
 	evaluator.has_done_dialogue_func = _has_done_dialogue

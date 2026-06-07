@@ -11,9 +11,6 @@ class_name QuestConditionEvaluator
 signal custom_condition_requested(condition: QuestPointCondition, result_callback: Callable)
 
 # Game state hooks - connect these to your actual game systems
-var has_item_func: Callable = Callable()        # func(item_id: String, amount: int) -> bool
-var has_status_func: Callable = Callable()      # func(status_id: String) -> bool
-var get_variable_func: Callable = Callable()    # func(var_name: String) -> Variant
 var is_quest_complete_func: Callable = Callable()   # func(quest_id: String) -> bool
 var is_quest_active_func: Callable = Callable()     # func(quest_id: String) -> bool
 var has_visited_location_func: Callable = Callable() # func(location_id: String) -> bool
@@ -104,39 +101,26 @@ func initialize_kill_baseline(condition: QuestPointCondition) -> void:
 func update_point_conditions(point: QuestPoint) -> void:
 		for condition in point.conditions:
 				condition.progress_current = get_progress(condition)
-				print(condition.progress_current)
 
 ## ==================== Internal Evaluation Methods ====================
 
 func _eval_has_item(condition: QuestPointCondition) -> bool:
-		if has_item_func.is_valid():
-				return has_item_func.call(condition.target_key, int(condition.progress_target))
-		# Fallback to PlayerStats
-		var player_stats = PlayerStats
-		if player_stats and player_stats.has_method("has_item_by_id"):
-				var item_resource = _load_resource_by_id(condition.target_key)
-				if item_resource:
-						return player_stats.has_item_by_id(item_resource, int(condition.progress_target))
-		push_warning("[QuestConditionEvaluator] has_item_func not set, cannot check for '%s'" % condition.target_key)
+		var item_resource = load(condition.target_key) as Item
+		if item_resource:
+				return PlayerStats.has_item(item_resource, int(condition.progress_target))
 		return false
 
 func _get_item_progress(condition: QuestPointCondition) -> float:
-		if has_item_func.is_valid():
-				# Assume it returns current amount if called with amount=0 or has a separate getter
-				pass
-		# Fallback - would need implementation based on your inventory system
+		var item_resource = load(condition.target_key)
+		if item_resource and PlayerStats.has_item(item_resource):
+				return PlayerStats.inventory[item_resource as Item]
 		return condition.progress_current
 
 func _eval_has_status(condition: QuestPointCondition) -> bool:
-		if has_status_func.is_valid():
-				return has_status_func.call(condition.target_key)
 		push_warning("[QuestConditionEvaluator] has_status_func not set, cannot check for '%s'" % condition.target_key)
 		return false
 
 func _eval_done_thing(condition: QuestPointCondition) -> bool:
-		if has_done_thing_func.is_valid():
-				return has_done_thing_func.call(condition.target_key)
-		# Fallback to root_script custom_data
 		var root = Engine.get_main_loop().root
 		if root and root.has_node("root_script"):
 				var root_script = root.get_node("root_script")
@@ -146,9 +130,6 @@ func _eval_done_thing(condition: QuestPointCondition) -> bool:
 		return custom_data.get("done_things", {}).get(condition.target_key, false)
 
 func _eval_done_dialogue(condition: QuestPointCondition) -> bool:
-		if has_done_dialogue_func.is_valid():
-				return has_done_dialogue_func.call(condition.target_key)
-		# Fallback to root_script
 		var root = Engine.get_main_loop().root
 		if root and root.has_node("root_script"):
 				var root_script = root.get_node("root_script")
@@ -158,9 +139,6 @@ func _eval_done_dialogue(condition: QuestPointCondition) -> bool:
 		return custom_data.get("completed_dialogues", []).has(condition.target_key)
 
 func _eval_talked_to_npc(condition: QuestPointCondition) -> bool:
-		if has_talked_to_npc_func.is_valid():
-				return has_talked_to_npc_func.call(condition.target_key)
-		# Fallback to root_script
 		var root = Engine.get_main_loop().root
 		if root and root.has_node("root_script"):
 				var root_script = root.get_node("root_script")
@@ -267,13 +245,10 @@ func initialize_battle_baseline(condition: QuestPointCondition) -> void:
 ## Initialize item baseline when quest/point starts (for HAS_ITEM conditions)
 func initialize_item_baseline(condition: QuestPointCondition) -> void:
 	if condition.type == QuestPointCondition.ConditionType.HAS_ITEM and not condition.is_absolute:
-		# For HAS_ITEM, we track the baseline inventory count
-		# If has_item_func is available, get current amount; otherwise use 0
 		var current_amount = 0
-		if has_item_func.is_valid():
-			# Assume has_item_func can be called to check existence, but we need a way to get count
-			# For now, we'll use 0 as baseline and rely on progress tracking
-			current_amount = 0
+		var item = load(condition.target_key) as Item
+		if PlayerStats.has_item(item):
+			current_amount = PlayerStats.inventory[item]
 			condition._initial_value_count = current_amount
 			condition.progress_current = 0.0
 	elif condition.type == QuestPointCondition.ConditionType.HAS_ITEM and condition.is_absolute:
@@ -283,12 +258,11 @@ func initialize_item_baseline(condition: QuestPointCondition) -> void:
 ## Initialize status baseline when quest/point starts (for HAS_STATUS conditions)
 func initialize_status_baseline(condition: QuestPointCondition) -> void:
 	if condition.type == QuestPointCondition.ConditionType.HAS_STATUS and not condition.is_absolute:
-		# For HAS_STATUS, check if status is currently active
 		var has_status = false
-		if has_status_func.is_valid():
-			has_status = has_status_func.call(condition.target_key)
-			condition._initial_value_count = 1 if has_status else 0
-			condition.progress_current = 1.0 if has_status else 0.0
+		#if has_status_func.is_valid():
+			#has_status = has_status_func.call(condition.target_key)
+			#condition._initial_value_count = 1 if has_status else 0
+			#condition.progress_current = 1.0 if has_status else 0.0
 	elif condition.type == QuestPointCondition.ConditionType.HAS_STATUS and condition.is_absolute:
 		condition._initial_value_count = 0
 		condition.progress_current = 0.0
@@ -328,12 +302,10 @@ func initialize_done_dialogue_baseline(condition: QuestPointCondition) -> void:
 ## Initialize talked_to_npc baseline when quest/point starts (for TALKED_TO_NPC conditions)
 func initialize_talked_to_npc_baseline(condition: QuestPointCondition) -> void:
 	if condition.type == QuestPointCondition.ConditionType.TALKED_TO_NPC and not condition.is_absolute:
-		# Check if NPC was already talked to before this quest started
 		var already_talked = false
 		if has_talked_to_npc_func.is_valid():
 			already_talked = has_talked_to_npc_func.call(condition.target_key)
 		else:
-			# Fallback to custom_data
 			already_talked = custom_data.get("talked_npcs", []).has(condition.target_key)
 			condition._initial_value_count = 1 if already_talked else 0
 			condition.progress_current = 1.0 if already_talked else 0.0
@@ -356,18 +328,3 @@ func _get_battle_progress(condition: QuestPointCondition) -> float:
 		else:
 				var wins_since_start = current_count - condition._initial_value_count
 				return max(0.0, wins_since_start as float)
-
-## Helper to load resource by ID (adjust based on your resource loading system)
-func _load_resource_by_id(resource_id: String) -> Resource:
-		# Try common paths
-		var paths = [
-		"res://resources/items/%s.tres" % resource_id,
-		"res://resources/items/%s.resource" % resource_id,
-		"res://items/%s.tres" % resource_id
-		]
-
-		for path in paths:
-				if ResourceLoader.exists(path):
-						return load(path)
-
-		return null

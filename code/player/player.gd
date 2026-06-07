@@ -150,18 +150,21 @@ func movement(delta) -> void:
 
 var idle_state = 0
 
-func animate():
-	if current_direction != Vector2.ZERO:
-		if current_direction.y == -1:
+func animate(id = 3, is_running = false):
+	if current_direction != Vector2.ZERO or id < 3:
+		if current_direction.y == -1 or (id == 2 and is_running):
 			$AnimatedSprite2D.play("run2")
 			idle_state = 2
-		elif current_direction.y == 1:
+		elif current_direction.y == 1 or (id == 0 and is_running):
 			$AnimatedSprite2D.play("run1")
 			idle_state = 1
-		elif current_direction.x != 0:
+				
+		elif current_direction.x != 0 or (abs(id) == 1 and is_running):
 			$AnimatedSprite2D.play("run0")
 			idle_state = 0
 			$AnimatedSprite2D.flip_h = current_direction.x < 0
+			if id == -1:
+				$AnimatedSprite2D.flip_h = true
 	else:
 		$AnimatedSprite2D.play("idle" + str(idle_state))
 
