@@ -11,9 +11,11 @@
 [ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="7_uhr3v"]
 [ext_resource type="Resource" uid="uid://diki2hhwqkao6" path="res://resources/battles/pizzeria/b1_a2.tres" id="8_cr155"]
 [ext_resource type="Resource" uid="uid://degevskgheqp6" path="res://resources/battles/pizzeria/b2_a1.tres" id="9_2os2b"]
+[ext_resource type="Texture2D" uid="uid://bevvexikdqtsr" path="res://assets/battleui/backgrounds/FNaF 1 - Backroom.png" id="10_0ffpj"]
 [ext_resource type="TileSet" uid="uid://cpxfb26nr2i26" path="res://assets/tilemaps/tilesets/wall_tileset.tres" id="10_uhr3v"]
 [ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="11_ql856"]
 [ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office-running-sfx-made-with-Voicemod.mp3" id="12_ql856"]
+[ext_resource type="Script" uid="uid://8xdjua3jhdqd" path="res://scenes/maps/black_flash_on_scene.gd" id="15_6hbv8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_csy5g"]
 size = Vector2(32, 32)
@@ -25,16 +27,30 @@ room_name = "Pizzeria - Backstage"
 possible_battles = Array[ExtResource("2_2ps5s")]([ExtResource("3_3ex05"), ExtResource("4_uhr3v"), ExtResource("5_ql856"), ExtResource("6_6hbv8"), ExtResource("7_0ffpj"), ExtResource("8_cr155"), ExtResource("9_2os2b")])
 enemy_intensity = 150
 enemy_agressiveness = 87
+battle_bg = ExtResource("10_0ffpj")
 player = NodePath("player")
 room_size = Rect2(-6, -6, 18, 14)
 metadata/_custom_type_script = "uid://duek0uk444kjf"
 metadata/_edit_horizontal_guides_ = [735.0]
+
+[node name="transition" type="CanvasLayer" parent="." unique_id=365887827]
+
+[node name="black_flash" type="ColorRect" parent="transition" unique_id=812739638]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 999
+offset_right = 864.0
+offset_bottom = 648.0
+mouse_filter = 1
+color = Color(0, 0, 0, 1)
+script = ExtResource("15_6hbv8")
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=1202454660]
 stream = ExtResource("12_ql856")
 volume_db = -0.5
 autoplay = true
 bus = &"Music"
+
+[node name="Cutscenes" type="Node" parent="." unique_id=426438431]
 
 [node name="TileMap" type="Node2D" parent="." unique_id=1457658479]
 

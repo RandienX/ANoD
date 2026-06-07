@@ -9,24 +9,24 @@
 [ext_resource type="Texture2D" uid="uid://0dhqip2ffp2h" path="res://assets/mapsprites/Toys 2.png" id="6_ppajj"]
 [ext_resource type="PackedScene" uid="uid://cgs08pp0l2gmg" path="res://scenes/objects/textbox_maker.tscn" id="7_2grc0"]
 [ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="7_8673g"]
-[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/textbox/DialogueNode.gd" id="8_8673g"]
-[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/textbox/DialogueData.gd" id="9_feixl"]
-[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/textbox/DialogueBranch.gd" id="9_tenmc"]
-[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/textbox/DialogueChoice.gd" id="10_5tfqc"]
-[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/textbox/DialogueEffect.gd" id="11_u86nv"]
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="8_8673g"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="9_feixl"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="9_tenmc"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="10_5tfqc"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/dialogue/DialogueEffect.gd" id="11_u86nv"]
 [ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/party/Classics+Swag.png" id="12_gucuy"]
 [ext_resource type="AudioStream" uid="uid://diqbgsqledu5t" path="res://assets/tts_lines/dining_hall/inhale_dong.mp3" id="13_5tfqc"]
 [ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office-running-sfx-made-with-Voicemod.mp3" id="17_u86nv"]
+[ext_resource type="Script" uid="uid://8xdjua3jhdqd" path="res://scenes/maps/black_flash_on_scene.gd" id="18_gucuy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tenmc"]
 size = Vector2(20, 31)
 
 [sub_resource type="Resource" id="Resource_uo5u6"]
 script = ExtResource("11_u86nv")
-effect_type = 7
+effect_type = 11
 param_string = "open shop"
 param_value = "res://resources/shopdata/bb/bb_shop_1.tres"
-param_string = "open shop"
 metadata/_custom_type_script = "uid://t5qfe8igpeg3"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_28tpx"]
@@ -60,6 +60,19 @@ player = NodePath("player")
 room_size = Rect2(0, 0, 18, 15)
 metadata/_custom_type_script = "uid://duek0uk444kjf"
 
+[node name="transition" type="CanvasLayer" parent="." unique_id=1508154900]
+
+[node name="black_flash" type="ColorRect" parent="transition" unique_id=247200279]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 999
+offset_right = 864.0
+offset_bottom = 648.0
+mouse_filter = 1
+color = Color(0, 0, 0, 1)
+script = ExtResource("18_gucuy")
+
+[node name="Cutscenes" type="Node" parent="." unique_id=543158246]
+
 [node name="TileMap" type="Node2D" parent="." unique_id=1158853708]
 
 [node name="walls" type="TileMapLayer" parent="TileMap" unique_id=554390853]
@@ -67,9 +80,12 @@ tile_map_data = PackedByteArray("AAAAAAAAAgAAAAEAAAAAAAEAAgAAAAEAAAAAAAIAAgAAAAE
 tile_set = ExtResource("4_5tfqc")
 
 [node name="objects" type="TileMapLayer" parent="TileMap" unique_id=947248077]
+tile_map_data = PackedByteArray("AAAHAAgAAQAAAAkAAAAHAAcAAQACAAkAAAAHAAUAAQAAAAgAAAAHAAYAAQACAAkAAAAJAAgAAQABAAkAAAAJAAcAAQAAAAgAABAJAAYAAQADAAkAAAAJAAUAAQADAAgAAAA=")
 tile_set = ExtResource("5_u86nv")
 
 [node name="objects_top" type="TileMapLayer" parent="TileMap/objects" unique_id=1654477143]
+z_index = 10
+tile_map_data = PackedByteArray("AAAHAAcAAQABAAgAAAAHAAYAAQACAAgAAAAHAAgAAQAAAAkAAAAJAAgAAQABAAkAAAAJAAcAAQAAAAgAABAHAAUAAQAAAAgAAAA=")
 tile_set = ExtResource("5_u86nv")
 
 [node name="bb_shop" type="Sprite2D" parent="TileMap/objects" unique_id=594348877]
@@ -79,6 +95,7 @@ region_enabled = true
 region_rect = Rect2(128, 0, 32, 32)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="TileMap/objects/bb_shop" unique_id=311262615]
+position = Vector2(0, -2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/objects/bb_shop/StaticBody2D" unique_id=1303681708]
 position = Vector2(0, 0.5)
@@ -96,7 +113,7 @@ player_node_path = NodePath("../../player")
 
 [node name="player" parent="." unique_id=124558449 instance=ExtResource("6_2grc0")]
 z_index = 1
-position = Vector2(336, 223)
+position = Vector2(336, 225)
 move_speed = 100.0
 
 [node name="Dialogue" type="CanvasLayer" parent="." unique_id=1533219490]

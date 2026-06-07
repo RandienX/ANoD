@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgs08pp0l2gmg"]
+[gd_scene format=3 uid="uid://cgs08pp0l2gmg"]
 
-[ext_resource type="Script" uid="uid://nq6it5wf4ixi" path="res://code/textbox/DialogueTrigger.gd" id="1_lfdya"]
+[ext_resource type="Script" uid="uid://nq6it5wf4ixi" path="res://code/dialogue/DialogueTrigger.gd" id="1_lfdya"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wxhxg"]
 size = Vector2(32, 32)

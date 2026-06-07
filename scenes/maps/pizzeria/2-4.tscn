@@ -14,17 +14,20 @@
 [ext_resource type="TileSet" uid="uid://cpxfb26nr2i26" path="res://assets/tilemaps/tilesets/wall_tileset.tres" id="10_a2hvd"]
 [ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="11_8fix0"]
 [ext_resource type="PackedScene" uid="uid://cgs08pp0l2gmg" path="res://scenes/objects/textbox_maker.tscn" id="12_ftgnv"]
-[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/textbox/DialogueNode.gd" id="13_ac03d"]
-[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/textbox/DialogueBranch.gd" id="14_5krei"]
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="13_ac03d"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="14_5krei"]
 [ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office-running-sfx-made-with-Voicemod.mp3" id="14_8fix0"]
-[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/textbox/DialogueChoice.gd" id="15_hwbjr"]
-[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/textbox/DialogueEffect.gd" id="16_2rhq2"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/dialogue/DialogueCondition.gd" id="15_ac03d"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="15_hwbjr"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/dialogue/DialogueEffect.gd" id="16_2rhq2"]
 [ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/party/Classics+Swag.png" id="17_3eab1"]
-[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/textbox/DialogueData.gd" id="18_mfx2q"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="18_mfx2q"]
+[ext_resource type="Script" uid="uid://8xdjua3jhdqd" path="res://scenes/maps/black_flash_on_scene.gd" id="23_5krei"]
+
+[sub_resource type="AnimationRootNode" id="AnimationRootNode_5krei"]
 
 [sub_resource type="Resource" id="Resource_7sx0w"]
 script = ExtResource("14_5krei")
-param_string = "res://resources/items/key/screwdriver.tres"
 target_label = "end"
 metadata/_custom_type_script = "uid://q863dboya0u8"
 
@@ -55,8 +58,6 @@ metadata/_custom_type_script = "uid://dag3ualk0velp"
 script = ExtResource("16_2rhq2")
 effect_type = 1
 param_string = "res://resources/items/key/screwdriver.tres"
-param_value = "1"
-item_id = null
 param_value = "1"
 metadata/_custom_type_script = "uid://t5qfe8igpeg3"
 
@@ -95,6 +96,20 @@ enemy_agressiveness = 70
 player = NodePath("player")
 room_size = Rect2(0, -5, 16, 17)
 metadata/_custom_type_script = "uid://duek0uk444kjf"
+
+[node name="transition" type="CanvasLayer" parent="." unique_id=146911538]
+
+[node name="black_flash" type="ColorRect" parent="transition" unique_id=392268521]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 999
+offset_right = 864.0
+offset_bottom = 648.0
+mouse_filter = 1
+color = Color(0, 0, 0, 1)
+script = ExtResource("23_5krei")
+
+[node name="Cutscenes" type="AnimationTree" parent="." unique_id=1943416700]
+tree_root = SubResource("AnimationRootNode_5krei")
 
 [node name="TileMap" type="Node2D" parent="." unique_id=337035770]
 

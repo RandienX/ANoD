@@ -8,6 +8,7 @@
 [ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="5_y42xl"]
 [ext_resource type="PackedScene" uid="uid://yq7stgud35n5" path="res://scenes/objects/player.tscn" id="6_qngx7"]
 [ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="7_8rvf5"]
+[ext_resource type="Script" uid="uid://8xdjua3jhdqd" path="res://scenes/maps/black_flash_on_scene.gd" id="9_rbkgq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ywghk"]
 size = Vector2(32, 32)
@@ -20,10 +21,23 @@ player = NodePath("player")
 room_size = Rect2(0, 0, 18, 15)
 metadata/_custom_type_script = "uid://duek0uk444kjf"
 
+[node name="transition" type="CanvasLayer" parent="." unique_id=1540840805]
+
+[node name="black_flash" type="ColorRect" parent="transition" unique_id=373268548]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 999
+offset_right = 864.0
+offset_bottom = 648.0
+mouse_filter = 1
+color = Color(0, 0, 0, 1)
+script = ExtResource("9_rbkgq")
+
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=1201953903]
 stream = ExtResource("4_y42xl")
 volume_db = 4.0
 autoplay = true
+
+[node name="Cutscenes" type="Node" parent="." unique_id=1174815890]
 
 [node name="TileMap" type="Node2D" parent="." unique_id=1697236339]
 
