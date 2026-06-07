@@ -33,7 +33,7 @@ corner_radius_bottom_left = 2
 corner_detail = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ks36d"]
-bg_color = Color(0.10448422, 0.6758198, 0.99999994, 1)
+bg_color = Color(0.105882354, 0.6745098, 1, 1)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
