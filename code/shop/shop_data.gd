@@ -9,6 +9,7 @@ class_name ShopData
 @export var shop_id: StringName = &"default_shop"  ## Unique identifier for this shop
 @export var shop_name: String = "Shop"  ## Display name
 @export var shop_description: String = ""  ## Optional description shown in UI
+@export var shop_music: AudioStreamMP3
 
 @export_group("Inventory")
 @export var items: Array[ShopItem] = []  ## All items available in this shop
