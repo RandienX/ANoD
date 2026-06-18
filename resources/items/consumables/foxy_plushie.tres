@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://dy2edov3mor1e"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_5ytqy"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/player/item.gd" id="1_item"]
+[ext_resource type="Resource" uid="uid://bq18n8b2yuafg" path="res://resources/attacks/items/foxy_plush_revival.tres" id="2_plush_attack"]
+
+[resource]
+script = ExtResource("1_item")
+item_name = "Rage Plushie"
+description = "A busted Foxy plush that crackles with the UGLY. It heals the party and sends them running away from it's stench."
+type = 2
+sell_price = Dictionary[int, int]({
+0: 180,
+1: 220,
+2: 0
+})
+max_stack = 5
+can_use_outside_battle = false
+item_attack = ExtResource("2_plush_attack")
+item_bonuses = Dictionary[StringName, int]({
+&"atk": 0,
+&"def": 0,
+&"hp": 0,
+&"magic": 0,
+&"mp": 0,
+&"speed": 0
+})
+is_item_attack = true

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://kfbw3c5m6asb"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_5fg1m"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/player/item.gd" id="2_bq884"]
+
+[resource]
+script = ExtResource("2_bq884")
+item_name = "Toilet Paper"
+description = "Toilet paper. The most important piece for successful gooning night with a friend."
+type = 3
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

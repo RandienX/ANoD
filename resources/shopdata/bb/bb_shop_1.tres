@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ShopData" load_steps=23 format=3 uid="uid://bl6fq4p6ulpwx"]
+[gd_resource type="Resource" script_class="ShopData" format=3 uid="uid://bl6fq4p6ulpwx"]
 
 [ext_resource type="Script" uid="uid://b2nv155ae50jn" path="res://code/shop/shop_item.gd" id="1_n4ldh"]
 [ext_resource type="Resource" uid="uid://dlxeylilwh1gg" path="res://resources/items/consumables/tiny_pizza.tres" id="2_qyfhw"]
@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://comuahi34o6sw" path="res://resources/items/armor/EndoBodyB.tres" id="8_0ijwn"]
 [ext_resource type="Resource" uid="uid://cl6s08n0unc3o" path="res://resources/items/weapon/Dildo6.tres" id="9_i2wwk"]
 [ext_resource type="Resource" uid="uid://yvj82upxou3h" path="res://resources/items/consumables/molotov.tres" id="11_m81lt"]
+[ext_resource type="AudioStream" uid="uid://c1qvq1p82c3ff" path="res://assets/sound/shop_bb.mp3" id="13_ebysb"]
 
 [sub_resource type="Resource" id="Resource_fwt8y"]
 script = ExtResource("1_n4ldh")
@@ -94,6 +95,7 @@ script = ExtResource("6_rirsh")
 shop_id = &"bb_shop_1"
 shop_name = "Enragement Shop 1"
 shop_description = "bitch"
+shop_music = ExtResource("13_ebysb")
 items = Array[ExtResource("1_n4ldh")]([SubResource("Resource_fwt8y"), SubResource("Resource_qwjfq"), SubResource("Resource_hj4dh"), SubResource("Resource_ep0h4"), SubResource("Resource_gj6xf"), SubResource("Resource_h45c7"), SubResource("Resource_qxtrt"), SubResource("Resource_1o0p0"), SubResource("Resource_jnhrj"), SubResource("Resource_sc8p0")])
 categories = Array[StringName]([&"all", &"consumable", &"armor", &"weapon"])
 metadata/_custom_type_script = "uid://dqtfnwt45e6s6"

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cgsaxwoxv55ux" path="res://assets/battlesprites/Party Hat.png" id="1_vdjy6"]
 [ext_resource type="Resource" uid="uid://bm2swlibbpbh4" path="res://resources/attacks/attack.tres" id="2_rrxtr"]
 [ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="3_vdjy6"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/player/item.gd" id="4_7br1d"]
 [ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/battle/entity.gd" id="4_rrxtr"]
 
 [resource]
@@ -25,6 +26,7 @@ base_stats = Dictionary[StringName, int]({
 })
 hp = 50
 default_attack = ExtResource("2_rrxtr")
-ai_type = 0
+ai_intelligence = 0
+smart_targeting = false
 currency_reward = 1
 metadata/_custom_type_script = "uid://c2cret7fy87bn"

@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="Battle" format=3 uid="uid://i40i0rawd43c"]
 
-[ext_resource type="Texture2D" uid="uid://bevvexikdqtsr" path="res://assets/battleui/backgrounds/FNaF 1 - Backroom.png" id="1_e5sox"]
 [ext_resource type="Script" uid="uid://dfxuook11sb3a" path="res://code/battle/battle_condition.gd" id="2_thg1f"]
 [ext_resource type="Script" uid="uid://tjsyf20orwjt" path="res://code/battle/battle_end_condition.gd" id="3_m0i7c"]
 [ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="4_2m3h5"]
@@ -29,6 +28,5 @@ metadata/_custom_type_script = "uid://cpuojkdrhbref"
 script = ExtResource("11_mant2")
 battle_name = "Beta Gamma"
 enemies = Array[ExtResource("4_2m3h5")]([SubResource("Resource_h2t3o"), SubResource("Resource_ykmfe")])
-background = ExtResource("1_e5sox")
 music = ExtResource("9_m0i7c")
 metadata/_custom_type_script = "uid://s2os42vdwf6y"

@@ -15,6 +15,6 @@ script = ExtResource("1_ceosw")
 item_name = "TEST_ATTACK_ITEM"
 description = "TEST"
 type = 2
-is_item_attack = true
 item_attack = SubResource("Resource_tm5u1")
+is_item_attack = true
 metadata/_custom_type_script = "uid://dn31qme1ukrys"

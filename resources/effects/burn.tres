@@ -13,8 +13,8 @@ region = Rect2(64, 256, 64, 64)
 [sub_resource type="Resource" id="Resource_1xfkj"]
 script = ExtResource("3_tspkb")
 stat_key = "hp"
-value = 5.0
-scaling_type = 3
+value = 7.5
+scaling_type = 2
 metadata/_custom_type_script = "uid://btu5sgbysqdfq"
 
 [sub_resource type="Resource" id="Resource_m8xcb"]

@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://brnweseswchfj"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_battle_effect"]
+[ext_resource type="Script" uid="uid://bdv44ymylf45" path="res://code/battle/battle_effect_condition.gd" id="2_ptq7o"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="2_skill"]
+[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect_stat_modifier.gd" id="3_stat_modifier"]
+[ext_resource type="Texture2D" uid="uid://bq6thf27xq8y0" path="res://assets/battleui/status_effects.png" id="4_agwcl"]
+[ext_resource type="Script" uid="uid://bdxyu3e5w0856" path="res://code/battle/battle_effect_status_definition.gd" id="4_status_definition"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrtr2"]
+atlas = ExtResource("4_agwcl")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="Resource" id="Resource_speed_mod"]
+script = ExtResource("3_stat_modifier")
+stat_key = "speed"
+value = 100.0
+scaling_type = 2
+
+[sub_resource type="Resource" id="Resource_speed_status"]
+script = ExtResource("4_status_definition")
+id = "foxy_rage_momentum"
+name = "Rage Momentum"
+icon = SubResource("AtlasTexture_yrtr2")
+is_positive = true
+max_stacks = 0
+stat_modifiers = Array[ExtResource("3_stat_modifier")]([SubResource("Resource_speed_mod")])
+
+[sub_resource type="Resource" id="Resource_speed_effect"]
+script = ExtResource("1_battle_effect")
+effect_id = "rage_momentum"
+effect_name = "Rage Momentum"
+effect_type = 4
+description = "Foxy's anger turns into raw speed."
+status_ref = SubResource("Resource_speed_status")
+
+[resource]
+script = ExtResource("2_skill")
+skill_name = "Goon Rush"
+description = "Foxy barrels forward in a rage-fueled run, swinging wildly and burning through the crowd."
+target_type = 3
+attack_multiplier = 1.1
+hit_count = 3
+hit_damage_multiplier = 0.6
+on_use_effects = Array[ExtResource("1_battle_effect")]([SubResource("Resource_speed_effect")])

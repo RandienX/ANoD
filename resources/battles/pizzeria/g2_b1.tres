@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="Battle" format=3 uid="uid://bhfnl537c8pxi"]
 
-[ext_resource type="Texture2D" uid="uid://dsolecv57wpem" path="res://assets/battleui/backgrounds/FNaF 1 - West Hall.png" id="1_co0a3"]
 [ext_resource type="Script" uid="uid://dfxuook11sb3a" path="res://code/battle/battle_condition.gd" id="2_co0a3"]
 [ext_resource type="Script" uid="uid://tjsyf20orwjt" path="res://code/battle/battle_end_condition.gd" id="3_r4cj1"]
 [ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="4_y3oy3"]
@@ -34,7 +33,6 @@ metadata/_custom_type_script = "uid://cpuojkdrhbref"
 script = ExtResource("11_jdug4")
 battle_name = "Beta Party Hat 3"
 enemies = Array[ExtResource("4_y3oy3")]([SubResource("Resource_w3sal"), SubResource("Resource_4a0t1"), SubResource("Resource_vx1ff")])
-background = ExtResource("1_co0a3")
 music = ExtResource("9_y3oy3")
 xp_multiplier = 1.1
 metadata/_custom_type_script = "uid://s2os42vdwf6y"
