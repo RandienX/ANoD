@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var camera := $Camera2D
 
 @export var stop_move := false
+var force_stop_move := false
 @export var static_shader := true
 @export var can_menu := true
 
@@ -46,6 +47,8 @@ func _ready() -> void:
 	# Create party member sprites based on PlayerStats.party array
 	await get_tree().create_timer(0.1).timeout
 	create_party_sprites()
+	Global.player_ref = self
+	update_party_sprites(0.03)
 
 func enumify_room():
 	if room == "Pizzeria - Dining Hall":
@@ -89,14 +92,14 @@ func create_party_sprites():
 		sprite.name = "PartyMember" + str(entity.name)
 
 		# Start at same position as player (will be positioned relative to global position)
-		sprite.global_position = global_position
+		sprite.global_position = PlayerStats.player_position
 
 		add_child(sprite)
 		sprite.sprite_frames = entity.sprite
 		sprite.play("idle1")
 
 		party_sprites.append(sprite)
-		party_positions.append(global_position)  # Start at player's global position
+		party_positions.append(PlayerStats.player_position)  # Start at player's global position
 		party_delays.append((20 * (index + 1)) - 1)  # Increasing delay for each member
 		party_idle_states.append(1)
 
@@ -117,11 +120,12 @@ var acceleration = 500
 
 var current_direction: Vector2 = Vector2.ZERO
 var target_rotation: float = 0.0
+var previous_pos = PlayerStats.player_position
 
 func movement(delta) -> void:
 	var direction = Input.get_vector("left", "right", "up", "down")
 
-	if !stop_move:
+	if !stop_move and !force_stop_move:
 		if direction.length() > 1.0:
 			direction = direction.normalized()
 		current_direction = direction
@@ -133,20 +137,25 @@ func movement(delta) -> void:
 		current_direction = Vector2.ZERO
 		velocity = Vector2.ZERO
 	# Record actual movement after collision resolution
-	if current_direction != Vector2.ZERO or velocity.length() > 0:
+	if get_real_velocity().length() > 0 or global_position != previous_pos:
 		last_directions.insert(0, get_real_velocity())
-		# Keep history bounded to prevent memory issues and desync
-		while last_directions.size() > max_history_size:
-			last_directions.pop_back()
+		update_party_sprites(delta)
+		animate_sprites()
+	else:
+		for pm in range(len(party_sprites)):
+			party_sprites[pm].play("idle" + str(party_idle_states[pm]))
 	
-	# Update party sprites
-	update_party_sprites(delta)
-
-	move_and_slide()
+	while last_directions.size() > max_history_size:
+		last_directions.pop_back()
 
 	animate()
+	animate_sprites()
+
 	if global_position != null:
 		PlayerStats.player_position = global_position
+	previous_pos = global_position
+	
+	move_and_slide()
 
 var idle_state = 0
 
@@ -172,51 +181,56 @@ func update_party_sprites(delta) -> void:
 	for pm in range(len(party_sprites)):
 		var pos = party_positions[pm]
 		var dir = Vector2.ZERO
-
+		
 		if len(last_directions) >= party_delays[pm] + 1:
 			dir = last_directions[party_delays[pm]]
 			pos += dir * delta
-
-			if len(last_directions) >= party_delays.max() + 1:
+			
+			if len(last_directions) >= party_delays.max() + 2:
 				last_directions.pop_back()
-
+		
 		party_positions[pm] = pos
 		party_sprites[pm].global_position = pos
-
-		# Animate party sprites based on movement
-		if dir != Vector2.ZERO:
-			if dir.y < 0:
-				party_sprites[pm].play("run2")
-				party_idle_states[pm] = 2
-			elif dir.y > 0:
-				party_sprites[pm].play("run1")
-				party_idle_states[pm] = 1
-			elif dir.x != 0:
-				party_sprites[pm].play("run0")
-				party_idle_states[pm] = 0
-				party_sprites[pm].flip_h = dir.x < 0
-		else:
-			party_sprites[pm].play("idle" + str(party_idle_states[pm]))
-	
+		
 		if global_position.y > party_sprites[pm].global_position.y:
 			party_sprites[pm].z_index = -1
 		else:
 			party_sprites[pm].z_index = 0
 
-func textbox():
-	stop_move = true
-	can_menu = false
+func animate_sprites():
+	for pm in range(len(party_sprites)):
+		if last_directions.size()-1 >= party_delays[pm]:
+			var dir = last_directions[party_delays[pm]]
+			if dir != Vector2.ZERO:
+				if dir.y < 0:
+					party_sprites[pm].play("run2")
+					party_idle_states[pm] = 2
+				elif dir.y > 0:
+					party_sprites[pm].play("run1")
+					party_idle_states[pm] = 1
+				elif dir.x != 0:
+					party_sprites[pm].play("run0")
+					party_idle_states[pm] = 0
+					party_sprites[pm].flip_h = dir.x < 0
 
-@export var party: Array[Entity]
+func textbox():
+	stop_move = !stop_move
+	can_menu = !can_menu
+
+func wiggl_camera():
+	$AnimationPlayer.play("wiggl_camera")
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("menu") and can_menu:
 		if menu.visible == false:
 			menu.visible = true
 			stop_move = true
+			get_tree().paused = true
 		else:
 			menu.visible = false
 			stop_move = false
+			get_tree().paused = false
+			
 
 func battle_zoom():
 		stop_move = true

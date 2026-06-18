@@ -1,4 +1,7 @@
 extends Node
+## DialogueTriggerArea2D
+## Place this node in your scene, assign a DialogueData resource,
+## and it will automatically show the dialogue when the player enters.
 
 @export var textbox_node: CanvasLayer
 @export var once_per_session: bool = false
@@ -19,7 +22,11 @@ func _ready() -> void:
 			_ui_instance = ui
 
 func _input(_event: InputEvent) -> void:
-	if starting:
+	if require_input_to_finish and !starting:
+		if Input.is_action_just_pressed("use") or Input.is_action_just_pressed("lmb"):
+			if _dialogue_runner and _dialogue_runner.is_running:
+				_dialogue_runner.advance()
+	elif starting:
 		await get_tree().create_timer(0.05).timeout
 		starting = false
 		
@@ -52,6 +59,7 @@ func start_dialogue(dialogue_data, ops: bool, ritf: bool) -> void:
 	once_per_session = ops
 	require_input_to_finish = ritf
 		
+	# Create runner
 	if _dialogue_runner == null:
 		textbox_node = get_tree().current_scene.get_node("Dialogue")
 		if textbox_node.has_node("textbox"):
@@ -63,15 +71,16 @@ func start_dialogue(dialogue_data, ops: bool, ritf: bool) -> void:
 		_dialogue_runner = DialogueRunner.new()
 		_ui_instance.add_child(_dialogue_runner)
 	
-	if !_dialogue_runner.is_connected("dialogue_started", _on_dialogue_started):
-		_dialogue_runner.dialogue_started.connect(_on_dialogue_started)
-		_dialogue_runner.node_entered.connect(_on_node_displayed)
-		_dialogue_runner.dialogue_ended.connect(_on_dialogue_ended)
+	# Connect signals
+	_dialogue_runner.dialogue_started.connect(_on_dialogue_started)
+	_dialogue_runner.node_entered.connect(_on_node_displayed)
+	_dialogue_runner.dialogue_ended.connect(_on_dialogue_ended)
 	
 	_ui_instance.connect_to_runner(_dialogue_runner)
+	# Start dialogue
 	starting = true
 	
-	_dialogue_runner.start(dialogue_data)
+	_dialogue_runner.start(dialogue_data, DialogueConditionEvaluator.new())
 
 func _on_dialogue_started(_data: Object) -> void:
 	_ui_instance.visible = true
@@ -85,11 +94,4 @@ func _on_dialogue_ended(_node) -> void:
 	if _dialogue_runner:
 		_dialogue_runner.queue_free()
 		_dialogue_runner = null
-		
-	if get_tree().current_scene:
-		if get_tree().current_scene.name == "BattleEngine":
-			get_tree().current_scene.state = get_tree().current_scene.states.OnAction
-	if get_tree().current_scene:
-		if get_tree().current_scene.name == "Shop":
-			get_viewport().set_input_as_handled()
-			get_tree().current_scene.input_blocked = false
+	

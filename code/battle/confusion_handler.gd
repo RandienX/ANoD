@@ -1,5 +1,6 @@
 ## Confusion effect behavior handler
 ## Intercepts action execution and applies confusion mechanics
+## Place this in: res://code/battle/confusion_handler.gd
 
 extends Node
 
@@ -27,12 +28,12 @@ static func handle_confused_action(entity: Entity, original_target: Entity, alli
 	var confusion_roll = randi() % 100
 	
 	# Confusion behavior distribution:
-	# 0-59: Attack ally/random
-	# 60-74: Attack enemy/random  
+	# 0-39: Attack ally/random
+	# 40-74: Attack enemy/random  
 	# 75-94: Do nothing (stand there confused)
 	# 95-99: Attack self
 	
-	if confusion_roll < 60:
+	if confusion_roll < 40:
 		# Attack ally
 		if allies.is_empty():
 			return {

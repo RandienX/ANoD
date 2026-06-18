@@ -16,7 +16,7 @@ extends Resource
 @export var forced_party_members: Array[Entity]  # Empty = use current party
 
 @export_group("Battle Settings")
-@export var background: Texture2D
+@export var background_override: Texture2D
 @export var music: AudioStreamMP3
 @export var can_flee: bool = true
 @export var can_use_items: bool = true

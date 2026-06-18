@@ -68,13 +68,13 @@ func execute(context: Object = null) -> void:
 		EffectType.AWAIT:
 			pass  # Handled by quest system
 		EffectType.CUSTOM:
-			_execute_custom(context)
+			_execute_custom(target_key)
 		EffectType.TRIGGER_EVENT:
 			_execute_trigger_event(context)
 
 func _execute_add_item() -> void:
 	if PlayerStats and not target_key.is_empty():
-		var item = _load_resource(target_key, "res://resources/items/")
+		var item = load(target_key)
 		if item:
 			PlayerStats.add_item(item, amount)
 
@@ -154,7 +154,7 @@ func _on_dialogue_ended(_node: DialogueNode, ui_instance: Control, runner: Dialo
 
 func _execute_start_battle() -> void:
 	if not target_key.is_empty():
-		var battle = _load_resource(target_key, "res://resources/battles/")
+		var battle = load(target_key)
 		if battle and Global:
 			Global.load_battle(battle)
 
@@ -191,35 +191,17 @@ func _execute_give_achievement() -> void:
 
 func _execute_cutscene() -> void:
 	if not target_key.is_empty():
-		var cutscene = _load_resource(target_key, "res://resources/cutscenes/")
+		var cutscene = load(target_key)
 		if cutscene and cutscene.has_method("play"):
 			cutscene.play()
 
-func _execute_custom(context: Object = null) -> void:
-	# Call custom logic via signals or metadata
-	if metadata.has("callback"):
-		var callback = metadata["callback"]
-		if callback is Callable:
-			callback.call(context)
+func _execute_custom(script = null) -> void:
+	script = load(script)
+	if script:
+		script.execute_custom_effect()
 
 func _execute_trigger_event(context: Object = null) -> void:
 	# Trigger a custom game event
 	if not target_key.is_empty():
 		if context and context.has_signal("quest_event_triggered"):
 			context.emit_signal("quest_event_triggered", target_key, metadata)
-
-## Helper to load resources from common paths
-func _load_resource(key: String, base_path: String) -> Resource:
-	if key.begins_with("res://"):
-		return load(key)
-	
-	var path = base_path + key + ".tres"
-	if ResourceLoader.exists(path):
-		return load(path)
-	
-	# Try with .resource extension
-	path = base_path + key + ".resource"
-	if ResourceLoader.exists(path):
-		return load(path)
-	
-	return null

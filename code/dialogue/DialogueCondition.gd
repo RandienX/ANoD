@@ -16,6 +16,7 @@ enum ConditionType {
 	CUSTOM              # Custom script
 }
 
+@warning_ignore("int_as_enum_without_cast")
 @export var condition_type: ConditionType = 0
 
 @export var param_string: String = ""      # item_id, status_id, var_name, quest_id

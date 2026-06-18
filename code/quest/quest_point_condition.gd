@@ -50,7 +50,7 @@ func is_complete() -> bool:
 	return progress_current >= progress_target
 
 ## Check if this condition is met considering connected conditions and logic gates
-func is_complete_with_connections(point: QuestPoint, evaluator: QuestConditionEvaluator = null) -> bool:
+func is_complete_with_connections(point: QuestPoint, _evaluator: QuestConditionEvaluator = null) -> bool:
 	# First check if this base condition is complete
 	var base_complete = is_complete()
 	

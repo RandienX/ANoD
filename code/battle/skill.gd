@@ -45,13 +45,13 @@ class_name Skill
 @export var require_mp_below_percent: int = 0
 
 
-func get_effective_accuracy(user: Object) -> float:
+func get_effective_accuracy(_user: Object) -> float:
 	var acc = accuracy
 	# Could apply buffs/debuffs here
 	return acc
 
 
-func get_total_damage(user: Object, target: Object) -> int:
+func get_total_damage(user: Object, _target: Object) -> int:
 	var base_dmg = user.damage if user.has_method("get_effective_damage") else user.get("damage")
 	var total = floor(base_dmg * attack_multiplier) + attack_bonus
 	return max(1, total)

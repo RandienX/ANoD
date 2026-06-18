@@ -14,6 +14,7 @@ extends Resource
 
 @export_group("Positioning")
 @export var position_index: int = 0               # Visual position slot (0-4)
+@export var ui_position: Vector2 = Vector2.ZERO
 @export var is_reinforcement: bool = false        # True = spawned mid-battle
 
 @export_group("Rewards (Override)")

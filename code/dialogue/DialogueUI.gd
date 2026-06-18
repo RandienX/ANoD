@@ -89,7 +89,7 @@ func display_node(node: DialogueNode) -> void:
 	# Start typewriter effect
 	_on_text_displayed(node.text)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	$NinePatchRect.visible = true if choice_buttons.size() != 0 else false
 
 func _on_text_displayed(text: String) -> void:
