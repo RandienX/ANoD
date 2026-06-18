@@ -19,7 +19,7 @@ enum Operator {
 @export var status_to_check: StatusDefinition = null  # For HAS_STATUS checks
 @export var invert: bool = false  # Invert the result
 
-func evaluate(entity: Entity, context: Dictionary = {}) -> bool:
+func evaluate(entity: Entity, _context: Dictionary = {}) -> bool:
 	if not enabled:
 		return true
 	

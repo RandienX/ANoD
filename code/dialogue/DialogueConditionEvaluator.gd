@@ -5,6 +5,7 @@ extends RefCounted
 ## Connect this to your game's data systems
 
 # Signals for custom condition evaluation
+@warning_ignore("unused_signal")
 signal custom_condition_requested(branch: DialogueCondition, result_callback: Callable)
 
 # Game state hooks - connect these to your actual game systems
@@ -65,7 +66,7 @@ func _eval_has_item(item_id: String, amount: int) -> bool:
 	push_warning("Dialogue: has_item_func not set, cannot check for '%s'" % item_id)
 	return false
 
-func _eval_has_status(effect_id: String) -> bool:
+func _eval_has_status(_effect_id: String) -> bool:
 	return false
 
 func _eval_has_party_member(party_member_name: String) -> bool:
@@ -74,7 +75,12 @@ func _eval_has_party_member(party_member_name: String) -> bool:
 			return true
 	return false
 
-func _eval_done_thing(thing_name: String, value: float) -> bool:
+func _eval_done_thing(thing_name: String, value) -> bool:
+	for scene in Global.scene_data.keys():
+		if Global.scene_data[scene].keys().has("done_things"):
+			if Global.scene_data[scene]["done_things"].keys().has(thing_name):
+				if Global.scene_data[scene]["done_things"][thing_name]:
+					return true
 	return false
 
 func _eval_done_dialogue(dialogue_name: String) -> bool:
@@ -82,9 +88,12 @@ func _eval_done_dialogue(dialogue_name: String) -> bool:
 		if Global.scene_data[scene].keys().has("dialogue_completed"):
 			if Global.scene_data[scene]["dialogue_completed"].has(dialogue_name):
 				return true
+	if Global.get_tree().current_scene.has_method("outbattle_root_check"):
+		if dialogue_name in Global.get_tree().current_scene.completed_dialogues:
+			return true
 	return false
 
-func _eval_talked_to_npc(interaction_name: String, value: float) -> bool:
+func _eval_talked_to_npc(_interaction_name: String, _value: float) -> bool:
 	return false
 
 func _eval_killed_enemies(enemy_name: String, value: float = 1) -> bool:

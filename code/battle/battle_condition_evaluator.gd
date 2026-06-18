@@ -5,6 +5,7 @@ extends RefCounted
 ## Connect this to your game's data systems
 
 # Signals for custom condition evaluation
+@warning_ignore("unused_signal")
 signal custom_condition_requested(condition: BattleCondition, result_callback: Callable)
 
 # Game state hooks - connect these to your actual game systems

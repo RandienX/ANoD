@@ -41,7 +41,6 @@ func evaluate(evaluator: QuestConditionEvaluator = null) -> QuestState:
 
 	var completed_count := 0
 	var has_not_violation := false
-	var any_done_state := false
 
 	# Use provided evaluator or create temporary one
 	var eval = evaluator if evaluator else QuestConditionEvaluator.new()

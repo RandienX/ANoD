@@ -17,6 +17,7 @@ var current_node: DialogueNode
 var current_label: String
 var is_running: bool = false
 
+
 func start(dialogue_data: DialogueData, dialogue_evaluator: DialogueConditionEvaluator) -> void:
 	data = dialogue_data
 	evaluator = dialogue_evaluator
@@ -55,7 +56,7 @@ func _goto_label(label: String) -> void:
 	current_label = label
 	
 	# Run enter effects
-	_run_effects(node.on_enter_effects)
+	await _run_effects(node.on_enter_effects)
 	
 	node_entered.emit(node)
 	text_displayed.emit(node.text)
@@ -71,7 +72,10 @@ func advance() -> void:
 		return
 	
 	# Run exit effects
-	_run_effects(current_node.on_exit_effects)
+	await _run_effects(current_node.on_exit_effects)
+	
+	if current_node.unskippable == true:
+		return
 	
 	# Check branches first (conditional jumps)
 	if current_node.has_branches():
@@ -84,6 +88,7 @@ func advance() -> void:
 	if current_node.has_choices():
 		return  # Wait for choice selection
 	
+	print(current_label, current_node.next_label)
 	# Otherwise go to next node
 	if not current_node.next_label.is_empty():
 		_goto_label(current_node.next_label)
@@ -155,17 +160,32 @@ func _run_effects(effects: Array[DialogueEffect]) -> void:
 				pass #_effect_remove_quest(effect.param_string)
 			
 			DialogueEffect.EffectType.TRIGGER_EVENT:
-				_effect_trigger_event(effect.param_string, effect.param_value)
+				_effect_trigger_event(effect.param_string, effect.param_value, effect.param_value2)
 				
 			DialogueEffect.EffectType.PLAY_CUTSCENE:
 				await _effect_play_cutscene(effect.param_string)
 				
 			DialogueEffect.EffectType.WAIT:
-				_effect_wait(effect.wait_seconds)
+				Global.player_ref.force_stop_move = true
+				await _effect_wait(effect.wait_seconds)
+				if Global.player_ref:
+					Global.player_ref.force_stop_move = false
+			
+			DialogueEffect.EffectType.PLAY_SFX:
+				Global.player_ref.force_stop_move = true
+				await _effect_play_sfx(effect.param_string, effect.param_value)
+				if Global.player_ref:
+					Global.player_ref.force_stop_move = false
+			
+			DialogueEffect.EffectType.AUTOSAVE:
+				_effect_autosave()
+			
+			DialogueEffect.EffectType.REMOVE_NPC:
+				_effect_remove_npc(effect.param_string)
 			
 			DialogueEffect.EffectType.CUSTOM:
 				_effect_custom(effect)
-
+	return
 
 func _effect_set_variable(var_name: String, value) -> void:
 	if Global.get(var_name) != null:
@@ -179,24 +199,30 @@ func _effect_set_variable(var_name: String, value) -> void:
 		if i.get(var_name) != null:
 			i[var_name] = value
 
-func _effect_add_item(item_res_path: String, amount: int) -> void:
+func _effect_add_item(item_res_path: String, amount: int = 1) -> void:
+	if amount < 1:
+		amount = 1
 	var item = load(item_res_path)
+	print(item.item_name, item_res_path)
 	PlayerStats.add_item(item, amount)
 
-func _effect_remove_item(item_res_path: String, amount: int) -> void:
+func _effect_remove_item(item_res_path: String, amount: int = 1) -> void:
+	if amount < 1:
+		amount = 1
 	var item = load(item_res_path)
 	PlayerStats.remove_item(item, amount)
 
-func _effect_add_status(status_id: String) -> void:
+func _effect_add_status(_status_id: String) -> void:
 	# Hook this to your status system
 	pass
 
-func _effect_remove_status(status_id: String) -> void:
+func _effect_remove_status(_status_id: String) -> void:
 	# Hook this to your status system
 	pass
 
 func _effect_add_party(party_res: String) -> void:
 	PlayerStats.party.append(load(party_res))
+	Global.player_ref.create_party_sprites()
 
 func _effect_store_party(party_name: String) -> void:
 	for p in PlayerStats.party:
@@ -224,20 +250,53 @@ func _effect_complete_quest(quest_id: String) -> void:
 	var quest = load(quest_id)
 	QuestSystem.complete_quest(quest)
 
-func _effect_trigger_event(event_name: String, event_var: String) -> void:
+func _effect_trigger_event(event_name: String, event_var, event_bonus_var) -> void:
 	if event_name.to_lower() == "open shop" or event_name.to_lower() == "open_shop":
 		Global.shop_current = load(event_var)
 		get_tree().change_scene_to_file("res://scenes/ui/shop/shop.tscn")
 	elif event_name.to_lower() == "start battle" or event_name.to_lower() == "start_battle":
+		Global.player_ref.force_stop_move = true
 		Global.get_tree().current_scene.create_battle(event_var)
+	elif event_name.to_lower() == "change room" or event_name.to_lower() == "change_room":
+		print("[DialogueRunner] Moving player to room {event_var} at position {event_bonus_var}")
+		await $"../../..".save_data()
+		print("e")
+		await $"../../../transition/black_flash".reappear()
+		print("e")
+		PlayerStats.player_position = str_to_var("Vector2"+event_bonus_var)
+		print("e")
+		Global.loading = true
+		get_tree().change_scene_to_file(event_var)
+		Global.loading = false
+	elif event_name.to_lower() == "done thing" or event_name.to_lower() == "done_thing":
+		get_tree().current_scene.done_things.set(event_var, str_to_var(event_bonus_var))
 
-func _effect_play_cutscene(cutscene_name: String):
+func _effect_play_cutscene(cutscene_name: String) -> void:
 	var cutscene_tree = get_tree().current_scene.get_node("Cutscenes")
 	var cutscene = cutscene_tree.get_node(cutscene_name)
 	cutscene.play(StringName(cutscene_name))
+	return
 
 func _effect_wait(seconds: float) -> void:
 	await get_tree().create_timer(seconds).timeout
+	return
+
+func _effect_play_sfx(audio_path: String, audio_bus: String = "1") -> void:
+	audio_bus = "1" if audio_bus == "" else audio_bus
+	var audio = load(audio_path)
+	var bus: AudioStreamPlayer = get_tree().current_scene.get_node("Sfx" + audio_bus)
+	bus.stream = audio
+	bus.play()
+	await bus.finished
+	return
+
+func _effect_autosave():
+	SaveManager.save_game(0, "Autosave")
+	
+func _effect_remove_npc(npc_name: String):
+	if get_tree().current_scene.has_method("outbattle_root_check"):
+		get_tree().current_scene.enemies_deactivated.append(npc_name)
+		get_tree().current_scene.get_node("NavigationRegion2D").get_node(npc_name).queue_free()
 
 func _effect_custom(effect: DialogueEffect) -> void:
 	if effect.custom_script.is_empty():

@@ -8,6 +8,7 @@ class_name QuestConditionEvaluator
 ## Connect this to your game's data systems via Callable hooks.
 
 # Signals for custom condition evaluation
+@warning_ignore("unused_signal")
 signal custom_condition_requested(condition: QuestPointCondition, result_callback: Callable)
 
 # Game state hooks - connect these to your actual game systems
@@ -258,6 +259,7 @@ func initialize_item_baseline(condition: QuestPointCondition) -> void:
 ## Initialize status baseline when quest/point starts (for HAS_STATUS conditions)
 func initialize_status_baseline(condition: QuestPointCondition) -> void:
 	if condition.type == QuestPointCondition.ConditionType.HAS_STATUS and not condition.is_absolute:
+		@warning_ignore("unused_variable")
 		var has_status = false
 		#if has_status_func.is_valid():
 			#has_status = has_status_func.call(condition.target_key)

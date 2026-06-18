@@ -9,7 +9,8 @@ class_name Entity
 # ==================== ENUMS ====================
 
 enum Role { PARTY, ENEMY }
-enum AIType { DUMB, CASUAL, VIOLENT, DEFENSIVE, INTELLIGENT, FLEXIBLE }
+enum AIBehavior { ATTACKER, DEFENDER, SUPPORT, BALANCED, FLEXIBLE }
+enum AIIntelligencePreset { DUMB, NORMAL, SMART, INTELLIGENT }
 
 # ==================== BASIC INFO ====================
 
@@ -66,6 +67,7 @@ enum AIType { DUMB, CASUAL, VIOLENT, DEFENSIVE, INTELLIGENT, FLEXIBLE }
 @export var xp: int = 0
 @export var xp_to_level_up: int = 100
 @export var level_up_xp_multiplier: float = 1.5
+@export var cannot_use_skills: bool
 
 # Combat state flags (runtime only, not serialized)
 @export var skip_turn: bool = false
@@ -118,11 +120,14 @@ var status_registry: Dictionary = {}
 # ==================== AI BEHAVIOR ====================
 
 @export_group("AI Behavior")
-@export var ai_type: AIType = AIType.CASUAL
+@export var ai_behavior: AIBehavior = AIBehavior.BALANCED
+@export var ai_intelligence: AIIntelligencePreset = AIIntelligencePreset.NORMAL
 @export var aggression: float = 0.5
 @export var prefer_defend: bool = false
 @export var smart_targeting: bool = true
 @export var target_priority: int = 0
+
+@export var enemy_inventory: Array[Item] = []
 
 # ==================== REWARDS (Enemy Only) ====================
 
@@ -140,6 +145,7 @@ var status_registry: Dictionary = {}
 
 # ==================== SIGNALS ====================
 
+@warning_ignore("unused_signal")
 signal stat_modified(stat_key: StringName, new_value: int)
 signal status_applied(status_id: String, stacks: int)
 signal status_removed(status_id: String)
@@ -297,7 +303,7 @@ func remove_modifier(modifier_id: String) -> bool:
 	if not _stat_modifiers.has(modifier_id):
 		return false
 	
-	var modifier = _stat_modifiers[modifier_id]
+	var _modifier = _stat_modifiers[modifier_id]
 	# Note: applied_delta is already factored into effective stats,
 	# and we'll recalculate on next access, so no explicit reversal needed
 	_stat_modifiers.erase(modifier_id)

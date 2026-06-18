@@ -19,10 +19,14 @@ enum EffectType {
 	TRIGGER_EVENT,        # Fire a signal/event
 	PLAY_CUTSCENE,        # Play a set cutscene
 	WAIT,                 # Pause dialogue briefly
-	CUSTOM                # Custom script
+	PLAY_SFX,             # Play an SFX
+	AUTOSAVE,
+	REMOVE_NPC,
+	CUSTOM,               # Custom script
 }
 
 @export_group("Effect")
+@warning_ignore("int_as_enum_without_cast")
 @export var effect_type: EffectType = 0
 
 @export var param_string: String = ""      # var_name, item_id, status_id, quest_id, event_name

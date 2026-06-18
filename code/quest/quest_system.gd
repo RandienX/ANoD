@@ -25,6 +25,7 @@ var evaluator: QuestConditionEvaluator
 # UI reference for notifications
 var quest_log_ui: Control = null
 var _update_timer: float = 0.0
+@warning_ignore("unused_private_class_variable")
 var _last_update_time: float = 0.0
 
 func _init():
@@ -33,6 +34,8 @@ func _init():
 func _ready() -> void:
 	evaluator = QuestConditionEvaluator.new()
 	_setup_evaluator_hooks()
+	process_mode = Node.ProcessMode.PROCESS_MODE_ALWAYS
+
 
 func _setup_evaluator_hooks() -> void:
 	# Connect evaluator to game systems (similar to DialogueRunner)
@@ -61,7 +64,7 @@ func _check_has_item(item_id: String, amount: int) -> bool:
 			return player_stats.has_item_by_id(item_resource, amount)
 	return false
 
-func _check_has_status(status_id: String) -> bool:
+func _check_has_status(_status_id: String) -> bool:
 	# Hook to your status system
 	return false
 

@@ -25,6 +25,7 @@ extends Resource
 @export_group("Effects")
 @export var on_enter_effects: Array[DialogueEffect] = []
 @export var on_exit_effects: Array[DialogueEffect] = []
+@export var unskippable: bool = false
 
 func has_branches() -> bool:
 	return not branches.is_empty()
