@@ -45,8 +45,7 @@ func _ready() -> void:
 	home_position = global_position
 	
 	# Setup shapes
-	hitbox.get_child(0).shape.size = hitbox_size + Vector2(2,2)
-	hitbox.get_child(0).position = hitbox.get_child(0).position + Vector2(0,2)
+	hitbox.get_child(0).shape.size = hitbox_size
 	$StaticBody2D/CollisionShape2D.shape.size = hitbox_size - Vector2(2, 2)
 	wall_coll_check.get_child(0).shape.radius = hitbox_size.x
 	
@@ -216,7 +215,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 
 func _handle_interaction() -> void:
 	if entity_preset == EntityPresets.NPC:
-		if dialogue and DialogueInitiator._dialogue_runner == null:
+		if dialogue:
 			DialogueInitiator.start_dialogue(dialogue, false, true)
 			if delete_upon_interact:
 				get_tree().current_scene.enemies_deactivated.append(name)
@@ -226,4 +225,5 @@ func _handle_interaction() -> void:
 	if battle:
 		get_tree().current_scene.create_battle(battle)
 		if delete_upon_interact:
+			get_tree().current_scene.enemies_deactivated.append(name)
 			queue_free()

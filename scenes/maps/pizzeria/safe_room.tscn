@@ -1,125 +1,36 @@
-[gd_scene format=4 uid="uid://p5m4bobnohyf"]
+[gd_scene format=3 uid="uid://p5m4bobnohyf"]
 
 [ext_resource type="Script" uid="uid://duek0uk444kjf" path="res://code/root_script.gd" id="1_m22kj"]
 [ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="2_ew50a"]
 [ext_resource type="Resource" uid="uid://d0alullmmxp3b" path="res://resources/battles/pizzeria/alpha_party_hat_1.tres" id="3_30qj7"]
-[ext_resource type="Texture2D" uid="uid://87djgt8meto3" path="res://assets/battleui/backgrounds/FNaF 1 - Supply Closet.png" id="4_qdgem"]
 [ext_resource type="Script" uid="uid://8xdjua3jhdqd" path="res://scenes/maps/black_flash_on_scene.gd" id="4_wtjb6"]
 [ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office.mp3" id="5_ir1jh"]
 [ext_resource type="TileSet" uid="uid://cpxfb26nr2i26" path="res://assets/tilemaps/tilesets/wall_tileset.tres" id="6_1gh4h"]
 [ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="7_hnbc5"]
-[ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="7_v7gra"]
 [ext_resource type="PackedScene" uid="uid://yq7stgud35n5" path="res://scenes/objects/player.tscn" id="8_0fpai"]
-[ext_resource type="Texture2D" uid="uid://0dhqip2ffp2h" path="res://assets/mapsprites/Toys 2.png" id="8_b4oo1"]
-[ext_resource type="PackedScene" uid="uid://cgs08pp0l2gmg" path="res://scenes/objects/textbox_maker.tscn" id="9_qdgem"]
 [ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="9_rbins"]
-[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="10_v7gra"]
-[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="11_p76nr"]
-[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="12_32glf"]
-[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="13_ky786"]
-[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="14_hsoju"]
-[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="15_0caty"]
-[ext_resource type="AudioStream" uid="uid://diqbgsqledu5t" path="res://assets/sound/tts_lines/dining_hall/inhale_dong.mp3" id="16_c6j40"]
-[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="17_3t1v0"]
-
-[sub_resource type="FontVariation" id="FontVariation_p76nr"]
-base_font = ExtResource("7_v7gra")
-spacing_glyph = -1
-spacing_space = -4
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tippb"]
-size = Vector2(20, 31)
-
-[sub_resource type="Resource" id="Resource_p76nr"]
-script = ExtResource("14_hsoju")
-condition_type = 10
-param_string = "find_bb"
-metadata/_custom_type_script = "uid://c7om4j5v1vj04"
-
-[sub_resource type="Resource" id="Resource_32glf"]
-script = ExtResource("13_ky786")
-conditions = Array[ExtResource("14_hsoju")]([SubResource("Resource_p76nr")])
-effect_type = 9
-param_string = "res://resources/quests/pizzeria/find_bb.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_gucuy"]
-script = ExtResource("13_ky786")
-effect_type = 11
-param_string = "open_shop"
-param_value = "res://resources/shopdata/bb/bb_shop_1.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_28tpx"]
-atlas = ExtResource("15_0caty")
-region = Rect2(0, 0, 96, 96)
-
-[sub_resource type="Resource" id="Resource_urk2m"]
-script = ExtResource("10_v7gra")
-text = "Inhale my dong enragement child."
-portrait = SubResource("AtlasTexture_28tpx")
-label = "start"
-beep_type = 6
-voiceline = ExtResource("16_c6j40")
-on_exit_effects = Array[ExtResource("13_ky786")]([SubResource("Resource_32glf"), SubResource("Resource_gucuy")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_55hrq"]
-script = ExtResource("17_3t1v0")
-nodes = Array[ExtResource("10_v7gra")]([SubResource("Resource_urk2m")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
-
-[sub_resource type="Resource" id="Resource_b4oo1"]
-script = ExtResource("13_ky786")
-effect_type = 11
-param_string = "change_room"
-param_value = "res://scenes/maps/pizzeria/vents.tscn"
-param_value2 = "(784.0, -32.0)"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
-
-[sub_resource type="Resource" id="Resource_qdgem"]
-script = ExtResource("10_v7gra")
-label = "start"
-on_enter_effects = Array[ExtResource("13_ky786")]([SubResource("Resource_b4oo1")])
-metadata/_custom_type_script = "uid://dag3ualk0velp"
-
-[sub_resource type="Resource" id="Resource_v7gra"]
-script = ExtResource("17_3t1v0")
-nodes = Array[ExtResource("10_v7gra")]([SubResource("Resource_qdgem")])
-metadata/_custom_type_script = "uid://nfr8xstn6iuk"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ywghk"]
 size = Vector2(32, 32)
 
 [node name="RootScene" type="Node2D" unique_id=1519412412 node_paths=PackedStringArray("player")]
 script = ExtResource("1_m22kj")
-room_name = "Pizzeria - Safe Room"
+room_name = "Pizzeria - Closet"
 possible_battles = Array[ExtResource("2_ew50a")]([ExtResource("3_30qj7")])
-battle_bg = ExtResource("4_qdgem")
-bg_music = ExtResource("5_ir1jh")
-bg_music_amp = -0.3
 player = NodePath("player")
-room_size = Rect2(-5, -5, 18, 15)
+room_size = Rect2(0, 0, 18, 15)
 metadata/_custom_type_script = "uid://duek0uk444kjf"
 
 [node name="transition" type="CanvasLayer" parent="." unique_id=1540840805]
 
 [node name="black_flash" type="ColorRect" parent="transition" unique_id=373268548]
-modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0)
 z_index = 999
 offset_right = 864.0
 offset_bottom = 648.0
 mouse_filter = 1
 color = Color(0, 0, 0, 1)
 script = ExtResource("4_wtjb6")
-
-[node name="Label" type="Label" parent="transition/black_flash" unique_id=851103628]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 19.0
-theme_override_fonts/font = SubResource("FontVariation_p76nr")
-theme_override_font_sizes/font_size = 24
-text = "Pizzeria - Dining Hall"
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=1201953903]
 stream = ExtResource("5_ir1jh")
@@ -132,50 +43,18 @@ bus = &"Music"
 [node name="TileMap" type="Node2D" parent="." unique_id=1697236339]
 
 [node name="walls" type="TileMapLayer" parent="TileMap" unique_id=386399745]
-tile_map_data = PackedByteArray("AAAAAAAAAgAAAAAAAAAAAAEAAgAAAAAAAAAAAAIAAgAAAAAAAAAAAAMAAgAAAAAAAAAAAAQAAgAAAAAAAAABAAAAAgAAAAAAAAABAAEAAgAAAAAAAAABAAIAAgAAAAAAAAABAAMAAgAAAAAAAAABAAQAAgAAAAAAAAACAAAAAgAAAAAAAAACAAEAAgAAAAAAAAACAAIAAgAAAAAAAAACAAMAAgAAAAAAAAACAAQAAgAAAAAAAAADAAAAAgAAAAAAAAADAAEAAgAAAAAAAAADAAIAAgAAAAAAAAADAAMAAgAAAAAAAAADAAQAAgAAAAAAAAAEAAAAAgAAAAAAAAAEAAEAAgAAAAAAAAAEAAIAAgAAAAAAAAAEAAMAAgAAAAAAAAAEAAQAAgAAAAAAAAAFAAAAAgAAAAAAAAAFAAEAAgAAAAAAAAAFAAIAAgAAAAAAAAAFAAMAAgAAAAAAAAAFAAQAAgAAAAAAAAAGAAAAAgAAAAAAAAAGAAEAAgAAAAAAAAAGAAIAAgAAAAAAAAAGAAMAAgAAAAAAAAAGAAQAAgAAAAAAAAAHAAAAAgAAAAAAAAAHAAEAAgAAAAAAAAAHAAIAAgAAAAAAAAAHAAMAAgAAAAAAAAAHAAQAAgAAAAAAAAAAAP//AgADAAEAAAABAP//AgADAAEAAAACAP//AgAGAAEAAAADAP//AgADAAEAAAAEAP//AgADAAEAAAAFAP//AgADAAEAAAAGAP//AgADAAEAAAAHAP//AgADAAEAAAAAAP7/AgADAAAAAAABAP7/AgADAAAAAAACAP7/AgADAAAAAAADAP7/AgADAAAAAAAEAP7/AgADAAAAAAAFAP7/AgADAAAAAAAGAP7/AgADAAAAAAAHAP7/AgADAAAAAAAAAP3/AgABAAIAAgABAP3/AgABAAIAAgACAP3/AgABAAIAAgADAP3/AgABAAIAAgAEAP3/AgABAAIAAgAFAP3/AgABAAIAAgAGAP3/AgABAAIAAgAHAP3/AgABAAIAAgAIAP3/AgABAAMAAwAIAP7/AgABAAIAAQAIAP//AgABAAIAAQAIAAAAAgABAAIAAQAIAAEAAgABAAIAAQAIAAIAAgABAAIAAQAIAAMAAgABAAIAAQAIAAQAAgABAAIAAQAIAAUAAgABAAMAAAAHAAUAAgABAAIAAAAGAAUAAgABAAIAAAAFAAUAAgABAAIAAAAEAAUAAgABAAIAAAADAAUAAgABAAIAAAACAAUAAgACAAIAAAABAAUAAgAAAAAAAAAAAAUAAgACAAIAAwD//wUAAgABAAMAAQD//wQAAgABAAIAAwD//wMAAgABAAIAAwD//wIAAgABAAIAAwD//wEAAgABAAIAAwD//wAAAgABAAIAAwD/////AgABAAIAAwD///7/AgABAAIAAwD///3/AgABAAMAAgAKAP3/AgAAAAEAAAAKAPz/AgAAAAEAAAAKAPv/AgAAAAEAAAAJAP3/AgAAAAEAAAAJAPz/AgAAAAEAAAAJAPv/AgAAAAEAAAAIAPz/AgAAAAEAAAAIAPv/AgAAAAEAAAAHAPz/AgAAAAEAAAAHAPv/AgAAAAEAAAAGAPz/AgAAAAEAAAAGAPv/AgAAAAEAAAAFAPz/AgAAAAEAAAAFAPv/AgAAAAEAAAAEAPz/AgAAAAEAAAAEAPv/AgAAAAEAAAADAPz/AgAAAAEAAAADAPv/AgAAAAEAAAACAPz/AgAAAAEAAAACAPv/AgAAAAEAAAABAPz/AgAAAAEAAAABAPv/AgAAAAEAAAAAAPz/AgAAAAEAAAAAAPv/AgAAAAEAAAD///z/AgAAAAEAAAD///v/AgAAAAEAAAD+//3/AgAAAAEAAAD+//z/AgAAAAEAAAD+//v/AgAAAAEAAAD9//3/AgAAAAEAAAD9//z/AgAAAAEAAAD9//v/AgAAAAEAAAAKAAYAAgAAAAEAAAAKAAUAAgAAAAEAAAAKAAQAAgAAAAEAAAAKAAMAAgAAAAEAAAAKAAIAAgAAAAEAAAAKAAEAAgAAAAEAAAAKAAAAAgAAAAEAAAAKAP//AgAAAAEAAAAKAP7/AgAAAAEAAAAJAAYAAgAAAAEAAAAJAAUAAgAAAAEAAAAJAAQAAgAAAAEAAAAJAAMAAgAAAAEAAAAJAAIAAgAAAAEAAAAJAAEAAgAAAAEAAAAJAAAAAgAAAAEAAAAJAP//AgAAAAEAAAAJAP7/AgAAAAEAAAAIAAYAAgAAAAEAAAAHAAYAAgAAAAEAAAAGAAYAAgAAAAEAAAAFAAYAAgAAAAEAAAAEAAYAAgAAAAEAAAADAAYAAgAAAAEAAAACAAYAAgAAAAEAAAABAAYAAgAAAAEAAAAAAAYAAgAAAAEAAAD//wYAAgAAAAEAAAD+/wYAAgAAAAEAAAD+/wUAAgAAAAEAAAD9/wYAAgAAAAEAAAD9/wUAAgAAAAEAAAD+/wQAAgAAAAEAAAD+/wMAAgAAAAEAAAD+/wIAAgAAAAEAAAD+/wEAAgAAAAEAAAD+/wAAAgAAAAEAAAD+////AgAAAAEAAAD+//7/AgAAAAEAAAD9/wQAAgAAAAEAAAD9/wMAAgAAAAEAAAD9/wIAAgAAAAEAAAD9/wEAAgAAAAEAAAD9/wAAAgAAAAEAAAD9////AgAAAAEAAAD9//7/AgAAAAEAAAAKAAcAAgAAAAEAAAACAPr/AgAAAAEAAAADAPr/AgAAAAEAAAAEAPr/AgAAAAEAAAAFAPr/AgAAAAEAAAA=")
 tile_set = ExtResource("6_1gh4h")
 
 [node name="objects" type="TileMapLayer" parent="TileMap" unique_id=1267639804]
-tile_map_data = PackedByteArray("AAAFAAMAAQAIAAkAAAAFAAEAAQAIAAgAAAAFAAIAAQAJAAgAAAAFAAAAAQAHAAkAAAAFAP//AQAGAAgAAAAGAAAAAQAEAAkAAAAHAP//AQAEAAgAAAAHAAAAAQAHAAkAAAAGAP//AQAFAAgAAAAFAAQAAQABAAkAAAAGAAMAAQAAAAgAAAAHAAQAAQAAAAkAAAAHAAMAAQACAAgAAAAGAAQAAQACAAkAAAA=")
 tile_set = ExtResource("7_hnbc5")
 
 [node name="objects_top" type="TileMapLayer" parent="TileMap/objects" unique_id=970906488]
-tile_map_data = PackedByteArray("AAAFAAMAAQABAAgAAAA=")
 tile_set = ExtResource("7_hnbc5")
-
-[node name="bb_shop" type="Sprite2D" parent="TileMap" unique_id=412746278]
-position = Vector2(208, 64)
-texture = ExtResource("8_b4oo1")
-region_enabled = true
-region_rect = Rect2(128, 32, 32, 32)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="TileMap/bb_shop" unique_id=946053476]
-position = Vector2(0, -2)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/bb_shop/StaticBody2D" unique_id=817399187]
-position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_tippb")
 
 [node name="Textboxes" type="Node2D" parent="." unique_id=1024677748]
 
-[node name="bb_shop" parent="Textboxes" unique_id=389803651 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_qdgem")]
-process_mode = 3
-position = Vector2(167, 80)
-scale = Vector2(1, 3.04)
-dialogue_data = SubResource("Resource_55hrq")
-require_input_to_start = true
-player_node_path = NodePath("../../player")
-
-[node name="vent" parent="Textboxes" unique_id=771613504 node_paths=PackedStringArray("player_node_path") instance=ExtResource("9_qdgem")]
-position = Vector2(80.00001, -9)
-scale = Vector2(0.87999994, 0.99999994)
-dialogue_data = SubResource("Resource_v7gra")
-require_input_to_start = true
-player_node_path = NodePath("../../player")
-
 [node name="player" parent="." unique_id=1002093154 instance=ExtResource("8_0fpai")]
-z_index = 1
-position = Vector2(80, 0)
+position = Vector2(336, 223)
 move_speed = 100.0
 
 [node name="Dialogue" type="CanvasLayer" parent="." unique_id=1044641630]
@@ -185,10 +64,10 @@ move_speed = 100.0
 [node name="SceneTriggers" type="Node2D" parent="." unique_id=2147108983]
 
 [node name="ChangeRoomTrigger" type="Area2D" parent="SceneTriggers" unique_id=65924589]
-position = Vector2(-512, 161)
+position = Vector2(-192, 225)
 script = ExtResource("9_rbins")
-player_position = Vector2(48, 32)
-next_room_path = "res://scenes/maps/pizzeria/7.tscn"
+player_position = Vector2(48, 94)
+next_room_path = "res://scenes/maps/pizzeria/2-4.tscn"
 metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger" unique_id=578206076]

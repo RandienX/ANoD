@@ -1,8 +1,8 @@
 extends Button
 
 func _on_pressed() -> void:
-	Sfx.stream = load("res://assets/sound/sfx/select.wav")
-	Sfx.play()
+	$"../Sfx".stream = load("res://assets/sound/sfx/select.wav")
+	$"../Sfx".play()
 	
 	$"../settings_anim".play("fade_in_button")
 	await get_tree().create_timer(1).timeout
@@ -17,8 +17,8 @@ var change_text = false
 
 func _on_mouse_entered() -> void:
 	change_text = true
-	Sfx.stream = load("res://assets/sound/sfx/button_squeak.wav")
-	Sfx.play()
+	$"../Sfx".stream = load("res://assets/sound/sfx/button_squeak.wav")
+	$"../Sfx".play()
 
 func _on_mouse_exited() -> void:
 	change_text = false
