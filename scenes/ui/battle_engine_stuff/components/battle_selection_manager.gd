@@ -83,6 +83,7 @@ func update_flash():
 			s.material.set("shader_parameter/is_flashing", false)
 
 func hide_flash():
-	var slots = root.get_node("Control/enemy_ui/enemies").get_children()
-	for s in slots:
-		s.material.set("shader_parameter/is_flashing", false)
+	if root:
+		var slots = root.get_node("Control/enemy_ui/enemies").get_children()
+		for s in slots:
+			s.material.set("shader_parameter/is_flashing", false)

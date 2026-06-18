@@ -43,7 +43,7 @@ func _ready() -> void:
 	if battle.music:
 		$AudioStreamPlayer.stream = battle.music
 		$AudioStreamPlayer.play()
-	$Control/enemy_ui/bg.texture = battle.background_override if Global.battle_bg == null else Global.battle_bg
+	$Control/enemy_ui/bg.texture = battle.background_override if battle.background_override != null else Global.battle_bg
 
 func _setup_managers():
 	effect_manager = EffectManager.new()
@@ -108,7 +108,11 @@ func setup_enemies():
 		var prog = node.get_node_or_null("ProgressBar")
 		if prog: prog.visible = true
 		node.texture = enemy.portrait
+		if e.enemy.battle_sprite:
+			node.texture = e.enemy.battle_sprite
 		node.enemy = enemy
+		if e.ui_position != Vector2(0, 0):
+			node.global_position = e.ui_position
 		
 		var effect_cont = node.get_node_or_null("EffectContainer")
 		if not effect_cont:
@@ -157,6 +161,7 @@ func setup_party():
 		if p in PlayerStats.party:
 			var ui = preload("res://scenes/ui/battle_engine_stuff/partyBattleFace.tscn").instantiate()
 			ui.setup(p)
+			ui.z_index = 22
 			$Control/gui/HBoxContainer2/party.add_child(ui)
 			
 	
@@ -279,7 +284,16 @@ func _unhandled_input(event: InputEvent) -> void:
 				var target_enemy = null
 				if selected_enemy >= 0 and selected_enemy < enemy_instances.size():
 					target_enemy = get_enemy(selected_enemy)
-				add_attack(current_attacker, [target_enemy], load("res://resources/attacks/attack.tres"))
+					
+				if current_attacker.equipped["weapon_left"] != null:
+					if current_attacker.equipped["weapon_left"].item_attack!= null:
+						add_attack(current_attacker, [target_enemy], current_attacker.equipped["weapon_left"].item_attack)
+				elif current_attacker.equipped["weapon_right"] != null:
+					if current_attacker.equipped["weapon_right"].item_attack != null:
+						add_attack(current_attacker, [target_enemy], current_attacker.equipped["weapon_right"].item_attack)
+				else:
+						add_attack(current_attacker, [target_enemy], load("res://resources/attacks/attack.tres"))
+						
 				action_history.append(current_attacker)
 				previous_enemy = selected_enemy
 				selected_enemy = 0

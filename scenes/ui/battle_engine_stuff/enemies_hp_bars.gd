@@ -10,7 +10,7 @@ func _ready() -> void:
 	# Create effect container for status icons
 	effect_container = $EffectContainer
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if enemy:
 		$VBoxContainer/hp.value = enemy.hp
 		$VBoxContainer/hp.max_value = enemy.base_stats["hp"]
@@ -30,7 +30,6 @@ func update_effects_ui() -> void:
 
 	if enemy:
 		# Use new status system API
-		var active_status_ids = enemy.get_active_status_ids()
 		for status_id in enemy.get_active_status_ids():
 			var stacks = enemy.get_status_stacks(status_id)
 			var duration = enemy.get_status_duration(status_id)

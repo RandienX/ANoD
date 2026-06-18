@@ -7,8 +7,12 @@ var layer_down = 0
 
 var pending_item: Item = null  # For item usage from inventory
 
-func _ready() -> void:
+func _process(_s) -> void:
 	$gold.text = "Gold: " + str(PlayerStats.gold)
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("menu"):
+		get_tree().paused = false
 
 func open_party_for_item(item: Item) -> void:
 	"""Open party menu for item target selection"""

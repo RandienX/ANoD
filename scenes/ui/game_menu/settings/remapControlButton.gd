@@ -27,7 +27,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		button_pressed = false
 		release_focus()
 		
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("lmb"):
 		button_pressed = false
 		release_focus()

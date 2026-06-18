@@ -55,7 +55,7 @@ func open_skills_menu():
 	available_skills.clear()
 	skill_affordable.clear()
 	
-	if root.current_attacker.role == Entity.Role.PARTY and not root.current_attacker.skills.is_empty():
+	if root.current_attacker.role == Entity.Role.PARTY and not root.current_attacker.skills.is_empty() and root.current_attacker.cannot_use_skills == false:
 		var all_skills: Array[Skill] = []
 		for level in root.current_attacker.skills:
 			if level <= root.current_attacker.level:
@@ -65,6 +65,9 @@ func open_skills_menu():
 			if skill:
 				available_skills.append(skill)
 				skill_affordable.append(root.current_attacker.mp >= skill.mana_cost)
+				
+	if available_skills.size() == 0:
+		close_skills_menu()
 	
 	create_skill_boxes()
 	

@@ -10,10 +10,12 @@ enum Behavior { ATTACKER, DEFENDER, SUPPORT, BALANCED, FLEXIBLE }
 
 var intelligence_presets := {
 	"dumb": 0.2,
-	"normal": 0.5,
-	"smart": 0.75,
-	"intelligent": 0.9
+	"normal": 0.4,
+	"smart": 0.66,
+	"intelligent": 0.75
 }
+
+var _enemy_move_memory: Dictionary = {}
 
 func setup(broot, atk_exec, eff_mgr, log_mgr):
 	root = broot
@@ -51,6 +53,8 @@ func queue_enemy_attack(e: Entity) -> void:
 func _choose_move(e: Entity):
 	# Build list of candidate moves (skills + item-attacks + default)
 	var candidates: Array = []
+	var memory_key = _get_entity_key(e)
+	var recent_moves: Array = _enemy_move_memory.get(memory_key, [])
 
 	# Skills
 	var all_skills: Array = []
@@ -141,10 +145,10 @@ func _choose_move(e: Entity):
 		elif c.type == "item":
 			var it = c.item
 			# Basic heuristics using Item fields
-			var heal = it.heal_amount if it.has("heal_amount") else it.heal_amount
-			var mana = it.mana_amount if it.has("mana_amount") else it.mana_amount
-			var revive = it.revive_amount if it.has("revive_amount") else it.revive_amount
-			var is_attack = it.is_item_attack if it.has("is_item_attack") else it.is_item_attack
+			var heal = it.heal_amount
+			var mana = it.mana_amount
+			var revive = it.revive_amount
+			var is_attack = it.is_item_attack
 			if is_attack and it.item_attack:
 				var atk_skill = it.item_attack
 				# evaluate as a skill
@@ -166,19 +170,27 @@ func _choose_move(e: Entity):
 				else:
 					score = heal + 0.1
 			else:
-				# non-attack items: healing/utility value
-				score = float(heal) + float(mana) * 0.5 + float(revive) * 5.0
 				# SUPPORT/DEFENDER prefer healing allies
-				if behavior == Behavior.SUPPORT or behavior == Behavior.DEFENDER or e.prefer_defend:
+				if behavior == Behavior.SUPPORT or (behavior == Behavior.DEFENDER and e.prefer_defend):
+					# non-attack items: healing/utility value
+					score = float(heal) + float(mana) * 0.5 + float(revive) * 5.0
 					var allies = root.enemy_instances.filter(func(x): return x and x.hp > 0)
 					allies.sort_custom(Callable(self, "_sort_by_lowest_hp"))
 					preferred_targets = [allies[0]] if not allies.empty() else [e]
-
+					score = score * pow(preferred_targets[0].base_stats["hp"] / (preferred_targets[0].hp + preferred_targets[0].base_stats["hp"]), 2)
+				
+				if behavior == Behavior.ATTACKER:
+					score = sqrt(float(heal) * 0.33 + float(mana))
+					preferred_targets = [e]
+					score = score * pow(preferred_targets[0].base_stats["hp"] / (preferred_targets[0].hp + preferred_targets[0].base_stats["hp"]), 4)
+				
+				
 		# Behavior adjustments and entity-specific modifiers
 		var aggression = float(e.aggression)
 		var prefer_defend = bool(e.prefer_defend)
 		if behavior == Behavior.ATTACKER:
-			score *= 1.0 + aggression * 0.5
+			if (c.type == "skill" and c.skill.target_type in [0,3,5]) or (c.type == "item" and c.item.item_attack):
+				score *= 1.0 + aggression * 0.5
 		elif behavior == Behavior.DEFENDER:
 			if c.type == "item" and score > 0:
 				score *= 1.3
@@ -200,6 +212,11 @@ func _choose_move(e: Entity):
 		if prefer_defend and c.type == "item":
 			score *= 1.2
 
+		# Penalize repeated moves to give enemies memory
+		var cand_key = _get_candidate_key(c)
+		if recent_moves.has(cand_key):
+			score *= 0.5
+
 		# clamp
 		score = max(0.0, score)
 		scored.append({"cand":c, "score":score, "targets":preferred_targets})
@@ -213,18 +230,28 @@ func _choose_move(e: Entity):
 
 	# Sort and apply intelligence filter (drop worst X%)
 	scored.sort_custom(Callable(self, "_sort_by_score_desc"))
-	var keep_frac = intel
-	var keep_count = max(1, int(ceil(scored.size() * keep_frac)))
-	var pool = scored.slice(0, keep_count)
 
-	# Weighted random from pool
+	var keep_frac = intel
+	var full_random_chance = clamp(1.0 - intel, 0.0, 1.0)
+	var use_full_pool = randf() < full_random_chance
+	var temperature = _get_temperature_for(intel)
+	var pool: Array = []
+	if use_full_pool:
+		pool = scored
+	else:
+		var keep_count = max(1, int(ceil(scored.size() * keep_frac)))
+		pool = scored.slice(0, keep_count)
+
+	# Weighted random selection with temperature smoothing
 	var sumw = 0.0
 	for p in pool:
-		sumw += p.score
+		var weight = pow(max(p.score, 0.01), 1.0 / temperature)
+		p.weight = weight
+		sumw += weight
 	var pick = randf() * sumw
 	var accum = 0.0
 	for p in pool:
-		accum += p.score
+		accum += p.weight
 		if pick <= accum:
 			var chosen = p.cand
 			var out: Dictionary = {}
@@ -234,6 +261,7 @@ func _choose_move(e: Entity):
 			elif chosen.type == "item":
 				out.item = chosen.item
 				out.targets = p.targets if p.targets.size() > 0 else [root.party[randi_range(0, root.party.size()-1)]]
+			_record_enemy_move(e, chosen)
 			return out
 
 	return null
@@ -276,3 +304,33 @@ func _sort_by_score_desc(a, b):
 
 func _sort_by_lowest_hp(a, b):
 	return int(sign(a.hp - b.hp))
+
+func _get_entity_key(e: Entity) -> String:
+	return str(e.get_instance_id())
+
+func _get_candidate_key(c: Dictionary) -> String:
+	if c.type == "skill" and c.skill:
+		return "skill:" + str(c.skill.skill_name)
+	elif c.type == "item" and c.item:
+		return "item:" + str(c.item.item_name)
+	return "unknown"
+
+func _get_memory_length(e: Entity) -> int:
+	return 2 if _is_intelligent(e) else 3
+
+func _is_intelligent(e: Entity) -> bool:
+	if e and e.has_method("get") and e.get("ai_intelligence") != null:
+		return int(e.ai_intelligence) >= 2
+	return false
+
+func _get_temperature_for(intel: float) -> float:
+	return clamp(1.0 + (1.0 - intel) * 1.5, 0.5, 2.5)
+
+func _record_enemy_move(e: Entity, chosen: Dictionary) -> void:
+	var key = _get_entity_key(e)
+	var recent_moves: Array = _enemy_move_memory.get(key, [])
+	recent_moves.append(_get_candidate_key(chosen))
+	var max_len = _get_memory_length(e)
+	while recent_moves.size() > max_len:
+		recent_moves.pop_front()
+	_enemy_move_memory[key] = recent_moves

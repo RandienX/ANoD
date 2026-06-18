@@ -1,12 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://duee2xl28nl3p"]
+[gd_scene format=3 uid="uid://duee2xl28nl3p"]
 
 [ext_resource type="Script" uid="uid://d8n1r58k2vo5" path="res://scenes/ui/shop/shop.gd" id="1_b72a6"]
 [ext_resource type="Texture2D" uid="uid://cfoscxh3td7hk" path="res://assets/battleui/backgrounds/FNaF 1 - Dining Area.png" id="1_h6h54"]
 [ext_resource type="Texture2D" uid="uid://bly8f2c01poij" path="res://assets/menu/shop/bb_shop.png" id="2_14h7y"]
-[ext_resource type="Resource" uid="uid://bl6fq4p6ulpwx" path="res://resources/shopdata/bb/bb_shop_1.tres" id="2_robsg"]
 [ext_resource type="Texture2D" uid="uid://byldo041hj3cn" path="res://assets/ui/button.png" id="3_robsg"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=2130105394]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +13,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_b72a6")
-current_shop_data = ExtResource("2_robsg")
 talk_responses = Dictionary[String, String]({
 "Fatherless piece of shit": "Yes. I am fatherless, my papa didn't come back from the supermatket to get milk, I even bought the milk myself, but he didn't come back... (you see the 6 years expired milk on the shelf)",
 "Give me free shit": "I am a respectable business if you want free shit i can shit into your hands, still with a price but small.",
@@ -26,23 +24,23 @@ talk_responses = Dictionary[String, String]({
 })
 default_response = "nigger"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=273151749]
 clip_contents = true
 layout_mode = 0
 offset_right = 864.0
 offset_bottom = 648.0
 theme_override_constants/separation = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=107559831]
 custom_minimum_size = Vector2(576, 648)
 layout_mode = 2
 
-[node name="background" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
+[node name="background" type="TextureRect" parent="HBoxContainer/VBoxContainer" unique_id=944129466]
 custom_minimum_size = Vector2(0, 486)
 layout_mode = 2
 texture = ExtResource("1_h6h54")
 
-[node name="shopkeep" type="TextureRect" parent="HBoxContainer/VBoxContainer/background"]
+[node name="shopkeep" type="TextureRect" parent="HBoxContainer/VBoxContainer/background" unique_id=561887301]
 layout_mode = 0
 offset_top = 216.0
 offset_right = 576.0
@@ -50,14 +48,14 @@ offset_bottom = 486.0
 texture = ExtResource("2_14h7y")
 stretch_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1990647552]
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=480138216]
 custom_minimum_size = Vector2(576, 158)
 layout_mode = 2
 
-[node name="buttons" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect"]
+[node name="buttons" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect" unique_id=698867547]
 layout_mode = 0
 offset_right = 192.0
 offset_bottom = 158.0
@@ -66,15 +64,15 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons"]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons" unique_id=2119230481]
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons" unique_id=509368413]
 layout_mode = 2
 theme_override_constants/separation = 1
 
-[node name="Buy" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer"]
+[node name="Buy" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer" unique_id=2012652379]
 z_index = 1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 2
@@ -82,7 +80,7 @@ theme_override_font_sizes/font_size = 25
 text = "Buy"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Buy"]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Buy" unique_id=451780686]
 z_index = -1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 0
@@ -94,7 +92,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="Talk" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer"]
+[node name="Talk" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer" unique_id=1043531204]
 z_index = 1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 2
@@ -102,7 +100,7 @@ theme_override_font_sizes/font_size = 25
 text = "Talk"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Talk"]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Talk" unique_id=596902984]
 z_index = -1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 0
@@ -114,7 +112,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="Sell" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer"]
+[node name="Sell" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer" unique_id=374351838]
 z_index = 1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 2
@@ -122,7 +120,7 @@ theme_override_font_sizes/font_size = 25
 text = "Sell"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Sell"]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Sell" unique_id=1902738277]
 z_index = -1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 0
@@ -134,7 +132,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="Exit" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer"]
+[node name="Exit" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer" unique_id=2054760494]
 z_index = 1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 2
@@ -142,7 +140,7 @@ theme_override_font_sizes/font_size = 25
 text = "Exit"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Exit"]
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Exit" unique_id=764207826]
 z_index = -1
 custom_minimum_size = Vector2(0, 37.5)
 layout_mode = 0
@@ -154,7 +152,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect" unique_id=660959681]
 layout_mode = 0
 offset_left = 188.0
 offset_right = 580.0
@@ -164,11 +162,11 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer"]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer" unique_id=832631418]
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer/ColorRect"]
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/MarginContainer/ColorRect" unique_id=645959080]
 layout_mode = 0
 offset_right = 380.0
 offset_bottom = 150.0
@@ -179,11 +177,11 @@ theme_override_font_sizes/italics_font_size = 21
 theme_override_font_sizes/mono_font_size = 21
 bbcode_enabled = true
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer" unique_id=1223591764]
 custom_minimum_size = Vector2(288, 0)
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ColorRect"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ColorRect" unique_id=2015294885]
 layout_mode = 0
 offset_right = 288.0
 offset_bottom = 648.0
@@ -192,14 +190,14 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/ColorRect/MarginContainer"]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/ColorRect/MarginContainer" unique_id=269099427]
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer" unique_id=1227705845]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer" unique_id=1620008236]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
@@ -207,29 +205,36 @@ text = "Category:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ItemCategoryButtons" type="HBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
+[node name="ItemCategoryButtons" type="HBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer" unique_id=768725771]
 z_index = 10
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer" unique_id=1172061540]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1719970586]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="Currencies" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
+[node name="Currencies" type="Label" parent="HBoxContainer/ColorRect/MarginContainer/VBoxContainer" unique_id=524327803]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
-text = "Gold: 100
+text = "Gold: 10000
 Shit: 0
 FazTokens: 25"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Sfx" type="AudioStreamPlayer" parent="." unique_id=1737136375]
+bus = &"SFX"
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=722364177]
+autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/ColorRect/buttons/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
