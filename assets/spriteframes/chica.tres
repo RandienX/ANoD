@@ -2,18 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://ipp88bfyrbj3" path="res://assets/party/$RemasteredChica.png" id="1_gxibo"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gxibo"]
-atlas = ExtResource("1_gxibo")
-region = Rect2(96, 128, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1ye4p"]
-atlas = ExtResource("1_gxibo")
-region = Rect2(96, 0, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uecni"]
-atlas = ExtResource("1_gxibo")
-region = Rect2(96, 192, 96, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_lyk45"]
 atlas = ExtResource("1_gxibo")
 region = Rect2(0, 128, 96, 64)
@@ -52,30 +40,6 @@ region = Rect2(192, 192, 96, 64)
 
 [resource]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gxibo")
-}],
-"loop": 1,
-"name": &"idle0",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1ye4p")
-}],
-"loop": 1,
-"name": &"idle1",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uecni")
-}],
-"loop": 1,
-"name": &"idle2",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lyk45")
