@@ -10,6 +10,7 @@ class_name EffectManager
 signal effect_executed(effect: BattleEffect, targets: Array, success: bool)
 signal status_applied(entity: Entity, status_id: String, stacks: int)
 signal status_removed(entity: Entity, status_id: String)
+@warning_ignore("unused_signal")
 signal status_ticked(entity: Entity, status_id: String, remaining: int)
 signal modifier_expired(entity: Entity, modifier_id: String)
 signal stat_modification_applied(entity: Entity, stat_key: String, delta: int)
@@ -121,14 +122,14 @@ func resolve_targets(effect: BattleEffect, source: Entity, context_override: Dic
 	
 	return targets
 
-func _check_line_of_sight(source: Entity, target: Entity) -> bool:
+func _check_line_of_sight(_source: Entity, _target: Entity) -> bool:
 	"""Check if source has line of sight to target. Override for custom logic."""
 	# Default: always true. Override for grid-based or obstacle-based battles.
 	return true
 
 # ==================== CONDITION EVALUATION ====================
 
-func evaluate_conditions(effect: BattleEffect, source: Entity, target: Entity, context_override: Dictionary) -> bool:
+func evaluate_conditions(effect: BattleEffect, _source: Entity, target: Entity, context_override: Dictionary) -> bool:
 	"""
 	Evaluate all conditions on an effect. Returns true only if ALL pass.
 	Supports early-exit on first failure for performance.
@@ -146,6 +147,7 @@ func evaluate_conditions(effect: BattleEffect, source: Entity, target: Entity, c
 	
 	# Additional legacy-style checks for backward compatibility
 	if _battle_context.has("turn_number"):
+		@warning_ignore("unused_variable")
 		var turn = _battle_context["turn_number"]
 		# Could add turn-based conditions here if needed
 	
@@ -214,7 +216,7 @@ func _execute_effect_by_type(effect: BattleEffect, source: Entity, targets: Arra
 	
 	return false
 
-func _handle_damage(effect: BattleEffect, source: Entity, targets: Array[Entity], context: Dictionary) -> bool:
+func _handle_damage(effect: BattleEffect, source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
 	"""Handle damage effects with variance and critical support."""
 	var total_damage = 0
 	
@@ -250,7 +252,7 @@ func _handle_damage(effect: BattleEffect, source: Entity, targets: Array[Entity]
 	
 	return total_damage > 0
 
-func _handle_heal(effect: BattleEffect, source: Entity, targets: Array[Entity], context: Dictionary) -> bool:
+func _handle_heal(effect: BattleEffect, source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
 	"""Handle healing effects."""
 	var total_healed = 0
 	
@@ -267,7 +269,7 @@ func _handle_heal(effect: BattleEffect, source: Entity, targets: Array[Entity], 
 	
 	return total_healed > 0
 
-func _handle_stat_modifiers(effect: BattleEffect, source: Entity, targets: Array[Entity], context: Dictionary) -> bool:
+func _handle_stat_modifiers(effect: BattleEffect, source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
 	"""Apply temporary stat buffs/debuffs."""
 	var applied_count = 0
 	
@@ -288,7 +290,7 @@ func _handle_stat_modifiers(effect: BattleEffect, source: Entity, targets: Array
 	
 	return applied_count > 0
 
-func _handle_status_apply(effect: BattleEffect, source: Entity, targets: Array[Entity], context: Dictionary) -> bool:
+func _handle_status_apply(effect: BattleEffect, source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
 	"""Apply status effects from status_ref definition."""
 	if not effect.status_ref:
 		push_warning("BattleEffect %s has STATUS_APPLY but no status_ref" % effect.effect_name)
@@ -316,7 +318,7 @@ func _handle_status_apply(effect: BattleEffect, source: Entity, targets: Array[E
 	
 	return applied_count > 0
 
-func _handle_status_remove(effect: BattleEffect, source: Entity, targets: Array[Entity], context: Dictionary) -> bool:
+func _handle_status_remove(effect: BattleEffect, source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
 	"""Remove status effects."""
 	var removed_count = 0
 	
@@ -335,7 +337,7 @@ func _handle_status_remove(effect: BattleEffect, source: Entity, targets: Array[
 	
 	return removed_count > 0
 
-func _handle_parameter_change(effect: BattleEffect, source: Entity, targets: Array[Entity], context: Dictionary) -> bool:
+func _handle_parameter_change(effect: BattleEffect, _source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
 	"""Permanent stat changes (level-up style)."""
 	var changed_count = 0
 	
@@ -354,7 +356,7 @@ func _handle_parameter_change(effect: BattleEffect, source: Entity, targets: Arr
 	
 	return changed_count > 0
 
-func _handle_utility(effect: BattleEffect, source: Entity, targets: Array[Entity], context: Dictionary) -> bool:
+func _handle_utility(effect: BattleEffect, _source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
 	"""Utility effects: skip turn, extra turn, etc."""
 	var applied_count = 0
 	
@@ -404,7 +406,7 @@ func _handle_custom(effect: BattleEffect, source: Entity, targets: Array[Entity]
 	
 	return executed
 
-func _trigger_visuals(effect: BattleEffect, target: Entity):
+func _trigger_visuals(_effect: BattleEffect, _target: Entity):
 	"""Trigger visual/audio feedback for an effect."""
 	# This would integrate with your battle UI system
 	# For now, just emit a signal that UI can listen to
@@ -440,6 +442,7 @@ func schedule_effect_tick(effect: BattleEffect, source: Entity, targets: Array[E
 					_execute_effect_by_type(effect, source, [target], {})
 			
 			if ticks_remaining > 0:
+				@warning_ignore("confusable_capture_reassignment")
 				ticks_remaining -= 1
 			
 			if ticks_remaining == 0:

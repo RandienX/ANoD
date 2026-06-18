@@ -67,7 +67,7 @@ func _route_attack_execution(attacker: Object, alive: Array, atk: Skill) -> void
 		return
 	
 	# Step 1: Apply on_use effects
-	await _apply_on_use_effects(attacker, alive, atk)
+	_apply_on_use_effects(attacker, alive, atk)
 	
 	# Step 2: Check if this is an item-based skill
 	if atk.is_item_skill:
@@ -94,7 +94,7 @@ func _get_alive_targets(targets: Array) -> Array:
 	return alive
 
 
-func _handle_check_skill(attacker: Entity, targets: Array) -> void:
+func _handle_check_skill(_attacker: Entity, targets: Array) -> void:
 	if death_manager.game_over_active: return
 	var desc = "[color=#2196F3]━━━ ENEMY INFO ━━━[/color]"
 	if targets.size() > 0 and targets[0].role == Entity.Role.ENEMY:
@@ -105,7 +105,7 @@ func _handle_check_skill(attacker: Entity, targets: Array) -> void:
 	await root.get_tree().create_timer(2.5).timeout
 
 
-func _assign_random_target(attacker: Entity, atk: Skill) -> bool:
+func _assign_random_target(attacker: Entity, _atk: Skill) -> bool:
 	# For enemies, target party members; for party members, target enemies
 	var valid_targets: Array = []
 	if attacker.role == Entity.Role.ENEMY:
@@ -162,7 +162,7 @@ func _apply_on_use_effects(attacker: Object, targets: Array, atk: Skill) -> void
 			effect_manager.execute_effect(effect, attacker, {"selected_enemy": targets[0] if targets.size() > 0 else null})
 
 
-func _handle_support_skill(attacker: Entity, alive: Array, atk: Skill) -> void:
+func _handle_support_skill(attacker: Entity, _alive: Array, atk: Skill) -> void:
 	if death_manager.game_over_active: return
 	"""Handle buffs/debuffs and other non-damaging skills via BattleEffectManager."""
 	var support_log = "[color=#FFD700]━━━ SKILL ━━━[/color]"
@@ -194,6 +194,8 @@ func _execute_attack_sequence(attacker: Entity, alive: Array, atk: Skill) -> voi
 		return
 		
 	var attack_log = "[color=#FFD700]━━━ ATTACK ━━━[/color]"
+	var play_animation_once = alive.size() > 1
+	var animation_played = false
 
 	for e in range(len(alive)):
 		var target: Entity = alive[e]
@@ -211,6 +213,9 @@ func _execute_attack_sequence(attacker: Entity, alive: Array, atk: Skill) -> voi
 			var dmg = hit_result.dmg
 			var crit = hit_result.crit
 			var hit = hit_result.hit
+			var play_animation = true
+			if play_animation_once:
+				play_animation = not animation_played
 			
 			# Step 2: Check for instakill
 			if target.has_status("instakill"):
@@ -226,12 +231,14 @@ func _execute_attack_sequence(attacker: Entity, alive: Array, atk: Skill) -> voi
 			
 			# Step 3: Process hit or miss
 			if hit:
-				await _process_hit(attacker, target, atk, dmg, crit, attack_log)
+				await _process_hit(attacker, target, atk, dmg, crit, attack_log, play_animation)
+				if play_animation:
+					animation_played = true
 				total_dmg += dmg
 				if crit:
 					total_crits += 1
 			else:
-				await _process_miss(attacker, target, atk, attack_log, i)
+				_process_miss(attacker, target, atk, attack_log, i)
 				total_misses += 1
 			
 			# Deduct mana cost per hit (optional design choice)
@@ -248,7 +255,8 @@ func _execute_attack_sequence(attacker: Entity, alive: Array, atk: Skill) -> voi
 		attack_log += "[/color]"
 		
 		log_manager.add_to_battle_log(attack_log)
-		await root.get_tree().create_timer(1.0 / Settings.battle_speed).timeout
+		if root:
+			await root.get_tree().create_timer(1.0 / Settings.battle_speed).timeout
 		
 		# Step 5: Check for death (enemy)
 		if target.hp <= 0:
@@ -259,11 +267,12 @@ func _execute_attack_sequence(attacker: Entity, alive: Array, atk: Skill) -> voi
 	_cleanup_deaths(attacker, alive)
 		
 
-func _process_hit(attacker: Entity, target: Entity, atk: Skill, dmg: int, crit: bool, attack_log: String) -> void:
-	if death_manager.game_over_active: return
+func _process_hit(attacker: Entity, target: Entity, atk: Skill, dmg: int, _crit: bool, attack_log: String, play_animation: bool = true) -> void:
+
+	if !root: return
 	"""Process a successful hit: apply damage, effects, and wake from sleep via BattleEffectManager."""
 
-	if root.get_node("AnimationPlayer"):
+	if play_animation and root.get_node("AnimationPlayer"):
 		root.get_node("AnimationPlayer").play("move_around_screen")
 		await root.get_node("AnimationPlayer").animation_finished
 	target.hp -= dmg
@@ -289,7 +298,7 @@ func _process_hit(attacker: Entity, target: Entity, atk: Skill, dmg: int, crit: 
 				node.hp = max(0, e.hp)
 
 
-func _process_miss(attacker: Entity, target: Entity, atk: Skill, attack_log: String, hit_index: int) -> void:
+func _process_miss(attacker: Entity, target: Entity, atk: Skill, _attack_log: String, _hit_index: int) -> void:
 	if death_manager.game_over_active: return
 	"""Process a missed attack: apply on-miss effects via BattleEffectManager."""
 	# Apply on-miss effects if any
@@ -298,7 +307,7 @@ func _process_miss(attacker: Entity, target: Entity, atk: Skill, attack_log: Str
 			effect_manager.execute_effect(effect, attacker, {"selected_enemy": target})
 
 
-func _cleanup_deaths(attacker: Entity, alive: Array) -> void:
+func _cleanup_deaths(_attacker: Entity, alive: Array) -> void:
 	if death_manager.game_over_active: return
 	for t in alive:
 		if t.hp <= 0:

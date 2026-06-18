@@ -48,7 +48,6 @@ func update_effects_ui() -> void:
 	
 	if party_member:
 		# Use new status system API
-		var active_status_ids = party_member.get_active_status_ids()
 		for status_id in party_member.get_active_status_ids():
 			var stacks = party_member.get_status_stacks(status_id)
 			var duration = party_member.get_status_duration(status_id)
