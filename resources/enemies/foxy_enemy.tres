@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="Entity" format=3 uid="uid://dc3six02ul61o"]
 
 [ext_resource type="Texture2D" uid="uid://coejlcf8sdlw2" path="res://assets/battlesprites/Foxy.png" id="1_yju1s"]
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="2_iyecq"]
-[ext_resource type="Resource" uid="uid://bjsbtv5uw2jr2" path="res://resources/attacks/foxy/foxy_hook_shot.tres" id="2_jlnnc"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="2_iyecq"]
+[ext_resource type="Resource" uid="uid://bjsbtv5uw2jr2" path="res://resources/attacks/items/foxy_hook_shot.tres" id="2_jlnnc"]
 [ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="3_hyq8n"]
-[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="3_ife7b"]
-[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="4_xcmxb"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/player/item.gd" id="3_ife7b"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/battle/entity.gd" id="4_xcmxb"]
 [ext_resource type="Resource" uid="uid://dt2n0v1ehisp1" path="res://resources/attacks/foxy/foxy_bite.tres" id="5_foxy_bite"]
 [ext_resource type="Resource" uid="uid://cv6wj07maa42q" path="res://resources/items/weapon/foxy_hook.tres" id="5_h0vui"]
 [ext_resource type="Resource" uid="uid://dy2edov3mor1e" path="res://resources/items/consumables/foxy_plushie.tres" id="5_jba23"]
@@ -21,31 +21,16 @@ name = "Foxy"
 role = 1
 battle_sprite = ExtResource("1_yju1s")
 back_sprite = ExtResource("1_yju1s")
-base_stats = Dictionary[String, int]({
-"atk": 15,
-"def": 6,
-"hp": 420,
-"magic": 8,
-"magic_def": 10,
-"mp": 250,
-"speed": 12
+base_stats = Dictionary[StringName, int]({
+&"atk": 15,
+&"def": 6,
+&"hp": 420,
+&"magic": 8,
+&"mp": 250,
+&"speed": 12
 })
-stats = Dictionary[String, int]({
-"atk": 10,
-"def": 5,
-"hp": 100,
-"magic": 10,
-"mp": 50,
-"speed": 10
-})
-max_stats = Dictionary[String, int]({
-"atk": 10,
-"def": 5,
-"hp": 100,
-"magic": 10,
-"mp": 50,
-"speed": 10
-})
+hp = 1067
+mp = 250
 skills = Dictionary[int, Array]({
 0: [ExtResource("5_foxy_bite"), ExtResource("6_foxy_sprint"), ExtResource("7_foxy_lunge")]
 })
@@ -64,6 +49,6 @@ ai_behavior = 0
 ai_intelligence = 2
 aggression = 0.6
 enemy_inventory = Array[ExtResource("3_ife7b")]([ExtResource("5_jba23"), ExtResource("6_i5u3w"), ExtResource("7_0jwsr"), ExtResource("8_6vhj0")])
-xp_reward = 250
+xp_reward = 150
 is_boss = true
 metadata/_custom_type_script = "uid://c2cret7fy87bn"

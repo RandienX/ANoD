@@ -1,27 +1,13 @@
 [gd_resource type="Resource" script_class="Skill" format=3 uid="uid://dt2n0v1ehisp1"]
 
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_mmjlq"]
-[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_ordwn"]
-[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_guj6a"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_mmjlq"]
 [ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="2_skill"]
-[ext_resource type="AudioStream" uid="uid://bmjghslryriw1" path="res://assets/sound/sfx/attack/Attack2.mp3" id="5_kghrj"]
-[ext_resource type="EffekseerEffect" uid="uid://b4axrkrwhkkrk" path="res://assets/vfx/Sweep.efkefc" id="6_kghrj"]
-[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="7_d27ft"]
-
-[sub_resource type="Resource" id="Resource_jjdin"]
-script = ExtResource("7_d27ft")
-effect = ExtResource("6_kghrj")
-on_target = 4
-metadata/_custom_type_script = "uid://bqcm6g85k8bau"
 
 [resource]
 script = ExtResource("2_skill")
 skill_name = "Bite"
 description = "Foxy lunges with a brutal bite that would make any nightguard shit themselves."
-mana_cost = 10
-tp_cost = 15
-attack_multiplier = 1.4
+target_type = 3
+attack_multiplier = 2.4
 attack_bonus = 10
 hit_damage_multiplier = 1.0
-vfx = SubResource("Resource_jjdin")
-sfx = ExtResource("5_kghrj")

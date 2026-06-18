@@ -1,16 +1,7 @@
 [gd_resource type="Resource" script_class="Skill" format=3 uid="uid://cvrkbggxuxsyd"]
 
-[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_3au3p"]
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_scnr6"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_scnr6"]
 [ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="2_8a57b"]
-[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_fmyx1"]
-[ext_resource type="EffekseerEffect" uid="uid://dchtd6xpsnl62" path="res://assets/vfx/Flash.efkefc" id="5_nk1w2"]
-[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="6_hdn4e"]
-
-[sub_resource type="Resource" id="Resource_s1fey"]
-script = ExtResource("6_hdn4e")
-effect = ExtResource("5_nk1w2")
-on_target = 4
 
 [resource]
 script = ExtResource("2_8a57b")
@@ -20,5 +11,4 @@ hp_cost = 5
 accuracy = 0.75
 attack_multiplier = 1.5
 attack_bonus = 5
-vfx = SubResource("Resource_s1fey")
 metadata/_custom_type_script = "uid://o74imedfcjis"

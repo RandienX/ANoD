@@ -1,25 +1,26 @@
 [gd_resource type="Resource" script_class="Quest" format=3 uid="uid://ddhb7utu0qxtn"]
 
-[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="1_mf5u2"]
+[ext_resource type="Script" uid="uid://d28tdylvml4bl" path="res://code/quest/quest_effect.gd" id="1_ednno"]
 [ext_resource type="Script" uid="uid://bqx0fphf238fw" path="res://code/quest/quest_point.gd" id="2_mf5u2"]
 [ext_resource type="Script" uid="uid://ky4vxed24run" path="res://code/quest/quest.gd" id="3_g8s1t"]
-[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="3_mf5u2"]
-[ext_resource type="Texture2D" uid="uid://d0irmqfdeop1j" path="res://assets/item_textures/degreaser.png" id="4_52gqx"]
-[ext_resource type="Texture2D" uid="uid://f5l323vc4trp" path="res://assets/item_textures/toilet_paper.png" id="5_uffkw"]
-[ext_resource type="Texture2D" uid="uid://dabt8811ek4bt" path="res://assets/party/$RemasteredFoxy.png" id="6_672q5"]
+[ext_resource type="Script" uid="uid://ddu81hg2svoal" path="res://code/quest/quest_point_condition.gd" id="3_mf5u2"]
 
 [sub_resource type="Resource" id="Resource_g8s1t"]
 script = ExtResource("3_mf5u2")
-description = "Get 5 Degreasers."
-param_string = "res://resources/items/consumables/degreaser.tres"
-param_value = 5.0
-quest_icon = ExtResource("4_52gqx")
+target_key = "res://resources/items/consumables/degreaser.tres"
+description = "Get 10 Degreasers."
+progress_target = 10.0
+is_absolute = true
+connected_condition_indices = Array[int]([1])
+metadata/_custom_type_script = "uid://ddu81hg2svoal"
 
 [sub_resource type="Resource" id="Resource_i1gii"]
 script = ExtResource("3_mf5u2")
+target_key = "res://resources/items/key/toilet_paper.tres"
 description = "Get Toilet Paper."
-param_string = "res://resources/items/key/toilet_paper.tres"
-quest_icon = ExtResource("5_uffkw")
+is_absolute = true
+connected_condition_indices = Array[int]([0])
+metadata/_custom_type_script = "uid://ddu81hg2svoal"
 
 [sub_resource type="Resource" id="Resource_52gqx"]
 script = ExtResource("2_mf5u2")
@@ -27,16 +28,13 @@ step_name = "Gather gooning materials."
 conditions = Array[ExtResource("3_mf5u2")]([SubResource("Resource_g8s1t"), SubResource("Resource_i1gii")])
 metadata/_custom_type_script = "uid://bqx0fphf238fw"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ppond"]
-atlas = ExtResource("6_672q5")
-region = Rect2(128, 24, 32, 39)
-
 [sub_resource type="Resource" id="Resource_uffkw"]
 script = ExtResource("3_mf5u2")
-condition_type = 2
+type = 4
+target_key = "foxy_interation_foxy_goon_has_item"
 description = "Talk to Foxy about that gooning night."
-param_string = "Foxy"
-quest_icon = SubResource("AtlasTexture_ppond")
+is_absolute = true
+metadata/_custom_type_script = "uid://ddu81hg2svoal"
 
 [sub_resource type="Resource" id="Resource_672q5"]
 script = ExtResource("2_mf5u2")

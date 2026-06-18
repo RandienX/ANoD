@@ -1,24 +1,23 @@
 [gd_resource type="Resource" script_class="Quest" format=3 uid="uid://doqix5ddhsjgj"]
 
-[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="1_af8m0"]
+[ext_resource type="Script" uid="uid://d28tdylvml4bl" path="res://code/quest/quest_effect.gd" id="1_af8m0"]
 [ext_resource type="Script" uid="uid://bqx0fphf238fw" path="res://code/quest/quest_point.gd" id="2_6dee1"]
-[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="3_6dee1"]
+[ext_resource type="Script" uid="uid://ddu81hg2svoal" path="res://code/quest/quest_point_condition.gd" id="3_6dee1"]
 [ext_resource type="Script" uid="uid://ky4vxed24run" path="res://code/quest/quest.gd" id="3_cppv4"]
-[ext_resource type="Texture2D" uid="uid://d0glmbof6db6x" path="res://assets/party/$RemasteredBonnie.png" id="4_cppv4"]
 
 [sub_resource type="Resource" id="Resource_cppv4"]
 script = ExtResource("1_af8m0")
+type = 10
+target_key = "res://code/quest/custom_effect/bonnie_get_mask.gd"
 metadata/_custom_type_script = "uid://d28tdylvml4bl"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_13p88"]
-atlas = ExtResource("4_cppv4")
-region = Rect2(128, 16, 32, 48)
 
 [sub_resource type="Resource" id="Resource_13p88"]
 script = ExtResource("3_6dee1")
+type = 2
+target_key = "got_bonnie_mask"
 description = "Get Bonnie's Mask back."
-param_string = "res://resources/items/key/bad_pizza.tres"
-quest_icon = SubResource("AtlasTexture_13p88")
+is_absolute = true
+metadata/_custom_type_script = "uid://ddu81hg2svoal"
 
 [sub_resource type="Resource" id="Resource_3e31j"]
 script = ExtResource("2_6dee1")

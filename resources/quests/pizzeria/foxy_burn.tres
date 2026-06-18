@@ -1,18 +1,17 @@
 [gd_resource type="Resource" script_class="Quest" format=3 uid="uid://c25i0ivx6sqoq"]
 
-[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="1_wbjc2"]
+[ext_resource type="Script" uid="uid://d28tdylvml4bl" path="res://code/quest/quest_effect.gd" id="1_uvcha"]
 [ext_resource type="Script" uid="uid://bqx0fphf238fw" path="res://code/quest/quest_point.gd" id="2_wbjc2"]
 [ext_resource type="Script" uid="uid://ky4vxed24run" path="res://code/quest/quest.gd" id="3_ka71q"]
-[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="3_wbjc2"]
-[ext_resource type="Texture2D" uid="uid://b6q38kvl5n8um" path="res://assets/item_textures/molotov.png" id="4_ux5bx"]
-[ext_resource type="Texture2D" uid="uid://c5te14cvg4qke" path="res://assets/tilemaps/Objects.png" id="5_8n2a2"]
+[ext_resource type="Script" uid="uid://ddu81hg2svoal" path="res://code/quest/quest_point_condition.gd" id="3_wbjc2"]
 
 [sub_resource type="Resource" id="Resource_ka71q"]
 script = ExtResource("3_wbjc2")
+target_key = "res://resources/items/consumables/molotov.tres"
 description = "Get 5 Molotovs"
-param_string = "res://resources/items/consumables/molotov.tres"
-param_value = 5.0
-quest_icon = ExtResource("4_ux5bx")
+progress_target = 5.0
+is_absolute = true
+metadata/_custom_type_script = "uid://ddu81hg2svoal"
 
 [sub_resource type="Resource" id="Resource_8n2a2"]
 script = ExtResource("2_wbjc2")
@@ -20,14 +19,13 @@ step_name = "Get Materials"
 conditions = Array[ExtResource("3_wbjc2")]([SubResource("Resource_ka71q")])
 metadata/_custom_type_script = "uid://bqx0fphf238fw"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ovoo5"]
-atlas = ExtResource("5_8n2a2")
-region = Rect2(32, 160, 32, 32)
-
 [sub_resource type="Resource" id="Resource_ovoo5"]
 script = ExtResource("3_wbjc2")
+type = 2
+target_key = "foxy_burnt"
 description = "Burn his house."
-quest_icon = SubResource("AtlasTexture_ovoo5")
+is_absolute = true
+metadata/_custom_type_script = "uid://ddu81hg2svoal"
 
 [sub_resource type="Resource" id="Resource_8xg84"]
 script = ExtResource("2_wbjc2")

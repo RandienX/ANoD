@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Item" format=3 uid="uid://dy2edov3mor1e"]
 
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_5ytqy"]
-[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="1_item"]
-[ext_resource type="Resource" uid="uid://bq18n8b2yuafg" path="res://resources/attacks/foxy/foxy_plush_revival.tres" id="2_5ytqy"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_5ytqy"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/player/item.gd" id="1_item"]
+[ext_resource type="Resource" uid="uid://bq18n8b2yuafg" path="res://resources/attacks/items/foxy_plush_revival.tres" id="2_plush_attack"]
 
 [resource]
 script = ExtResource("1_item")
@@ -16,7 +16,7 @@ sell_price = Dictionary[int, int]({
 })
 max_stack = 5
 can_use_outside_battle = false
-item_attack = ExtResource("2_5ytqy")
+item_attack = ExtResource("2_plush_attack")
 item_bonuses = Dictionary[StringName, int]({
 &"atk": 0,
 &"def": 0,

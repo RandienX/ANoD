@@ -5,11 +5,12 @@
 [ext_resource type="Resource" uid="uid://bm2swlibbpbh4" path="res://resources/attacks/attack.tres" id="2_y56t2"]
 [ext_resource type="Resource" uid="uid://cq600ldyq2j8g" path="res://resources/attacks/check.tres" id="3_2vo3l"]
 [ext_resource type="Resource" uid="uid://duj14sl0ett0i" path="res://resources/attacks/bonnie/bunny_hop.tres" id="4_2lmmp"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/player/item.gd" id="4_nwd5i"]
 [ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="4_y56t2"]
 [ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="5_nwd5i"]
 [ext_resource type="Resource" uid="uid://b5yjitpcodq3o" path="res://resources/attacks/bonnie/guitarist_inspiration.tres" id="7_ohk4t"]
 [ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/battle/entity.gd" id="7_y3y4j"]
-[ext_resource type="SpriteFrames" uid="uid://c4boiumxjyycq" path="res://assets/spriteframes/bonnie.tres" id="10_y56t2"]
+[ext_resource type="SpriteFrames" uid="uid://b8830yuck78ce" path="res://assets/spriteframes/toilet_bonnie.tres" id="11_nwd5i"]
 
 [resource]
 script = ExtResource("7_y3y4j")
@@ -19,7 +20,7 @@ portrait = ExtResource("1_wktog")
 portrait_rect = Rect2(96, 0, 96, 96)
 battle_sprite = ExtResource("2_7ddu4")
 back_sprite = ExtResource("2_7ddu4")
-sprite = ExtResource("10_y56t2")
+sprite = ExtResource("11_nwd5i")
 path_to = "res://resources/party/bonnie.tres"
 base_stats = Dictionary[StringName, int]({
 &"atk": 6,
@@ -47,6 +48,7 @@ level_up_gains = Dictionary[StringName, int]({
 })
 hp = 80
 mp = 40
+cannot_use_skills = true
 skills = Dictionary[int, Array]({
 0: [ExtResource("3_2vo3l")],
 2: [ExtResource("4_2lmmp")],
