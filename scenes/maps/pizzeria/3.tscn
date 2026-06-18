@@ -16,16 +16,16 @@
 [ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/dialogue/DialogueEffect.gd" id="11_u86nv"]
 [ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/party/Classics+Swag.png" id="12_gucuy"]
 [ext_resource type="AudioStream" uid="uid://diqbgsqledu5t" path="res://assets/tts_lines/dining_hall/inhale_dong.mp3" id="13_5tfqc"]
-[ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office-running-sfx-made-with-Voicemod.mp3" id="17_u86nv"]
+[ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office.mp3" id="17_u86nv"]
 [ext_resource type="Script" uid="uid://8xdjua3jhdqd" path="res://scenes/maps/black_flash_on_scene.gd" id="18_gucuy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tenmc"]
 size = Vector2(20, 31)
 
-[sub_resource type="Resource" id="Resource_uo5u6"]
+[sub_resource type="Resource" id="Resource_gucuy"]
 script = ExtResource("11_u86nv")
 effect_type = 11
-param_string = "open shop"
+param_string = "open_shop"
 param_value = "res://resources/shopdata/bb/bb_shop_1.tres"
 metadata/_custom_type_script = "uid://t5qfe8igpeg3"
 
@@ -40,7 +40,7 @@ text = "Inhale my dong enragement child."
 speaker = "Freddy"
 portrait = SubResource("AtlasTexture_28tpx")
 voiceline = ExtResource("13_5tfqc")
-on_exit_effects = Array[ExtResource("11_u86nv")]([SubResource("Resource_uo5u6")])
+on_exit_effects = Array[ExtResource("11_u86nv")]([SubResource("Resource_gucuy")])
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
 [sub_resource type="Resource" id="Resource_tenmc"]
@@ -56,6 +56,7 @@ z_index = -1
 script = ExtResource("1_4a4t6")
 room_name = "Pizzeria - Closet"
 possible_battles = Array[ExtResource("2_yobt7")]([ExtResource("3_ml5db")])
+bg_music = ExtResource("17_u86nv")
 player = NodePath("player")
 room_size = Rect2(0, 0, 18, 15)
 metadata/_custom_type_script = "uid://duek0uk444kjf"
@@ -103,17 +104,16 @@ shape = SubResource("RectangleShape2D_tenmc")
 
 [node name="Textboxes" type="Node2D" parent="." unique_id=1898347500]
 
-[node name="TextboxMaker" parent="Textboxes" unique_id=111865902 node_paths=PackedStringArray("textbox_node") instance=ExtResource("7_2grc0")]
+[node name="TextboxMaker" parent="Textboxes" unique_id=111865902 node_paths=PackedStringArray("player_node_path") instance=ExtResource("7_2grc0")]
+process_mode = 3
 position = Vector2(272, 208)
 dialogue_data = SubResource("Resource_tenmc")
-textbox_node = NodePath("../../Dialogue")
-once_per_session = false
 require_input_to_start = true
 player_node_path = NodePath("../../player")
 
 [node name="player" parent="." unique_id=124558449 instance=ExtResource("6_2grc0")]
 z_index = 1
-position = Vector2(336, 225)
+position = Vector2(272, 222)
 move_speed = 100.0
 
 [node name="Dialogue" type="CanvasLayer" parent="." unique_id=1533219490]
@@ -140,5 +140,11 @@ stream = ExtResource("17_u86nv")
 volume_db = 1.75
 autoplay = true
 bus = &"Music"
+
+[node name="Sfx1" type="AudioStreamPlayer" parent="." unique_id=373007399]
+bus = &"SFX"
+
+[node name="Sfx2" type="AudioStreamPlayer" parent="." unique_id=3242206]
+bus = &"SFX"
 
 [connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger" to="SceneTriggers/ChangeRoomTrigger" method="_on_body_entered"]
