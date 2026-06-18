@@ -9,7 +9,7 @@ class_name QuestConditionHasPartyMember
 static func evaluate(condition: QuestPointCondition, evaluator: QuestConditionEvaluator) -> bool:
 		return get_progress(condition, evaluator) >= condition.progress_target
 
-static func get_progress(condition: QuestPointCondition, evaluator: QuestConditionEvaluator) -> float:
+static func get_progress(condition: QuestPointCondition, _evaluator: QuestConditionEvaluator) -> float:
 	if condition.target_key == "":
 		return 0.0
 

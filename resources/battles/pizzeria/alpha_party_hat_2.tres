@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="Battle" format=3 uid="uid://w5pvbq2h36v2"]
 
-[ext_resource type="Texture2D" uid="uid://cfoscxh3td7hk" path="res://assets/battleui/backgrounds/FNaF 1 - Dining Area.png" id="1_43syt"]
 [ext_resource type="Script" uid="uid://dfxuook11sb3a" path="res://code/battle/battle_condition.gd" id="1_omhsn"]
 [ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="2_iqu30"]
 [ext_resource type="Script" uid="uid://tjsyf20orwjt" path="res://code/battle/battle_end_condition.gd" id="3_fvllr"]
@@ -28,6 +27,5 @@ metadata/_custom_type_script = "uid://cpuojkdrhbref"
 script = ExtResource("2_iqu30")
 battle_name = "Alpha Battle Hat 2"
 enemies = Array[ExtResource("4_x37hy")]([SubResource("Resource_xwnij"), SubResource("Resource_nbygd")])
-background = ExtResource("1_43syt")
 music = ExtResource("8_vfcdw")
 metadata/_custom_type_script = "uid://s2os42vdwf6y"

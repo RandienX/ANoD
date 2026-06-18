@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="Battle" format=3 uid="uid://clfi17lu28dwy"]
 
-[ext_resource type="Texture2D" uid="uid://dsolecv57wpem" path="res://assets/battleui/backgrounds/FNaF 1 - West Hall.png" id="1_6umev"]
 [ext_resource type="Script" uid="uid://dfxuook11sb3a" path="res://code/battle/battle_condition.gd" id="2_br5if"]
 [ext_resource type="Script" uid="uid://tjsyf20orwjt" path="res://code/battle/battle_end_condition.gd" id="3_mfvkx"]
 [ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="4_xt1u7"]
@@ -28,6 +27,5 @@ metadata/_custom_type_script = "uid://cpuojkdrhbref"
 script = ExtResource("11_uq6ad")
 battle_name = "Gamma Party Hat 2"
 enemies = Array[ExtResource("4_xt1u7")]([SubResource("Resource_h2t3o"), SubResource("Resource_ykmfe")])
-background = ExtResource("1_6umev")
 music = ExtResource("8_br5if")
 metadata/_custom_type_script = "uid://s2os42vdwf6y"
