@@ -9,7 +9,8 @@ class_name Entity
 # ==================== ENUMS ====================
 
 enum Role { PARTY, ENEMY }
-enum AIType { DUMB, CASUAL, VIOLENT, DEFENSIVE, INTELLIGENT, FLEXIBLE }
+enum AIBehavior { ATTACKER, DEFENDER, SUPPORT, BALANCED, FLEXIBLE }
+enum AIIntelligencePreset { DUMB, NORMAL, SMART, INTELLIGENT }
 
 # ==================== BASIC INFO ====================
 
@@ -21,6 +22,7 @@ enum AIType { DUMB, CASUAL, VIOLENT, DEFENSIVE, INTELLIGENT, FLEXIBLE }
 @export var portrait_rect := Rect2()
 @export var battle_sprite: Texture2D
 @export var back_sprite: Texture2D
+@export var sprite: SpriteFrames
 @export var path_to: String = ""
 
 # ==================== BASE STATS ====================
@@ -65,6 +67,7 @@ enum AIType { DUMB, CASUAL, VIOLENT, DEFENSIVE, INTELLIGENT, FLEXIBLE }
 @export var xp: int = 0
 @export var xp_to_level_up: int = 100
 @export var level_up_xp_multiplier: float = 1.5
+@export var cannot_use_skills: bool
 
 # Combat state flags (runtime only, not serialized)
 @export var skip_turn: bool = false
@@ -117,11 +120,14 @@ var status_registry: Dictionary = {}
 # ==================== AI BEHAVIOR ====================
 
 @export_group("AI Behavior")
-@export var ai_type: AIType = AIType.CASUAL
+@export var ai_behavior: AIBehavior = AIBehavior.BALANCED
+@export var ai_intelligence: AIIntelligencePreset = AIIntelligencePreset.NORMAL
 @export var aggression: float = 0.5
 @export var prefer_defend: bool = false
 @export var smart_targeting: bool = true
 @export var target_priority: int = 0
+
+@export var enemy_inventory: Array[Item] = []
 
 # ==================== REWARDS (Enemy Only) ====================
 
@@ -139,6 +145,7 @@ var status_registry: Dictionary = {}
 
 # ==================== SIGNALS ====================
 
+@warning_ignore("unused_signal")
 signal stat_modified(stat_key: StringName, new_value: int)
 signal status_applied(status_id: String, stacks: int)
 signal status_removed(status_id: String)
@@ -296,7 +303,7 @@ func remove_modifier(modifier_id: String) -> bool:
 	if not _stat_modifiers.has(modifier_id):
 		return false
 	
-	var modifier = _stat_modifiers[modifier_id]
+	var _modifier = _stat_modifiers[modifier_id]
 	# Note: applied_delta is already factored into effective stats,
 	# and we'll recalculate on next access, so no explicit reversal needed
 	_stat_modifiers.erase(modifier_id)
@@ -349,43 +356,33 @@ func apply_status(status_def: StatusDefinition, stacks: int = 1, duration: int =
 	Returns:
 		true if status was applied, false if blocked (immunity, stacking rules, etc.)
 	"""
-	print("entity.gd: apply_status: START - status_id=%s, stacks=%d, duration=%d, source=%s" % [status_def.id, stacks, duration, source.name if source else "null"])
-	
 	# Check immunity
 	if not status_def.can_be_removed and has_status(status_def.id):
-		print("entity.gd: apply_status: status cannot be removed and already exists, returning false")
 		return false  # Already have an unremovable version
 	
 	var existing = _statuses.get(status_def.id)
 	
 	if existing:
-		print("entity.gd: apply_status: existing status found, handling stacking rule=%d" % status_def.stacking_rule)
 		# Handle stacking based on rule
 		match status_def.stacking_rule:
 			StatModifier.StackingRule.NONE:
-				print("entity.gd: apply_status: stacking rule NONE, returning false")
 				return false
 			StatModifier.StackingRule.OVERRIDE:
 				# Replace existing
-				print("entity.gd: apply_status: stacking rule OVERRIDE, removing existing")
 				_remove_status_internal(status_def.id, source)
 			StatModifier.StackingRule.EXTEND:
 				existing.duration += duration if duration > 0 else status_def.duration_value
 				existing.stacks = max(existing.stacks, stacks)
 				_apply_status_modifiers(existing)
-				print("entity.gd: apply_status: stacking rule EXTEND, new_duration=%d, new_stacks=%d" % [existing.duration, existing.stacks])
 				return true
 			StatModifier.StackingRule.REFRESH:
 				existing.duration = duration if duration > 0 else status_def.duration_value
-				print("entity.gd: apply_status: stacking rule REFRESH, new_duration=%d" % existing.duration)
 				return true
 			StatModifier.StackingRule.CAPPED:
 				if existing.stacks >= status_def.max_stacks:
-					print("entity.gd: apply_status: stacking rule CAPPED, max stacks reached (%d)" % status_def.max_stacks)
 					return false
 				existing.stacks += stacks
 				_apply_status_modifiers(existing)
-				print("entity.gd: apply_status: stacking rule CAPPED, new_stacks=%d" % existing.stacks)
 				return true
 	
 	# Create new status instance
@@ -396,26 +393,21 @@ func apply_status(status_def: StatusDefinition, stacks: int = 1, duration: int =
 		"applied_modifiers": [],  # Track which modifier IDs we created
 		"source": source,
 	}
-	
 	_statuses[status_def.id] = status_instance
-	print("entity.gd: apply_status: created new status instance with duration=%d" % status_instance["duration"])
 	
 	# Apply stat modifiers from status
 	_apply_status_modifiers(status_instance)
 	
 	# Call on_apply callback if defined
 	if status_def.on_apply_callback != "" and source:
-		print("entity.gd: apply_status: calling on_apply callback=%s" % status_def.on_apply_callback)
 		_call_status_callback(status_def.on_apply_callback, status_instance, source)
 	
 	status_applied.emit(status_def.id, stacks)
-	print("entity.gd: apply_status: END - status applied successfully")
 	
 	return true
 
 func _apply_status_modifiers(status_instance: Dictionary):
 	"""Apply all stat modifiers from a status instance."""
-	print("entity.gd: _apply_status_modifiers: START - status_id=%s, modifier_count=%d" % [status_instance.definition.id, status_instance.definition.stat_modifiers.size()])
 	var def = status_instance.definition
 	var mod_prefix = "status_" + def.id + "_"
 
@@ -427,15 +419,8 @@ func _apply_status_modifiers(status_instance: Dictionary):
 	for i in range(def.stat_modifiers.size()):
 		var base_mod = def.stat_modifiers[i]
 		var mod_id = mod_prefix + str(i)
-		print("entity.gd: _apply_status_modifiers: applying modifier[%d], mod_id=%s, stat_key=%s, value=%f" % [i, mod_id, base_mod.stat_key, base_mod.value])
 		if apply_modifier(mod_id, base_mod, status_instance.source):
 			status_instance.applied_modifiers.append(mod_id)
-			print("entity.gd: _apply_status_modifiers: modifier[%d] applied successfully" % i)
-		else:
-			print("entity.gd: _apply_status_modifiers: modifier[%d] FAILED to apply" % i)
-			print("entity.gd: _apply_status_modifiers: END - applied_modifiers_count=%d" % status_instance.applied_modifiers.size())
-			"""Apply all stat modifiers from a status instance."""
-
 func _remove_status_internal(status_id: String, source: Entity = null):
 	"""Internal removal that cleans up modifiers and calls callbacks."""
 	if not _statuses.has(status_id):
@@ -818,7 +803,6 @@ func equip_stats_change():
 	This ensures displayed stats and combat calculations use the correct values.
 	Called when equipment changes or battle starts.
 	"""
-	print("entity.gd: apply_equipment_bonuses: START - name=%s" % name)
 
 	# First, remove any existing equipment bonuses to prevent double-dipping
 	clear_equipment_bonuses()
@@ -827,11 +811,9 @@ func equip_stats_change():
 
 	# Iterate through all equipment slots and accumulate bonuses
 	for slot in equipped.keys():
-		var item: Item = equipped[slot]
+		var item = equipped[slot] as Item
 		if not item:
 			continue
-
-		print("entity.gd: apply_equipment_bonuses: processing slot=%s, item=%s, bonuses=%s" % [slot, item.item_name, item.item_bonuses])
 
 		# Accumulate all bonuses from this item
 		for stat_key in item.item_bonuses:
@@ -849,16 +831,12 @@ func equip_stats_change():
 			var original_base = base_stats.get(stat_key, 0)
 			base_stats[stat_key] = original_base + bonus_value
 			equipment_bonus[stat_key] = bonus_value
-			print("entity.gd: apply_equipment_bonuses: base_stats[%s] changed from %d to %d (bonus=%d)" % [stat_key, original_base, base_stats[stat_key], bonus_value])
-
-			print("entity.gd: apply_equipment_bonuses: END - final base_stats=%s" % base_stats)
 
 func clear_equipment_bonuses():
 	"""
 	Remove equipment bonuses from base_stats to revert to true base values.
 	Called before re-applying bonuses or when unequipping items.
 	"""
-	print("entity.gd: clear_equipment_bonuses: START - name=%s, current_bonus=%s" % [name, equipment_bonus])
 
 	# Subtract tracked bonuses from base_stats to revert to true base
 	for stat_key in equipment_bonus:
@@ -866,11 +844,8 @@ func clear_equipment_bonuses():
 		if base_stats.has(stat_key):
 			var current_base = base_stats[stat_key]
 			base_stats[stat_key] = current_base - bonus_value
-			print("entity.gd: clear_equipment_bonuses: base_stats[%s] reverted from %d to %d" % [stat_key, current_base, base_stats[stat_key]])
-
 	# Clear the tracking dictionary
 	equipment_bonus.clear()
-	print("entity.gd: clear_equipment_bonuses: END - base_stats=%s" % base_stats)
 	
 # ==================== EFFECT CALLBACKS ====================
 func _on_burn_tick(status_instance: Dictionary):
@@ -879,4 +854,3 @@ func _on_burn_tick(status_instance: Dictionary):
 	print(burn_damage)
 	if burn_damage > 0:
 		modify_hp(-roundi(float(hp)*(burn_damage/100)))
-		print("%s takes %d burn damage" % [name, burn_damage])

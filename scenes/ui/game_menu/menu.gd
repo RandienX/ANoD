@@ -7,8 +7,12 @@ var layer_down = 0
 
 var pending_item: Item = null  # For item usage from inventory
 
-func _ready() -> void:
+func _process(_s) -> void:
 	$gold.text = "Gold: " + str(PlayerStats.gold)
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("menu"):
+		get_tree().paused = false
 
 func open_party_for_item(item: Item) -> void:
 	"""Open party menu for item target selection"""
@@ -36,3 +40,13 @@ func open_inventory() -> void:
 
 	var inv_scene = load("res://scenes/ui/game_menu/inventory/inventory.tscn").instantiate()
 	display.add_child(inv_scene)
+
+func open_quests() -> void:
+	"""Open the quest log UI"""
+	for c in display.get_children():
+		c.queue_free()
+
+	var quest_log_scene = load("res://scenes/ui/game_menu/quests/quest_menu.tscn")
+	if quest_log_scene:
+		var quest_log_ui = quest_log_scene.instantiate()
+		display.add_child(quest_log_ui)

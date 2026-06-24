@@ -17,6 +17,8 @@ var effect_manager: EffectManager
 var death_manager: DeathManager
 var log_manager: LogManager
 var attack_executor: AttackExecutor
+var selection_manager: SelectionManager
+var enemy_manager: EnemyManager
 
 var planning_phase: bool = true
 var action_history: Array[Entity] = []
@@ -25,6 +27,7 @@ var current_party_plan_index: int = 0
 var selected_enemy: int = 0  
 var previous_enemy: int = 0
 var initiative_who: int = -1
+var ignore_first_target_input: bool = false
 
 # === SETUP ===
 func _ready() -> void:
@@ -34,51 +37,46 @@ func _ready() -> void:
 	setup_enemies()
 	initiative = setup_initiative()
 	setup_party()
-	_setup_managers()
 	setup_current_attacker()
+	_setup_managers()
 	_setup_battle_log_label()
 	if battle.music:
 		$AudioStreamPlayer.stream = battle.music
 		$AudioStreamPlayer.play()
-	if battle.background:
-		$Control/enemy_ui/bg.texture = battle.background
+	$Control/enemy_ui/bg.texture = battle.background_override if battle.background_override != null else Global.battle_bg
 
 func _setup_managers():
-	print("battle_engine.gd: _setup_managers: START")
 	effect_manager = EffectManager.new()
-	print("battle_engine.gd: _setup_managers: created EffectManager, initializing with party_count=%d, enemy_count=%d" % [party.size(), enemy_instances.size()])
 	effect_manager.initialize(party, enemy_instances)
 	effect_manager.status_applied.connect(_on_status_applied)
-	print("battle_engine.gd: _setup_managers: connected status_applied signal to _on_status_applied")
 	
 	item_manager = ItemManager.new()
-	print("battle_engine.gd: _setup_managers: created ItemManager")
 	item_manager.setup_items_ui(self)
 	
 	skill_manager = SkillManager.new()
-	print("battle_engine.gd: _setup_managers: created SkillManager")
 	skill_manager.setup_skills_ui(self)
 	
 	death_manager = DeathManager.new()
-	print("battle_engine.gd: _setup_managers: created DeathManager")
 	death_manager.setup(self, battle)
 	
 	log_manager = LogManager.new()
-	print("battle_engine.gd: _setup_managers: created LogManager")
 	log_manager.setup(self, effect_manager)
 	
 	attack_executor = AttackExecutor.new()
-	print("battle_engine.gd: _setup_managers: created AttackExecutor")
 	attack_executor.setup(self, death_manager, effect_manager, log_manager, battle)
-	print("battle_engine.gd: _setup_managers: END - all managers initialized")
+
+	enemy_manager = EnemyManager.new()
+	enemy_manager.setup(self, attack_executor, effect_manager, log_manager)
+
+	selection_manager = SelectionManager.new()
+	await get_tree().create_timer(0.1).timeout
+	selection_manager.setup(self, $Control/gui/HBoxContainer2/actions)
 	
+@warning_ignore("unused_parameter")
 func _on_status_applied(entity: Entity, status_id: String, stacks: int) -> void:
-	print("battle_engine.gd: _on_status_applied: entity=%s, status_id=%s, stacks=%d" % [entity.name if entity else "null", status_id, stacks])
-	# Update UI for both party and enemies
 	_update_all_battle_faces()
 
 func _update_all_battle_faces() -> void:
-	print("battle_engine.gd: _update_all_battle_faces: updating all party and enemy UIs")
 	# Update party faces
 	var party_container = $Control/gui/HBoxContainer2/party
 	if party_container:
@@ -86,7 +84,6 @@ func _update_all_battle_faces() -> void:
 			var ui = party_container.get_child(i)
 			if ui.has_method("update_effects_ui"):
 				ui.update_effects_ui()
-				print("battle_engine.gd: _update_all_battle_faces: updated party face %d" % i)
 	# Update enemy faces
 	var enemy_container = $Control/enemy_ui/enemies
 	if enemy_container:
@@ -94,7 +91,6 @@ func _update_all_battle_faces() -> void:
 			var ui = enemy_container.get_child(i)
 			if ui.has_method("update_effects_ui"):
 				ui.update_effects_ui()
-				print("battle_engine.gd: _update_all_battle_faces: updated enemy face %d" % i)
 								
 func setup_enemies():
 	enemy_instances.clear()
@@ -112,7 +108,11 @@ func setup_enemies():
 		var prog = node.get_node_or_null("ProgressBar")
 		if prog: prog.visible = true
 		node.texture = enemy.portrait
+		if e.enemy.battle_sprite:
+			node.texture = e.enemy.battle_sprite
 		node.enemy = enemy
+		if e.ui_position != Vector2(0, 0):
+			node.global_position = e.ui_position
 		
 		var effect_cont = node.get_node_or_null("EffectContainer")
 		if not effect_cont:
@@ -161,6 +161,7 @@ func setup_party():
 		if p in PlayerStats.party:
 			var ui = preload("res://scenes/ui/battle_engine_stuff/partyBattleFace.tscn").instantiate()
 			ui.setup(p)
+			ui.z_index = 22
 			$Control/gui/HBoxContainer2/party.add_child(ui)
 			
 	
@@ -178,17 +179,15 @@ func _setup_battle_log_label() -> void:
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 # === MAIN BATTLE LOOP ===
-
-func _process(delta: float) -> void:
-	update_flash()
-	# Sync enemy HP with UI
-	for e in range(len(battle.enemies)):
-		var node = get_node("Control/enemy_ui/enemies/enemy" + str(battle.enemies[e].position_index+1))
-		node.enemy = enemy_instances[e]
-			
+func _process(_delta: float) -> void:
+	if state == states.OnAction:
+			selection_manager.hide_flash()
+	if state == states.OnEnemy or state == states.OnSkillSelect or state == states.OnItemSelect:
+			selection_manager.update_flash()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_echo(): return
+	if get_viewport() == null: return
 	if death_manager.game_over_active:
 		if death_manager.can_reload and (event.is_action_pressed("use") or event.is_action_pressed("menu") or event.is_action_pressed("lmb")):
 			Global.reload_last_save()
@@ -207,6 +206,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			states.OnSkillSelect: state = states.OnSkills
 			states.OnItems: item_manager.close_items_menu()
 			states.OnItemSelect: state = states.OnItems
+			states.OnEnemy: state = states.OnAction
 			_: undo_last_action()
 		get_viewport().set_input_as_handled()
 		return
@@ -214,7 +214,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_pressed() or event is InputEventMouseMotion:
 		get_viewport().set_input_as_handled()
 		return
-	
 	if state == states.OnSkills:
 			if death_manager.game_over_active: return
 			if event.is_action_pressed("down"):
@@ -237,10 +236,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			if death_manager.game_over_active: return
 			if event.is_action_pressed("left"):
 				get_viewport().set_input_as_handled()
-				move_enemy_input(-1)
+				selection_manager.move_enemy_input(-1)
 			elif event.is_action_pressed("right"):
 				get_viewport().set_input_as_handled()
-				move_enemy_input(1)
+				selection_manager.move_enemy_input(1)
 			elif event.is_action_pressed("use"):
 				get_viewport().set_input_as_handled()
 				skill_manager.confirm_skill_target()
@@ -265,22 +264,36 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	elif state == states.OnItemSelect:
 			if death_manager.game_over_active: return
+			# Ignore the first 'use' press that may have carried over when entering this state
+			if ignore_first_target_input and event.is_action_pressed("use"):
+				ignore_first_target_input = false
+				get_viewport().set_input_as_handled()
+				return
 			await item_manager.item_select_input(event)
 		
 	elif state == states.OnEnemy:
 			if death_manager.game_over_active: return
 			if event.is_action_pressed("left"):
 				get_viewport().set_input_as_handled()
-				move_enemy_input(-1)
+				selection_manager.move_enemy_input(-1)
 			elif event.is_action_pressed("right"):
 				get_viewport().set_input_as_handled()
-				move_enemy_input(1)
+				selection_manager.move_enemy_input(1)
 			elif event.is_action_pressed("use"):
 				get_viewport().set_input_as_handled()
 				var target_enemy = null
 				if selected_enemy >= 0 and selected_enemy < enemy_instances.size():
 					target_enemy = get_enemy(selected_enemy)
-				add_attack(current_attacker, [target_enemy], load("res://resources/attacks/attack.tres"))
+					
+				if current_attacker.equipped["weapon_left"] != null:
+					if current_attacker.equipped["weapon_left"].item_attack!= null:
+						add_attack(current_attacker, [target_enemy], current_attacker.equipped["weapon_left"].item_attack)
+				elif current_attacker.equipped["weapon_right"] != null:
+					if current_attacker.equipped["weapon_right"].item_attack != null:
+						add_attack(current_attacker, [target_enemy], current_attacker.equipped["weapon_right"].item_attack)
+				else:
+						add_attack(current_attacker, [target_enemy], load("res://resources/attacks/attack.tres"))
+						
 				action_history.append(current_attacker)
 				previous_enemy = selected_enemy
 				selected_enemy = 0
@@ -288,36 +301,23 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	elif state == states.OnAction:
 			if death_manager.game_over_active: return
-			get_viewport().set_input_as_handled()
+			if event.is_action_pressed("down"):
+				get_viewport().set_input_as_handled()
+				selection_manager.change_selection(-1)
+			elif event.is_action_pressed("up"):
+				get_viewport().set_input_as_handled()
+				selection_manager.change_selection(1)
+			elif event.is_action_pressed("use"):
+				get_viewport().set_input_as_handled()
+				selection_manager.activate_selected()
+			if get_viewport():
+				get_viewport().set_input_as_handled()
 	if event.has_meta("_processed"): return
 	event.set_meta("_processed", true)
 
 func move_who_moves(index: int):
 	$WhoMoves.visible = true
 	$WhoMoves.position.x = 220 + (index * $WhoMoves.size.x)
-
-func move_enemy_input(input: int):
-	if input == 0 or battle.enemies.is_empty(): return
-	var attempts = 0
-	while attempts < 5:
-		selected_enemy = wrapi(selected_enemy + input, 0, 5)
-		var enemy_at_slot = get_enemy(selected_enemy)
-		if enemy_at_slot != null and enemy_at_slot.hp > 0 and enemy_at_slot in initiative:
-				break
-		attempts += 1
-
-func update_flash():
-	for c in $Control/enemy_ui/enemies.get_children():
-		if c.material:
-			var slot_index = int(c.name.replace("enemy", "")) - 1
-			var enemy_at_slot = get_enemy(slot_index)
-			var is_flashing = enemy_at_slot != null and enemy_at_slot.hp > 0 and slot_index == selected_enemy
-			c.material.set("shader_parameter/is_flashing", is_flashing)
-			
-func get_enemy_by_slot(slot_index: int) -> Entity:
-	if slot_index >= 0 and slot_index < 5:
-		return enemies_by_slot[slot_index]
-	return null
 		
 func get_party_members_from_initiative() -> Array[Entity]:
 	var party_members: Array[Entity] = []
@@ -339,7 +339,9 @@ func add_attack(attacker: Object, attacked: Array, attack: Skill):
 	attack_executor.attack_array[attacker] = [attacked, attack]
 
 func get_enemy(index: int) -> Entity:
-	return get_enemy_by_slot(index)
+	if index >= 0 and index < 5:
+		return enemies_by_slot[index]
+	return null
 
 func get_enemy_index(enemy: Entity) -> int:
 	for i in range(5):
@@ -365,7 +367,7 @@ func undo_last_action():
 	var last = action_history.pop_back()
 	if attack_executor.attack_array.has(last):
 		var atk = attack_executor.attack_array[last][1]
-		if atk.is_item_attack:
+		if atk.is_item_skill:
 			var used_item = item_manager.item_ref
 			PlayerStats.add_item(used_item, 1)  # Restore item                        
 			if item_manager and item_manager.available_items.has(used_item):
@@ -406,7 +408,7 @@ func start_resolution_phase():
 	$WhoMoves.visible = false
 	for actor in initiative:
 		if actor.role == Entity.Role.ENEMY:
-			add_enemy_attack(actor)
+			enemy_manager.queue_enemy_attack(actor)
 	initiative_who = -1
 	await get_tree().create_timer(0.33 * Settings.battle_speed).timeout
 	advance_initiative()
@@ -436,112 +438,6 @@ func advance_initiative():
 		current_attacker = current
 	advance_initiative()
 
-func add_enemy_attack(e: Entity):
-	if death_manager.game_over_active: return
-	if not e or e.hp <= 0: return
-	if e.skills.is_empty(): 
-		# Use default attack if no attacks defined
-		attack_executor.attack_array.merge({e: [[party[randi_range(0, party.size()-1)]], e.default_attack]})
-		return
-	
-	# Collect all skills from all levels
-	var all_skills: Array[Skill] = []
-	for level_skills in e.skills.values():
-		all_skills.append_array(level_skills)
-	
-	if all_skills.is_empty():
-		attack_executor.attack_array.merge({e: [[party[randi_range(0, party.size()-1)]], e.default_attack]})
-		return
-	
-	var atk: Skill = all_skills[randi_range(0, all_skills.size()-1)]
-	var attempts = 0
-	while atk.mana_cost > e.mp and attempts < 10:
-		if randi_range(1, 2) == 1:
-			atk = all_skills[randi_range(0, all_skills.size()-1)]
-			attempts += 1
-		else:
-			atk = e.default_attack
-	
-	var prob: Array[int] = []
-	var lowest = 0
-	for i in range(party.size()):
-		if party[i].hp > 0:
-			prob.append(1)
-			if party[i].hp < party[lowest].hp:
-				lowest = i
-			else:
-				prob.append(0)
-
-	var dumbness = [10, 4, 3, 3, 1]
-	var ai_idx = clamp(e.ai_type as int, 0, dumbness.size()-1)
-	var rng = randi_range(1, dumbness[ai_idx])
-	if rng <= 2:
-		prob[lowest] += 3 - rng
-	else:
-		var valid: Array[int] = []
-		for i in range(prob.size()):
-			if prob[i] > 0:
-				valid.append(i)
-			if not valid.is_empty():
-				prob[valid[randi_range(0, valid.size()-1)]] += 1
-				
-	for i in range(party.size()):
-		if party[i].has_status("focus"):
-			prob[i] += 5 if e.ai_type != Entity.AIType.INTELLIGENT else 1
-
-	var target = null
-	if atk.target_type == 0: # SingleEnemy - target a party member
-		var total = 0
-		for p in prob:
-			total += p
-			if total == 0:
-				# Fallback: pick any alive party member
-				var alive_party = party.filter(func(pa): return pa and pa.hp > 0)
-				if not alive_party.is_empty():
-					target = [alive_party[randi_range(0, alive_party.size()-1)]]
-				else:
-					return
-			else:
-				var rng2 = randi_range(1, total)
-				for i in range(prob.size()):
-					rng2 -= prob[i]
-					if rng2 <= 0 and prob[i] > 0:
-						target = [party[i % party.size()]]
-						break
-	if target:
-		add_attack(e, target, atk)
-	elif atk.target_type == 1: #Self
-		add_attack(e, [e], atk)
-	elif atk.target_type == 2: #AllAllies (for enemy, this means other enemies)
-		var valid_allies: Array[Entity] = []
-		for ally in enemy_instances:
-			if ally and ally != e and ally.hp > 0:
-				valid_allies.append(ally)
-			if not valid_allies.is_empty():
-				add_attack(e, valid_allies, atk)
-			else:
-				add_attack(e, [e], atk)
-	elif atk.target_type == 3: #AllEnemies (for enemy, this means the player's party)
-		add_attack(e, party.filter(func(p): return p and p.hp > 0), atk)
-	elif atk.target_type == 4: #RandomEnemy (for enemy, this means random party member)
-		var valid_party: Array[Entity] = []
-		for p in party:
-			if p and p.hp > 0:
-				valid_party.append(p)
-				if not valid_party.is_empty():
-					add_attack(e, [valid_party[randi_range(0, valid_party.size()-1)]], atk)
-				else:
-					add_attack(e, [party[randi_range(0, party.size()-1)]], atk)
-	elif atk.target_type == 5: #SingleAlly (for enemy, this means another enemy)
-		var valid_allies: Array[Entity] = []
-		for ally in enemy_instances:
-			if ally and ally != e and ally.hp > 0:
-				valid_allies.append(ally)
-			if not valid_allies.is_empty():
-				add_attack(e, [valid_allies[randi_range(0, valid_allies.size()-1)]], atk)
-			else:
-				add_attack(e, [e], atk)
-
 func start_round():
 	if death_manager.game_over_active: return
 	effect_manager.tick_all_statuses()
@@ -552,7 +448,6 @@ func start_round():
 	current_party_plan_index = -1
 	state = states.OnAction
 	$WhoMoves.visible = false
-	$Control/enemy_ui/CenterContainer/output.text = ""
 	advance_planning()
 
 # === BATTLE BUTTON LOGIC ===
@@ -562,6 +457,7 @@ func _on_fight_button_pressed() -> void:
 	selected_enemy = previous_enemy if previous_enemy >= 0 and previous_enemy < enemy_instances.size() else 0
 
 func _on_skills_button_pressed() -> void:
+	get_viewport().set_input_as_handled()
 	skill_manager.open_skills_menu()
 	
 func _on_defend_button_pressed() -> void:
@@ -575,7 +471,8 @@ func _on_item_button_pressed() -> void:
 		$Control/enemy_ui/CenterContainer/output.text = "Items are disabled in this battle!"
 		await get_tree().create_timer(0.5 * Settings.battle_speed).timeout
 		return
-
+	
+	get_viewport().set_input_as_handled()
 	item_manager.open_items_menu()
 
 func _on_run_button_pressed() -> void:
@@ -592,6 +489,7 @@ func _on_run_button_pressed() -> void:
 		chance += p.base_stats[&"speed"] if p.base_stats.has(&"speed") else p.base_stats.get(&"speed", 10)
 	var diff = clampf(counter - chance + 10, 0, 30)
 	if randi_range(1, 20) > diff:
+		state = states.Waiting
 		Global.loading = true
 		get_tree().change_scene_to_file(Global.current_scene)
 		Global.loading = false
@@ -600,5 +498,5 @@ func _on_run_button_pressed() -> void:
 		await get_tree().create_timer(0.5 * Settings.battle_speed).timeout
 		for e in enemy_instances:
 			if e.hp > 0:
-				add_enemy_attack(e)
+				enemy_manager.queue_enemy_attack(e)
 		await attack_executor.do_attacks()

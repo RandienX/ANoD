@@ -4,6 +4,7 @@ extends Node
 enum effect {Heal, Mana_Heal, Blind, Poison, Bleed, Power, Tough, Focus, Defend, Kill, Absorb, Revive, Sick, Weak, Slow, Sleep, Burn, Freeze, Paralyzed, Shock, Confuse}
 enum AI {Dumb, Casual, Violent, Defensive, Intelligent, Flexible}
 var battle_ref: Node = null
+var battle_bg: Texture2D = null
 
 var battle_current = null
 var shop_current: ShopData = null
@@ -12,6 +13,8 @@ var shop_current: ShopData = null
 var time_played: float = 0.0
 var current_scene: String = "res://scenes/maps/1ab.tscn"
 var scene_data: Dictionary = {}
+var enemies_killed: Dictionary = {}
+var battles_won: Dictionary = {"Alpha Battle Hat 1": 0}
 
 var loading = false
 
@@ -20,40 +23,47 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	time_played += delta
-
+	
+# Helper method to get enemies_killed dictionary (for QuestSystem access)
+func get_enemies_killed() -> Dictionary:
+	return enemies_killed
+		
 # === Save Data Management ===
 func get_save_data() -> Dictionary:
 	# Delegate to PlayerStats for comprehensive save data
-	if PlayerStats:
-		var stats = PlayerStats
-		return stats.get_save_data()
+	var stats = PlayerStats
+	return stats.get_save_data()
 	
-	# Fallback if PlayerStats is not available
-	return {"inventory": {}, "current_scene": current_scene, "player_position": PlayerStats.player_position}
+func get_internal_save_data() -> Dictionary:
+	var save_data = {}
+	
+	save_data = {
+		"enemies_killed": enemies_killed,
+		"battles_won": battles_won,
+	}
+	
+	return save_data
 
-func load_save_data(data: Dictionary, scenes_data: Dictionary) -> void:
-	loading = true
-	
-	# Load PlayerStats data (inventory, party, currency, stats, position)
-	if data.has("player_stats") or data.has("inventory") or data.has("party"):
-		PlayerStats.load_save_data(data)
-	
-	# Load current scene and player position if specified
-	if data.has("current_scene"):
-		var vector = str_to_var("Vector2" + data["player_position"])
-		PlayerStats.player_position = vector
-		get_tree().change_scene_to_file(data["current_scene"])
-		scene_data = scenes_data
-		await get_tree().create_timer(0.03).timeout
-	
-	loading = false
+func internally_load_save_data(data):
+	for v in data.keys():
+		Global[v] = data[v]
 
 func set_scene_data(data: Object):
 	var is_room = scene_data.find_key(data.room_name)
 	if is_room:
-		scene_data.merge({data.room_name: {"textboxes_deactivated": data.textboxes_deactivated}}, true)
+		scene_data.merge({data.room_name: 
+			{"textboxes_deactivated": data.textboxes_deactivated,
+			"dialogue_completed": data.completed_dialogues,
+			"done_things": data.done_things,
+			"talked_npc": data.talked_to_npcs}
+			}, true)
 	else:
-		scene_data.merge({data.room_name: {"textboxes_deactivated": data.textboxes_deactivated}})
+		scene_data.merge({data.room_name: 
+			{"textboxes_deactivated": data.textboxes_deactivated,
+			"dialogue_completed": data.completed_dialogues,
+			"done_things": data.done_things,
+			"talked_npc": data.talked_to_npcs}
+			})
 
 func get_scenes_data():
 	return scene_data
@@ -78,10 +88,7 @@ func use_item(item: Resource, target: Object) -> bool:
 				if target.hp <= 0:
 					target.hp = 1
 				elif target.hp > 0:
-					if target.role == Entity.Role.PARTY:
-						target.hp = target.max_stats["hp"]
-					elif target.role == Entity.Role.ENEMY:
-						target.hp = target.max_stats["hp"]
+					target.hp = target.max_stats["hp"]
 			if effect_data is Array and effect_data.size() >= 2:
 				var level = effect_data[0]
 				var duration = effect_data[1]
@@ -122,6 +129,12 @@ func lower_font(target: Label):
 			target.theme.default_font_size -= 1
 		else:
 			return
+
+func process_frame():
+	await get_tree().physics_frame
+
+func change_scene_to_current_scene():
+	get_tree().change_scene_to_file(current_scene)
 
 # === Mics ===
 func load_battle(battle: Battle):

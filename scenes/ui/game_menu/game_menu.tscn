@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://boxlcoa7yx6um"]
+[gd_scene format=4 uid="uid://boxlcoa7yx6um"]
 
 [ext_resource type="Script" uid="uid://875oleikcbyw" path="res://scenes/ui/game_menu/menu.gd" id="1_t8iaa"]
 [ext_resource type="Texture2D" uid="uid://c6t3yqacgcfe1" path="res://assets/menu/Window.png" id="2_88hgd"]
@@ -61,7 +61,7 @@ shader_parameter/FlashColor = Color(1, 1, 1, 1)
 shader_parameter/FlashSpeed = 1.0
 shader_parameter/FlashIntensity = 1.0
 
-[node name="game_menu" type="Control"]
+[node name="game_menu" type="Control" unique_id=46906290]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -70,13 +70,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t8iaa")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1432873841]
 z_index = -5
 scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAAAAAQAAAAAAAEAAAABAAAAAAAAAAEAAAABAAEAAAAAAAEAAAABAAIAAAAAAAEAAAABAAMAAAAAAAEAAAABAAQAAAAAAAEAAAACAAAAAAAAAAEAAAACAAEAAAAAAAEAAAACAAIAAAAAAAEAAAACAAMAAAAAAAEAAAACAAQAAAAAAAEAAAADAAAAAAAAAAEAAAADAAEAAAAAAAEAAAADAAIAAAAAAAEAAAADAAMAAAAAAAEAAAADAAQAAAAAAAEAAAAEAAAAAAAAAAEAAAAEAAEAAAAAAAEAAAAEAAIAAAAAAAEAAAAEAAMAAAAAAAEAAAAEAAQAAAAAAAEAAAAFAAAAAAAAAAEAAAAFAAEAAAAAAAEAAAAFAAIAAAAAAAEAAAAFAAMAAAAAAAEAAAAFAAQAAAAAAAEAAAAGAAAAAAAAAAEAAAAGAAEAAAAAAAEAAAAGAAIAAAAAAAEAAAAGAAMAAAAAAAEAAAAGAAQAAAAAAAEAAAAAAAUAAAAAAAEAAAABAAUAAAAAAAEAAAACAAUAAAAAAAEAAAADAAUAAAAAAAEAAAAEAAUAAAAAAAEAAAAFAAUAAAAAAAEAAAAGAAUAAAAAAAEAAAA=")
 tile_set = SubResource("TileSet_tub5d")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1247674252]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -88,16 +88,16 @@ theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer"]
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer" unique_id=502364895]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="categories" type="VBoxContainer" parent="MarginContainer/HSplitContainer"]
+[node name="categories" type="VBoxContainer" parent="MarginContainer/HSplitContainer" unique_id=2134858693]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="party" type="Button" parent="MarginContainer/HSplitContainer/categories"]
+[node name="party" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=622442565]
 material = SubResource("ShaderMaterial_075ci")
 custom_minimum_size = Vector2(180, 87)
 layout_mode = 2
@@ -108,7 +108,7 @@ flat = true
 script = ExtResource("4_45a32")
 menu_path = "res://scenes/ui/game_menu/party/party.tscn"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/party"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/party" unique_id=454255785]
 z_index = -1
 use_parent_material = true
 layout_mode = 0
@@ -120,7 +120,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="inventory" type="Button" parent="MarginContainer/HSplitContainer/categories"]
+[node name="inventory" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=336757278]
 material = SubResource("ShaderMaterial_58q04")
 custom_minimum_size = Vector2(180, 87)
 layout_mode = 2
@@ -132,7 +132,7 @@ script = ExtResource("4_45a32")
 menu_path = "res://scenes/ui/game_menu/inventory/inventory.tscn"
 id = 1
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/inventory"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/inventory" unique_id=1978087011]
 z_index = -1
 use_parent_material = true
 layout_mode = 0
@@ -144,7 +144,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="quests" type="Button" parent="MarginContainer/HSplitContainer/categories"]
+[node name="quests" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=1144322609]
 material = SubResource("ShaderMaterial_ex2pj")
 custom_minimum_size = Vector2(180, 87)
 layout_mode = 2
@@ -155,7 +155,7 @@ flat = true
 script = ExtResource("4_45a32")
 id = 2
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/quests"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/quests" unique_id=63363935]
 z_index = -1
 use_parent_material = true
 layout_mode = 0
@@ -167,7 +167,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="settings" type="Button" parent="MarginContainer/HSplitContainer/categories"]
+[node name="settings" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=422843910]
 material = SubResource("ShaderMaterial_5qn1y")
 custom_minimum_size = Vector2(180, 87)
 layout_mode = 2
@@ -179,7 +179,7 @@ script = ExtResource("4_45a32")
 menu_path = "res://scenes/ui/game_menu/settings/settings.tscn"
 id = 3
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/settings"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/settings" unique_id=1543702978]
 z_index = -1
 use_parent_material = true
 layout_mode = 0
@@ -191,7 +191,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="save" type="Button" parent="MarginContainer/HSplitContainer/categories"]
+[node name="save" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=2037100583]
 material = SubResource("ShaderMaterial_yvio7")
 custom_minimum_size = Vector2(180, 87)
 layout_mode = 2
@@ -203,7 +203,7 @@ script = ExtResource("4_45a32")
 menu_path = "res://scenes/ui/game_menu/save/saves.tscn"
 id = 4
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/save"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/save" unique_id=206778592]
 z_index = -1
 use_parent_material = true
 layout_mode = 0
@@ -215,7 +215,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="extras" type="Button" parent="MarginContainer/HSplitContainer/categories"]
+[node name="extras" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=2104224515]
 material = SubResource("ShaderMaterial_f6rfk")
 custom_minimum_size = Vector2(180, 87)
 layout_mode = 2
@@ -227,7 +227,7 @@ script = ExtResource("4_45a32")
 menu_path = "res://scenes/ui/game_menu/extras/extras.tscn"
 id = 5
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/extras"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/extras" unique_id=2020102125]
 z_index = -1
 use_parent_material = true
 layout_mode = 0
@@ -239,11 +239,11 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="display_category" type="MarginContainer" parent="MarginContainer/HSplitContainer"]
+[node name="display_category" type="MarginContainer" parent="MarginContainer/HSplitContainer" unique_id=135171712]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="gold" type="Label" parent="."]
+[node name="gold" type="Label" parent="." unique_id=220862514]
 z_index = -2
 layout_mode = 0
 offset_left = 647.0

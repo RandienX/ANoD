@@ -5,6 +5,7 @@ class_name RootScene
 @export var possible_battles: Array[Battle]
 @export_range(1, 1000) var enemy_intensity: int
 @export_range(1, 100) var enemy_agressiveness: int 
+@export var battle_bg: Texture2D
 @export var bg_music: AudioStreamMP3
 @export var bg_music_amp: float
 @export var player: CharacterBody2D
@@ -13,6 +14,10 @@ class_name RootScene
 @onready var textbox_root = $Textboxes
 
 var textboxes_deactivated := []
+var done_things := {}
+var completed_dialogues := []
+var talked_to_npcs := {}
+
 var player_position: Vector2
 var player_steps: int = 100
 
@@ -23,6 +28,12 @@ func _ready() -> void:
 	for v in Global.scene_data[room_name].keys():
 		if v == "textboxes_deactivated":
 			textboxes_deactivated = Global.scene_data[room_name][v]
+		elif v == "dialogue_completed":
+			completed_dialogues = Global.scene_data[room_name][v]
+		elif v ==  "done_things":
+			done_things = Global.scene_data[room_name][v]
+		elif v ==  "talked_npc":
+			talked_to_npcs = Global.scene_data[room_name][v]
 	
 	setup_player()
 	
@@ -59,12 +70,22 @@ func _input(event: InputEvent) -> void:
 	if player_steps <= enemy_agressiveness:
 		create_battle()
 
-func create_battle():
+func create_battle(var_battle = null):
 	Global.set_scene_data(self)
+	Global.battle_bg = battle_bg
 	$player.battle_zoom()
-	var battle = possible_battles.pick_random()
-	
+	var battle
+	if var_battle == null:
+		battle = possible_battles.pick_random()
+	else:
+		battle = load(var_battle)
+		
 	await get_tree().create_timer(1.5).timeout
 	
 	Global.load_battle(battle)
 	
+func outbattle_root_check():
+	pass
+	
+func done_thing(thing: String, value = true):
+	done_things.assign({thing: value})

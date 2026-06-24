@@ -55,15 +55,19 @@ func open_skills_menu():
 	available_skills.clear()
 	skill_affordable.clear()
 	
-	if root.current_attacker.role == Entity.Role.PARTY and not root.current_attacker.skills.is_empty():
+	if root.current_attacker.role == Entity.Role.PARTY and not root.current_attacker.skills.is_empty() and root.current_attacker.cannot_use_skills == false:
 		var all_skills: Array[Skill] = []
-		for level_skills in root.current_attacker.skills.values():
-			all_skills.append_array(level_skills)
+		for level in root.current_attacker.skills:
+			if level <= root.current_attacker.level:
+				all_skills.append_array(root.current_attacker.skills[level])
 		
 		for skill in all_skills:
 			if skill:
 				available_skills.append(skill)
 				skill_affordable.append(root.current_attacker.mp >= skill.mana_cost)
+				
+	if available_skills.size() == 0:
+		close_skills_menu()
 	
 	create_skill_boxes()
 	
@@ -93,7 +97,7 @@ func update_skill_selection():
 		var affordable = skill_affordable[i]
 		
 		if i == current_skill_index and affordable:
-			box.modulate = Color(1, 1, 0.5)  # Yellow highlight
+			box.modulate = Color(1.0, 0.5, 0.0, 1.0)  # Yellow highlight
 			box.can_select = true
 		else:
 			# Keep affordable skills white, unaffordable gray
@@ -128,6 +132,8 @@ func navigate_skills(direction: int):
 	# Skip unaffordable skills when navigating
 	var attempts = 0
 	while attempts < skill_boxes.size():
+		if skill_boxes.size() <= 1:
+			break
 		if skill_affordable[new_index]:
 			break
 		new_index += direction
@@ -146,9 +152,10 @@ func navigate_skills(direction: int):
 		attempts += 1
 	
 	# Only update if we found an affordable skill
-	if skill_affordable[new_index]:
-		current_skill_index = new_index
-		update_skill_selection()
+	if skill_boxes.size() > 1:
+		if skill_affordable[new_index]:
+			current_skill_index = new_index
+			update_skill_selection()
 
 func select_skill():
 	if current_skill_index < 0 or current_skill_index >= available_skills.size():
@@ -169,7 +176,6 @@ func select_skill():
 	if skill.target_type == 0: #SingleEnemy
 		root.state = root.states.OnSkillSelect
 		root.selected_enemy = root.previous_enemy if root.previous_enemy != 0 else 1
-		root.get_node("Control/enemy_ui/CenterContainer/output").text = "Select target..."
 		return
 	elif skill.target_type == 1: #Self 
 		root.add_attack(root.current_attacker, [root.current_attacker], skill)
@@ -189,7 +195,6 @@ func select_skill():
 	elif skill.target_type == 4: #SingleAlly
 		root.state = root.states.OnSkillSelect
 		root.selected_enemy = root.previous_enemy if root.previous_enemy != 0 else 1
-		root.get_node("Control/enemy_ui/CenterContainer/output").text = "Select ally..."
 		return
 	elif skill.target_type == 5: #RandomEnemy
 		root.add_attack(root.current_attacker, root.enemy_instances[randi_range(0, root.enemy_instances.duplicate().size()-1)], skill)
@@ -217,4 +222,5 @@ func close_skills_menu():
 	skills_container.visible = false
 	root.get_node("Control/gui/HBoxContainer2/party").visible = true
 	root.get_node("WhoMoves").visible = true
+	root.selection_manager.hide_flash()
 	root.state = root.states.OnAction

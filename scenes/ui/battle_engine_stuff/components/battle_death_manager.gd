@@ -17,6 +17,12 @@ var game_over_overlay: ColorRect
 var game_over_texture: TextureRect
 var can_reload = false
 	
+func add_defeated_enemies():
+	for slot in root.battle.enemies:
+		if slot and slot.enemy:
+			Global.enemies_killed.merge({slot.enemy.name: Global.enemies_killed[slot.enemy.name] + 1 if Global.enemies_killed.keys().has(slot.enemy.name) else 1}, true)
+	Global.battles_won.merge({root.battle.battle_name: Global.battles_won[root.battle.battle_name] + 1 if Global.battles_won.keys().has(root.battle.battle_name) else 1}, true)
+	
 func check_enemy_death_and_xp():
 	if root:
 		if not root.are_all_enemies_defeated():
@@ -26,8 +32,10 @@ func check_enemy_death_and_xp():
 	
 	var total_xp = 0        
 	var total_currency = 0
-
-	# Calculate XP and currency rewards from all enemy slots (using override values if set)
+	
+	await add_defeated_enemies()
+	
+	# Calculate XP and currency rewards from all enemy slots (using override values if set.
 	for slot in root.battle.enemies:
 		if slot and slot.enemy:
 			total_xp += slot.get_xp_reward()
@@ -35,9 +43,7 @@ func check_enemy_death_and_xp():
 
 	if battle:
 		total_currency += battle.currency_reward
-	print("Total Currency From Battle", total_currency)
-	PlayerStats.add_currency(total_currency, PlayerStats.CurrencyType.GOLD)
-
+	
 	for actor in root.initiative:
 		if actor.role == Entity.Role.PARTY:
 			actor.xp += total_xp
@@ -60,12 +66,18 @@ func check_enemy_death_and_xp():
 		PlayerStats.add_currency(total_currency, PlayerStats.CurrencyType.GOLD)
 		root.get_node("Control/enemy_ui/CenterContainer/output").text += "Gained " + str(total_currency) + " gold!"
 		
-	await end_battle_victory()
+	end_battle_victory()
 
 func end_battle_victory() -> void:
-	await root.get_tree().create_timer(1.0).timeout
+	game_over_active = true #not game_over but still stop functions
+	Global.battle_bg = null
+	if root:
+		await root.get_tree().create_timer(3.0).timeout
+		Global.process_frame()
+	else:
+		return
 	Global.loading = true
-	root.get_tree().change_scene_to_file(Global.current_scene)
+	Global.change_scene_to_current_scene()
 	Global.loading = false
 
 func animate_enemy_death(e: Entity) -> void:
@@ -126,7 +138,6 @@ func check_party_wipe() -> void:
 	var alive = false
 	for p in root.party:
 		if p.hp > 0:
-			print("!!!")
 			alive = true
 			break
 	if not alive:

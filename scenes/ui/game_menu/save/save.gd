@@ -8,7 +8,7 @@ var saving = true
 func _ready() -> void:
 		display()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	save_name = $texture/margin/vbox/text/savename.text
 	if saving:
 		$Button/NinePatchRect/SaveLoad.text = "Save"

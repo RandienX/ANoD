@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cskc30lrddixe"
+path="res://.godot/imported/Black Knife.mp3-6437409b42dba1029649fb2c85eea848.mp3str"
+
+[deps]
+
+source_file="res://assets/sound/battle/Black Knife.mp3"
+dest_files=["res://.godot/imported/Black Knife.mp3-6437409b42dba1029649fb2c85eea848.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

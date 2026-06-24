@@ -71,7 +71,6 @@ func display_node(node: DialogueNode) -> void:
 	if choices_container:
 		for child in choices_container.get_children():
 			child.queue_free()
-	choices_container.visible = false
 	choice_buttons.clear()
 	current_choice_index = 0
 	is_choosing = false
@@ -89,6 +88,9 @@ func display_node(node: DialogueNode) -> void:
 		voiceline_player.play()
 	# Start typewriter effect
 	_on_text_displayed(node.text)
+
+func _process(delta: float) -> void:
+	$NinePatchRect.visible = true if choice_buttons.size() != 0 else false
 
 func _on_text_displayed(text: String) -> void:
 	full_text = text
@@ -131,7 +133,6 @@ func _on_choice_available(choice: DialogueChoice) -> void:
 	button.set_meta("choice", choice)
 	choices_container.add_child(button)
 	choice_buttons.append(button)
-	choices_container.visible = true
 	
 func _update_choice_selection():
 	# Update visual selection of choice buttons (similar to SkillManager.navigate_skills)
@@ -168,7 +169,6 @@ func _on_choice_pressed(choice: DialogueChoice) -> void:
 func _on_dialogue_ended(_node: DialogueNode) -> void:
 	if voiceline_player:
 		voiceline_player.stop()
-	_hide_ui()
 
 # Input handling for skipping typewriter or advancing
 func _input(event: InputEvent) -> void:
@@ -194,26 +194,17 @@ func _input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 				return
 	
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:	if current_index < full_text.length():
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if current_index < full_text.length():
 			while current_index < full_text.length():
 				_on_type_tick()
 			_finish_typing()
-		else:
-			_handle_advance_input()
 	elif event is InputEventKey and event.pressed and event.is_action("use"):
 		if current_index < full_text.length():
 			while current_index < full_text.length():
 				_on_type_tick()
 			_finish_typing()
-		else:
-			_handle_advance_input()
 
 func _handle_advance_input() -> void:
-	if is_typing:
-		# Skip typewriter
-		_finish_typing()
-	else:
-		# Advance dialogue if no choices shown
-		if runner.current_node and not runner.current_node.has_choices():
-			runner.advance()
+	if runner.current_node and not runner.current_node.has_choices():
+		runner.advance()

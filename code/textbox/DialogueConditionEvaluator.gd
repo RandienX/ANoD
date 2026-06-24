@@ -24,14 +24,20 @@ func evaluate(branch: DialogueBranch) -> bool:
 		DialogueBranch.ConditionType.HAS_STATUS:
 			return _eval_has_status(branch.param_string)
 		
-		DialogueBranch.ConditionType.VARIABLE_EQUALS:
-			return _eval_var_equals(branch.param_string, branch.param_value)
+		DialogueBranch.ConditionType.DONE_THING:
+			return _eval_done_thing(branch.param_string, branch.param_value)
 		
-		DialogueBranch.ConditionType.VARIABLE_LESS:
-			return _eval_var_less(branch.param_string, branch.param_value)
+		DialogueBranch.ConditionType.DONE_DIALOGUE:
+			return _eval_done_dialogue(branch.param_string, branch.param_value)
 		
-		DialogueBranch.ConditionType.VARIABLE_GREATER:
-			return _eval_var_greater(branch.param_string, branch.param_value)
+		DialogueBranch.ConditionType.TALKED_TO_NPC:
+			return _eval_talked_to_npc(branch.param_string, branch.param_value)
+		
+		DialogueBranch.ConditionType.KILLED_ENEMY:
+			return _eval_killed_enemies(branch.param_string, branch.param_value)
+			
+		DialogueBranch.ConditionType.BATTLE_WON:
+			return _eval_battles_won(branch.param_string, branch.param_value)
 		
 		DialogueBranch.ConditionType.RANDOM_CHANCE:
 			return _eval_random(branch.param_value)
@@ -62,24 +68,31 @@ func _eval_has_status(effect_id: String) -> bool:
 	push_warning("Dialogue: has_status_func not set, cannot check for '%s'" % effect_id)
 	return false
 
-func _eval_var_equals(var_name: String, value: float) -> bool:
-	if get_variable_func.is_valid():
-		return get_variable_func.call(var_name) == value
-	push_warning("Dialogue: get_variable_func not set, cannot check '%s'" % var_name)
+func _eval_done_thing(thing_name: String, value: float) -> bool:
 	return false
 
-func _eval_var_less(var_name: String, value: float) -> bool:
-	if get_variable_func.is_valid():
-		return get_variable_func.call(var_name) < value
-	push_warning("Dialogue: get_variable_func not set, cannot check '%s'" % var_name)
+func _eval_done_dialogue(dialogue_name: String, value: float) -> bool:
+	for scene in Global.scene_data:
+		if scene.has("dialogue_completed"):
+			if scene["dialogue_completed"].has(dialogue_name):
+				return true
 	return false
 
-func _eval_var_greater(var_name: String, value: float) -> bool:
-	if get_variable_func.is_valid():
-		return get_variable_func.call(var_name) > value
-	push_warning("Dialogue: get_variable_func not set, cannot check '%s'" % var_name)
+func _eval_talked_to_npc(interaction_name: String, value: float) -> bool:
 	return false
 
+func _eval_killed_enemies(enemy_name: String, value: float = 1) -> bool:
+	if Global.enemies_killed.has(enemy_name):
+		if Global.enemies_killed[enemy_name] >= value:
+			return true
+	return false
+	
+func _eval_battles_won(battle_name: String, value: float = 1) -> bool:
+	if Global.battles_won.has(battle_name):
+		if Global.battles_won[battle_name] >= value:
+			return true
+	return false
+	
 func _eval_random(percent: float) -> bool:
 	return randf_range(0, 100) < percent
 

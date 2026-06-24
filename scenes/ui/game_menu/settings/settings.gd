@@ -18,7 +18,6 @@ extends Control
 
 @onready var show_damage_checkbox = $MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowDamageNumbers/CheckBox
 @onready var battle_anim_checkbox = $MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleAnimations/CheckBox
-@onready var skip_cutscenes_checkbox = $MarginContainer/VBoxContainer/TabContainer/Gameplay/SkipCutscenes/CheckBox
 
 func _ready() -> void:
 	_load_settings_to_ui()
@@ -37,7 +36,6 @@ func _load_settings_to_ui() -> void:
 	text_speed_slider.value = settings.text_speed
 	show_damage_checkbox.button_pressed = settings.show_damage_numbers
 	battle_anim_checkbox.button_pressed = settings.battle_animations
-	skip_cutscenes_checkbox.button_pressed = settings.skip_cutscenes
 
 	_update_value_labels()
 
@@ -76,7 +74,7 @@ func _on_battle_speed_changed(value: float) -> void:
 
 func _on_text_speed_changed(value: float) -> void:
 	if Settings:
-		Settings.set_text_speed(value*30)
+		Settings.set_text_speed(value)
 	_update_value_labels()
 
 func _on_show_damage_toggled(toggled_on: bool) -> void:

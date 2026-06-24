@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://ciu8rtat0ypho"]
+[gd_scene format=3 uid="uid://ciu8rtat0ypho"]
 
 [ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="1_4ejce"]
 [ext_resource type="Script" uid="uid://dcmh5clht1ou8" path="res://scenes/ui/battle_engine_stuff/battle_engine.gd" id="1_mq0o5"]
@@ -9,6 +9,8 @@
 [ext_resource type="Shader" uid="uid://c1n4qnyxnj208" path="res://scenes/ui/battle_engine_stuff/flash.tres" id="6_mq0o5"]
 [ext_resource type="Script" uid="uid://cktt8sbju7vyf" path="res://scenes/ui/battle_engine_stuff/enemies_hp_bars.gd" id="6_sc6or"]
 [ext_resource type="Script" uid="uid://82tj1ugboxcb" path="res://scenes/ui/battle_engine_stuff/components/battle_selection_manager.gd" id="8_iptht"]
+[ext_resource type="Texture2D" uid="uid://byldo041hj3cn" path="res://assets/ui/button.png" id="8_uue3o"]
+[ext_resource type="Texture2D" uid="uid://c6t3yqacgcfe1" path="res://assets/menu/Window.png" id="9_smy0y"]
 
 [sub_resource type="Animation" id="Animation_bhyi3"]
 length = 0.001
@@ -120,7 +122,7 @@ shader_parameter/FlashColor = Color(1, 1, 1, 1)
 shader_parameter/FlashSpeed = 5.0
 shader_parameter/FlashIntensity = 1.50000006473023
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqsro"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smy0y"]
 content_margin_right = 98.0
 bg_color = Color(0.19793725, 0.19793722, 0.19793728, 1)
 border_width_left = 1
@@ -134,14 +136,31 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o0w63"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvxmf"]
 bg_color = Color(0.88235295, 0.84705883, 0, 1)
 border_width_left = 5
-border_width_top = 5
+border_width_top = 7
 border_width_right = 5
-border_width_bottom = 5
+border_width_bottom = 7
 border_color = Color(0.70275724, 0.5586243, 0, 1)
 border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2lldr"]
+content_margin_right = 98.0
+bg_color = Color(0.19793725, 0.19793722, 0.19793728, 1)
+border_color = Color(0.15847227, 0.15847233, 0.15847221, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ilaow"]
+bg_color = Color(0.105882354, 0.6745098, 1, 1)
 corner_radius_top_left = 2
 corner_radius_top_right = 2
 corner_radius_bottom_right = 2
@@ -176,27 +195,29 @@ shader_parameter/FlashColor = Color(1, 1, 1, 1)
 shader_parameter/FlashSpeed = 5.0
 shader_parameter/FlashIntensity = 1.54400006682023
 
-[node name="BattleEngine" type="Node2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvxmf"]
+atlas = ExtResource("9_smy0y")
+region = Rect2(0, 64, 64, 64)
+
+[node name="BattleEngine" type="Node2D" unique_id=1861101134]
 script = ExtResource("1_mq0o5")
 battle = ExtResource("2_iptht")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_sc6or")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=575028935]
+libraries/ = SubResource("AnimationLibrary_sc6or")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=642821121]
 stream = ExtResource("2_bhyi3")
 autoplay = true
 parameters/looping = true
 
-[node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
+[node name="SfxPlayer" type="AudioStreamPlayer" parent="." unique_id=976036459]
 autoplay = true
 
-[node name="SfxPlayer2" type="AudioStreamPlayer" parent="."]
+[node name="SfxPlayer2" type="AudioStreamPlayer" parent="." unique_id=1840404046]
 
-[node name="WhoMoves" type="ColorRect" parent="."]
-z_index = 2
+[node name="WhoMoves" type="ColorRect" parent="." unique_id=1810912352]
+z_index = 999
 material = SubResource("ShaderMaterial_x8o33")
 offset_left = 221.0
 offset_top = 487.0
@@ -204,20 +225,20 @@ offset_right = 331.0
 offset_bottom = 648.0
 mouse_filter = 1
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=462288646]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 864.0
 offset_bottom = 648.0
 mouse_filter = 1
 
-[node name="enemy_ui" type="Control" parent="Control"]
+[node name="enemy_ui" type="Control" parent="Control" unique_id=49259313]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 1
 
-[node name="bg" type="TextureRect" parent="Control/enemy_ui"]
+[node name="bg" type="TextureRect" parent="Control/enemy_ui" unique_id=1600138232]
 z_index = -6
 layout_mode = 0
 offset_left = -54.0
@@ -225,84 +246,114 @@ offset_right = 931.0
 offset_bottom = 648.0
 texture = ExtResource("6_iptht")
 
-[node name="enemies" type="Control" parent="Control/enemy_ui"]
+[node name="enemies" type="Control" parent="Control/enemy_ui" unique_id=39169533]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 1
 
-[node name="enemy1" type="TextureRect" parent="Control/enemy_ui/enemies"]
+[node name="enemy1" type="TextureRect" parent="Control/enemy_ui/enemies" unique_id=1454714390]
 material = SubResource("ShaderMaterial_bhyi3")
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 112.0
-offset_top = 206.0
-offset_right = 225.00024
-offset_bottom = 366.0
+anchors_preset = -1
+anchor_left = 3.1250002
+anchor_top = 5.65
+anchor_right = 3.1250002
+anchor_bottom = 5.65
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("6_sc6or")
 
-[node name="ProgressBar" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy1"]
+[node name="name" type="Label" parent="Control/enemy_ui/enemies/enemy1" unique_id=1566473057]
+z_index = 1
 layout_mode = 0
-offset_left = 16.0
-offset_top = -26.0
-offset_right = 115.0
-offset_bottom = -5.0
+offset_left = -3.0
+offset_top = -43.0
+offset_right = 19.0
+offset_bottom = -29.0
+theme_override_font_sizes/font_size = 12
+text = "ddd"
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="Control/enemy_ui/enemies/enemy1/name" unique_id=639484677]
+z_index = -1
+custom_maximum_size = Vector2(140, -1)
+layout_mode = 0
+offset_left = -3.0
+offset_top = -6.0
+offset_right = 67.0
+offset_bottom = 24.0
+texture = ExtResource("8_uue3o")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/enemy_ui/enemies/enemy1" unique_id=1486863076]
+custom_minimum_size = Vector2(140, 32)
+layout_mode = 0
+offset_left = -6.0
+offset_top = -29.0
+offset_right = 134.0
+offset_bottom = 3.0
+texture = ExtResource("8_uue3o")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/enemy_ui/enemies/enemy1" unique_id=586582226]
+layout_mode = 0
+offset_top = -22.0
+offset_right = 128.0
+offset_bottom = 18.0
+
+[node name="hp" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy1/VBoxContainer" unique_id=1806641909]
+layout_mode = 2
 mouse_filter = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_eqsro")
-theme_override_styles/fill = SubResource("StyleBoxFlat_o0w63")
+theme_override_styles/background = SubResource("StyleBoxFlat_smy0y")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bvxmf")
 show_percentage = false
 
-[node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy1"]
+[node name="mp" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy1/VBoxContainer" unique_id=989146304]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_2lldr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ilaow")
+show_percentage = false
+
+[node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy1" unique_id=1247429032]
 custom_minimum_size = Vector2(256, 64)
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.59300005
-anchor_top = -0.344
-anchor_right = 0.54
-anchor_bottom = -0.14400001
-offset_left = 66.00915
-offset_top = -2.959999
-offset_right = 193.97986
-offset_bottom = 29.04
+anchor_left = -0.009000001
+anchor_top = -0.36200002
+anchor_right = 1.1240001
+anchor_bottom = -0.162
+offset_left = -0.9829978
+offset_top = -22.079998
+offset_right = 134.98772
+offset_bottom = 9.92
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
 columns = 4
 
-[node name="enemy2" type="TextureRect" parent="Control/enemy_ui/enemies"]
+[node name="enemy2" type="TextureRect" parent="Control/enemy_ui/enemies" unique_id=630040707]
 z_index = -1
 material = SubResource("ShaderMaterial_sc6or")
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 229.0
-offset_top = 126.0
-offset_right = 341.99994
-offset_bottom = 286.0
+anchors_preset = -1
+anchor_left = 6.2250004
+anchor_top = 3.65
+anchor_right = 6.2250004
+anchor_bottom = 3.65
+offset_left = -1.5258789e-05
+offset_right = -1.5258789e-05
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("6_sc6or")
 
-[node name="ProgressBar" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy2"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = -26.0
-offset_right = 115.0
-offset_bottom = -5.0
-mouse_filter = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_eqsro")
-theme_override_styles/fill = SubResource("StyleBoxFlat_o0w63")
-show_percentage = false
-
-[node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy2"]
+[node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy2" unique_id=933350800]
 custom_minimum_size = Vector2(256, 64)
 layout_mode = 1
 anchors_preset = -1
@@ -310,43 +361,88 @@ anchor_left = -0.59300005
 anchor_top = -0.344
 anchor_right = 0.54
 anchor_bottom = -0.14400001
-offset_left = 66.00915
-offset_top = -2.959999
-offset_right = 193.97986
-offset_bottom = 29.04
+offset_left = 63.008965
+offset_top = -25.96
+offset_right = 190.98003
+offset_bottom = 6.040001
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
 columns = 4
 
-[node name="enemy3" type="TextureRect" parent="Control/enemy_ui/enemies"]
+[node name="name" type="Label" parent="Control/enemy_ui/enemies/enemy2" unique_id=984440525]
+z_index = 1
+layout_mode = 0
+offset_left = -3.0
+offset_top = -43.0
+offset_right = 19.0
+offset_bottom = -29.0
+theme_override_font_sizes/font_size = 12
+text = "ddd"
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="Control/enemy_ui/enemies/enemy2/name" unique_id=222625174]
+z_index = -1
+custom_maximum_size = Vector2(140, -1)
+layout_mode = 0
+offset_left = -3.0
+offset_top = -6.0
+offset_right = 67.0
+offset_bottom = 24.0
+texture = ExtResource("8_uue3o")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/enemy_ui/enemies/enemy2" unique_id=619077114]
+custom_minimum_size = Vector2(140, 32)
+layout_mode = 0
+offset_left = -6.0
+offset_top = -29.0
+offset_right = 134.0
+offset_bottom = 3.0
+texture = ExtResource("8_uue3o")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/enemy_ui/enemies/enemy2" unique_id=1266429384]
+layout_mode = 0
+offset_top = -22.0
+offset_right = 128.0
+offset_bottom = 18.0
+
+[node name="hp" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy2/VBoxContainer" unique_id=195251154]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_smy0y")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bvxmf")
+show_percentage = false
+
+[node name="mp" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy2/VBoxContainer" unique_id=1141877627]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_2lldr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ilaow")
+show_percentage = false
+
+[node name="enemy3" type="TextureRect" parent="Control/enemy_ui/enemies" unique_id=1161713426]
 z_index = -1
 material = SubResource("ShaderMaterial_opgqa")
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 341.0
-offset_top = 222.0
-offset_right = 454.00034
-offset_bottom = 382.0
+anchors_preset = -1
+anchor_left = 9.025001
+anchor_top = 6.05
+anchor_right = 9.025001
+anchor_bottom = 6.05
+offset_left = -3.0517578e-05
+offset_right = -3.0517578e-05
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("6_sc6or")
 
-[node name="ProgressBar" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy3"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = -26.0
-offset_right = 115.0
-offset_bottom = -5.0
-mouse_filter = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_eqsro")
-theme_override_styles/fill = SubResource("StyleBoxFlat_o0w63")
-show_percentage = false
-
-[node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy3"]
+[node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy3" unique_id=1266943365]
 custom_minimum_size = Vector2(256, 64)
 layout_mode = 1
 anchors_preset = -1
@@ -354,43 +450,90 @@ anchor_left = -0.59300005
 anchor_top = -0.344
 anchor_right = 0.54
 anchor_bottom = -0.14400001
-offset_left = 66.00915
-offset_top = -2.959999
-offset_right = 193.97986
-offset_bottom = 29.04
+offset_left = 63.008965
+offset_top = -25.96
+offset_right = 190.97969
+offset_bottom = 6.040001
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
 columns = 4
 
-[node name="enemy4" type="TextureRect" parent="Control/enemy_ui/enemies"]
+[node name="name" type="Label" parent="Control/enemy_ui/enemies/enemy3" unique_id=786462728]
+z_index = 1
+layout_mode = 0
+offset_left = -3.0
+offset_top = -43.0
+offset_right = 19.0
+offset_bottom = -29.0
+theme_override_font_sizes/font_size = 12
+text = "ddd"
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="Control/enemy_ui/enemies/enemy3/name" unique_id=1754250463]
+z_index = -1
+custom_maximum_size = Vector2(140, -1)
+layout_mode = 0
+offset_left = -3.0
+offset_top = -6.0
+offset_right = 67.0
+offset_bottom = 24.0
+texture = ExtResource("8_uue3o")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/enemy_ui/enemies/enemy3" unique_id=1008379503]
+custom_minimum_size = Vector2(140, 32)
+layout_mode = 0
+offset_left = -6.0
+offset_top = -29.0
+offset_right = 134.0
+offset_bottom = 3.0
+texture = ExtResource("8_uue3o")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/enemy_ui/enemies/enemy3" unique_id=1647974161]
+layout_mode = 0
+offset_top = -22.0
+offset_right = 128.0
+offset_bottom = 18.0
+
+[node name="hp" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy3/VBoxContainer" unique_id=1088034427]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_smy0y")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bvxmf")
+show_percentage = false
+
+[node name="mp" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy3/VBoxContainer" unique_id=601653355]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_2lldr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ilaow")
+show_percentage = false
+
+[node name="enemy4" type="TextureRect" parent="Control/enemy_ui/enemies" unique_id=812246524]
 z_index = -1
 material = SubResource("ShaderMaterial_kkogx")
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 455.0
-offset_top = 123.0
-offset_right = 568.0
-offset_bottom = 283.0
+anchors_preset = -1
+anchor_left = 11.875001
+anchor_top = 3.5750003
+anchor_right = 11.875001
+anchor_bottom = 3.5750003
+offset_left = -3.0517578e-05
+offset_top = -1.5258789e-05
+offset_right = -3.0517578e-05
+offset_bottom = -1.5258789e-05
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("6_sc6or")
 
-[node name="ProgressBar" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy4"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = -26.0
-offset_right = 115.0
-offset_bottom = -5.0
-mouse_filter = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_eqsro")
-theme_override_styles/fill = SubResource("StyleBoxFlat_o0w63")
-show_percentage = false
-
-[node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy4"]
+[node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy4" unique_id=1284689151]
 custom_minimum_size = Vector2(256, 64)
 layout_mode = 1
 anchors_preset = -1
@@ -398,43 +541,90 @@ anchor_left = -0.59300005
 anchor_top = -0.344
 anchor_right = 0.54
 anchor_bottom = -0.14400001
-offset_left = 66.00915
-offset_top = -2.959999
-offset_right = 193.97986
-offset_bottom = 29.04
+offset_left = 63.008965
+offset_top = -25.96
+offset_right = 190.97997
+offset_bottom = 6.040001
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
 columns = 4
 
-[node name="enemy5" type="TextureRect" parent="Control/enemy_ui/enemies"]
+[node name="name" type="Label" parent="Control/enemy_ui/enemies/enemy4" unique_id=1062719952]
+z_index = 1
+layout_mode = 0
+offset_left = -3.0
+offset_top = -43.0
+offset_right = 19.0
+offset_bottom = -29.0
+theme_override_font_sizes/font_size = 12
+text = "ddd"
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="Control/enemy_ui/enemies/enemy4/name" unique_id=841917881]
+z_index = -1
+custom_maximum_size = Vector2(140, -1)
+layout_mode = 0
+offset_left = -3.0
+offset_top = -6.0
+offset_right = 67.0
+offset_bottom = 24.0
+texture = ExtResource("8_uue3o")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/enemy_ui/enemies/enemy4" unique_id=1148023163]
+custom_minimum_size = Vector2(140, 32)
+layout_mode = 0
+offset_left = -6.0
+offset_top = -29.0
+offset_right = 134.0
+offset_bottom = 3.0
+texture = ExtResource("8_uue3o")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/enemy_ui/enemies/enemy4" unique_id=1366323503]
+layout_mode = 0
+offset_top = -22.0
+offset_right = 128.0
+offset_bottom = 18.0
+
+[node name="hp" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy4/VBoxContainer" unique_id=1772749129]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_smy0y")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bvxmf")
+show_percentage = false
+
+[node name="mp" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy4/VBoxContainer" unique_id=262809202]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_2lldr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ilaow")
+show_percentage = false
+
+[node name="enemy5" type="TextureRect" parent="Control/enemy_ui/enemies" unique_id=1382079937]
 z_index = -1
 material = SubResource("ShaderMaterial_84mja")
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 570.0
-offset_top = 204.0
-offset_right = 683.0
-offset_bottom = 364.0
+anchors_preset = -1
+anchor_left = 14.750001
+anchor_top = 5.6000004
+anchor_right = 14.750001
+anchor_bottom = 5.6000004
+offset_left = -6.1035156e-05
+offset_top = -1.5258789e-05
+offset_right = -6.1035156e-05
+offset_bottom = -1.5258789e-05
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("6_sc6or")
 
-[node name="ProgressBar" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy5"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = -26.0
-offset_right = 115.0
-offset_bottom = -5.0
-mouse_filter = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_eqsro")
-theme_override_styles/fill = SubResource("StyleBoxFlat_o0w63")
-show_percentage = false
-
-[node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy5"]
+[node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy5" unique_id=235167958]
 custom_minimum_size = Vector2(256, 64)
 layout_mode = 1
 anchors_preset = -1
@@ -442,36 +632,94 @@ anchor_left = -0.59300005
 anchor_top = -0.344
 anchor_right = 0.54
 anchor_bottom = -0.14400001
-offset_left = 66.00915
-offset_top = -2.959999
-offset_right = 193.97986
-offset_bottom = 29.04
+offset_left = 63.008965
+offset_top = -25.96
+offset_right = 190.97997
+offset_bottom = 6.040001
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
 columns = 4
 
-[node name="CenterContainer" type="CenterContainer" parent="Control/enemy_ui"]
+[node name="name" type="Label" parent="Control/enemy_ui/enemies/enemy5" unique_id=1249783097]
+z_index = 1
+layout_mode = 0
+offset_left = -3.0
+offset_top = -43.0
+offset_right = 19.0
+offset_bottom = -29.0
+theme_override_font_sizes/font_size = 12
+text = "ddd"
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="Control/enemy_ui/enemies/enemy5/name" unique_id=2004102862]
+z_index = -1
+custom_maximum_size = Vector2(140, -1)
+layout_mode = 0
+offset_left = -3.0
+offset_top = -6.0
+offset_right = 67.0
+offset_bottom = 24.0
+texture = ExtResource("8_uue3o")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/enemy_ui/enemies/enemy5" unique_id=723990559]
+custom_minimum_size = Vector2(140, 32)
+layout_mode = 0
+offset_left = -6.0
+offset_top = -29.0
+offset_right = 134.0
+offset_bottom = 3.0
+texture = ExtResource("8_uue3o")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/enemy_ui/enemies/enemy5" unique_id=1226682244]
+layout_mode = 0
+offset_top = -22.0
+offset_right = 128.0
+offset_bottom = 18.0
+
+[node name="hp" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy5/VBoxContainer" unique_id=1287214225]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_smy0y")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bvxmf")
+show_percentage = false
+
+[node name="mp" type="ProgressBar" parent="Control/enemy_ui/enemies/enemy5/VBoxContainer" unique_id=590712283]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_2lldr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ilaow")
+show_percentage = false
+
+[node name="CenterContainer" type="CenterContainer" parent="Control/enemy_ui" unique_id=501616661]
 custom_minimum_size = Vector2(864, 81)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="output" type="RichTextLabel" parent="Control/enemy_ui/CenterContainer"]
+[node name="output" type="RichTextLabel" parent="Control/enemy_ui/CenterContainer" unique_id=461945093]
 custom_minimum_size = Vector2(750, 120)
 layout_mode = 2
 mouse_filter = 1
 bbcode_enabled = true
 horizontal_alignment = 1
 
-[node name="gui" type="Control" parent="Control"]
+[node name="gui" type="Control" parent="Control" unique_id=721195736]
 layout_mode = 1
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 1
 
-[node name="bg" type="ColorRect" parent="Control/gui"]
-z_index = -5
+[node name="bg" type="ColorRect" parent="Control/gui" unique_id=113192544]
+z_index = 15
 custom_minimum_size = Vector2(864, 162)
 layout_mode = 0
 offset_top = 486.0
@@ -479,21 +727,22 @@ offset_right = 864.0
 offset_bottom = 648.0
 mouse_filter = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/gui/bg"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/gui/bg" unique_id=1112673409]
 layout_mode = 0
 offset_right = 864.0
-offset_bottom = 162.0
+offset_bottom = 159.0
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 
-[node name="ColorRect2" type="ColorRect" parent="Control/gui/bg/MarginContainer"]
-custom_minimum_size = Vector2(858, 156)
+[node name="TextureRect" type="TextureRect" parent="Control/gui/bg/MarginContainer" unique_id=1012403375]
 layout_mode = 2
-mouse_filter = 1
-color = Color(0, 0, 0, 1)
+texture = SubResource("AtlasTexture_bvxmf")
+expand_mode = 1
+stretch_mode = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/gui"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/gui" unique_id=690133389]
+z_index = 20
 custom_minimum_size = Vector2(1728, 324)
 layout_mode = 1
 anchors_preset = 2
@@ -505,19 +754,15 @@ offset_bottom = 770.0
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
 
-[node name="actions" type="VBoxContainer" parent="Control/gui/HBoxContainer2" node_paths=PackedStringArray("target_container")]
+[node name="actions" type="VBoxContainer" parent="Control/gui/HBoxContainer2" unique_id=1700222797]
 custom_minimum_size = Vector2(432, 324)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 alignment = 2
 script = ExtResource("8_iptht")
-target_container = NodePath(".")
-navigation_action = "up"
-back_navigation_action = "down"
-use_action = "use"
 
-[node name="FightButton" type="Button" parent="Control/gui/HBoxContainer2/actions"]
+[node name="FightButton" type="Button" parent="Control/gui/HBoxContainer2/actions" unique_id=259124699]
 custom_minimum_size = Vector2(432, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -528,14 +773,14 @@ theme_override_font_sizes/font_size = 40
 text = "Scream"
 flat = true
 
-[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/FightButton"]
+[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/FightButton" unique_id=442283177]
 z_index = -2
 layout_mode = 0
 offset_right = 442.0
 offset_bottom = 64.0
 mouse_filter = 1
 
-[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/FightButton/ColorRect"]
+[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/FightButton/ColorRect" unique_id=680371082]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 6.0
@@ -544,7 +789,7 @@ offset_bottom = 60.0
 mouse_filter = 1
 color = Color(0, 0, 0, 1)
 
-[node name="SkillsButton" type="Button" parent="Control/gui/HBoxContainer2/actions"]
+[node name="SkillsButton" type="Button" parent="Control/gui/HBoxContainer2/actions" unique_id=1857313658]
 custom_minimum_size = Vector2(432, 50)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -555,7 +800,7 @@ theme_override_font_sizes/font_size = 40
 text = "Skills"
 flat = true
 
-[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/SkillsButton"]
+[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/SkillsButton" unique_id=2006455195]
 z_index = -2
 layout_mode = 0
 offset_top = -1.0
@@ -563,7 +808,7 @@ offset_right = 442.0
 offset_bottom = 63.0
 mouse_filter = 1
 
-[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/SkillsButton/ColorRect"]
+[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/SkillsButton/ColorRect" unique_id=370605744]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 2.0
@@ -572,7 +817,7 @@ offset_bottom = 58.0
 mouse_filter = 1
 color = Color(0, 0, 0, 1)
 
-[node name="DefendButton" type="Button" parent="Control/gui/HBoxContainer2/actions"]
+[node name="DefendButton" type="Button" parent="Control/gui/HBoxContainer2/actions" unique_id=1038601437]
 custom_minimum_size = Vector2(432, 50)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -583,7 +828,7 @@ theme_override_font_sizes/font_size = 40
 text = "Defend"
 flat = true
 
-[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/DefendButton"]
+[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/DefendButton" unique_id=1184877228]
 z_index = -2
 layout_mode = 0
 offset_top = -3.0
@@ -591,7 +836,7 @@ offset_right = 442.0
 offset_bottom = 63.0
 mouse_filter = 1
 
-[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/DefendButton/ColorRect"]
+[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/DefendButton/ColorRect" unique_id=1423256192]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 2.0
@@ -600,7 +845,7 @@ offset_bottom = 58.0
 mouse_filter = 1
 color = Color(0, 0, 0, 1)
 
-[node name="ItemButton" type="Button" parent="Control/gui/HBoxContainer2/actions"]
+[node name="ItemButton" type="Button" parent="Control/gui/HBoxContainer2/actions" unique_id=2075914341]
 custom_minimum_size = Vector2(432, 50)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -611,7 +856,7 @@ theme_override_font_sizes/font_size = 40
 text = "Item"
 flat = true
 
-[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/ItemButton"]
+[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/ItemButton" unique_id=1374246609]
 z_index = -2
 layout_mode = 0
 offset_top = -3.0
@@ -619,7 +864,7 @@ offset_right = 442.0
 offset_bottom = 63.0
 mouse_filter = 1
 
-[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/ItemButton/ColorRect"]
+[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/ItemButton/ColorRect" unique_id=785340233]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 2.0
@@ -628,7 +873,7 @@ offset_bottom = 58.0
 mouse_filter = 1
 color = Color(0, 0, 0, 1)
 
-[node name="RunButton" type="Button" parent="Control/gui/HBoxContainer2/actions"]
+[node name="RunButton" type="Button" parent="Control/gui/HBoxContainer2/actions" unique_id=1091650405]
 custom_minimum_size = Vector2(432, 50)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -639,7 +884,7 @@ theme_override_font_sizes/font_size = 40
 text = "Run"
 flat = true
 
-[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/RunButton"]
+[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/RunButton" unique_id=797884821]
 z_index = -2
 layout_mode = 0
 offset_top = -3.0
@@ -647,7 +892,7 @@ offset_right = 442.0
 offset_bottom = 63.0
 mouse_filter = 1
 
-[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/RunButton/ColorRect"]
+[node name="ColorRect" type="ColorRect" parent="Control/gui/HBoxContainer2/actions/RunButton/ColorRect" unique_id=1087114134]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 2.0
@@ -656,7 +901,7 @@ offset_bottom = 58.0
 mouse_filter = 1
 color = Color(0, 0, 0, 1)
 
-[node name="party" type="HBoxContainer" parent="Control/gui/HBoxContainer2"]
+[node name="party" type="HBoxContainer" parent="Control/gui/HBoxContainer2" unique_id=125776180]
 custom_minimum_size = Vector2(1296, 324)
 layout_mode = 2
 size_flags_horizontal = 0

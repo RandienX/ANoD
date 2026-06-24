@@ -54,7 +54,10 @@ var input_blocked: bool = false
 func _ready() -> void:
 	_setup_timers()
 	_connect_signals()
+	current_shop_data = Global.shop_current 
 	load_shop(current_shop_data)
+	$Music.stream = current_shop_data.shop_music
+	$Music.play()
 
 
 func _setup_timers() -> void:
@@ -169,13 +172,17 @@ func _attempt_purchase(shop_item: ShopItem, quantity: int) -> void:
 	else:
 		success = shop_item.purchase_bulk(quantity)
 	
-	if success:
+	if success:	
+		$Sfx.stream = load("res://assets/sound/sfx/select.wav")
+		$Sfx.play()
 		_add_item_to_inventory(shop_item.item, quantity)
 		
 		item_purchased.emit(shop_item, quantity)
 		_on_currency_changed()
 		_refresh_all_cards()
 	else:
+		$Sfx.stream = load("res://assets/sound/sfx/error.wav")
+		$Sfx.play()
 		purchase_failed.emit(shop_item, "Insufficient funds")
 
 ## Add purchased item to player inventory
@@ -194,6 +201,8 @@ func _on_currency_changed(_new_amount: int = 0) -> void:
 
 ## Handle category button press
 func _on_category_button_pressed(category: StringName) -> void:
+	$Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	$Sfx.play()
 	filter_by_tag(category)
 	
 	# Update button states
@@ -203,6 +212,8 @@ func _on_category_button_pressed(category: StringName) -> void:
 			
 ## Close button handler
 func _on_close_button_pressed() -> void:
+	$Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	$Sfx.play()
 	shop_closed.emit()
 
 ## Public method to close the shop
@@ -224,6 +235,8 @@ func get_shop_id() -> StringName:
 	return current_shop_data.shop_id if current_shop_data else &""
 
 func _on_buy_tab_pressed() -> void:
+	$Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	$Sfx.play()
 	if current_mode == "buy":
 		return
 	current_mode = "buy"
@@ -236,6 +249,8 @@ func _on_buy_tab_pressed() -> void:
 # ========== SELL TAB ==========
 
 func _on_sell_tab_pressed() -> void:
+	$Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	$Sfx.play()
 	if current_mode == "sell":
 		return
 	current_mode = "sell"
@@ -317,6 +332,8 @@ func _refresh_sell_grid() -> void:
 # ========= TALK TAB =========
 
 func _on_talk_tab_pressed() -> void:
+	$Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	$Sfx.play()
 	if current_mode == "talk":
 		return
 	current_mode = "talk"
@@ -381,7 +398,10 @@ func _on_talk_option_selected(option_key: String) -> void:
 
 	# Disable input during typing
 	input_blocked = true
-
+	
+	$Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	$Sfx.play()
+	
 	# Get the response text
 	var response_text: String = ""
 	if option_key == "default":

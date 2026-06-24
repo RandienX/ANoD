@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://sv4mrq87pmmc"
+path="res://.godot/imported/Revolutionary Girl Utena.mp3-480e93904c2e70a3e40048dc38291509.mp3str"
+
+[deps]
+
+source_file="res://assets/sound/battle/Revolutionary Girl Utena.mp3"
+dest_files=["res://.godot/imported/Revolutionary Girl Utena.mp3-480e93904c2e70a3e40048dc38291509.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
