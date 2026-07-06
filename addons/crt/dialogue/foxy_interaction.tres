@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="1_cainy"]
 [ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="2_52icg"]
 [ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="3_dd8hs"]
-[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/dialogue/DialogueCondition.gd" id="4_e17er"]
-[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/dialogue/DialogueEffect.gd" id="5_qvw1q"]
-[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/party/Classics+Swag.png" id="6_ypi2n"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/conditions/Condition.gd" id="4_e17er"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/conditions/Effect.gd" id="5_qvw1q"]
+[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="6_ypi2n"]
 [ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="7_eypi8"]
 
 [sub_resource type="Resource" id="Resource_02set"]
