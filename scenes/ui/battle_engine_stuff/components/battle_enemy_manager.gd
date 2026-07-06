@@ -24,7 +24,7 @@ func setup(broot, atk_exec, eff_mgr, log_mgr):
 	log_manager = log_mgr
 
 func queue_enemy_attack(e: Entity) -> void:
-	if not e or e.hp <= 0:
+	if not e or e.stats["hp"] <= 0:
 		return
 
 	var move = _choose_move(e)
@@ -46,7 +46,7 @@ func queue_enemy_attack(e: Entity) -> void:
 			attack_executor.attack_array[e] = [move.targets, s]
 	else:
 		# fallback default attack on a random alive party member
-		var alive = root.party.filter(func(p): return p and p.hp > 0)
+		var alive = root.party.filter(func(p): return p and p.stats["hp"] > 0)
 		if alive.empty(): return
 		attack_executor.attack_array[e] = [[alive[randi_range(0, alive.size()-1)]], e.default_attack]
 
@@ -73,12 +73,12 @@ func _choose_move(e: Entity):
 	# Always include default attack as low-priority candidate
 	candidates.append({"type":"skill", "skill":e.default_attack})
 
-	# Score each candidate based on behavior & intelligence
+	# Score each candidate based on behavior  intelligence
 	var scored: Array = []
 	var behavior = _get_behavior_for(e)
 	var intel = _get_intelligence_for(e)
 
-	var alive_party = root.party.filter(func(p): return p and p.hp > 0)
+	var alive_party = root.party.filter(func(p): return p and p.stats["hp"] > 0)
 
 	for c in candidates:
 		var score = 0.0
@@ -102,7 +102,7 @@ func _choose_move(e: Entity):
 						dmg = float(sk.get_total_damage(e, t))
 					else:
 						dmg = _estimate_skill_damage(sk, e, t)
-					var val = float(dmg) / max(1, t.hp)
+					var val = float(dmg) / max(1, t.stats["hp"])
 					if val > best_val:
 						best_val = val
 						best_t = t
@@ -129,8 +129,8 @@ func _choose_move(e: Entity):
 				score = 0.1
 
 			# penalize if too expensive / unusable for current mp or conditions
-			if sk.mana_cost > e.mp:
-				score *= 0.2
+			if sk.mana_cost > e.stats["mp"]:
+				score *= 0.01
 
 			# consider on-hit / on-use effects (buffs, heals, status)
 			if rep_t and sk.on_hit_effects and sk.on_hit_effects.size() > 0:
@@ -174,15 +174,15 @@ func _choose_move(e: Entity):
 				if behavior == Behavior.SUPPORT or (behavior == Behavior.DEFENDER and e.prefer_defend):
 					# non-attack items: healing/utility value
 					score = float(heal) + float(mana) * 0.5 + float(revive) * 5.0
-					var allies = root.enemy_instances.filter(func(x): return x and x.hp > 0)
+					var allies = root.enemy_instances.filter(func(x): return x and x.stats["hp"] > 0)
 					allies.sort_custom(Callable(self, "_sort_by_lowest_hp"))
 					preferred_targets = [allies[0]] if not allies.empty() else [e]
-					score = score * pow(preferred_targets[0].base_stats["hp"] / (preferred_targets[0].hp + preferred_targets[0].base_stats["hp"]), 2)
+					score = score * pow(preferred_targets[0].stats["hp"] / (preferred_targets[0].stats["hp"] + preferred_targets[0].max_stats["hp"]), 2)
 				
 				if behavior == Behavior.ATTACKER:
 					score = sqrt(float(heal) * 0.33 + float(mana))
 					preferred_targets = [e]
-					score = score * pow(preferred_targets[0].base_stats["hp"] / (preferred_targets[0].hp + preferred_targets[0].base_stats["hp"]), 4)
+					score = score * pow(preferred_targets[0].stats["hp"] / (preferred_targets[0].stats["hp"] + preferred_targets[0].max_stats["hp"]), 4)
 				
 				
 		# Behavior adjustments and entity-specific modifiers
@@ -290,8 +290,8 @@ func _get_intelligence_for(e: Entity) -> float:
 
 func _estimate_skill_damage(sk: Resource, attacker: Entity, target: Entity) -> float:
 	# Simplified damage estimate for choice heuristics
-	var atk_stat = attacker.get_base_stat(&"atk")
-	var def_stat = target.get_base_stat(&"def")
+	var atk_stat = attacker.stats["atk"]
+	var def_stat = target.stats["def"]
 	var mult = sk.attack_multiplier if sk.attack_multiplier != null else 1.0
 	var hit_mult = sk.hit_damage_multiplier if sk.hit_damage_multiplier != null else 1.0
 	var hits = max(1, sk.hit_count if sk.hit_count != null else 1)
@@ -303,7 +303,7 @@ func _sort_by_score_desc(a, b):
 	return int(sign(b.score - a.score))
 
 func _sort_by_lowest_hp(a, b):
-	return int(sign(a.hp - b.hp))
+	return int(sign(a.stats["hp"] - b.stats["hp"]))
 
 func _get_entity_key(e: Entity) -> String:
 	return str(e.get_instance_id())

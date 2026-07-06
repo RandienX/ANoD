@@ -21,31 +21,129 @@ const SkillClass = preload("res://code/battle/skill.gd")
 
 func item_select_input(event):
 	if event.is_action_pressed("left"):
+		Sfx2.stream = load("res://assets/sound/sfx/button_squeak.wav")
+		Sfx2.play()
 		if item_target_type == 0:
 			root.selection_manager.move_enemy_input(-1)
 		else:
-			var party_in_initiative = root.get_party_members_from_initiative()
-			selected_party_member = wrapi(selected_party_member - 1, 0, party_in_initiative.size())
-			root.move_who_moves(selected_party_member)
-		root.get_viewport().set_input_as_handled()
+			var party_members = root.get_party_members_from_initiative()
+			selected_party_member = wrapi(selected_party_member - 1, 0, party_members.size())
+			root.move_who_moves_to_entity(party_members[selected_party_member]) # FIX: Use Entity reference
+			root.get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("right"):
+		Sfx2.stream = load("res://assets/sound/sfx/button_squeak.wav")
+		Sfx2.play()
 		if item_target_type == 0:
 			root.selection_manager.move_enemy_input(1)
 		else:
-			var party_in_initiative = root.get_party_members_from_initiative()
-			selected_party_member = wrapi(selected_party_member + 1, 0, party_in_initiative.size())
-			root.move_who_moves(selected_party_member)
-		root.get_viewport().set_input_as_handled()
+			var party_members = root.get_party_members_from_initiative()
+			selected_party_member = wrapi(selected_party_member + 1, 0, party_members.size())
+			root.move_who_moves_to_entity(party_members[selected_party_member]) # FIX: Use Entity reference
+			root.get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("use"):
 		root.get_viewport().set_input_as_handled()
+		Sfx2.stream = load("res://assets/sound/sfx/select.wav")
+		Sfx2.play()
 		await confirm_item_target()
-	elif event.is_action_pressed("ui_cancel"):
+	elif event.is_action_pressed("menu"):
 		if item_target_type == 1:
 			root.get_node("WhoMoves").visible = true
-			root.move_who_moves(saved_party_plan_index)
-		close_items_menu()
-	if root.get_viewport():
-		root.get_viewport().set_input_as_handled()
+			root.move_who_moves_to_entity(root.current_attacker) # FIX: Use Entity reference
+			close_items_menu()
+		if root.get_viewport():
+			root.get_viewport().set_input_as_handled()
+
+func select_item():
+	if current_item_index < 0 or current_item_index >= available_items.size():
+		return
+	if item_amounts[current_item_index] <= 0:
+		root.get_node("Control/enemy_ui/CenterContainer/output").text = "No items left! "
+		await root.get_tree().create_timer(0.5).timeout
+		return
+
+	var item = available_items[current_item_index]
+
+	if item.is_item_attack and item.item_attack:
+		item_target_type = 0
+		
+		var item_attack = item.item_attack.duplicate()
+		if item_attack.target_type == 0: #SingleEnemy
+			item_target_type = 0
+			await root.get_tree().process_frame
+			root.state = root.states.OnItemSelect
+			root.selected_enemy = root.previous_enemy if root.previous_enemy >= 0 else 0
+			return
+		elif item_attack.target_type == 1: #Self 
+			item_ref = item
+			root.add_attack(root.current_attacker, [root.current_attacker], item_attack)
+			root.action_history.append(root.current_attacker)
+			PlayerStats.remove_item(item, 1)
+			item_amounts[current_item_index] -= 1
+			close_items_menu()
+			root.advance_planning()
+		elif item_attack.target_type == 2: #Party
+			item_ref = item
+			root.add_attack(root.current_attacker, root.party, item_attack)
+			root.action_history.append(root.current_attacker)
+			PlayerStats.remove_item(item, 1)
+			item_amounts[current_item_index] -= 1
+			close_items_menu()
+			root.advance_planning()
+		elif item_attack.target_type == 3: #AllEnemies
+			item_ref = item
+			root.add_attack(root.current_attacker, root.enemy_instances, item_attack)
+			root.action_history.append(root.current_attacker)
+			PlayerStats.remove_item(item, 1)
+			item_amounts[current_item_index] -= 1
+			close_items_menu()
+			root.advance_planning()
+		elif item_attack.target_type == 4: #SingleAlly
+			item_target_type = 1
+			saved_party_plan_index = root.current_party_plan_index
+			var party_members = root.get_party_members_from_initiative()
+			selected_party_member = 0
+			for i in range(party_members.size()):
+				if party_members[i] == root.current_attacker:
+					selected_party_member = i
+					break
+			items_container.visible = false
+			root.get_node("Control/gui/HBoxContainer2/party").visible = true
+			root.get_node("WhoMoves").visible = true
+			root.move_who_moves_to_entity(party_members[selected_party_member]) # FIX: Use Entity reference
+			await root.get_tree().process_frame
+			root.state = root.states.OnItemSelect 
+			return
+		elif item_attack.target_type == 5: #RandomEnemy
+			item_ref = item
+			root.add_attack(root.current_attacker, [root.enemy_instances[randi_range(0, root.enemy_instances.duplicate().size()-1)]], item_attack)
+			root.action_history.append(root.current_attacker)
+			PlayerStats.remove_item(item, 1)
+			item_amounts[current_item_index] -= 1
+			close_items_menu()
+			root.advance_planning()
+		Sfx2.stream = load("res://assets/sound/sfx/select.wav")
+		Sfx2.play()
+		return
+	else:
+		item_target_type = 1
+		await root.get_tree().process_frame
+		root.state = root.states.OnItemSelect
+		
+		var party_members = root.get_party_members_from_initiative()
+		selected_party_member = 0
+		for i in range(party_members.size()):
+			if party_members[i] == root.current_attacker:
+				selected_party_member = i
+				break
+		
+		saved_party_plan_index = root.current_party_plan_index
+		items_container.visible = false
+		root.get_node("Control/gui/HBoxContainer2/party").visible = true
+		root.get_node("WhoMoves").visible = true
+		root.move_who_moves_to_entity(party_members[selected_party_member]) # FIX: Use Entity reference
+		Sfx2.stream = load("res://assets/sound/sfx/select.wav")
+		Sfx2.play()
+		return
 		
 func setup_items_ui(battleroot):
 	root = battleroot
@@ -178,124 +276,35 @@ func navigate_items(direction: int):
 		attempts += 1
 	
 	if item_amounts[new_index] > 0:
+		Sfx2.stream = load("res://assets/sound/sfx/button_squeak.wav")
+		Sfx2.play()
 		current_item_index = new_index
 		update_item_selection()
-
-func select_item():
-	if current_item_index < 0 or current_item_index >= available_items.size():
-		return
 	
-	if item_amounts[current_item_index] <= 0:
-		root.get_node("Control/enemy_ui/CenterContainer/output").text = "No items left!"
-		await root.get_tree().create_timer(0.5).timeout
-		return
-	
-	var item = available_items[current_item_index]
-	
-	if item.is_item_attack and item.item_attack:
-		item_target_type = 0
-		
-		print("3")
-		var item_attack = item.item_attack.duplicate()
-		if item_attack.target_type == 0: #SingleEnemy
-			item_target_type = 0
-			await root.get_tree().process_frame
-			root.ignore_first_target_input = true
-			root.state = root.states.OnItemSelect
-			root.selected_enemy = root.previous_enemy if root.previous_enemy >= 0 else 0
-			return
-		elif item_attack.target_type == 1: #Self 
-			item_ref = item
-			root.add_attack(root.current_attacker, [root.current_attacker], item_attack)
-			root.action_history.append(root.current_attacker)
-			PlayerStats.remove_item(item, 1)
-			item_amounts[current_item_index] -= 1
-			close_items_menu()
-			await root.advance_planning()
-		elif item_attack.target_type == 2: #Party
-			item_ref = item
-			root.add_attack(root.current_attacker, root.party, item_attack)
-			root.action_history.append(root.current_attacker)
-			PlayerStats.remove_item(item, 1)
-			item_amounts[current_item_index] -= 1
-			close_items_menu()
-			await root.advance_planning()
-		elif item_attack.target_type == 3: #AllEnemies
-			item_ref = item
-			root.add_attack(root.current_attacker, root.enemy_instances, item_attack)
-			root.action_history.append(root.current_attacker)
-			PlayerStats.remove_item(item, 1)
-			item_amounts[current_item_index] -= 1
-			close_items_menu()
-			await root.advance_planning()
-		elif item_attack.target_type == 4: #SingleAlly
-			item_target_type = 1
-			saved_party_plan_index = root.current_party_plan_index
-			var party_in_initiative = root.get_party_members_from_initiative()
-			selected_party_member = 0
-			for i in range(party_in_initiative.size()):
-				if party_in_initiative[i] == root.current_attacker:
-					selected_party_member = i
-					break
-			items_container.visible = false
-			root.get_node("Control/gui/HBoxContainer2/party").visible = true
-			root.get_node("WhoMoves").visible = true
-			root.move_who_moves(selected_party_member)
-			await root.get_tree().process_frame
-			root.ignore_first_target_input = true
-			root.state = root.states.OnItemSelect
-			root.selected_enemy = root.previous_enemy if root.previous_enemy != 0 else 1
-			return
-		elif item_attack.target_type == 5: #RandomEnemy
-			item_ref = item
-			root.add_attack(root.current_attacker, [root.enemy_instances[randi_range(0, root.enemy_instances.duplicate().size()-1)]], item_attack)
-			root.action_history.append(root.current_attacker)
-			PlayerStats.remove_item(item, 1)
-			item_amounts[current_item_index] -= 1
-			close_items_menu()
-			await root.advance_planning()
-		return
-	else:
-		item_target_type = 1
-		await root.get_tree().process_frame
-		root.ignore_first_target_input = true
-		root.state = root.states.OnItemSelect
-		
-		var party_in_initiative = root.get_party_members_from_initiative()
-		selected_party_member = 0
-		for i in range(party_in_initiative.size()):
-			if party_in_initiative[i] == root.current_attacker:
-				selected_party_member = i
-				break
-		
-		saved_party_plan_index = root.current_party_plan_index
-		items_container.visible = false
-		print("2")
-		root.get_node("Control/gui/HBoxContainer2/party").visible = true
-		root.get_node("WhoMoves").visible = true
-		root.move_who_moves(selected_party_member)
-		return
-
 func confirm_item_target():
 	var item = available_items[current_item_index]
+	root.state = root.states.Waiting
 	
 	if item_target_type == 0:
 		if item.is_item_attack and item.item_attack:
 			var target = root.get_enemy(root.selected_enemy)
-			if target and target.hp > 0:
+			if target and target.stats["hp"] > 0:
 				var item_attack = item.item_attack.duplicate()
 				item_attack.skill_name = item.item_name
 				item_ref = item
 				if item_attack.target_type == 0: #SingleEnemy
-					if target and target.hp > 0:
-						root.add_attack(root.current_attacker, [target], item_attack)
-						root.action_history.append(root.current_attacker)
-						close_items_menu()
-						await root.advance_planning()
-						PlayerStats.remove_item(item, 1)
-						item_amounts[current_item_index] -= 1
+					root.add_attack(root.current_attacker, [target], item_attack)
+					root.action_history.append(root.current_attacker)
+					close_items_menu()
+					await root.advance_planning()
+					PlayerStats.remove_item(item, 1)
+					item_amounts[current_item_index] -= 1
+					Sfx2.stream = load("res://assets/sound/sfx/select.wav")
+					Sfx2.play()
 			else:
-				root.get_node("Control/enemy_ui/CenterContainer/output").text = "Invalid target!"
+				Sfx2.stream = load("res://assets/sound/sfx/error.wav")
+				Sfx2.play()
+				root.get_node("Control/enemy_ui/CenterContainer/output").text = "Invalid target! "
 				await root.get_tree().create_timer(0.5).timeout
 				close_items_menu()
 	else:
@@ -303,7 +312,11 @@ func confirm_item_target():
 		selected_party_member = clamp(selected_party_member, 0, party_in_initiative.size() - 1)
 		var target = party_in_initiative[selected_party_member]
 		
-		if target and target.hp > 0:
+		# FIX: Allow targeting dead members IF the item is a revive item
+		var is_revive_item = item.get("revive_amount") != null and item.revive_amount > 0
+		var is_valid_target = (target.stats["hp"] > 0) or (is_revive_item and target.stats["hp"] <= 0)
+		
+		if target and is_valid_target:
 			var item_attack = item.item_attack.duplicate() if item.is_item_attack and item.item_attack else null
 			if item_attack:
 				item_attack.item_reference = item
@@ -322,12 +335,24 @@ func confirm_item_target():
 				PlayerStats.remove_item(item, 1)
 				item_amounts[current_item_index] -= 1
 			close_items_menu()
+			Sfx2.stream = load("res://assets/sound/sfx/select.wav")
+			Sfx2.play()
 			await root.advance_planning()
+		else:
+			Sfx2.stream = load("res://assets/sound/sfx/error.wav")
+			Sfx2.play()
+			root.get_node("Control/enemy_ui/CenterContainer/output").text = "Invalid target! "
+			await root.get_tree().create_timer(0.5).timeout
+			close_items_menu()
 
 func close_items_menu():
-	print("1")
 	items_container.visible = false
 	root.get_node("Control/gui/HBoxContainer2/party").visible = true
 	root.get_node("WhoMoves").visible = true
-	root.move_who_moves(saved_party_plan_index)
+	root.move_who_moves_to_entity(root.current_attacker) # FIX: Use Entity reference
 	root.state = root.states.OnAction
+	
+func get_current_item() -> Item:
+	if current_item_index >= 0 and current_item_index < available_items.size():
+		return available_items[current_item_index]
+	return null

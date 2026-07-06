@@ -2,7 +2,6 @@
 
 [ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="1_4ejce"]
 [ext_resource type="Script" uid="uid://dcmh5clht1ou8" path="res://scenes/ui/battle_engine_stuff/battle_engine.gd" id="1_mq0o5"]
-[ext_resource type="AudioStream" uid="uid://bnajx4f37io4r" path="res://assets/sound/battle/1-81.mp3" id="2_bhyi3"]
 [ext_resource type="Resource" uid="uid://d0alullmmxp3b" path="res://resources/battles/pizzeria/alpha_party_hat_1.tres" id="2_iptht"]
 [ext_resource type="Shader" uid="uid://78ytsnaia8ko" path="res://resources/battles/white_flash.tres" id="5_bhyi3"]
 [ext_resource type="Texture2D" uid="uid://cfoscxh3td7hk" path="res://assets/battleui/backgrounds/FNaF 1 - Dining Area.png" id="6_iptht"]
@@ -206,18 +205,8 @@ battle = ExtResource("2_iptht")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=575028935]
 libraries/ = SubResource("AnimationLibrary_sc6or")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=642821121]
-stream = ExtResource("2_bhyi3")
-autoplay = true
-parameters/looping = true
-
-[node name="SfxPlayer" type="AudioStreamPlayer" parent="." unique_id=976036459]
-autoplay = true
-
-[node name="SfxPlayer2" type="AudioStreamPlayer" parent="." unique_id=1840404046]
-
 [node name="WhoMoves" type="ColorRect" parent="." unique_id=1810912352]
-z_index = 999
+z_index = 99
 material = SubResource("ShaderMaterial_x8o33")
 offset_left = 221.0
 offset_top = 487.0
@@ -262,6 +251,7 @@ anchor_right = 3.1250002
 anchor_bottom = 5.65
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)
 script = ExtResource("6_sc6or")
 
 [node name="name" type="Label" parent="Control/enemy_ui/enemies/enemy1" unique_id=1566473057]
@@ -351,6 +341,7 @@ offset_left = -1.5258789e-05
 offset_right = -1.5258789e-05
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)
 script = ExtResource("6_sc6or")
 
 [node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy2" unique_id=933350800]
@@ -440,6 +431,7 @@ offset_left = -3.0517578e-05
 offset_right = -3.0517578e-05
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)
 script = ExtResource("6_sc6or")
 
 [node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy3" unique_id=1266943365]
@@ -531,6 +523,7 @@ offset_right = -3.0517578e-05
 offset_bottom = -1.5258789e-05
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)
 script = ExtResource("6_sc6or")
 
 [node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy4" unique_id=1284689151]
@@ -622,6 +615,7 @@ offset_right = -6.1035156e-05
 offset_bottom = -1.5258789e-05
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)
 script = ExtResource("6_sc6or")
 
 [node name="EffectContainer" type="GridContainer" parent="Control/enemy_ui/enemies/enemy5" unique_id=235167958]
@@ -719,7 +713,6 @@ offset_bottom = 40.0
 mouse_filter = 1
 
 [node name="bg" type="ColorRect" parent="Control/gui" unique_id=113192544]
-z_index = 15
 custom_minimum_size = Vector2(864, 162)
 layout_mode = 0
 offset_top = 486.0
@@ -742,7 +735,7 @@ expand_mode = 1
 stretch_mode = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/gui" unique_id=690133389]
-z_index = 20
+z_index = 9
 custom_minimum_size = Vector2(1728, 324)
 layout_mode = 1
 anchors_preset = 2
@@ -908,6 +901,13 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 mouse_filter = 2
 theme_override_constants/separation = 226
+
+[node name="EffekseerEmitter2D" type="EffekseerEmitter2D" parent="Control" unique_id=228339571]
+
+[node name="Dialogue" type="CanvasLayer" parent="." unique_id=469569400]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Dialogue" unique_id=214992799]
+bus = &"Voice"
 
 [connection signal="pressed" from="Control/gui/HBoxContainer2/actions/FightButton" to="." method="_on_fight_button_pressed"]
 [connection signal="pressed" from="Control/gui/HBoxContainer2/actions/SkillsButton" to="." method="_on_skills_button_pressed"]

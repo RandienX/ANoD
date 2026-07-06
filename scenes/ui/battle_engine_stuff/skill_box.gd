@@ -48,10 +48,13 @@ func _on_button_pressed() -> void:
 				$NinePatchRect.global_position = get_global_mouse_position() - Vector2(10, 10)
 		else:
 			$NinePatchRect.visible = false
+	Global.lower_font(name_label)
 
 func _on_nine_patch_rect_focus_exited() -> void:
 	$NinePatchRect.visible = false
+	Global.lower_font(name_label)
 
 func _on_fight_button_pressed() -> void:
 	if can_select:
 		skill_selected.emit(skill, skill_index)
+	Global.lower_font(name_label)

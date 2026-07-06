@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://gbf3ndunkpjn"]
+[gd_scene format=3 uid="uid://gbf3ndunkpjn"]
 
 [ext_resource type="Script" uid="uid://bebr6equ375un" path="res://scenes/ui/battle_engine_stuff/skill_box.gd" id="1_3ugnv"]
 [ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="1_gl615"]
@@ -14,7 +14,7 @@ font_color = Color(0, 0.49019608, 1, 1)
 outline_size = 8
 outline_color = Color(0.641934, 0.641934, 0.641934, 1)
 
-[node name="skill_box" type="MarginContainer"]
+[node name="skill_box" type="MarginContainer" unique_id=341369657]
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/margin_left = 4
@@ -23,29 +23,33 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 script = ExtResource("1_3ugnv")
 
-[node name="HSplitContainer" type="HSplitContainer" parent="."]
+[node name="HSplitContainer" type="HSplitContainer" parent="." unique_id=906649552]
 custom_minimum_size = Vector2(632, 65)
+custom_maximum_size = Vector2(632, -1)
 layout_mode = 2
-split_offset = 10
+split_offsets = PackedInt32Array(10)
 drag_area_margin_begin = 12
 drag_area_margin_end = 12
 drag_area_offset = 12
+split_offset = 10
 
-[node name="name" type="Label" parent="HSplitContainer"]
-custom_minimum_size = Vector2(380, 0)
+[node name="name" type="Label" parent="HSplitContainer" unique_id=73330577]
+custom_minimum_size = Vector2(500, 0)
+custom_maximum_size = Vector2(500, -1)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = SubResource("Theme_0f0kn")
 text = "avocado"
+autowrap_mode = 2
 
-[node name="mana_cost" type="Label" parent="HSplitContainer"]
+[node name="mana_cost" type="Label" parent="HSplitContainer" unique_id=231590859]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_fonts/font = ExtResource("1_gl615")
 text = "30"
 label_settings = SubResource("LabelSettings_3ugnv")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="."]
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1519527628]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_vertical = 0
@@ -55,7 +59,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="Desc" type="Label" parent="NinePatchRect"]
+[node name="Desc" type="Label" parent="NinePatchRect" unique_id=148814256]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -64,11 +68,11 @@ offset_bottom = 69.0
 theme_override_font_sizes/font_size = 16
 autowrap_mode = 2
 
-[node name="fightButton" type="Button" parent="."]
+[node name="fightButton" type="Button" parent="." unique_id=2114525034]
 layout_mode = 2
 flat = true
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=1209398815]
 layout_mode = 2
 flat = true
 

@@ -23,6 +23,7 @@ func add_defeated_enemies():
 			Global.enemies_killed.merge({slot.enemy.name: Global.enemies_killed[slot.enemy.name] + 1 if Global.enemies_killed.keys().has(slot.enemy.name) else 1}, true)
 	Global.battles_won.merge({root.battle.battle_name: Global.battles_won[root.battle.battle_name] + 1 if Global.battles_won.keys().has(root.battle.battle_name) else 1}, true)
 	
+var victory = false
 func check_enemy_death_and_xp():
 	if root:
 		if not root.are_all_enemies_defeated():
@@ -30,6 +31,10 @@ func check_enemy_death_and_xp():
 	else:
 		return
 	
+	if victory:
+		return
+	
+	victory = true
 	var total_xp = 0        
 	var total_currency = 0
 	
@@ -40,44 +45,41 @@ func check_enemy_death_and_xp():
 		if slot and slot.enemy:
 			total_xp += slot.get_xp_reward()
 			total_currency += slot.get_currency_reward()
-
+	
 	if battle:
 		total_currency += battle.currency_reward
 	
-	for actor in root.initiative:
-		if actor.role == Entity.Role.PARTY:
-			actor.xp += total_xp
+	for actor in root.party:
+		actor.xp += total_xp
+		if root:
 			root.get_node("Control/enemy_ui/CenterContainer/output").text = actor.name + " gained " + str(total_xp) + " XP! "
-			while actor.xp >= actor.xp_to_level_up:
-				actor.xp -= actor.xp_to_level_up
-				actor.level += 1
-				actor.xp_to_level_up = ceil(actor.xp_to_level_up * actor.level_up_xp_multiplier)
-				for stat in [&"hp", &"mp", &"atk", &"def", &"speed"]:
-					actor.max_stats[stat] += int(actor.level_up_gains[stat] if actor.level_up_gains.has(stat) else 1)
-					actor.base_stats[stat] += int(actor.level_up_gains[stat] if actor.level_up_gains.has(stat) else 1)
-				actor.hp = actor.max_stats[&"hp"]
-				actor.mp = actor.max_stats[&"mp"]
+		while actor.xp >= actor.xp_to_level_up:
+			actor.xp -= actor.xp_to_level_up
+			actor.level += 1
+			actor.xp_to_level_up = ceil(actor.xp_to_level_up * actor.level_up_xp_multiplier)
+			actor.stats["hp"] = actor.max_stats["hp"]
+			actor.stats["mp"] = actor.max_stats["mp"]
+			if root:
 				root.get_node("Control/enemy_ui/CenterContainer/output").text = actor.name + " leveled up to " + str(actor.level) + "! "
-				await get_tree().create_timer(1.0).timeout
+		await Global.get_tree().create_timer(1.0).timeout
+		actor.recalculate_level_stats()
 				
-	
 	# Add currency reward to player
 	if total_currency > 0:
 		PlayerStats.add_currency(total_currency, PlayerStats.CurrencyType.GOLD)
-		root.get_node("Control/enemy_ui/CenterContainer/output").text += "Gained " + str(total_currency) + " gold!"
+		if root:
+			root.get_node("Control/enemy_ui/CenterContainer/output").text += "Gained " + str(total_currency) + " gold!"
 		
 	end_battle_victory()
 
 func end_battle_victory() -> void:
+	if game_over_active:
+		return
 	game_over_active = true #not game_over but still stop functions
 	Global.battle_bg = null
-	if root:
-		await root.get_tree().create_timer(3.0).timeout
-		Global.process_frame()
-	else:
-		return
+	Global.process_frame()
 	Global.loading = true
-	Global.change_scene_to_current_scene()
+	Global.get_tree().change_scene_to_file(Global.current_scene)
 	Global.loading = false
 
 func animate_enemy_death(e: Entity) -> void:
@@ -117,7 +119,7 @@ func move_flash_to_next_enemy(slot: int):
 	for i in range(1, 5):
 		var next_slot = wrapi(slot + i, 0, 5)
 		var enemy_at_slot = root.get_enemy(next_slot)
-		if enemy_at_slot and enemy_at_slot.hp > 0:
+		if enemy_at_slot and enemy_at_slot.stats["hp"] > 0:
 			root.selected_enemy = next_slot
 			return
 	root.selected_enemy = -1
@@ -137,7 +139,7 @@ func death(obj: Entity):
 func check_party_wipe() -> void:
 	var alive = false
 	for p in root.party:
-		if p.hp > 0:
+		if p.stats["hp"] > 0:
 			alive = true
 			break
 	if not alive:
@@ -151,8 +153,11 @@ func trigger_game_over() -> void:
 	var gitgud = preload("res://scenes/ui/game_over.tscn").instantiate()
 	gitgud.z_index = 999
 	root.add_child(gitgud)
-	root.get_node("AudioStreamPlayer").autoplay = false
-	root.get_node("AudioStreamPlayer").playing = false
+	BackgroundMusic.playing = false
+	Sfx.playing = false
+	Sfx2.playing = false
+	BackgroundMusic.stream = load("res://assets/sound/sfx/death.wav")
+	BackgroundMusic.play()
 	gitgud.get_node("AnimationPlayer").play("gitgud")
 	
 	await root.get_tree().create_timer(1.5).timeout
