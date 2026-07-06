@@ -64,7 +64,7 @@ func open_skills_menu():
 		for skill in all_skills:
 			if skill:
 				available_skills.append(skill)
-				skill_affordable.append(root.current_attacker.mp >= skill.mana_cost)
+				skill_affordable.append(root.current_attacker.stats["mp"] >= skill.mana_cost)
 				
 	if available_skills.size() == 0:
 		close_skills_menu()
@@ -151,6 +151,8 @@ func navigate_skills(direction: int):
 				new_index = direction - 1 if new_index % skill_boxes.size() == 0 else 0
 		attempts += 1
 	
+	Sfx2.stream = load("res://assets/sound/sfx/button_squeak.wav")
+	Sfx2.play()
 	# Only update if we found an affordable skill
 	if skill_boxes.size() > 1:
 		if skill_affordable[new_index]:
@@ -168,10 +170,14 @@ func select_skill():
 	
 	var skill = available_skills[current_skill_index]
 	
-	if skill.mana_cost > root.current_attacker.mp:
+	if skill.mana_cost > root.current_attacker.stats["mp"]:
 		root.get_node("Control/enemy_ui/CenterContainer/output").text = "Not enough MP!"
 		await root.get_tree().create_timer(0.5 * Settings.battle_speed).timeout
 		return
+	
+	
+	Sfx2.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx2.play()
 	
 	if skill.target_type == 0: #SingleEnemy
 		root.state = root.states.OnSkillSelect
@@ -197,26 +203,28 @@ func select_skill():
 		root.selected_enemy = root.previous_enemy if root.previous_enemy != 0 else 1
 		return
 	elif skill.target_type == 5: #RandomEnemy
-		root.add_attack(root.current_attacker, root.enemy_instances[randi_range(0, root.enemy_instances.duplicate().size()-1)], skill)
+		root.add_attack(root.current_attacker, [root.enemy_instances[randi_range(0, root.enemy_instances.duplicate().size()-1)]], skill)
 		root.action_history.append(root.current_attacker)
 		close_skills_menu()
 		await root.advance_planning()
 		
 func confirm_skill_target():
 	var skill = available_skills[current_skill_index]
+	Sfx2.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx2.play()
 	if skill.target_type == 0: #SingleEnemy
 		var target = root.get_enemy(root.selected_enemy)
-		if target and target.hp > 0:
+		if target and target.stats["hp"] > 0:
 			root.add_attack(root.current_attacker, [target], skill)
 			root.action_history.append(root.current_attacker)
-			close_skills_menu()
 			await root.advance_planning()
+			close_skills_menu()
 	elif skill.target_type == 4: #SingleAlly
 		var target = root.party[clamp(root.selected_enemy - 1, 0, root.party.size() - 1)]
 		root.add_attack(root.current_attacker, [target], skill)
 		root.action_history.append(root.current_attacker)
-		close_skills_menu()
 		await root.advance_planning()
+		close_skills_menu()
 		
 func close_skills_menu():
 	skills_container.visible = false
@@ -224,3 +232,8 @@ func close_skills_menu():
 	root.get_node("WhoMoves").visible = true
 	root.selection_manager.hide_flash()
 	root.state = root.states.OnAction
+	
+func get_current_skill() -> Skill:
+	if current_skill_index >= 0 and current_skill_index < available_skills.size():
+		return available_skills[current_skill_index]
+	return null

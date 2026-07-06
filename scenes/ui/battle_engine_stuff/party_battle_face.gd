@@ -30,12 +30,12 @@ func setup(data: Entity) -> void:
 func _process(_delta: float) -> void:
 	if party_member:
 		# Use direct party resource data
-		hp_label.text = str(party_member.hp, "/", party_member.get_max_stat(&"hp"))
-		mp_label.text = str(party_member.mp, "/", party_member.get_max_stat(&"mp"))
-		hp_bar.max_value = party_member.get_max_stat(&"hp")
-		mp_bar.max_value = party_member.get_max_stat(&"mp")
-		hp_bar.value = party_member.hp
-		mp_bar.value = party_member.mp                
+		hp_label.text = str(party_member.stats["hp"], "/", party_member.max_stats["hp"])
+		mp_label.text = str(party_member.stats["mp"], "/", party_member.max_stats["mp"])
+		hp_bar.max_value = party_member.max_stats["hp"]
+		mp_bar.max_value = party_member.max_stats["mp"]
+		hp_bar.value = party_member.stats["hp"]
+		mp_bar.value = party_member.stats["mp"]       
 		if party_member.portrait:
 			$Sprite2D.texture = party_member.portrait
 			$Sprite2D.region_rect = party_member.portrait_rect

@@ -12,10 +12,10 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if enemy:
-		$VBoxContainer/hp.value = enemy.hp
-		$VBoxContainer/hp.max_value = enemy.base_stats["hp"]
-		$VBoxContainer/mp.value = enemy.mp
-		$VBoxContainer/mp.max_value = enemy.base_stats["mp"]
+		$VBoxContainer/hp.value = enemy.stats["hp"]
+		$VBoxContainer/hp.max_value = enemy.max_stats["hp"]
+		$VBoxContainer/mp.value = enemy.stats["mp"]
+		$VBoxContainer/mp.max_value = enemy.max_stats["mp"]
 		$name.text = enemy.name
 		$name/NinePatchRect2.size.x = $name.size.x + 6
 	else:

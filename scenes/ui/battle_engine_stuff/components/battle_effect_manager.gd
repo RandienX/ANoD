@@ -23,7 +23,7 @@ signal stat_modification_applied(entity: Entity, stat_key: String, delta: int)
 # ==================== STATE ====================
 
 ## Battle context arrays (set when battle starts)
-var _allies: Array = []
+var _party: Array = []
 var _enemies: Array = []
 var _battle_context: Dictionary = {}
 
@@ -43,12 +43,12 @@ func initialize(party: Array, enemies: Array, context: Dictionary = {}):
 	Initialize the manager for a new battle.
 	Call at battle start to set up context arrays.
 	"""
-	_allies = party.filter(func(e): return e != null and is_instance_valid(e))
+	_party = party.filter(func(e): return e != null and is_instance_valid(e))
 	_enemies = enemies.filter(func(e): return e != null and is_instance_valid(e))
 	_battle_context = context.duplicate()
 	_battle_context["turn_number"] = _battle_context.get("turn_number", 0)
 	
-	_log("BattleEffectManager initialized with %d allies, %d enemies" % [_allies.size(), _enemies.size()])
+	_log("BattleEffectManager initialized with %d allies, %d enemies" % [_party.size(), _enemies.size()])
 
 func cleanup():
 	"""
@@ -63,7 +63,7 @@ func cleanup():
 	_active_timers.clear()
 	
 	# Clear context
-	_allies.clear()
+	_party.clear()
 	_enemies.clear()
 	_battle_context.clear()
 	_effect_queue.clear()
@@ -74,53 +74,6 @@ func _exit_tree():
 	cleanup()
 
 # ==================== TARGETING SYSTEM ====================
-
-func resolve_targets(effect: BattleEffect, source: Entity, context_override: Dictionary = {}) -> Array[Entity]:
-	"""
-	Resolve TargetType to actual Entity instances using battle context.
-	Returns array of valid targets.
-	"""
-	var ctx = context_override if not context_override.is_empty() else _battle_context
-	var targets: Array[Entity] = []
-	
-	match effect.target_type:
-		BattleEffect.TargetType.SELF:
-			targets.append(source)
-		
-		BattleEffect.TargetType.SINGLE_ALLY:
-			if ctx.has("selected_ally") and ctx["selected_ally"]:
-				targets.append(ctx["selected_ally"])
-			elif not _allies.is_empty():
-				# Pick random alive ally
-				var alive_allies = _allies.filter(func(e): return e.hp > 0)
-				if not alive_allies.is_empty():
-					targets.append(alive_allies[randi() % alive_allies.size()])
-		
-		BattleEffect.TargetType.SINGLE_ENEMY:
-			if ctx.has("selected_enemy") and ctx["selected_enemy"]:
-				targets.append(ctx["selected_enemy"])
-			elif not _enemies.is_empty():
-				# Pick random alive enemy
-				var alive_enemies = _enemies.filter(func(e): return e.hp > 0)
-				if not alive_enemies.is_empty():
-					targets.append(alive_enemies[randi() % alive_enemies.size()])
-		
-		BattleEffect.TargetType.ALL_ALLIES:
-			targets.assign(_allies.filter(func(e): return e.hp > 0 or effect.can_target_dead))
-		
-		BattleEffect.TargetType.ALL_ENEMIES:
-			targets.assign(_enemies.filter(func(e): return e.hp > 0 or effect.can_target_dead))
-		
-		BattleEffect.TargetType.PARTY:
-			for ally in _allies:
-				if ally.role == Entity.Role.PARTY and (ally.hp > 0 or effect.can_target_dead):
-					targets.append(ally)
-		
-		BattleEffect.TargetType.ENTIRE_BATTLE:
-			targets.assign(_allies.filter(func(e): return e.hp > 0 or effect.can_target_dead))
-			targets.append_array(_enemies.filter(func(e): return e.hp > 0 or effect.can_target_dead))
-	
-	return targets
 
 func _check_line_of_sight(_source: Entity, _target: Entity) -> bool:
 	"""Check if source has line of sight to target. Override for custom logic."""
@@ -175,7 +128,13 @@ func execute_effect(effect: BattleEffect, source: Entity, context_override: Dict
 		return
 	
 	# Resolve targets
-	var targets = resolve_targets(effect, source, context_override)
+	var targets: Array[Entity] = []
+	if source.role == Entity.Role.PARTY:
+		targets = effect.get_targets(source, _party, _enemies, context_override)
+	else:
+		targets = effect.get_targets(source, _enemies, _party, context_override)
+		
+		
 	if targets.is_empty():
 		_log("Effect %s has no valid targets" % effect.effect_name)
 		effect_executed.emit(effect, [], false)
@@ -190,13 +149,10 @@ func _execute_effect_by_type(effect: BattleEffect, source: Entity, targets: Arra
 	"""Route effect to appropriate handler based on type."""
 	
 	match effect.effect_type:
-		BattleEffect.EffectType.DAMAGE:
+		BattleEffect.EffectType.CHANGE_HP_MP:
 			return _handle_damage(effect, source, targets, context)
 		
-		BattleEffect.EffectType.HEAL:
-			return _handle_heal(effect, source, targets, context)
-		
-		BattleEffect.EffectType.BUFF, BattleEffect.EffectType.DEBUFF:
+		BattleEffect.EffectType.BUFF_DEBUFF:
 			return _handle_stat_modifiers(effect, source, targets, context)
 		
 		BattleEffect.EffectType.STATUS_APPLY:
@@ -204,9 +160,6 @@ func _execute_effect_by_type(effect: BattleEffect, source: Entity, targets: Arra
 		
 		BattleEffect.EffectType.STATUS_REMOVE:
 			return _handle_status_remove(effect, source, targets, context)
-		
-		BattleEffect.EffectType.PARAMETER_CHANGE:
-			return _handle_parameter_change(effect, source, targets, context)
 		
 		BattleEffect.EffectType.UTILITY:
 			return _handle_utility(effect, source, targets, context)
@@ -221,7 +174,7 @@ func _handle_damage(effect: BattleEffect, source: Entity, targets: Array[Entity]
 	var total_damage = 0
 	
 	for target in targets:
-		if not is_instance_valid(target) or target.hp <= 0:
+		if not is_instance_valid(target) or target.stats["hp"] <= 0:
 			continue
 		
 		# Calculate base damage
@@ -238,7 +191,7 @@ func _handle_damage(effect: BattleEffect, source: Entity, targets: Array[Entity]
 			base_dmg *= effect.critical_multiplier
 		
 		# Apply defense reduction (simplified)
-		var defense = target.get_effective_stat(&"def")
+		var defense = target.get_effective_stat("def")
 		var final_dmg = max(1, int(base_dmg - defense * 0.5))
 		
 		# Deal damage
@@ -251,23 +204,6 @@ func _handle_damage(effect: BattleEffect, source: Entity, targets: Array[Entity]
 		_trigger_visuals(effect, target)
 	
 	return total_damage > 0
-
-func _handle_heal(effect: BattleEffect, source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
-	"""Handle healing effects."""
-	var total_healed = 0
-	
-	for target in targets:
-		if not is_instance_valid(target) or target.hp <= 0:
-			continue
-		
-		var heal_amount = int(effect.get_scaled_value(source, target))
-		var actual_heal = target.heal_hp(heal_amount)
-		total_healed += actual_heal
-		
-		_log("Healed %s for %d HP" % [target.name, actual_heal])
-		_trigger_visuals(effect, target)
-	
-	return total_healed > 0
 
 func _handle_stat_modifiers(effect: BattleEffect, source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
 	"""Apply temporary stat buffs/debuffs."""
@@ -336,25 +272,6 @@ func _handle_status_remove(effect: BattleEffect, source: Entity, targets: Array[
 			removed_count += target.remove_all_statuses(true, source)
 	
 	return removed_count > 0
-
-func _handle_parameter_change(effect: BattleEffect, _source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
-	"""Permanent stat changes (level-up style)."""
-	var changed_count = 0
-	
-	for target in targets:
-		if not is_instance_valid(target):
-			continue
-		
-		for mod in effect.stat_modifiers:
-			if mod.duration_type == StatModifier.DurationType.PERMANENT:
-				var stat_key = mod.stat_key.to_lower()
-				if target.base_stats.has(stat_key):
-					target.base_stats[stat_key] += int(mod.value)
-					target.invalidate_stat_cache()
-					changed_count += 1
-					_log("Permanently increased %s to %d" % [stat_key, target.base_stats[stat_key]])
-	
-	return changed_count > 0
 
 func _handle_utility(effect: BattleEffect, _source: Entity, targets: Array[Entity], _context: Dictionary) -> bool:
 	"""Utility effects: skip turn, extra turn, etc."""
@@ -479,7 +396,7 @@ func tick_all_statuses():
 	Tick all statuses on all entities.
 	Call once per turn during battle loop.
 	"""
-	for entity in _allies + _enemies:
+	for entity in _party + _enemies:
 		if not is_instance_valid(entity):
 			continue
 		
@@ -507,15 +424,15 @@ func set_battle_context_value(key: String, value):
 
 func get_all_entities() -> Array[Entity]:
 	"""Get all entities (allies + enemies)."""
-	return _allies + _enemies
+	return _party + _enemies
 
-func get_alive_allies() -> Array[Entity]:
+func get_alive_party() -> Array[Entity]:
 	"""Get all living allies."""
-	return _allies.filter(func(e): return is_instance_valid(e) and e.hp > 0)
+	return _party.filter(func(e): return is_instance_valid(e) and e.stats["hp"] > 0)
 
 func get_alive_enemies() -> Array[Entity]:
 	"""Get all living enemies."""
-	return _enemies.filter(func(e): return is_instance_valid(e) and e.hp > 0)
+	return _enemies.filter(func(e): return is_instance_valid(e) and e.stats["hp"] > 0)
 
 func log_effect_execution(effect_name: String, success: bool):
 	"""Log effect execution for debugging."""

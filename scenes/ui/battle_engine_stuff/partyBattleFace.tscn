@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://xhaq6ip61aoh"]
 
-[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/party/Classics+Swag.png" id="1_3yrrq"]
+[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="1_3yrrq"]
 [ext_resource type="Script" uid="uid://dws0ekf7hl76q" path="res://scenes/ui/battle_engine_stuff/party_battle_face.gd" id="1_lvow5"]
 [ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="2_lvow5"]
 

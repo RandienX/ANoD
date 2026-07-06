@@ -16,7 +16,7 @@ func setup(rott, target):
 	while attempts < 5:
 		root.selected_enemy = wrapi(root.selected_enemy + 1, 0, 5)
 		var enemy_at_slot = root.get_enemy(root.selected_enemy)
-		if enemy_at_slot != null and enemy_at_slot.hp > 0 and enemy_at_slot in root.initiative:
+		if enemy_at_slot != null and enemy_at_slot.stats["hp"] > 0 and enemy_at_slot in root.initiative:
 			update_flash()
 			break
 		attempts += 1
@@ -43,6 +43,8 @@ func update_selection():
 	
 	var child = target_container.get_child(current_index)
 	selected_button = child
+	Sfx2.stream = load("res://assets/sound/sfx/button_squeak.wav")
+	Sfx2.play()
 	set_glow(selected_button, true)
 
 func set_glow(btn: Button, is_glowing: bool):
@@ -53,21 +55,24 @@ func set_glow(btn: Button, is_glowing: bool):
 
 func activate_selected():
 	if selected_button and is_instance_valid(selected_button):
+		Sfx2.stream = load("res://assets/sound/sfx/select.wav")
+		Sfx2.play()
 		selected_button.emit_signal("pressed")
 		
 func move_enemy_input(input: int):
 	if input == 0 or root.battle.enemies.is_empty(): return
+	Sfx2.stream = load("res://assets/sound/sfx/button_squeak.wav")
+	Sfx2.play()
 	var attempts = 0
 	while attempts < 5:
 		root.selected_enemy = wrapi(root.selected_enemy + input, 0, 5)
 		var enemy_at_slot = root.get_enemy(root.selected_enemy)
-		if enemy_at_slot != null and enemy_at_slot.hp > 0 and enemy_at_slot in root.initiative:
+		if enemy_at_slot != null and enemy_at_slot.stats["hp"] > 0 and enemy_at_slot in root.initiative:
 			update_flash()
 			break
 		attempts += 1
 
 func update_flash():
-
 	var slots = root.get_node("Control/enemy_ui/enemies").get_children()
 	var slot_index = root.selected_enemy
 	slots[slot_index].material.set("shader_parameter/is_flashing", true)
@@ -76,7 +81,7 @@ func update_flash():
 		while attempts < 5:
 			root.selected_enemy = wrapi(root.selected_enemy + 1, 0, 5)
 			var enemy_at_slot = root.get_enemy(root.selected_enemy)
-			if enemy_at_slot != null and enemy_at_slot.hp > 0 and enemy_at_slot in root.initiative:
+			if enemy_at_slot != null and enemy_at_slot.stats["hp"] > 0 and enemy_at_slot in root.initiative:
 				break
 	for s in slots:
 		if s != slots[slot_index]:
