@@ -49,6 +49,7 @@
     - 8 items added
     - Added Chica and Foxy
     - Started developping story bits to Bonnie, Chica and Foxy's paths
+    - Added simple NPC creation
   
   Smaller changes:
     - Dialogue engine can be now called anywhere
