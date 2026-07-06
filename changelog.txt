@@ -1,4 +1,64 @@
+0.3.1v (July 06 2026)
+  small version adding some scrapped stuff from 0.3 and bugfixing other
+
+  Main changes:
+    - Added Toilet fight in Bonnie's path
+    - Added Foxy's Gooning Fucknight minigame unlocked after finishing 0.3v Foxy's gooning route
+    - Merged DialogueEffect with QuestEffect into Effect 
+    - Merged DialogueCondition and QuestPointCondition into Condition
+    - Balanced Foxy's skills
+    - Added Conditional Battle Effects in Battle resource settings (on entry, turn, win)
+    - Added MANY SFX's
+    - Added Party Voice Beeps
+    - Rescripted Shop
+    - Reimplemented Check Skill from 0.1v
+    - Added Crack (revive item)
+    - Updated Inventory menu item descriptions
+
+  Bugfixes:
+    - Post-load level ups (on load you always had lvl 1 stats)
+    - Finally Fixed equipment change bonus stacking bug
+    - Changed playerstat loading to use non-0.2v party loading
+    - Fixed Run button spamming 
+    - Fixed Multiple levelup related bugs
+    - Fixed AllEnemies attacks taking mana multiple times
+    - Enemies glowed when using skill/item for party members signifying the selection of enemy even if you cannot select
+    - Fixed Items needing double input to get used on party member
+    - Fixed Multiple Instances of improper autoload stream values in multiple scenes
+    - Fixed Fight button action being easily overwritten by other battle engine actions 
+    - fixed multiple z layering bugs
+    - fixed flooded sink interaction
+    - made mini music men attackers not disappear forever upon interaction
+    - lowered the size of fnaf 1 location map
+    - fixed on party member death dead party member selection bug 
+    - fixed multiple instances of music not looping when it should
+    - fixed word wrapping in dialogue textbox
+    - fixed category and buy overlap in shop
+
 0.3v (June 23 2026)
+  biggest changes to overall tech demo state of this game done in this version and its patches
+
+  Main changes:
+    - Full Redesign of the map
+    - Quest System
+    - Party Members moving behind player
+    - New crt shader
+    - Tutorial
+    - Autosave
+    - Animation support
+    - 8 items added
+    - Added Chica and Foxy
+    - Started developping story bits to Bonnie, Chica and Foxy's paths
+  
+  Smaller changes:
+    - Dialogue engine can be now called anywhere
+    - Improved enemy AI
+    - Many other aesthetic changes
+    - New Vents room
+    - Implemented more save file display effects
+
+  Bugfixes:
+    - Fixed multiple selection bugs in battle engine
 
 0.2.4v (May 09 2026)
   inbattle effect statuses fix
