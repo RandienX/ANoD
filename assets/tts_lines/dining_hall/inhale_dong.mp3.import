@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://diqbgsqledu5t"
-path="res://.godot/imported/inhale_dong.mp3-52425af9a866685b0b33742881b51e9f.mp3str"
+path="res://.godot/imported/inhale_dong.mp3-e0badc097ba8f5cb404b763b34f689ca.mp3str"
 
 [deps]
 
-source_file="res://assets/tts_lines/dining_hall/inhale_dong.mp3"
-dest_files=["res://.godot/imported/inhale_dong.mp3-52425af9a866685b0b33742881b51e9f.mp3str"]
+source_file="res://assets/sound/tts_lines/dining_hall/inhale_dong.mp3"
+dest_files=["res://.godot/imported/inhale_dong.mp3-e0badc097ba8f5cb404b763b34f689ca.mp3str"]
 
 [params]
 
