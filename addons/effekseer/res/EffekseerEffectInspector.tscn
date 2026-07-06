@@ -3,7 +3,6 @@
 [ext_resource type="Shader" uid="uid://cgq17ja6r53dv" path="res://addons/effekseer/res/EffekseerEffectInspector3D.gdshader" id="2_mfcjt"]
 [ext_resource type="Script" uid="uid://cihhcmox5dxyx" path="res://addons/effekseer/src/EffekseerEffectInspector.gd" id="3"]
 [ext_resource type="Shader" uid="uid://cdkw1aa6yl61d" path="res://addons/effekseer/res/EffekseerEffectInspector2D.gdshader" id="3_bby3q"]
-[ext_resource type="EffekseerEffect" uid="uid://44a5117ghjb2" path="res://assets/vfx/Absorb.efkefc" id="4_c7awn"]
 
 [sub_resource type="World3D" id="World3D_3kb0j"]
 
@@ -134,7 +133,6 @@ mesh = SubResource("QuadMesh_74fko")
 [node name="Grid2D" type="MeshInstance2D" parent="Previewer/SubViewport/Preview2D" unique_id=1079834682]
 
 [node name="EffekseerEmitter2D" type="EffekseerEmitter2D" parent="Previewer/SubViewport/Preview2D" unique_id=285201672]
-effect = ExtResource("4_c7awn")
 
 [node name="Controller" type="HBoxContainer" parent="." unique_id=564368100]
 layout_mode = 2
