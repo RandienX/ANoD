@@ -1,0 +1,66 @@
+0.3v (June 23 2026)
+
+0.2.4v (May 09 2026)
+  inbattle effect statuses fix
+
+  Main changes:
+    - Complete rescript of statuses
+    - Readded voiceline support to dialogue engine
+
+  Bugfixes:
+    - Dialogue Engine Choice box not disappearing 
+    - Dialogue typewrited effect not firing
+
+0.2.3v (May 07 2026)
+  patch for fixes to the fixes
+
+0.2.2v (May 07 2026)
+  another post-launch quick fix for stuff my friend kublox21 found (around 15-20)
+
+0.2.1v (May 06 2026)
+  post-launch quick fix for easiest and most obvious stuff
+
+  Bugfixes:
+    - Fixed some wall collisions
+    - Fixed some crashes
+
+0.2v (May 06 2026)
+  1st public version of ANoD
+
+  Main changes included:
+    - Complete rescript of the battle engine
+    - New modular Dialogue Engine
+    - Earliest version of the Baloon Boy's shop
+    - Merged Party and Enemy resource classes into a single Entity resource
+    - New Battle Engine Skill Manager for new variable implementation
+    - Settings and Extras menus implemented
+    - Room Changes
+    - Added more Battle Resource settings
+    - Added 3 new enemies
+    - Added 3 new items
+
+  Bugfixes:
+    - Skill effects not applying correctly because of latest changes in skill, item, enemy and party resources
+    - Multiple instances of Global.variable in code when i migrated that variable to new autoload - PlayerStats fixed
+    - Save Manager not being an autoload, then small tweaks
+    - enemies not spawning on set positions
+    - entity party not saving properly
+    - entity party members not showing a battleface in battle
+    - skill names not showing after the new approach to storing them (Dictionary[level, Skill] to Dictionary[level, Array[Skill]])
+    - skills attacking multiple times
+    - enemy selection checking for enemy not in slots but in enemy array
+    - party display menu not showing party members
+    - party member display crashing the game
+    - HP and MP progressbars in Party menu are now shown.
+    - Using items outside of battle crashed the game.
+    - Using the default skill somehow was crashing the game
+    - Item usage are now correctly written into planned action array in battle.
+    - Setting Sliders were not connected to setting change functions.
+    
+on April 15 2026 started a devlog in Brainless's Discord Server
+    
+0.1v (March 17 2026)
+  The closed demo of ANoD, had only the battle engine and a scuffed version of dialogue engine, and party, inventory, save menus
+
+0.0v (February 24 2026)
+  Project Beginning
