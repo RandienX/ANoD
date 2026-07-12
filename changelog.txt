@@ -1,3 +1,28 @@
+0.3.2v (July 12 2026)
+  VFX and Magic patch
+
+  Main changes:
+    - Inbattle VFX
+    - Party per-level stat change early game nerf and mif-late game buff
+    - Enemy nerfs and enemy reward buffs (MUCH less of a grindfest, foxy still is tho on goon route)
+
+  Smaller changes:
+    - Foxy goon route requirement nerf from 10 degreasers to 5
+    - Added Damage types (not really implemented to 0.3.2 at all)
+    - Split stills into physical and magical categories in code
+    - Implemented magic attack and defense
+    - nerfed molotov burn effect
+    - diversified enemy actions
+    - Removed achievements tab in extras (idk how to implement properly and its a bad idea anyway)
+    - changed 1 tile in the restroom
+
+  Bugfixes:
+    - On party member level up a member would heal to previous level's full hp instead of current level's
+    - Fixed non-multihit skill damage output (was half of correct amount)
+    - fixed Chica's cumcakes spell
+    - fixed poison status
+    - changed weapon giving box interaction effect settings to give you the correct item
+
 0.3.1v (July 06 2026)
   small version adding some scrapped stuff from 0.3 and bugfixing other
 
