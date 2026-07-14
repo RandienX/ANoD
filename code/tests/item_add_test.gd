@@ -1,6 +1,0 @@
-extends Area2D
-
-func _on_body_entered(body: Node2D) -> void:
-	if body == $"../../player":
-		PlayerStats.add_item(load("res://resources/items/consumables/attack_item.tres"))
-		QuestSystem.add_quest(load("res://resources/quests/pizzeria/test_quest.tres"))
