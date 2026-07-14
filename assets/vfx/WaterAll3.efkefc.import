@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://c6suj2yp6cuc1"
+path="res://.godot/imported/WaterAll3.efkefc-7d8dd281a5ee80d397a6189f3c61c2f3.res"
+
+[deps]
+
+source_file="res://assets/vfx/WaterAll3.efkefc"
+dest_files=["res://.godot/imported/WaterAll3.efkefc-7d8dd281a5ee80d397a6189f3c61c2f3.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

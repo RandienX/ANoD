@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://x23x4x0so46n"
+path="res://.godot/imported/CureOne2.efkefc-95679c28af5ce29aeb821d6317411080.res"
+
+[deps]
+
+source_file="res://assets/vfx/CureOne2.efkefc"
+dest_files=["res://.godot/imported/CureOne2.efkefc-95679c28af5ce29aeb821d6317411080.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

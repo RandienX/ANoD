@@ -9,10 +9,6 @@ class_name ShopItem
 @export var price: int = 100  ## Cost to purchase one unit
 @export var currency_type: PlayerStats.CurrencyType = PlayerStats.CurrencyType.GOLD  ## Which currency to use
 
-@export_group("Categorization")
-@export var tags: Array[StringName] = []  ## For filtering items (e.g., "weapon", "consumable", "rare")
-@export var category: StringName = &"default"  ## Primary category for tab filtering
-
 @export_group("Display")
 @export var sort_order: int = 0  ## For custom sorting in shop UI
 
@@ -27,21 +23,8 @@ func _can_afford() -> bool:
 	var stats = PlayerStats
 	return stats.has_currency(price, currency_type)
 
-
-## Purchase one unit, returns success/failure
-func purchase() -> bool:
-	if not can_purchase():
-		return false
-	
-	var stats = PlayerStats
-	if stats.has_currency(price, currency_type):
-		stats.deduct_currency(price, currency_type)
-		return true
-	return false
-
-
 ## Purchase multiple units in bulk
-func purchase_bulk(quantity: int) -> bool:
+func purchase(quantity: int) -> bool:
 	if quantity <= 0:
 		return false
 	
@@ -56,7 +39,3 @@ func purchase_bulk(quantity: int) -> bool:
 		stats.deduct_currency(total_cost, currency_type)
 		return true
 	return false
-
-## Check if item matches a filter tag
-func has_tag(tag: StringName) -> bool:
-	return tags.has(tag) or category == tag

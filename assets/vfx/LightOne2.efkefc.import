@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://cd5otg73v4vwg"
+path="res://.godot/imported/LightOne2.efkefc-b7f9968e7ed4338d7e90e31ce4a26e90.res"
+
+[deps]
+
+source_file="res://assets/vfx/LightOne2.efkefc"
+dest_files=["res://.godot/imported/LightOne2.efkefc-b7f9968e7ed4338d7e90e31ce4a26e90.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://bj8ykrdo8bpv1"
+path="res://.godot/imported/HitIce.efkefc-2c02fbf1d896460fb5e2873e7afc0073.res"
+
+[deps]
+
+source_file="res://assets/vfx/HitIce.efkefc"
+dest_files=["res://.godot/imported/HitIce.efkefc-2c02fbf1d896460fb5e2873e7afc0073.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

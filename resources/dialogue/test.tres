@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://bjvfi72glpolv"]
+
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="1_p76qe"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="2_fm5xy"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="3_0uwc4"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="3_y0hiv"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="4_ufrv2"]
+
+[sub_resource type="Resource" id="Resource_6fqre"]
+script = ExtResource("1_p76qe")
+label = "start"
+text = "test"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[resource]
+script = ExtResource("2_fm5xy")
+nodes = Array[ExtResource("1_p76qe")]([SubResource("Resource_6fqre")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"

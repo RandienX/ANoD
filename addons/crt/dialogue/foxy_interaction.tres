@@ -1,0 +1,386 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://c28qywmk3k7ss"]
+
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="1_cainy"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="2_52icg"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="3_dd8hs"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="4_e17er"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="5_qvw1q"]
+[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="6_ypi2n"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="7_eypi8"]
+
+[sub_resource type="Resource" id="Resource_02set"]
+script = ExtResource("3_dd8hs")
+text = "Involve Foxy."
+target_label = "inv_fox1"
+metadata/_custom_type_script = "uid://cns0ts3txlu6v"
+
+[sub_resource type="Resource" id="Resource_qurel"]
+script = ExtResource("4_e17er")
+param_string = "res://resources/items/consumables/degreaser.tres"
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_tx4yc"]
+script = ExtResource("2_52icg")
+conditions = Array[ExtResource("4_e17er")]([SubResource("Resource_qurel")])
+target_label = "goon_fox"
+metadata/_custom_type_script = "uid://q863dboya0u8"
+
+[sub_resource type="Resource" id="Resource_y1m43"]
+script = ExtResource("3_dd8hs")
+text = "Goon with the Fox."
+always_available = false
+availability_branch = SubResource("Resource_tx4yc")
+target_label = "goon_fox"
+metadata/_custom_type_script = "uid://cns0ts3txlu6v"
+
+[sub_resource type="Resource" id="Resource_h1ean"]
+script = ExtResource("4_e17er")
+condition_type = 4
+param_string = "foxy_interaction_inv_fox6"
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_731aj"]
+script = ExtResource("2_52icg")
+conditions = Array[ExtResource("4_e17er")]([SubResource("Resource_h1ean")])
+target_label = "foxy_goon_ask"
+metadata/_custom_type_script = "uid://q863dboya0u8"
+
+[sub_resource type="Resource" id="Resource_c0dy0"]
+script = ExtResource("3_dd8hs")
+text = "Do you even 
+get enjoyment 
+from gooning?"
+always_available = false
+availability_branch = SubResource("Resource_731aj")
+target_label = "foxy_goon_ask"
+metadata/_custom_type_script = "uid://cns0ts3txlu6v"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uawci"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_ivcvx"]
+script = ExtResource("1_cainy")
+label = "start"
+text = "Fuck you want Fuckboy?"
+portrait = SubResource("AtlasTexture_uawci")
+choices = Array[ExtResource("3_dd8hs")]([SubResource("Resource_02set"), SubResource("Resource_y1m43"), SubResource("Resource_c0dy0")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05kig"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_tcojc"]
+script = ExtResource("1_cainy")
+label = "inv_fox1"
+text = "Stop gooning you dirty canine to Jennifer Wakeman and join my crusade."
+portrait = SubResource("AtlasTexture_05kig")
+next_label = "inv_fox2"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_arl77"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_xp6c4"]
+script = ExtResource("1_cainy")
+label = "inv_fox2"
+text = "No. Get out. I wanna goon in peace."
+portrait = SubResource("AtlasTexture_arl77")
+next_label = "inv_fox3"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_6xac7"]
+script = ExtResource("1_cainy")
+label = "inv_fox3"
+text = "Shut the hell up and move your ass for once."
+portrait = SubResource("AtlasTexture_05kig")
+next_label = "inv_fox4"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wc4vq"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_f4akm"]
+script = ExtResource("1_cainy")
+label = "inv_fox4"
+text = "no. "
+portrait = SubResource("AtlasTexture_wc4vq")
+next_label = "inv_fox5"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_731aj"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_r5tbo"]
+script = ExtResource("1_cainy")
+label = "inv_fox5"
+text = "Well fine bitch."
+portrait = SubResource("AtlasTexture_731aj")
+next_label = "inv_fox6"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_t8f1m"]
+script = ExtResource("5_qvw1q")
+effect_type = 8
+param_string = "res://resources/quests/pizzeria/foxy_burn.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_rxm5c"]
+script = ExtResource("1_cainy")
+label = "inv_fox6"
+text = "(Burn that tent down!!! quest added.)"
+on_exit_effects = Array[ExtResource("5_qvw1q")]([SubResource("Resource_t8f1m")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_02set"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_uawci"]
+script = ExtResource("1_cainy")
+label = "foxy_goon_ask"
+text = "Yes."
+portrait = SubResource("AtlasTexture_02set")
+next_label = "foxy_goon_ask2"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tx4yc"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_05kig"]
+script = ExtResource("1_cainy")
+label = "foxy_goon_ask2"
+text = "Are you sure?"
+portrait = SubResource("AtlasTexture_tx4yc")
+next_label = "foxy_goon_ask3"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1m43"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_arl77"]
+script = ExtResource("1_cainy")
+label = "foxy_goon_ask3"
+text = "No."
+portrait = SubResource("AtlasTexture_y1m43")
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytf3l"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_wc4vq"]
+script = ExtResource("1_cainy")
+label = "goon_fox"
+text = "Could I join menstruation practices of yours?"
+portrait = SubResource("AtlasTexture_ytf3l")
+next_label = "goon_fox2"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_i08jg"]
+script = ExtResource("4_e17er")
+param_string = "res://resources/items/consumables/degreaser.tres"
+param_value = 10.0
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_su6r4"]
+script = ExtResource("4_e17er")
+param_string = "res://resources/items/key/toilet_paper.tres"
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_uno6o"]
+script = ExtResource("2_52icg")
+conditions = Array[ExtResource("4_e17er")]([SubResource("Resource_i08jg"), SubResource("Resource_su6r4")])
+target_label = "foxy_goon_has_item"
+metadata/_custom_type_script = "uid://q863dboya0u8"
+
+[sub_resource type="Resource" id="Resource_m771y"]
+script = ExtResource("3_dd8hs")
+text = "Yes."
+always_available = false
+availability_branch = SubResource("Resource_uno6o")
+metadata/_custom_type_script = "uid://cns0ts3txlu6v"
+
+[sub_resource type="Resource" id="Resource_sjaus"]
+script = ExtResource("3_dd8hs")
+text = "No."
+target_label = "goon_fox3"
+metadata/_custom_type_script = "uid://cns0ts3txlu6v"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3wyr"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_hqm8g"]
+script = ExtResource("1_cainy")
+label = "goon_fox2"
+text = "Aight bet. But do ya have the the thingies?"
+portrait = SubResource("AtlasTexture_g3wyr")
+choices = Array[ExtResource("3_dd8hs")]([SubResource("Resource_m771y"), SubResource("Resource_sjaus")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_cainy"]
+script = ExtResource("4_e17er")
+condition_type = 2
+param_string = "Bonnie"
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_52icg"]
+script = ExtResource("2_52icg")
+conditions = Array[ExtResource("4_e17er")]([SubResource("Resource_cainy")])
+target_label = "bonnie_away"
+metadata/_custom_type_script = "uid://q863dboya0u8"
+
+[sub_resource type="Resource" id="Resource_sio7l"]
+script = ExtResource("4_e17er")
+condition_type = 10
+param_string = "res://resources/quests/pizzeria/foxy_goon.tres"
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_yxkrm"]
+script = ExtResource("2_52icg")
+conditions = Array[ExtResource("4_e17er")]([SubResource("Resource_sio7l")])
+metadata/_custom_type_script = "uid://q863dboya0u8"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8f1dc"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_plycl"]
+script = ExtResource("1_cainy")
+label = "goon_fox3"
+text = "SCRAM away then. Come when ya have da goodies."
+portrait = SubResource("AtlasTexture_8f1dc")
+next_label = "goon_fox4"
+branches = Array[ExtResource("2_52icg")]([SubResource("Resource_52icg"), SubResource("Resource_yxkrm")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_80rg3"]
+script = ExtResource("4_e17er")
+condition_type = 2
+param_string = " Bonnie"
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_qwwv5"]
+script = ExtResource("2_52icg")
+conditions = Array[ExtResource("4_e17er")]([SubResource("Resource_80rg3")])
+target_label = "bonnie_away"
+metadata/_custom_type_script = "uid://q863dboya0u8"
+
+[sub_resource type="Resource" id="Resource_g3wyr"]
+script = ExtResource("5_qvw1q")
+effect_type = 8
+param_string = "res://resources/quests/pizzeria/foxy_goon.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_mts7e"]
+script = ExtResource("1_cainy")
+label = "goon_fox4"
+text = "Added Quest \"Foxy's Gooning List\"."
+branches = Array[ExtResource("2_52icg")]([SubResource("Resource_qwwv5")])
+on_exit_effects = Array[ExtResource("5_qvw1q")]([SubResource("Resource_g3wyr")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hqm8g"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_8f1dc"]
+script = ExtResource("1_cainy")
+label = "bonnie_away"
+text = "Wait Foxy."
+portrait = SubResource("AtlasTexture_hqm8g")
+next_label = "bonnie_away3"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_jkqce"]
+script = ExtResource("1_cainy")
+label = "bonnie_away3"
+text = "Can I join in tho? Got the stuff."
+portrait = SubResource("AtlasTexture_hqm8g")
+next_label = "bonnie_away4"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_id31a"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_ftyww"]
+script = ExtResource("1_cainy")
+label = "bonnie_away4"
+text = "Aight Betcha you can!"
+portrait = SubResource("AtlasTexture_id31a")
+next_label = "bonnie_away5"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_7d7r2"]
+script = ExtResource("5_qvw1q")
+effect_type = 6
+param_string = "Bonnie"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_fiv4n"]
+script = ExtResource("1_cainy")
+label = "bonnie_away5"
+text = "Bonnie has left your party."
+on_exit_effects = Array[ExtResource("5_qvw1q")]([SubResource("Resource_7d7r2")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wy3q7"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_wyego"]
+script = ExtResource("1_cainy")
+label = "foxy_goon_has_item"
+text = "Here."
+portrait = SubResource("AtlasTexture_wy3q7")
+next_label = "foxy_goon_has_item2"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxkrm"]
+atlas = ExtResource("6_ypi2n")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_5s4l8"]
+script = ExtResource("1_cainy")
+label = "foxy_goon_has_item2"
+text = "Aight then, come on in."
+portrait = SubResource("AtlasTexture_yxkrm")
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_dd8hs"]
+script = ExtResource("4_e17er")
+condition_type = 10
+param_string = "foxy_burn"
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_e17er"]
+script = ExtResource("2_52icg")
+conditions = Array[ExtResource("4_e17er")]([SubResource("Resource_dd8hs")])
+target_label = "inv_fox1"
+metadata/_custom_type_script = "uid://q863dboya0u8"
+
+[sub_resource type="Resource" id="Resource_qvw1q"]
+script = ExtResource("4_e17er")
+condition_type = 10
+param_string = "foxy_goon"
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_ypi2n"]
+script = ExtResource("2_52icg")
+conditions = Array[ExtResource("4_e17er")]([SubResource("Resource_qvw1q")])
+target_label = "goon_fox"
+metadata/_custom_type_script = "uid://q863dboya0u8"
+
+[resource]
+script = ExtResource("7_eypi8")
+nodes = Array[ExtResource("1_cainy")]([SubResource("Resource_ivcvx"), SubResource("Resource_tcojc"), SubResource("Resource_xp6c4"), SubResource("Resource_6xac7"), SubResource("Resource_f4akm"), SubResource("Resource_r5tbo"), SubResource("Resource_rxm5c"), SubResource("Resource_uawci"), SubResource("Resource_05kig"), SubResource("Resource_arl77"), SubResource("Resource_wc4vq"), SubResource("Resource_hqm8g"), SubResource("Resource_plycl"), SubResource("Resource_mts7e"), SubResource("Resource_8f1dc"), SubResource("Resource_jkqce"), SubResource("Resource_ftyww"), SubResource("Resource_fiv4n"), SubResource("Resource_wyego"), SubResource("Resource_5s4l8")])
+start_branches = Array[ExtResource("2_52icg")]([SubResource("Resource_e17er"), SubResource("Resource_ypi2n")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"

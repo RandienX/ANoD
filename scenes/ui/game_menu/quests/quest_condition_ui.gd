@@ -10,12 +10,12 @@ class_name QuestPointConditionUI
 @export var progress_bar: ProgressBar = $HBoxContainer/VBoxContainer/ProgressBar if has_node("HBoxContainer/VBoxContainer/ProgressBar") else null
 @export var logic_label: Label = $Label if has_node("Label") else null
 
-var _condition: QuestPointCondition = null
+var _condition: Condition = null
 var _point: QuestPoint = null
 var _flash_tween: Tween = null
 
 ## Initialize this condition item with data
-func initialize(condition: QuestPointCondition, point: QuestPoint) -> void:
+func initialize(condition: Condition, point: QuestPoint) -> void:
 	_condition = condition
 	_point = point
 	update_display()
@@ -25,17 +25,15 @@ func update_display() -> void:
 	if not _condition:
 		return
 		
-	# For KILLED_ENEMY conditions, get fresh progress from Global
 	if Global and Global.get("enemies_killed"):
 		var enemies_killed = Global.get("enemies_killed")
-		if _condition.type == QuestPointCondition.ConditionType.KILLED_ENEMY:
+		if _condition.condition_type == Condition.ConditionType.KILLED_ENEMY:
 			var kill_progress = _get_kill_progress(enemies_killed)
 			_condition.progress_current = kill_progress
-		elif _condition.type == QuestPointCondition.ConditionType.BATTLE_WON and Global.get("battles_won"):
-			var battle_won = Global.get("battles_won")
-			var battle_progress = _get_battle_progress(battle_won)
-			print(battle_progress)
-			_condition.progress_current = battle_progress
+	elif _condition.condition_type == Condition.ConditionType.BATTLE_WON and Global.get("battles_won"):
+		var battle_won = Global.get("battles_won")
+		var battle_progress = _get_battle_progress(battle_won)
+		_condition.progress_current = battle_progress
 	
 	# Update condition text
 	if condition_label:
@@ -43,7 +41,7 @@ func update_display() -> void:
 
 	# Update progress bar
 	if progress_bar:
-		progress_bar.max_value = _condition.progress_target
+		progress_bar.max_value = _condition.param_value
 		progress_bar.value = _condition.progress_current
 		progress_bar.show_percentage = false
 
@@ -53,16 +51,15 @@ func update_display() -> void:
 
 	# Update logic gate label
 	if logic_label and _point:
-		logic_label.text = _get_logic_gate_string()
 		logic_label.visible = logic_label.text.length() > 0
 
 func _get_kill_progress(enemies_killed: Dictionary) -> float:
-	var current_total = enemies_killed.get(_condition.target_key, 0)
+	var current_total = enemies_killed.get(_condition.param_string, 0)
 	var kills_since_start = current_total - _condition._initial_value_count
 	return max(0.0, kills_since_start as float)
 
 func _get_battle_progress(battle_won: Dictionary) -> float:
-	var battle_state = battle_won.get(_condition.target_key, false)
+	var battle_state = battle_won.get(_condition.param_string, false)
 	var current_count = 1 if battle_state else 0
 	if typeof(battle_state) == TYPE_INT or typeof(battle_state) == TYPE_FLOAT:
 		current_count = battle_state
@@ -78,42 +75,14 @@ func _get_condition_description() -> String:
 	if not _condition.description.is_empty():
 		return _condition.description
 
-	# Generate description based on type and target
-	match _condition.type:
-		QuestPointCondition.ConditionType.HAS_ITEM:
-			return ("Collect %d %s" % [_condition.progress_target, _condition.target_key]) if _condition.description != "" else _condition.description
-		QuestPointCondition.ConditionType.KILLED_ENEMY:
-			return ("Defeat %d %s" % [_condition.progress_target, _condition.target_key]) if _condition.description != "" else _condition.description
-		QuestPointCondition.ConditionType.DONE_DIALOGUE:
-			return ("Complete dialogue: %s" % _condition.target_key) if _condition.description != "" else _condition.description
-		QuestPointCondition.ConditionType.TALKED_TO_NPC:
-			return ("Talk to %s" % _condition.target_key) if _condition.description != "" else _condition.description
-		QuestPointCondition.ConditionType.BATTLE_WON:
-			return ("Win battle: %s" % _condition.target_key) if _condition.description != "" else _condition.description
-		QuestPointCondition.ConditionType.HAS_STATUS:
-			return ("Have status: %s" % _condition.target_key) if _condition.description != "" else _condition.description
-		QuestPointCondition.ConditionType.DONE_THING:
-			return ("Complete: %s" % _condition.target_key) if _condition.description != "" else _condition.description
-		QuestPointCondition.ConditionType.CUSTOM:
-			return ("Custom: %s" % _condition.target_key) if _condition.description != "" else _condition.description
-
-	return _condition.target_key
+	return _condition.param_string
 
 func _get_condition_icon() -> Texture2D:
 	if not _condition:
 		return null
-
-	# Return appropriate icon based on condition type
-	# This is a placeholder - you can customize with actual textures
-	match _condition.type:
-		QuestPointCondition.ConditionType.HAS_ITEM:
-			# Try to load item icon
-			var item = _find_item_resource(_condition.target_key)
-			if item and item.has_method("get_icon"):
-				return item.get_icon()
-		QuestPointCondition.ConditionType.KILLED_ENEMY:
-			pass  # Could load enemy icon
-
+	
+	if _condition.quest_icon != null:
+		return _condition.quest_icon
 	# Default icon (pizza placeholder from scene)
 	return texture_rect.texture if texture_rect else null
 
@@ -128,24 +97,6 @@ func _find_item_resource(key: String) -> Resource:
 
 	return null
 
-func _get_logic_gate_string() -> String:
-	if not _point:
-		return ""
-
-	# Show logic gate for each condition if it has connections or is NOT
-	if _condition.connected_condition_indices.is_empty() and _condition.logic_gate != QuestPointCondition.LogicGate.NOT:
-		return ""
-
-	match _condition.logic_gate:
-		QuestPointCondition.LogicGate.AND:
-			return "---------- AND connected conditions ----------"
-		QuestPointCondition.LogicGate.OR:
-			return "---------- OR connected conditions -----------"
-		QuestPointCondition.LogicGate.NOT:
-			return "---------- NOT connected conditions ----------"
-
-	return ""
-
 ## Update progress from external source
 func update_progress(current: float, target: float) -> void:
 	if progress_bar:
@@ -154,7 +105,7 @@ func update_progress(current: float, target: float) -> void:
 
 	if _condition:
 		_condition.progress_current = current
-		_condition.progress_target = target
+		_condition.param_value = target
 
 ## Flash progress bar for specific states
 func flash_progress(color_from: Color, color_to: Color, duration: float = 1.5) -> void:

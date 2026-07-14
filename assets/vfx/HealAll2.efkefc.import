@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://i76kg27whpui"
+path="res://.godot/imported/HealAll2.efkefc-8a201e5553e6cb617e00771e0cddf99f.res"
+
+[deps]
+
+source_file="res://assets/vfx/HealAll2.efkefc"
+dest_files=["res://.godot/imported/HealAll2.efkefc-8a201e5553e6cb617e00771e0cddf99f.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

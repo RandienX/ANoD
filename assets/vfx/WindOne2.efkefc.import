@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://bc0nnln8fi2aa"
+path="res://.godot/imported/WindOne2.efkefc-aaa386a4db3f91fc4b12942520a0e3cf.res"
+
+[deps]
+
+source_file="res://assets/vfx/WindOne2.efkefc"
+dest_files=["res://.godot/imported/WindOne2.efkefc-aaa386a4db3f91fc4b12942520a0e3cf.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

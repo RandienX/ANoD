@@ -1,20 +1,26 @@
-[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://btt5e5gygccbm"]
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://btt5e5gygccbm"]
 
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_v0p5c"]
-[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/player/item.gd" id="2_3paas"]
-[ext_resource type="Texture2D" uid="uid://btxkp57bcjp4d" path="res://assets/item_textures/dragon_dildo.png" id="2_ngknq"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_v0p5c"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_3paas"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v0p5c"]
+load_path = "res://.godot/imported/dragon_dildo.png-2e9c9fd9256f26e91403b3b61f3e05c4.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3paas"]
+load_path = "res://.godot/imported/dragon_dildo.png-2e9c9fd9256f26e91403b3b61f3e05c4.ctex"
 
 [resource]
 script = ExtResource("2_3paas")
 item_name = "Dragon Dildo"
 description = "The ultimate weapon of sex and devastation. Using it is a great time for all members of the family."
-texture = ExtResource("2_ngknq")
-icon = ExtResource("2_ngknq")
+texture = SubResource("CompressedTexture2D_3paas")
+icon = SubResource("CompressedTexture2D_v0p5c")
 sell_price = Dictionary[int, int]({
 0: -9999,
 1: -9999,
 2: -9999
 })
+can_use_outside_battle = false
 item_bonuses = Dictionary[String, int]({
 "atk": 9999,
 "def": -9999,

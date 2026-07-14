@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://b20s8wkbswhdf"
+path="res://.godot/imported/WindAll1.efkefc-8b6501f994f3f6c6202ed4da17595d9c.res"
+
+[deps]
+
+source_file="res://assets/vfx/WindAll1.efkefc"
+dest_files=["res://.godot/imported/WindAll1.efkefc-8b6501f994f3f6c6202ed4da17595d9c.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

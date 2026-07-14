@@ -1,0 +1,156 @@
+[gd_resource type="Resource" script_class="Battle" format=3 uid="uid://ccbu6in7r6srn"]
+
+[ext_resource type="Texture2D" uid="uid://cxlgw04f0dlij" path="res://assets/battleui/backgrounds/Restroom.png" id="1_508qg"]
+[ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="1_ue0jv"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="2_jc1d5"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="2_kdlj7"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="3_jc1d5"]
+[ext_resource type="Script" uid="uid://c87a82v6g8ug3" path="res://code/battle/battle_phase.gd" id="4_1csbm"]
+[ext_resource type="Resource" uid="uid://b5hxy0c0ibgcr" path="res://resources/enemies/toilet.tres" id="4_lmerd"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="5_508qg"]
+[ext_resource type="AudioStream" uid="uid://50rjpnm8j5cm" path="res://assets/sound/battle/Skibidi Toilet.mp3" id="6_lmerd"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="7_1csbm"]
+
+[sub_resource type="Resource" id="Resource_508qg"]
+script = ExtResource("1_ue0jv")
+enemy = ExtResource("4_lmerd")
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_lmerd"]
+script = ExtResource("1_ue0jv")
+enemy = ExtResource("4_lmerd")
+position_index = 2
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_n42i7"]
+script = ExtResource("1_ue0jv")
+enemy = ExtResource("4_lmerd")
+position_index = 4
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_yecd3"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 8
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_i26lb"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 7
+invert = true
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_xve6y"]
+script = ExtResource("3_jc1d5")
+conditions = Array[ExtResource("7_1csbm")]([SubResource("Resource_yecd3"), SubResource("Resource_i26lb")])
+is_battle_effect = true
+battle_target_string = "0"
+param_string = "res://resources/dialogue/battle/toilet0.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_bavuk"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 8
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_838t1"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 7
+invert = true
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_au2i1"]
+script = ExtResource("3_jc1d5")
+conditions = Array[ExtResource("7_1csbm")]([SubResource("Resource_bavuk"), SubResource("Resource_838t1")])
+is_battle_effect = true
+battle_target_string = "2"
+param_string = "res://resources/dialogue/battle/toilet2.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_28ank"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 8
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_po4jq"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 7
+invert = true
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_3yn3x"]
+script = ExtResource("3_jc1d5")
+conditions = Array[ExtResource("7_1csbm")]([SubResource("Resource_28ank"), SubResource("Resource_po4jq")])
+is_battle_effect = true
+battle_target_string = "4"
+param_string = "res://resources/dialogue/battle/toilet4.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_qh71x"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 8
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_7gb2h"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 7
+invert = true
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_3mof2"]
+script = ExtResource("3_jc1d5")
+conditions = Array[ExtResource("7_1csbm")]([SubResource("Resource_qh71x"), SubResource("Resource_7gb2h")])
+is_battle_effect = true
+battle_effect_type = 4
+battle_effect_target = 4
+param_string = "res://resources/effects/power.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_b5cxv"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 8
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_hfhpf"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 7
+invert = true
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_8mqrx"]
+script = ExtResource("3_jc1d5")
+conditions = Array[ExtResource("7_1csbm")]([SubResource("Resource_b5cxv"), SubResource("Resource_hfhpf")])
+is_battle_effect = true
+battle_effect_type = 4
+battle_effect_target = 4
+param_string = "res://resources/effects/power.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_hffil"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 8
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_2om7i"]
+script = ExtResource("7_1csbm")
+battle_condition_type = 7
+invert = true
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_r7wyk"]
+script = ExtResource("3_jc1d5")
+conditions = Array[ExtResource("7_1csbm")]([SubResource("Resource_hffil"), SubResource("Resource_2om7i")])
+is_battle_effect = true
+battle_effect_type = 4
+battle_effect_target = 4
+param_string = "res://resources/effects/power.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[resource]
+script = ExtResource("5_508qg")
+battle_name = "Toilet"
+enemies = Array[ExtResource("1_ue0jv")]([SubResource("Resource_508qg"), SubResource("Resource_lmerd"), SubResource("Resource_n42i7")])
+background_override = ExtResource("1_508qg")
+music = ExtResource("6_lmerd")
+can_flee = false
+turn_effects = Array[ExtResource("3_jc1d5")]([SubResource("Resource_xve6y"), SubResource("Resource_au2i1"), SubResource("Resource_3yn3x"), SubResource("Resource_3mof2"), SubResource("Resource_8mqrx"), SubResource("Resource_r7wyk")])
+metadata/_custom_type_script = "uid://s2os42vdwf6y"

@@ -1,0 +1,15 @@
+[remap]
+
+importer="effekseer.resource"
+type="Resource"
+uid="uid://cnonfcdhqy2lc"
+path="res://.godot/imported/Ball.efkmodel-e1048e545295e7fa86ca3ba9895dba41.res"
+
+[deps]
+
+source_file="res://assets/vfx/Model/Ball.efkmodel"
+dest_files=["res://.godot/imported/Ball.efkmodel-e1048e545295e7fa86ca3ba9895dba41.res"]
+
+[params]
+
+compress=true

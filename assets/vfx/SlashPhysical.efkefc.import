@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://b5q4j0b1wmlkc"
+path="res://.godot/imported/SlashPhysical.efkefc-9b338d650411ac51e2867242dbc13fad.res"
+
+[deps]
+
+source_file="res://assets/vfx/SlashPhysical.efkefc"
+dest_files=["res://.godot/imported/SlashPhysical.efkefc-9b338d650411ac51e2867242dbc13fad.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

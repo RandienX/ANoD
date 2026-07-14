@@ -3,6 +3,7 @@ extends Control
 ## Modern Inventory System - Full item management with categories, details, and usage
 
 signal item_selected(item: Item, amount: int)
+@warning_ignore("unused_signal")
 signal item_used(item: Item)
 
 enum ItemTypes { WEAPON = 0, ARMOR = 1, CONSUMABLE = 2, KEY = 3, ACCESSORY = 4 }
@@ -10,14 +11,13 @@ enum ItemTypes { WEAPON = 0, ARMOR = 1, CONSUMABLE = 2, KEY = 3, ACCESSORY = 4 }
 @onready var category_tabs: TabContainer = $MarginContainer/VBoxContainer/CategoryTabs
 @onready var items_grid: VBoxContainer = $MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel/ItemsGrid/VBoxContainer
 @onready var item_detail_panel: Panel = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel
-@onready var item_icon: TextureRect = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/VBoxContainer/ItemIcon
-@onready var item_name_label: Label = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/VBoxContainer/ItemNameLabel
-@onready var item_type_label: Label = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/VBoxContainer/ItemTypeLabel
-@onready var item_description: TextEdit = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/VBoxContainer/ItemDescription
-@onready var item_amount_label: Label = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/VBoxContainer/ItemAmountLabel
-@onready var item_stats_label: Label = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/VBoxContainer/ItemStatsLabel
-@onready var use_button: Button = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/VBoxContainer/UseButton
-@onready var no_item_label: Label = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/VBoxContainer/NoItemLabel
+@onready var item_icon: TextureRect = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/ScrollContainer/VBoxContainer/ItemIcon
+@onready var item_name_label: Label = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/ScrollContainer/VBoxContainer/ItemNameLabel
+@onready var item_type_label: Label = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/ScrollContainer/VBoxContainer/ItemTypeLabel
+@onready var item_description: TextEdit = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/ScrollContainer/VBoxContainer/ItemDescription
+@onready var item_stats_label: Label = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/ScrollContainer/VBoxContainer/ItemStatsLabel
+@onready var use_button: Button = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/ScrollContainer/VBoxContainer/UseButton
+@onready var no_item_label: Label = $MarginContainer/VBoxContainer/HSplitContainer/DetailPanel/ScrollContainer/VBoxContainer/NoItemLabel
 
 var current_category: int = ItemTypes.WEAPON
 var inventory_items: Dictionary = {}  # Item resource -> amount
@@ -39,6 +39,8 @@ func _setup_category_tabs() -> void:
 	_refresh_inventory()
 
 func _on_tab_changed(tab_index: int) -> void:
+	Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx.play()
 	current_category = tab_index
 	_refresh_inventory()
 	_update_detail_panel()
@@ -70,13 +72,13 @@ func _refresh_inventory() -> void:
 		item_node.config = INVENTORY_ITEM_CONFIG
 		item_node.item = item
 		item_node.amount = amount
-		item_node.itemBox_type = item_node.itemBox_types.Null
-
 		items_grid.add_child(item_node)
 		
 		item_buttons.append(item_node)
 
 func on_item_button_pressed(item: Item, amount: int) -> void:
+	Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx.play()
 	selected_item = item
 	selected_item_amount = amount
 	_update_detail_panel()
@@ -89,7 +91,6 @@ func _update_detail_panel() -> void:
 		item_name_label.visible = false
 		item_type_label.visible = false
 		item_description.visible = false
-		item_amount_label.visible = false
 		item_stats_label.visible = false
 		use_button.visible = false
 		return
@@ -99,8 +100,6 @@ func _update_detail_panel() -> void:
 	item_name_label.visible = true
 	item_type_label.visible = true
 	item_description.visible = true
-	item_amount_label.visible = true
-	item_stats_label.visible = true
 	use_button.visible = true
 	
 	var item: Item = selected_item as Item
@@ -115,7 +114,6 @@ func _update_detail_panel() -> void:
 	item_type_label.text = type_names[item.type] if item.type < type_names.size() else "Unknown"
 	
 	item_description.text = item.description if item.description else "No description available."
-	item_amount_label.text = "Quantity: x" + str(selected_item_amount)
 	
 	var stats_text = ""
 	if not item.item_bonuses.is_empty():
@@ -123,8 +121,44 @@ func _update_detail_panel() -> void:
 		for stat in item.item_bonuses:
 			var value = item.item_bonuses[stat]
 			if value != 0:
+				@warning_ignore("shadowed_global_identifier")
 				var sign = "+" if value > 0 else ""
 				stats_text += "  " + stat.to_upper() + ": " + sign + str(value) + "\n"
+		item_stats_label.visible = true
+	if abs(item.heal_amount) > 0:
+		@warning_ignore("shadowed_global_identifier")
+		var sign = "+" if item.heal_amount > 0 else ""
+		stats_text += "  HP: " + sign + str(item.heal_amount) + "\n"
+		item_stats_label.visible = true
+	if abs(item.mana_amount) > 0:
+		@warning_ignore("shadowed_global_identifier")
+		var sign = "+" if item.mana_amount > 0 else ""
+		stats_text += "  MP: " + sign + str(item.mana_amount) + "\n"
+		item_stats_label.visible = true
+
+	if item.revive_amount > 0:
+		stats_text += "  REVIVES WITH: " + str(item.revive_amount) + " HP\n"
+		item_stats_label.visible = true
+	if len(item.consume_effects) != 0:
+		stats_text += "  GIVES EFFECTS: \n"
+		for e in item.consume_effects:
+			stats_text += "  " + e.effect_name
+			stats_text += "    TO: "
+			var who = ""
+			match e.target_type:
+				e.TargetType.SELF:
+					who = "YOU"
+				e.TargetType.TARGET:
+					who = "SELECTED ENEMY"
+				e.TargetType.ALL_ALLIES or e.TargetType.PARTY:
+					who = "PARTY"
+				e.TargetType.ALL_ENEMIES:
+					who = "ALL ENEMIES"
+				e.TargetType.ENTIRE_BATTLE:
+					who = "EVERYONE ON BATTLEFIELD"
+			stats_text += who + "\n"
+		item_stats_label.visible = true
+			
 	item_stats_label.text = stats_text if not stats_text.is_empty() else "No stat bonuses"
 	
 	if item.type == ItemTypes.CONSUMABLE:
@@ -134,6 +168,8 @@ func _update_detail_panel() -> void:
 		use_button.visible = false
 
 func _on_use_button_pressed() -> void:
+	Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx.play()
 	if not selected_item:
 		return
 	
@@ -148,3 +184,7 @@ func _on_use_button_pressed() -> void:
 func refresh() -> void:
 	_refresh_inventory()
 	_update_detail_panel()
+
+func _sound(_tab: int = 1) -> void:
+	Sfx.stream = load("res://assets/sound/sfx/button_squeak.wav")
+	Sfx.play()

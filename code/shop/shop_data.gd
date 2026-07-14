@@ -6,44 +6,22 @@ class_name ShopData
 ## This resource is hot-swapped to change entire shop inventories
 
 @export_group("Shop Identity")
-@export var shop_id: StringName = &"default_shop"  ## Unique identifier for this shop
 @export var shop_name: String = "Shop"  ## Display name
-@export var shop_description: String = ""  ## Optional description shown in UI
+@export var shop_description: String = ""  
+@export var shop_music: AudioStreamMP3
 
 @export_group("Inventory")
 @export var items: Array[ShopItem] = []  ## All items available in this shop
+@export var currency_type: PlayerStats.CurrencyType
 
-@export_group("Categories")
-@export var categories: Array[StringName] = [&"all", &"default"]  ## Available filter categories
+@export_group("Talk Responses")
+@export var talk_responses: Dictionary[String, DialogueData] = {
+}
 
-
-func _init() -> void:
-	# Auto-populate categories from items if empty
-	if categories.is_empty():
-		categories.append(&"all")
-		for shop_item in items:
-			if not categories.has(shop_item.category):
-				categories.append(shop_item.category)
-
-
-## Get all items, optionally filtered by tag/category
-func get_items(filter_tag: StringName = &"") -> Array[ShopItem]:
-	if filter_tag.is_empty() or filter_tag == &"all":
-		return items
-	
-	var filtered: Array[ShopItem] = []
-	for shop_item in items:
-		if shop_item.has_tag(filter_tag):
-			filtered.append(shop_item)
-	return filtered
-
-
-## Get items sorted by sort_order
-func get_sorted_items(filter_tag: StringName = &"") -> Array[ShopItem]:
-	var result = get_items(filter_tag)
-	result.sort_custom(func(a: ShopItem, b: ShopItem): return a.sort_order < b.sort_order)
-	return result
-
+	#"Inhale my dong\n enragement child.": "Fuck off.",
+	#"Give me free shit": "I am a respectable business if you want free shit i can shit into your hands, still with a price but small.",
+	#"Fatherless piece of shit": "Yes. I am fatherless, my papa didn't come back from the K-Mart to get milk, I even bought the milk myself, but he didn't come back... (you see the 6 years expired milk on the shelf)",
+	#"What do you think about the\n economical situation of\n Slovakia in 2001?": "The... What!?",
 
 ## Get item by its underlying Item resource
 func get_item_by_resource(item_res: Item) -> ShopItem:
@@ -52,29 +30,15 @@ func get_item_by_resource(item_res: Item) -> ShopItem:
 			return shop_item
 	return null
 
-
 ## Check if shop has a specific item
 func has_item(item_res: Item) -> bool:
 	return get_item_by_resource(item_res) != null
 
-
-## Get all unique tags from items
-func get_all_tags() -> Array[StringName]:
-	var tags: Array[StringName] = []
-	for shop_item in items:
-		for tag in shop_item.tags:
-			if not tags.has(tag):
-				tags.append(tag)
-	return tags
-
-
 ## Duplicate this shop data
 func duplicate_shop() -> ShopData:
 	var new_shop = ShopData.new()
-	new_shop.shop_id = shop_id
 	new_shop.shop_name = shop_name
 	new_shop.shop_description = shop_description
-	new_shop.categories = categories.duplicate()
 	
 	for shop_item in items:
 		var new_item = shop_item.duplicate() as ShopItem

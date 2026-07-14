@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://bmx4rx1q56wjj"
+path="res://.godot/imported/Sleep.efkefc-3ea148a0a09e2a96846a9038298c2552.res"
+
+[deps]
+
+source_file="res://assets/vfx/Sleep.efkefc"
+dest_files=["res://.godot/imported/Sleep.efkefc-3ea148a0a09e2a96846a9038298c2552.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

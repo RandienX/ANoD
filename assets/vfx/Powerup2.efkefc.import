@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://b4nxe2imptdj3"
+path="res://.godot/imported/Powerup2.efkefc-592b948cd9131c4311d27a656236d9af.res"
+
+[deps]
+
+source_file="res://assets/vfx/Powerup2.efkefc"
+dest_files=["res://.godot/imported/Powerup2.efkefc-592b948cd9131c4311d27a656236d9af.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

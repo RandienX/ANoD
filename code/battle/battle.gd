@@ -16,7 +16,7 @@ extends Resource
 @export var forced_party_members: Array[Entity]  # Empty = use current party
 
 @export_group("Battle Settings")
-@export var background: Texture2D
+@export var background_override: Texture2D
 @export var music: AudioStreamMP3
 @export var can_flee: bool = true
 @export var can_use_items: bool = true
@@ -28,17 +28,14 @@ extends Resource
 @export var current_phase_index: int = 0
 
 @export_group("On Battle Start Effects")
-@export var on_battle_start_effects: Array[BattleEffect] = []
+@export var on_battle_start_effects: Array[Effect] = []
 
 @export_group("On Battle End Effects")
-@export var on_victory_effects: Array[BattleEffect] = []
-@export var on_defeat_effects: Array[BattleEffect] = []
+@export var on_victory_effects: Array[Effect] = []
+@export var on_defeat_effects: Array[Effect] = []
 
-@export_group("End Conditions")
-@export var end_conditions: Array[BattleEndCondition] = []
-
-@export_group("Battle Conditions (Optional)")
-@export var battle_conditions: Array[BattleCondition] = []  # For dynamic battle flow control
+@export_group("On Turn Effects")
+@export var turn_effects: Array[Effect] = []
 
 
 func validate() -> Array[String]:
@@ -60,12 +57,6 @@ func validate() -> Array[String]:
 		var phase = phases[i]
 		if not phase:
 			errors.append("Phase %d is null" % i)
-		elif phase.trigger_condition.is_empty():
-			errors.append("Phase %d has no trigger condition" % i)
-	
-	# Validate end conditions
-	if end_conditions.is_empty():
-		errors.append("Battle has no end conditions - consider adding 'All Enemies Defeated'")
 	
 	return errors
 
@@ -86,25 +77,4 @@ func has_phase_trigger(trigger_type: String) -> bool:
 	for phase in phases:
 		if phase and phase.trigger_condition == trigger_type:
 			return true
-	return false
-
-
-## Evaluate battle conditions
-## Returns array of conditions that are currently true
-func evaluate_conditions(evaluator: BattleConditionEvaluator) -> Array[BattleCondition]:
-	var true_conditions: Array[BattleCondition] = []
-	
-	for condition in battle_conditions:
-		if condition and evaluator.evaluate(condition):
-			true_conditions.append(condition)
-	
-	return true_conditions
-
-
-## Check if a specific condition type is met
-func check_condition_type(evaluator: BattleConditionEvaluator, type_check: BattleCondition.ConditionType) -> bool:
-	for condition in battle_conditions:
-		if condition and condition.condition_type == type_check:
-			if evaluator.evaluate(condition):
-				return true
 	return false

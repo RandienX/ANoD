@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://cbx4uhn0aw3sq"]
+[gd_scene format=3 uid="uid://cbx4uhn0aw3sq"]
 
 [ext_resource type="Script" uid="uid://b4q3a31nuoigu" path="res://scenes/ui/game_menu/settings/settings.gd" id="1_settings"]
 [ext_resource type="Texture2D" uid="uid://byldo041hj3cn" path="res://assets/ui/button.png" id="2_button"]
 [ext_resource type="PackedScene" uid="uid://bn1tatlj4yrof" path="res://scenes/ui/game_menu/settings/remapControlButton.tscn" id="3_a8r3n"]
 [ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="3_font"]
 
-[node name="settings" type="Control"]
+[node name="settings" type="Control" unique_id=844728496]
 custom_minimum_size = Vector2(640, 0)
 layout_mode = 3
 anchor_left = 0.259
@@ -16,7 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_settings")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=260193765]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -26,19 +26,19 @@ theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 12
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1790103909]
 custom_minimum_size = Vector2(616, 0)
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=125586550]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer" unique_id=759986024]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_vertical = 3
@@ -47,121 +47,121 @@ theme_override_font_sizes/font_size = 24
 current_tab = 2
 all_tabs_in_front = true
 
-[node name="Audio" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+[node name="Audio" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer" unique_id=520462733]
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 15
 metadata/_tab_index = 0
 
-[node name="MasterVolume" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Audio"]
+[node name="MasterVolume" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Audio" unique_id=954970659]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MasterVolume"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MasterVolume" unique_id=1162512546]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Master Volume"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MasterVolume"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MasterVolume" unique_id=270145789]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MasterVolume"]
+[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MasterVolume" unique_id=1193948897]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MasterVolume"]
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MasterVolume" unique_id=1687634583]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "100%"
 horizontal_alignment = 1
 
-[node name="MusicVolume" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Audio"]
+[node name="MusicVolume" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Audio" unique_id=612842324]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MusicVolume"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MusicVolume" unique_id=308246063]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Music Volume"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MusicVolume"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MusicVolume" unique_id=425132299]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MusicVolume"]
+[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MusicVolume" unique_id=392102066]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MusicVolume"]
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/MusicVolume" unique_id=1736427051]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "100%"
 horizontal_alignment = 1
 
-[node name="SFXVolume" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Audio"]
+[node name="SFXVolume" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Audio" unique_id=666011110]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/SFXVolume"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/SFXVolume" unique_id=453938243]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "SFX Volume"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Audio/SFXVolume"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Audio/SFXVolume" unique_id=1748948924]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Audio/SFXVolume"]
+[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Audio/SFXVolume" unique_id=1518381892]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/SFXVolume"]
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/SFXVolume" unique_id=509233530]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "100%"
 horizontal_alignment = 1
 
-[node name="VoiceVolume" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Audio"]
+[node name="VoiceVolume" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Audio" unique_id=1147058509]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/VoiceVolume"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/VoiceVolume" unique_id=1938272114]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Voice Volume"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Audio/VoiceVolume"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Audio/VoiceVolume" unique_id=1949208736]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Audio/VoiceVolume"]
+[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Audio/VoiceVolume" unique_id=419500123]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/VoiceVolume"]
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Audio/VoiceVolume" unique_id=225363721]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "100%"
 horizontal_alignment = 1
 
-[node name="Controls" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+[node name="Controls" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer" unique_id=171902057]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 12
@@ -170,69 +170,69 @@ theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 metadata/_tab_index = 1
 
-[node name="Controls" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/Controls"]
+[node name="Controls" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/Controls" unique_id=1903100533]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls" unique_id=1898033327]
 layout_mode = 2
 theme_override_constants/h_separation = 220
 theme_override_constants/v_separation = 48
 columns = 2
 
-[node name="Button" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" instance=ExtResource("3_a8r3n")]
+[node name="Button" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" unique_id=1292593534 instance=ExtResource("3_a8r3n")]
 layout_mode = 2
 action = "up"
 action_text_override = "up"
 
-[node name="Button2" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" instance=ExtResource("3_a8r3n")]
+[node name="Button2" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" unique_id=239030280 instance=ExtResource("3_a8r3n")]
 layout_mode = 2
 action = "down"
 action_text_override = "down"
 
-[node name="Button3" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" instance=ExtResource("3_a8r3n")]
+[node name="Button3" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" unique_id=770914184 instance=ExtResource("3_a8r3n")]
 layout_mode = 2
 action = "left"
 action_text_override = "left"
 
-[node name="Button4" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" instance=ExtResource("3_a8r3n")]
+[node name="Button4" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" unique_id=1908819065 instance=ExtResource("3_a8r3n")]
 layout_mode = 2
 action = "right"
 action_text_override = "right"
 
-[node name="ButtonRun" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" instance=ExtResource("3_a8r3n")]
+[node name="ButtonRun" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" unique_id=2127216579 instance=ExtResource("3_a8r3n")]
 layout_mode = 2
 action = "run"
 action_text_override = "run"
 
-[node name="Button5" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" instance=ExtResource("3_a8r3n")]
+[node name="Button5" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" unique_id=803472721 instance=ExtResource("3_a8r3n")]
 layout_mode = 2
 action = "use"
 action_text_override = "use (skill, item)"
 
-[node name="Button6" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" instance=ExtResource("3_a8r3n")]
+[node name="Button6" parent="MarginContainer/VBoxContainer/TabContainer/Controls/Controls/GridContainer" unique_id=1969712028 instance=ExtResource("3_a8r3n")]
 layout_mode = 2
 action = "back"
 action_text_override = "cancel"
 
-[node name="Gameplay" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+[node name="Gameplay" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer" unique_id=1735098037]
 layout_mode = 2
 theme_override_constants/separation = 15
 metadata/_tab_index = 2
 
-[node name="BattleSpeed" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay"]
+[node name="BattleSpeed" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay" unique_id=279094609]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleSpeed"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleSpeed" unique_id=1039035309]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Battle Speed"
+text = "Battle Speed "
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleSpeed"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleSpeed" unique_id=1134188920]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleSpeed"]
+[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleSpeed" unique_id=892622910]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 min_value = 0.5
@@ -240,27 +240,27 @@ max_value = 3.0
 step = 0.1
 value = 1.0
 
-[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleSpeed"]
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleSpeed" unique_id=527993543]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "1.0x"
 horizontal_alignment = 1
 
-[node name="TextSpeed" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay"]
+[node name="TextSpeed" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay" unique_id=2081060785]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/TextSpeed"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/TextSpeed" unique_id=516320618]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Text Speed"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/TextSpeed"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/TextSpeed" unique_id=49238234]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/TextSpeed"]
+[node name="Slider" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/TextSpeed" unique_id=2074012033]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 min_value = 0.5
@@ -268,64 +268,64 @@ max_value = 5.0
 step = 0.1
 value = 1.0
 
-[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/TextSpeed"]
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/TextSpeed" unique_id=1399730204]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "1.0/s"
 horizontal_alignment = 1
 
-[node name="ShowDamageNumbers" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay"]
+[node name="BattleAnimations" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay" unique_id=1140057632]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowDamageNumbers"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleAnimations" unique_id=2018279560]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Show Damage Numbers (0.3v)"
+text = "Battle Animations "
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowDamageNumbers"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleAnimations" unique_id=328563202]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowDamageNumbers"]
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleAnimations" unique_id=998818193]
 layout_mode = 2
 button_pressed = true
 
-[node name="BattleAnimations" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay"]
+[node name="ShowDamageNumbers" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay" unique_id=1224399608]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleAnimations"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowDamageNumbers" unique_id=343723214]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Battle Animations (0.3v)"
+text = "Show Damage Numbers"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleAnimations"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowDamageNumbers" unique_id=1447333671]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleAnimations"]
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowDamageNumbers" unique_id=1038633715]
 layout_mode = 2
 button_pressed = true
 
-[node name="SkipCutscenes" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay"]
+[node name="ShowBattleLog" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay" unique_id=1922836219]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/SkipCutscenes"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowBattleLog" unique_id=437762275]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Skip Cutscenes (0.3v)"
+text = "Show Battle Log"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/SkipCutscenes"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowBattleLog" unique_id=1133042730]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/SkipCutscenes"]
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowBattleLog" unique_id=1584212818]
 layout_mode = 2
 
-[node name="SaveButton" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="SaveButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1692631882]
 custom_minimum_size = Vector2(200, 48)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_font")
@@ -333,7 +333,7 @@ theme_override_font_sizes/font_size = 24
 text = "Save Settings"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/SaveButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/SaveButton" unique_id=441669096]
 z_index = -1
 layout_mode = 0
 offset_right = 624.0
@@ -350,4 +350,7 @@ patch_margin_bottom = 5
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/TabContainer/Audio/VoiceVolume/Slider" to="." method="_on_voice_volume_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleSpeed/Slider" to="." method="_on_battle_speed_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/TabContainer/Gameplay/TextSpeed/Slider" to="." method="_on_text_speed_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/TabContainer/Gameplay/BattleAnimations/CheckBox" to="." method="_on_battle_animations_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowDamageNumbers/CheckBox" to="." method="_on_show_damage_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/TabContainer/Gameplay/ShowBattleLog/CheckBox" to="." method="_on_show_battle_log_toggled"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/SaveButton" to="." method="_on_save_pressed"]

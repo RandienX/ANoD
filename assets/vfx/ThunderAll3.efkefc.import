@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://csm1pp5gdif75"
+path="res://.godot/imported/ThunderAll3.efkefc-a6eb8ecc5868969995f90134d04008cb.res"
+
+[deps]
+
+source_file="res://assets/vfx/ThunderAll3.efkefc"
+dest_files=["res://.godot/imported/ThunderAll3.efkefc-a6eb8ecc5868969995f90134d04008cb.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

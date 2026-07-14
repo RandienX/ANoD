@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://bl27aekp3ce11"
+path="res://.godot/imported/PierceSpecial2.efkefc-dd6c060d0e4920cd07f7e67aba37ffed.res"
+
+[deps]
+
+source_file="res://assets/vfx/PierceSpecial2.efkefc"
+dest_files=["res://.godot/imported/PierceSpecial2.efkefc-dd6c060d0e4920cd07f7e67aba37ffed.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

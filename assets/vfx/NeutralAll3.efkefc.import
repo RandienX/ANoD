@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://ckrlp67jfa67k"
+path="res://.godot/imported/NeutralAll3.efkefc-770f6fa8d28c27a8a862f0de57af042f.res"
+
+[deps]
+
+source_file="res://assets/vfx/NeutralAll3.efkefc"
+dest_files=["res://.godot/imported/NeutralAll3.efkefc-770f6fa8d28c27a8a862f0de57af042f.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://q6cvgitp0rp4"
+path="res://.godot/imported/ThunderOne2.efkefc-69450c148eadc41e73b5d1fed2ccb703.res"
+
+[deps]
+
+source_file="res://assets/vfx/ThunderOne2.efkefc"
+dest_files=["res://.godot/imported/ThunderOne2.efkefc-69450c148eadc41e73b5d1fed2ccb703.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

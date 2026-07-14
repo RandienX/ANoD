@@ -22,7 +22,6 @@ func setup_skills_ui(battleroot):
 	if not root.has_node("Control/gui/HBoxContainer2/skills_container"):
 		skills_container = Control.new()
 		skills_container.name = "skills_container"
-		skills_container.set_anchors_preset(Control.PRESET_FULL_RECT)
 		skills_container.visible = false
 		
 		var scroll = ScrollContainer.new()
@@ -35,11 +34,12 @@ func setup_skills_ui(battleroot):
 		var grid = GridContainer.new()
 		grid.name = "SkillGrid"
 		grid.columns = 2  
-		grid.add_theme_constant_override("h_separation", 10)
-		grid.add_theme_constant_override("v_separation", 10)
+		grid.add_theme_constant_override("h_separation", -60)
+		grid.add_theme_constant_override("v_separation", -5)
 		
 		# IMPORTANT: Set minimum size to force wrapping
-		grid.custom_minimum_size = Vector2(1296, 0)
+		grid.custom_minimum_size = Vector2(648, 0)
+		grid.custom_maximum_size = Vector2(648, -1)
 		
 		scroll.add_child(grid)
 		root.get_node("Control/gui/HBoxContainer2").add_child(skills_container)
@@ -55,15 +55,19 @@ func open_skills_menu():
 	available_skills.clear()
 	skill_affordable.clear()
 	
-	if root.current_attacker.role == Entity.Role.PARTY and not root.current_attacker.skills.is_empty():
+	if root.current_attacker.role == Entity.Role.PARTY and not root.current_attacker.skills.is_empty() and root.current_attacker.cannot_use_skills == false:
 		var all_skills: Array[Skill] = []
-		for level_skills in root.current_attacker.skills.values():
-			all_skills.append_array(level_skills)
+		for level in root.current_attacker.skills:
+			if level <= root.current_attacker.level:
+				all_skills.append_array(root.current_attacker.skills[level])
 		
 		for skill in all_skills:
 			if skill:
 				available_skills.append(skill)
-				skill_affordable.append(root.current_attacker.mp >= skill.mana_cost)
+				skill_affordable.append(root.current_attacker.stats["mp"] >= skill.mana_cost and root.current_attacker.stats["hp"] >= skill.hp_cost and root.tp >= skill.tp_cost)
+				
+	if available_skills.size() == 0:
+		close_skills_menu()
 	
 	create_skill_boxes()
 	
@@ -128,6 +132,8 @@ func navigate_skills(direction: int):
 	# Skip unaffordable skills when navigating
 	var attempts = 0
 	while attempts < skill_boxes.size():
+		if skill_boxes.size() <= 1:
+			break
 		if skill_affordable[new_index]:
 			break
 		new_index += direction
@@ -145,31 +151,33 @@ func navigate_skills(direction: int):
 				new_index = direction - 1 if new_index % skill_boxes.size() == 0 else 0
 		attempts += 1
 	
+	Sfx2.stream = load("res://assets/sound/sfx/button_squeak.wav")
+	Sfx2.play()
 	# Only update if we found an affordable skill
-	if skill_affordable[new_index]:
-		current_skill_index = new_index
-		update_skill_selection()
+	if skill_boxes.size() > 1:
+		if skill_affordable[new_index]:
+			current_skill_index = new_index
+			update_skill_selection()
 
 func select_skill():
 	if current_skill_index < 0 or current_skill_index >= available_skills.size():
 		return
 	
 	if not skill_affordable[current_skill_index]:
-		root.get_node("Control/enemy_ui/CenterContainer/output").text = "Not enough MP!"
-		await root.get_tree().create_timer(0.5 * Settings.battle_speed).timeout
 		return
 	
 	var skill = available_skills[current_skill_index]
 	
-	if skill.mana_cost > root.current_attacker.mp:
-		root.get_node("Control/enemy_ui/CenterContainer/output").text = "Not enough MP!"
-		await root.get_tree().create_timer(0.5 * Settings.battle_speed).timeout
+	if skill.mana_cost > root.current_attacker.stats["mp"]:
 		return
+	
+	
+	Sfx2.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx2.play()
 	
 	if skill.target_type == 0: #SingleEnemy
 		root.state = root.states.OnSkillSelect
 		root.selected_enemy = root.previous_enemy if root.previous_enemy != 0 else 1
-		root.get_node("Control/enemy_ui/CenterContainer/output").text = "Select target..."
 		return
 	elif skill.target_type == 1: #Self 
 		root.add_attack(root.current_attacker, [root.current_attacker], skill)
@@ -189,32 +197,39 @@ func select_skill():
 	elif skill.target_type == 4: #SingleAlly
 		root.state = root.states.OnSkillSelect
 		root.selected_enemy = root.previous_enemy if root.previous_enemy != 0 else 1
-		root.get_node("Control/enemy_ui/CenterContainer/output").text = "Select ally..."
 		return
 	elif skill.target_type == 5: #RandomEnemy
-		root.add_attack(root.current_attacker, root.enemy_instances[randi_range(0, root.enemy_instances.duplicate().size()-1)], skill)
+		root.add_attack(root.current_attacker, [root.enemy_instances[randi_range(0, root.enemy_instances.duplicate().size()-1)]], skill)
 		root.action_history.append(root.current_attacker)
 		close_skills_menu()
 		await root.advance_planning()
 		
 func confirm_skill_target():
 	var skill = available_skills[current_skill_index]
+	Sfx2.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx2.play()
 	if skill.target_type == 0: #SingleEnemy
 		var target = root.get_enemy(root.selected_enemy)
-		if target and target.hp > 0:
+		if target and target.stats["hp"] > 0:
 			root.add_attack(root.current_attacker, [target], skill)
 			root.action_history.append(root.current_attacker)
-			close_skills_menu()
 			await root.advance_planning()
+			close_skills_menu()
 	elif skill.target_type == 4: #SingleAlly
 		var target = root.party[clamp(root.selected_enemy - 1, 0, root.party.size() - 1)]
 		root.add_attack(root.current_attacker, [target], skill)
 		root.action_history.append(root.current_attacker)
-		close_skills_menu()
 		await root.advance_planning()
+		close_skills_menu()
 		
 func close_skills_menu():
 	skills_container.visible = false
 	root.get_node("Control/gui/HBoxContainer2/party").visible = true
 	root.get_node("WhoMoves").visible = true
+	root.selection_manager.hide_flash()
 	root.state = root.states.OnAction
+	
+func get_current_skill() -> Skill:
+	if current_skill_index >= 0 and current_skill_index < available_skills.size():
+		return available_skills[current_skill_index]
+	return null

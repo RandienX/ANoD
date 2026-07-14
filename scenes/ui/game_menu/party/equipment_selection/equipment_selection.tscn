@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhu0rjvcqicb7"]
+[gd_scene format=3 uid="uid://dhu0rjvcqicb7"]
 
 [ext_resource type="Script" uid="uid://dutdq7hjy6fe2" path="res://scenes/ui/game_menu/party/equipment_selection/equipment_selection.gd" id="1_equip"]
 [ext_resource type="Texture2D" uid="uid://c6t3yqacgcfe1" path="res://assets/menu/Window.png" id="2_njb03"]
@@ -16,7 +16,7 @@ texture_region_size = Vector2i(64, 64)
 tile_size = Vector2i(64, 64)
 sources/0 = SubResource("TileSetAtlasSource_4x7s8")
 
-[node name="EquipmentSelection" type="Control"]
+[node name="EquipmentSelection" type="Control" unique_id=84343740]
 custom_minimum_size = Vector2(648, 0)
 layout_mode = 3
 anchor_right = 0.75000006
@@ -26,11 +26,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_equip")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=751842401]
 scale = Vector2(2, 2)
 tile_set = SubResource("TileSet_18og1")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1919915542]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(616, 616)
 layout_mode = 1
@@ -46,7 +46,7 @@ offset_bottom = 308.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1466806358]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,47 +58,39 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2044520320]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=640388651]
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "Select Equipment"
 horizontal_alignment = 1
 
-[node name="MemberNameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="MemberNameLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=997586795]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Member Name"
 horizontal_alignment = 1
 
-[node name="SlotLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="SlotLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1010189849]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Slot: Weapon (L)"
 horizontal_alignment = 1
 
-[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer" unique_id=1702380380]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ItemsPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+[node name="ItemsPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer" unique_id=1718080492]
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
 custom_minimum_size = Vector2(285, 0)
 layout_mode = 2
 
-[node name="ItemsGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel" unique_id=833914333]
 z_index = -1
 layout_mode = 0
 offset_right = 285.0
@@ -109,13 +101,21 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="CurrentEquipPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel" unique_id=1870112208]
+layout_mode = 0
+offset_right = 279.0
+offset_bottom = 398.0
+
+[node name="ItemsGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel/ScrollContainer" unique_id=804565772]
+layout_mode = 2
+
+[node name="CurrentEquipPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer" unique_id=1915273165]
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel" unique_id=1563197945]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.058000002
@@ -125,21 +125,21 @@ offset_right = 274.774
 offset_bottom = 216.0
 theme_override_constants/separation = 12
 
-[node name="CurrentLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer"]
+[node name="CurrentLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer" unique_id=1109232188]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 20
 text = "Currently Equipped"
 horizontal_alignment = 1
 
-[node name="CurrentItemName" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer"]
+[node name="CurrentItemName" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer" unique_id=480047634]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 16
 text = "None"
 horizontal_alignment = 1
 
-[node name="CurrentItemStats" type="TextEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer"]
+[node name="CurrentItemStats" type="TextEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel/VBoxContainer" unique_id=1915158421]
 custom_minimum_size = Vector2(260, 150)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -147,7 +147,7 @@ size_flags_vertical = 2
 text = "Stats"
 editable = false
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HSplitContainer/CurrentEquipPanel" unique_id=23037923]
 z_index = -1
 layout_mode = 0
 offset_left = 1.7539978
@@ -159,19 +159,19 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1848930050]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="UnequipButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="UnequipButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2134077755]
 z_index = 1
 custom_minimum_size = Vector2(150, 45)
 layout_mode = 2
 text = "Unequip"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HBoxContainer/UnequipButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HBoxContainer/UnequipButton" unique_id=1840571982]
 z_index = -1
 layout_mode = 0
 offset_right = 150.0
@@ -182,14 +182,14 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1640962686]
 z_index = 1
 custom_minimum_size = Vector2(150, 45)
 layout_mode = 2
 text = "Cancel"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HBoxContainer/CancelButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HBoxContainer/CancelButton" unique_id=193513266]
 z_index = -1
 layout_mode = 0
 offset_right = 150.0
@@ -200,5 +200,8 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HSplitContainer/ItemsPanel" to="." method="_on_items_panel_mouse_entered"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/UnequipButton" to="." method="_on_unequip_button_focus_entered"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/UnequipButton" to="." method="_on_unequip_button_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_items_panel_mouse_entered"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]

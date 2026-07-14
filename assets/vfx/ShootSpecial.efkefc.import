@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://1cf42qw885x1"
+path="res://.godot/imported/ShootSpecial.efkefc-fdd6e313c989c68dde43c424d45278e3.res"
+
+[deps]
+
+source_file="res://assets/vfx/ShootSpecial.efkefc"
+dest_files=["res://.godot/imported/ShootSpecial.efkefc-fdd6e313c989c68dde43c424d45278e3.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

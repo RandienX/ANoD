@@ -1,13 +1,9 @@
 [gd_resource type="Resource" script_class="BattleEffect" format=3 uid="uid://dorm3svi3bt6p"]
 
-[ext_resource type="Script" uid="uid://bdv44ymylf45" path="res://code/battle/battle_effect_condition.gd" id="1_km56d"]
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="2_csga7"]
-[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect_stat_modifier.gd" id="3_kexh1"]
-[ext_resource type="Script" uid="uid://bdxyu3e5w0856" path="res://code/battle/battle_effect_status_definition.gd" id="4_7leei"]
-
-[sub_resource type="Resource" id="Resource_xpdma"]
-script = ExtResource("1_km56d")
-metadata/_custom_type_script = "uid://bdv44ymylf45"
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="1_km56d"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="2_csga7"]
+[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect/battle_effect_stat_modifier.gd" id="3_kexh1"]
+[ext_resource type="Script" uid="uid://bdxyu3e5w0856" path="res://code/battle/battle_effect/battle_effect_status_definition.gd" id="4_7leei"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ykm0v"]
 load_path = "res://.godot/imported/status_effects.png-fcd38a4ff737350621b0d8d9a406c397.ctex"
@@ -29,8 +25,8 @@ id = "speed"
 name = "Speed"
 icon = SubResource("AtlasTexture_g0efc")
 is_positive = true
-max_stacks = 0
 stat_modifiers = Array[ExtResource("3_kexh1")]([SubResource("Resource_1wxky")])
+max_stacks = 0
 metadata/_custom_type_script = "uid://bdxyu3e5w0856"
 
 [resource]
@@ -41,5 +37,4 @@ effect_type = 4
 target_type = 5
 description = "Adds 50% speed"
 status_ref = SubResource("Resource_p3u32")
-conditions = Array[ExtResource("1_km56d")]([SubResource("Resource_xpdma")])
 metadata/_custom_type_script = "uid://ch7hoesea8vrf"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="VisualEffect" format=3 uid="uid://casq7xg664t8m"]
+
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="1_5jkdx"]
+[ext_resource type="EffekseerEffect" uid="uid://djhef0fqgqw4y" path="res://assets/vfx/Revive2.efkefc" id="1_jv8fj"]
+
+[resource]
+script = ExtResource("1_5jkdx")
+effect = ExtResource("1_jv8fj")
+speed = 1.5
+metadata/_custom_type_script = "uid://bqcm6g85k8bau"

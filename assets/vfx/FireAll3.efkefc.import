@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://c36e0qh0odt5t"
+path="res://.godot/imported/FireAll3.efkefc-da4f71248b5813eb89a7f566593adb97.res"
+
+[deps]
+
+source_file="res://assets/vfx/FireAll3.efkefc"
+dest_files=["res://.godot/imported/FireAll3.efkefc-da4f71248b5813eb89a7f566593adb97.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

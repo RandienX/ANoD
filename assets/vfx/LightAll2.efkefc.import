@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://c3sly6erpecxl"
+path="res://.godot/imported/LightAll2.efkefc-7abe805f277a7f7a942c364a0d7a823b.res"
+
+[deps]
+
+source_file="res://assets/vfx/LightAll2.efkefc"
+dest_files=["res://.godot/imported/LightAll2.efkefc-7abe805f277a7f7a942c364a0d7a823b.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

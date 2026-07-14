@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://ccvtn63nqxtn0"
+path="res://.godot/imported/EarthAll3.efkefc-a1dee853a1c437610cd256f155cb3337.res"
+
+[deps]
+
+source_file="res://assets/vfx/EarthAll3.efkefc"
+dest_files=["res://.godot/imported/EarthAll3.efkefc-a1dee853a1c437610cd256f155cb3337.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

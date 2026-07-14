@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://b4axrkrwhkkrk"
+path="res://.godot/imported/Sweep.efkefc-56f660b485f54f9aaf6620a0acaa81b9.res"
+
+[deps]
+
+source_file="res://assets/vfx/Sweep.efkefc"
+dest_files=["res://.godot/imported/Sweep.efkefc-56f660b485f54f9aaf6620a0acaa81b9.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true
