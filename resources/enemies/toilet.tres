@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://b5hxy0c0ibgcr"]
+
+[ext_resource type="Texture2D" uid="uid://bmols71nmmau8" path="res://assets/battlesprites/Toilet.png" id="1_4abpc"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_36l8y"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_6hfwa"]
+[ext_resource type="Resource" uid="uid://bm2swlibbpbh4" path="res://resources/attacks/attack.tres" id="2_fioxe"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="3_3gpku"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="4_4abpc"]
+[ext_resource type="Texture2D" uid="uid://bduymrfj6k270" path="res://assets/faceset/Toilet.png" id="6_uuvmq"]
+[ext_resource type="Resource" uid="uid://c8le88pv18h11" path="res://resources/attacks/enemies/pizzeria/flush.tres" id="8_fioxe"]
+
+[resource]
+script = ExtResource("4_4abpc")
+name = "Toilet"
+role = 1
+portrait = ExtResource("6_uuvmq")
+portrait_rect = Rect2(0, 0, 96, 96)
+battle_sprite = ExtResource("1_4abpc")
+back_sprite = ExtResource("1_4abpc")
+base_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 1,
+"hp": 15,
+"magic": 2,
+"magic_def": 9999,
+"mp": 50,
+"speed": 5
+})
+stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 0,
+"magic": 10,
+"magic_def": 5,
+"mp": 0,
+"speed": 10
+})
+max_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"magic_def": 5,
+"mp": 50,
+"speed": 10
+})
+skills = Dictionary[int, Array]({
+0: [ExtResource("8_fioxe")]
+})
+default_attack = ExtResource("2_fioxe")
+ai_behavior = 4
+aggression = 0.6
+xp_reward = 50
+currency_reward = 20
+metadata/_custom_type_script = "uid://c2cret7fy87bn"

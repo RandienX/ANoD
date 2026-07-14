@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="VisualEffect" format=3 uid="uid://dj7r04epqm6yu"]
+
+[ext_resource type="EffekseerEffect" uid="uid://deun0jgesyssx" path="res://assets/vfx/PierceSpecial1.efkefc" id="1_pojra"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="2_pkvls"]
+
+[resource]
+script = ExtResource("2_pkvls")
+effect = ExtResource("1_pojra")
+speed = 0.75
+color = Color(1, 0, 1, 1)
+metadata/_custom_type_script = "uid://bqcm6g85k8bau"

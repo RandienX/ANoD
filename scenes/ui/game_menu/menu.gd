@@ -7,8 +7,12 @@ var layer_down = 0
 
 var pending_item: Item = null  # For item usage from inventory
 
-func _ready() -> void:
+func _process(_delta) -> void:
 	$gold.text = "Gold: " + str(PlayerStats.gold)
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("menu"):
+		get_tree().paused = false
 
 func open_party_for_item(item: Item) -> void:
 	"""Open party menu for item target selection"""
@@ -18,16 +22,21 @@ func open_party_for_item(item: Item) -> void:
 	var party_scene = load("res://scenes/ui/game_menu/party/party.tscn").instantiate()
 	display.add_child(party_scene)
 	
+	get_viewport().set_input_as_handled()
 	if party_scene.has_signal("party_member_selected"):
 		party_scene.party_member_selected.connect(_on_party_member_selected_for_item)
 
+var previous_selected = null
 func _on_party_member_selected_for_item(member: Resource) -> void:
 	"""Handle party member selection for item usage"""
 	if pending_item and member:
-		var entity_member = member as Entity
-		if entity_member:
-			PlayerStats.use_item(pending_item, [entity_member])
-			open_inventory()
+		if member == previous_selected:
+			var entity_member = member as Entity
+			if entity_member:
+				PlayerStats.use_item(pending_item, [entity_member])
+				open_inventory()
+		else:
+			previous_selected = member
 
 func open_inventory() -> void:
 	"""Open the inventory menu"""

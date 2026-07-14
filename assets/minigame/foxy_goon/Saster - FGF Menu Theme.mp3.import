@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bbmm5d8nhm8me"
+path="res://.godot/imported/Saster - FGF Menu Theme.mp3-72ec4879625262bb68d1756907dbfb04.mp3str"
+
+[deps]
+
+source_file="res://assets/minigame/foxy_goon/Saster - FGF Menu Theme.mp3"
+dest_files=["res://.godot/imported/Saster - FGF Menu Theme.mp3-72ec4879625262bb68d1756907dbfb04.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

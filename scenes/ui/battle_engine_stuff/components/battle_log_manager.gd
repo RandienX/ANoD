@@ -7,6 +7,8 @@ var effect_manager
 func setup(broot, e_mgr):
 	root = broot
 	effect_manager = e_mgr
+	if !Settings.battle_log:
+		root.get_node("Control/enemy_ui/CenterContainer/output").visible = false
 
 # Each log entry stores the text and its remaining display time
 var battle_log: Array[Dictionary] = []
@@ -59,7 +61,8 @@ func update_battle_log_display() -> void:
 			if i > 0:
 				display_text += "\n"
 			display_text += battle_log[i]["text"]
-		root.get_node("Control/enemy_ui/CenterContainer/output").text = display_text
+		if root:
+			root.get_node("Control/enemy_ui/CenterContainer/output").text = display_text
 
 func print_outcome(atk: Object, targets: Array, attack: Skill, dmg: int, crit: bool, miss: bool, mp_cost: int = 0, effects_applied: Array = []):
 	var t = ""

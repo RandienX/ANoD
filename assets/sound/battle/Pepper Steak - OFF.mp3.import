@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/Pepper Steak - OFF.mp3-884e76e8852690f7f33e69
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

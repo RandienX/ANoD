@@ -1,15 +1,16 @@
-[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://duffo612fmit0"]
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://rkv7wloxdgqn"]
 
-[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/party/Classics+Swag.png" id="1_283g5"]
+[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="1_283g5"]
 [ext_resource type="Resource" uid="uid://bm2swlibbpbh4" path="res://resources/attacks/attack.tres" id="2_33eqg"]
 [ext_resource type="Texture2D" uid="uid://b0ggm1lu70ah7" path="res://assets/party/freddy_overlay.jpeg" id="2_qob36"]
 [ext_resource type="Resource" uid="uid://dn2gyrpdrrwdk" path="res://resources/attacks/freddy/mic_toss.tres" id="3_aucps"]
 [ext_resource type="Resource" uid="uid://cq600ldyq2j8g" path="res://resources/attacks/check.tres" id="3_e3el0"]
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="3_mcf6k"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="3_mcf6k"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="4_33eqg"]
 [ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="5_p2itg"]
 [ext_resource type="Resource" uid="uid://dglgbjt53w88p" path="res://resources/attacks/freddy/party_favors.tres" id="7_7yxmh"]
 [ext_resource type="Resource" uid="uid://ccoqwn1j6sjps" path="res://resources/attacks/freddy/torreadors_march.tres" id="7_ara7a"]
-[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/battle/entity.gd" id="7_l0tq2"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="7_l0tq2"]
 
 [resource]
 script = ExtResource("7_l0tq2")
@@ -20,31 +21,46 @@ portrait_rect = Rect2(0, 0, 96, 96)
 battle_sprite = ExtResource("2_qob36")
 back_sprite = ExtResource("2_qob36")
 path_to = "res://resources/party/freddy.tres"
-base_stats = Dictionary[StringName, int]({
-&"atk": 5,
-&"def": 5,
-&"hp": 100,
-&"magic": 2,
-&"mp": 25,
-&"speed": 3
+base_stats = Dictionary[String, int]({
+"atk": 4,
+"def": 3,
+"hp": 100,
+"magic": 3,
+"magic_def": 4,
+"mp": 25,
+"speed": 2,
+"tp": 100
 })
-max_stat_caps = Dictionary[StringName, int]({
-&"atk": 5,
-&"def": 5,
-&"hp": 100,
-&"magic": 2,
-&"mp": 25,
-&"speed": 3
+level_up_gains = Dictionary[String, float]({
+"atk": 1.75,
+"def": 2.0,
+"hp": 2.4,
+"magic": 1.1,
+"magic_def": 1.75,
+"mp": 1.9,
+"speed": 1.65,
+"tp": 1.2
 })
-level_up_gains = Dictionary[StringName, int]({
-&"atk": 1,
-&"def": 2,
-&"hp": 15,
-&"magic": 1,
-&"mp": 5,
-&"speed": 1
+stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 0,
+"magic": 10,
+"magic_def": 5,
+"mp": 0,
+"speed": 10,
+"tp": 100
 })
-mp = 25
+max_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"magic_def": 5,
+"mp": 50,
+"speed": 10,
+"tp": 100
+})
 skills = Dictionary[int, Array]({
 0: [ExtResource("3_e3el0"), ExtResource("3_aucps")],
 2: [ExtResource("7_7yxmh")],

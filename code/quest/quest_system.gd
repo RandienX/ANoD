@@ -1,5 +1,4 @@
 extends Node
-class_name QuestSystemClass
 ##
 ## Handles quest tracking, progress updates, and notifications.
 ## Updates every second and manages quest UI notifications.
@@ -11,7 +10,6 @@ signal quest_completed(quest: Quest)
 signal quest_progress_updated(quest: Quest, point_index: int)
 signal quest_state_changed(quest: Quest, state: QuestPoint.QuestState)
 
-static var instance: QuestSystemClass = null
 
 @export var update_interval: float = 1.0  # Seconds between quest updates
 
@@ -20,29 +18,9 @@ var active_quests: Array[Quest] = []
 var completed_quests: Array[Quest] = []
 var failed_quests: Array[Quest] = []
 
-var evaluator: QuestConditionEvaluator
-
 # UI reference for notifications
 var quest_log_ui: Control = null
 var _update_timer: float = 0.0
-var _last_update_time: float = 0.0
-
-func _init():
-	instance = self
-
-func _ready() -> void:
-	evaluator = QuestConditionEvaluator.new()
-	_setup_evaluator_hooks()
-
-func _setup_evaluator_hooks() -> void:
-	# Connect evaluator to game systems (similar to DialogueRunner)
-	evaluator.is_quest_complete_func = _is_quest_completed
-	evaluator.is_quest_active_func = _is_quest_active
-	evaluator.has_done_dialogue_func = _has_done_dialogue
-	evaluator.has_talked_to_npc_func = _has_talked_to_npc
-	evaluator.has_won_battle_func = _has_won_battle
-	evaluator.has_visited_location_func = _has_visited_location
-	evaluator.has_done_thing_func = _has_done_thing
 
 func _process(delta: float) -> void:
 	_update_timer += delta
@@ -51,60 +29,6 @@ func _process(delta: float) -> void:
 	if _update_timer >= update_interval:
 		_update_timer = 0.0
 		_update_all_quests()
-
-## Setup evaluator hooks to connect to game systems
-func _check_has_item(item_id: String, amount: int) -> bool:
-	var player_stats = PlayerStats
-	if player_stats and player_stats.has_method("has_item_by_id"):
-		var item_resource = _load_resource_by_id(item_id)
-		if item_resource:
-			return player_stats.has_item_by_id(item_resource, amount)
-	return false
-
-func _check_has_status(status_id: String) -> bool:
-	# Hook to your status system
-	return false
-
-func _is_quest_completed(quest_id: String) -> bool:
-	var quest = get_quest(quest_id)
-	return quest != null and quest.is_complete
-
-func _is_quest_active(quest_id: String) -> bool:
-	var quest = get_quest(quest_id)
-	return quest != null and quest.is_active
-
-func _has_done_dialogue(dialogue_id: String) -> bool:
-	# Hook to dialogue system
-	return evaluator.custom_data.get("completed_dialogues", []).has(dialogue_id)
-
-func _has_talked_to_npc(npc_id: String) -> bool:
-	# Hook to NPC interaction system
-	return evaluator.custom_data.get("talked_npcs", []).has(npc_id)
-
-func _has_won_battle(battle_id: String) -> bool:
-	# Hook to battle system
-	print("AAAAAAAAAAA")
-	return evaluator.custom_data.get("won_battles", []).has(battle_id)
-
-func _has_visited_location(location_id: String) -> bool:
-	# Hook to location tracking
-	return evaluator.custom_data.get("visited_locations", []).has(location_id)
-
-func _has_done_thing(thing_id: String) -> bool:
-	return evaluator.custom_data.get("done_things", {}).get(thing_id, false)
-
-func _load_resource_by_id(resource_id: String) -> Resource:
-	var paths = [
-	"res://resources/items/%s.tres" % resource_id,
-	"res://resources/items/%s.resource" % resource_id,
-	"res://items/%s.tres" % resource_id
-	]
-
-	for path in paths:
-		if ResourceLoader.exists(path):
-			return load(path)
-
-	return null
 
 ## Add a quest to the system
 func add_quest(quest: Quest) -> bool:
@@ -117,7 +41,7 @@ func add_quest(quest: Quest) -> bool:
 		return false
 
 	# Initialize quest with evaluator
-	quest.initialize(evaluator)
+	quest.initialize()
 	quests[quest.quest_id] = quest
 	active_quests.append(quest)
 
@@ -138,21 +62,6 @@ func add_quest_by_path(path: String) -> bool:
 		return false
 
 	return add_quest(quest)
-
-## Add a quest by ID (searches common paths)
-func add_quest_by_id(quest_id: String) -> bool:
-	var paths = [
-	"res://resources/quests/%s.tres" % quest_id,
-	"res://resources/quests/%s.resource" % quest_id,
-	"res://quests/%s.tres" % quest_id
-	]
-
-	for path in paths:
-		if ResourceLoader.exists(path):
-			return add_quest_by_path(path)
-
-	push_error("[QuestSystem] Quest not found: %s" % quest_id)
-	return false
 
 ## Remove a quest
 func remove_quest(quest: Quest) -> void:
@@ -194,7 +103,7 @@ func fail_quest(quest: Quest) -> void:
 	print("[QuestSystem] Failed quest: %s" % quest.quest_name)
 
 ## Update progress for all active quests based on condition type
-func update_progress(type: QuestPointCondition.ConditionType, target_key: String, amount: float = 1.0) -> void:
+func update_progress(type: Condition.ConditionType, target_key: String, amount: float = 1.0) -> void:
 	for quest in active_quests:
 		var old_point = quest.current_point_index
 		var state = quest.update_progress(type, target_key, amount)
@@ -208,12 +117,9 @@ func update_progress(type: QuestPointCondition.ConditionType, target_key: String
 
 	## Update all active quests using evaluator
 func _update_all_quests() -> void:
-	# Update evaluator with current game state
-	_update_evaluator_state()
-
 	for quest in active_quests:
 		var old_point = quest.current_point_index
-		var state = quest.evaluate(evaluator)
+		var state = quest.evaluate()
 
 		match state:
 			QuestPoint.QuestState.PROGRESS:
@@ -228,14 +134,6 @@ func _update_all_quests() -> void:
 		# Emit signal if point changed (auto-advance happened)
 		if quest.current_point_index != old_point:
 			quest_progress_updated.emit(quest, quest.current_point_index)
-
-## Update evaluator with current game state
-func _update_evaluator_state() -> void:
-	# Get enemies killed from Global
-	evaluator.enemies_killed = Global.get("enemies_killed")
-
-	# Get battle_won from Global (same pattern as enemies_killed)
-	evaluator.battle_won = Global.get("battles_won")
 
 ## Show notification for quest progress
 func _notify_quest_progress(quest: Quest, state: QuestPoint.QuestState) -> void:
@@ -307,9 +205,9 @@ func load_save_data(data: Dictionary) -> void:
 			if not quest_id.is_empty():
 				var quest = _load_quest_stub(quest_id)
 				if quest:
-					quest.initialize_without_reset(evaluator)  # Set up evaluator without resetting state
+					quest.initialize_without_reset()  # Set up evaluator without resetting state
 					quest.load_save_data(quest_data)  # Then overwrite with saved data
-					quest.initialize(evaluator)
+					quest.initialize()
 					quests[quest_id] = quest
 					active_quests.append(quest)
 
@@ -319,7 +217,7 @@ func load_save_data(data: Dictionary) -> void:
 			if not quest_id.is_empty():
 				var quest = _load_quest_stub(quest_id)
 				if quest:
-					quest.initialize_without_reset(evaluator)
+					quest.initialize_without_reset()
 					quest.load_save_data(quest_data)
 					quests[quest_id] = quest
 					completed_quests.append(quest)
@@ -330,7 +228,7 @@ func load_save_data(data: Dictionary) -> void:
 			if not quest_id.is_empty():
 				var quest = _load_quest_stub(quest_id)
 				if quest:
-					quest.initialize_without_reset(evaluator)
+					quest.initialize_without_reset()
 					quest.load_save_data(quest_data)
 					quests[quest_id] = quest
 					failed_quests.append(quest)

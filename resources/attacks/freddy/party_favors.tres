@@ -1,16 +1,30 @@
 [gd_resource type="Resource" script_class="Skill" format=3 uid="uid://dglgbjt53w88p"]
 
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_3hq6v"]
 [ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="1_mdiom"]
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_qjd3v"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_qjd3v"]
 [ext_resource type="Resource" uid="uid://rbt1cq360t4t" path="res://resources/effects/power.tres" id="2_3bk2c"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_8qixv"]
 [ext_resource type="Resource" uid="uid://dorm3svi3bt6p" path="res://resources/effects/speed.tres" id="3_itigi"]
 [ext_resource type="Resource" uid="uid://dlvvu0lpq6atk" path="res://resources/effects/tough.tres" id="4_e6oql"]
+[ext_resource type="AudioStream" uid="uid://qrdlifjkqfy5" path="res://assets/sound/sfx/attack/Party Favors.mp3" id="8_wrban"]
+[ext_resource type="EffekseerEffect" uid="uid://b4nxe2imptdj3" path="res://assets/vfx/Powerup2.efkefc" id="9_wrban"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="10_wrban"]
+
+[sub_resource type="Resource" id="Resource_j01hd"]
+script = ExtResource("10_wrban")
+effect = ExtResource("9_wrban")
+on_target = 1
+metadata/_custom_type_script = "uid://bqcm6g85k8bau"
 
 [resource]
 script = ExtResource("1_mdiom")
 skill_name = "Party Favors"
 target_type = 2
+skill_type = 1
 mana_cost = 20
 accuracy = 0.95
 on_hit_effects = Array[ExtResource("1_qjd3v")]([ExtResource("2_3bk2c"), ExtResource("3_itigi"), ExtResource("4_e6oql")])
+vfx = SubResource("Resource_j01hd")
+sfx = ExtResource("8_wrban")
 metadata/_custom_type_script = "uid://o74imedfcjis"

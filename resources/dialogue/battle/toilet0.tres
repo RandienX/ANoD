@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://bwc8tfcvgd5o8"]
+
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="1_rg8ex"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="2_pj2j7"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="3_rtjhf"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="3_xa871"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="4_ywg70"]
+
+[sub_resource type="Resource" id="Resource_s1qd5"]
+script = ExtResource("1_rg8ex")
+text = "NOOOOO!!!, LADIES TOILET NO.1"
+label = "start"
+next_label = "1"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_ewkim"]
+script = ExtResource("1_rg8ex")
+text = "You will be missed so dearly."
+label = "1"
+next_label = "2"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_ygmya"]
+script = ExtResource("1_rg8ex")
+text = "DIE WOMANKILLERS!!!"
+label = "2"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[resource]
+script = ExtResource("2_pj2j7")
+nodes = Array[ExtResource("1_rg8ex")]([SubResource("Resource_s1qd5"), SubResource("Resource_ewkim"), SubResource("Resource_ygmya")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"

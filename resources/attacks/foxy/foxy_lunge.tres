@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://c3cyejodk1a11"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_6erow"]
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_ar0a1"]
+[ext_resource type="Resource" uid="uid://dc5cs2m8msofl" path="res://resources/effects/poison.tres" id="2_3yl3r"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_lwvn2"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="2_skill"]
+[ext_resource type="AudioStream" uid="uid://cevij21muvjw1" path="res://assets/sound/sfx/attack/scream_sfx.mp3" id="6_tlrmq"]
+[ext_resource type="EffekseerEffect" uid="uid://deun0jgesyssx" path="res://assets/vfx/PierceSpecial1.efkefc" id="7_tlrmq"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="8_1jnml"]
+
+[sub_resource type="Resource" id="Resource_4g43g"]
+script = ExtResource("8_1jnml")
+effect = ExtResource("7_tlrmq")
+metadata/_custom_type_script = "uid://bqcm6g85k8bau"
+
+[resource]
+script = ExtResource("2_skill")
+skill_name = "Gooner Lunge"
+description = "Foxy storms forward with manic anger, smashing anyone unlucky enough to stand in his way."
+mana_cost = 15
+attack_multiplier = 1.4
+hit_count = 3
+hit_damage_multiplier = 0.4
+on_hit_effects = Array[ExtResource("1_6erow")]([ExtResource("2_3yl3r")])
+vfx = SubResource("Resource_4g43g")
+sfx = ExtResource("6_tlrmq")

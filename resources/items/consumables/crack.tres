@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://djy42cikg1wae"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_ev1t0"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_66v0x"]
+[ext_resource type="Texture2D" uid="uid://bux248jnh6q7r" path="res://assets/item_textures/crack.png" id="2_cnc8h"]
+[ext_resource type="Script" uid="uid://bdv44ymylf45" path="res://code/battle/battle_effect/battle_effect_condition.gd" id="2_r5pov"]
+[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect/battle_effect_stat_modifier.gd" id="3_dbapm"]
+[ext_resource type="Script" uid="uid://bdxyu3e5w0856" path="res://code/battle/battle_effect/battle_effect_status_definition.gd" id="4_cqic5"]
+
+[sub_resource type="Resource" id="Resource_xpdma"]
+script = ExtResource("2_r5pov")
+metadata/_custom_type_script = "uid://bdv44ymylf45"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ykm0v"]
+load_path = "res://.godot/imported/status_effects.png-fcd38a4ff737350621b0d8d9a406c397.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g0efc"]
+atlas = SubResource("CompressedTexture2D_ykm0v")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="Resource" id="Resource_1wxky"]
+script = ExtResource("3_dbapm")
+stat_key = "speed"
+value = 150.0
+scaling_type = 2
+metadata/_custom_type_script = "uid://btu5sgbysqdfq"
+
+[sub_resource type="Resource" id="Resource_p3u32"]
+script = ExtResource("4_cqic5")
+id = "speed"
+name = "Speed"
+icon = SubResource("AtlasTexture_g0efc")
+is_positive = true
+max_stacks = 0
+stat_modifiers = Array[ExtResource("3_dbapm")]([SubResource("Resource_1wxky")])
+metadata/_custom_type_script = "uid://bdxyu3e5w0856"
+
+[sub_resource type="Resource" id="Resource_08ml0"]
+script = ExtResource("1_ev1t0")
+effect_id = "speed"
+effect_name = "Speed"
+effect_type = 4
+description = "Adds 50% speed"
+status_ref = SubResource("Resource_p3u32")
+conditions = Array[ExtResource("2_r5pov")]([SubResource("Resource_xpdma")])
+metadata/_custom_type_script = "uid://ch7hoesea8vrf"
+
+[resource]
+script = ExtResource("2_66v0x")
+item_name = "Crack"
+description = "Freddy what are you doing?
+Crack.
+What the fuck!?."
+texture = ExtResource("2_cnc8h")
+icon = ExtResource("2_cnc8h")
+type = 2
+sell_price = Dictionary[int, int]({
+0: 50,
+1: 10,
+2: 10
+})
+path_to = "res://resources/items/consumables/crack.tres"
+consume_effects = Array[ExtResource("1_ev1t0")]([SubResource("Resource_08ml0")])
+heal_amount = 50
+mana_amount = 25
+revive_amount = 50
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

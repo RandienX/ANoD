@@ -1,8 +1,10 @@
-Battle
-Entity
-Item
-Quest
+LabelSettings
+VisualEffect
 DialogueData
 Skill
+Entity
+Battle
+Item
+Quest
 AudioBusLayout
 BattleEffect

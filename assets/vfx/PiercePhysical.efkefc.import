@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://bxtbolj2hnkpi"
+path="res://.godot/imported/PiercePhysical.efkefc-78b5a726bf0a0fd12175175c7bf38a3f.res"
+
+[deps]
+
+source_file="res://assets/vfx/PiercePhysical.efkefc"
+dest_files=["res://.godot/imported/PiercePhysical.efkefc-78b5a726bf0a0fd12175175c7bf38a3f.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

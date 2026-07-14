@@ -1,0 +1,31 @@
+[gd_resource type="VisualShader" format=3 uid="uid://byncfkyx808wj"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_3gqwc"]
+expanded_output_ports = [0]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_647je"]
+parameter_name = "color"
+qualifier = 2
+default_value_enabled = true
+default_value = Color(1.3528494, 1.3528494, 1.3528494, 1)
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_36xr2"]
+expanded_output_ports = [0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_io4ko"]
+
+[resource]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(520, 120)
+nodes/fragment/2/node = SubResource("VisualShaderNodeInput_3gqwc")
+nodes/fragment/2/position = Vector2(-480, -80)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorParameter_647je")
+nodes/fragment/3/position = Vector2(-360, 220)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVectorOp_36xr2")
+nodes/fragment/4/position = Vector2(260, -80)
+nodes/fragment/5/node = SubResource("VisualShaderNodeVectorCompose_io4ko")
+nodes/fragment/5/position = Vector2(-20, -80)
+nodes/fragment/connections = PackedInt32Array(3, 0, 4, 1, 4, 0, 0, 0, 5, 0, 4, 0, 2, 1, 5, 0, 2, 2, 5, 1, 2, 3, 5, 2, 2, 4, 0, 1)

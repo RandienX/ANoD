@@ -1,10 +1,12 @@
-[gd_resource type="Resource" script_class="Skill" load_steps=3 format=3 uid="uid://cq600ldyq2j8g"]
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://cq600ldyq2j8g"]
 
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_ht30q"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_ht30q"]
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_jua3o"]
 [ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="1_wg5p0"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_83kc2"]
 
 [resource]
 script = ExtResource("1_wg5p0")
 skill_name = "Check"
-level_to_unlock = 0
+tp_cost = null
 metadata/_custom_type_script = "uid://o74imedfcjis"

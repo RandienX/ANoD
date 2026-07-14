@@ -1,0 +1,169 @@
+0.3.3v (July 14 2026)
+  Final Pre-production update
+
+  Main changes:
+    - Battle TP bar
+    - Mana, HP and TP skills
+    - Damage/Heal numbers
+    - Party battle face VFX emitters
+    - Added 2 sfx: toilet breaking and battle win
+    - Added battle log gameplay setting (off on default)
+
+  Bugfix:
+    - Fixed several ways the vfx engine could break
+    - Fixed BB quest completion
+    - Fixed Party Member gathering quest start
+    - Fixed checkmark settings not toggling the setting
+
+0.3.2v (July 12 2026)
+  VFX and Magic patch
+
+  Main changes:
+    - Inbattle VFX
+    - Party per-level stat change early game nerf and mif-late game buff
+    - Enemy nerfs and enemy reward buffs (MUCH less of a grindfest, foxy still is tho on goon route)
+
+  Smaller changes:
+    - Foxy goon route requirement nerf from 10 degreasers to 5
+    - Added Damage types (not really implemented to 0.3.2 at all)
+    - Split stills into physical and magical categories in code
+    - Implemented magic attack and defense
+    - nerfed molotov burn effect
+    - diversified enemy actions
+    - Removed achievements tab in extras (idk how to implement properly and its a bad idea anyway)
+    - changed 1 tile in the restroom
+
+  Bugfixes:
+    - On party member level up a member would heal to previous level's full hp instead of current level's
+    - Fixed non-multihit skill damage output (was half of correct amount)
+    - fixed Chica's cumcakes spell
+    - fixed poison status
+    - changed weapon giving box interaction effect settings to give you the correct item
+
+0.3.1v (July 06 2026)
+  small version adding some scrapped stuff from 0.3 and bugfixing other
+
+  Main changes:
+    - Added Toilet fight in Bonnie's path
+    - Added Foxy's Gooning Fucknight minigame unlocked after finishing 0.3v Foxy's gooning route
+    - Merged DialogueEffect with QuestEffect into Effect 
+    - Merged DialogueCondition and QuestPointCondition into Condition
+    - Balanced Foxy's skills
+    - Added Conditional Battle Effects in Battle resource settings (on entry, turn, win)
+    - Added MANY SFX's
+    - Added Party Voice Beeps
+    - Rescripted Shop
+    - Reimplemented Check Skill from 0.1v
+    - Added Crack (revive item)
+    - Updated Inventory menu item descriptions
+
+  Bugfixes:
+    - Post-load level ups (on load you always had lvl 1 stats)
+    - Finally Fixed equipment change bonus stacking bug
+    - Changed playerstat loading to use non-0.2v party loading
+    - Fixed Run button spamming 
+    - Fixed Multiple levelup related bugs
+    - Fixed AllEnemies attacks taking mana multiple times
+    - Enemies glowed when using skill/item for party members signifying the selection of enemy even if you cannot select
+    - Fixed Items needing double input to get used on party member
+    - Fixed Multiple Instances of improper autoload stream values in multiple scenes
+    - Fixed Fight button action being easily overwritten by other battle engine actions 
+    - fixed multiple z layering bugs
+    - fixed flooded sink interaction
+    - made mini music men attackers not disappear forever upon interaction
+    - lowered the size of fnaf 1 location map
+    - fixed on party member death dead party member selection bug 
+    - fixed multiple instances of music not looping when it should
+    - fixed word wrapping in dialogue textbox
+    - fixed category and buy overlap in shop
+
+0.3v (June 23 2026)
+  biggest changes to overall tech demo state of this game done in this version and its patches
+
+  Main changes:
+    - Full Redesign of the map
+    - Quest System
+    - Party Members moving behind player
+    - New crt shader
+    - Tutorial
+    - Autosave
+    - Animation support
+    - 8 items added
+    - Added Chica and Foxy
+    - Started developping story bits to Bonnie, Chica and Foxy's paths
+    - Added simple NPC creation
+  
+  Smaller changes:
+    - Dialogue engine can be now called anywhere
+    - Improved enemy AI
+    - Many other aesthetic changes
+    - New Vents room
+    - Implemented more save file display effects
+
+  Bugfixes:
+    - Fixed multiple selection bugs in battle engine
+
+0.2.4v (May 09 2026)
+  inbattle effect statuses fix
+
+  Main changes:
+    - Complete rescript of statuses
+    - Readded voiceline support to dialogue engine
+
+  Bugfixes:
+    - Dialogue Engine Choice box not disappearing 
+    - Dialogue typewrited effect not firing
+
+0.2.3v (May 07 2026)
+  patch for fixes to the fixes
+
+0.2.2v (May 07 2026)
+  another post-launch quick fix for stuff my friend kublox21 found (around 15-20)
+
+0.2.1v (May 06 2026)
+  post-launch quick fix for easiest and most obvious stuff
+
+  Bugfixes:
+    - Fixed some wall collisions
+    - Fixed some crashes
+
+0.2v (May 06 2026)
+  1st public version of ANoD
+
+  Main changes included:
+    - Complete rescript of the battle engine
+    - New modular Dialogue Engine
+    - Earliest version of the Baloon Boy's shop
+    - Merged Party and Enemy resource classes into a single Entity resource
+    - New Battle Engine Skill Manager for new variable implementation
+    - Settings and Extras menus implemented
+    - Room Changes
+    - Added more Battle Resource settings
+    - Added 3 new enemies
+    - Added 3 new items
+
+  Bugfixes:
+    - Skill effects not applying correctly because of latest changes in skill, item, enemy and party resources
+    - Multiple instances of Global.variable in code when i migrated that variable to new autoload - PlayerStats fixed
+    - Save Manager not being an autoload, then small tweaks
+    - enemies not spawning on set positions
+    - entity party not saving properly
+    - entity party members not showing a battleface in battle
+    - skill names not showing after the new approach to storing them (Dictionary[level, Skill] to Dictionary[level, Array[Skill]])
+    - skills attacking multiple times
+    - enemy selection checking for enemy not in slots but in enemy array
+    - party display menu not showing party members
+    - party member display crashing the game
+    - HP and MP progressbars in Party menu are now shown.
+    - Using items outside of battle crashed the game.
+    - Using the default skill somehow was crashing the game
+    - Item usage are now correctly written into planned action array in battle.
+    - Setting Sliders were not connected to setting change functions.
+    
+on April 15 2026 started a devlog in Brainless's Discord Server
+    
+0.1v (March 17 2026)
+  The closed demo of ANoD, had only the battle engine and a scuffed version of dialogue engine, and party, inventory, save menus
+
+0.0v (February 24 2026)
+  Project Beginning

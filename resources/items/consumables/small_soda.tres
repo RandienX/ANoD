@@ -1,23 +1,20 @@
-[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://dp1welb2vy3sa"]
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://dp1welb2vy3sa"]
 
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_m6c45"]
-[ext_resource type="Texture2D" uid="uid://codnbumyppg5i" path="res://assets/item_textures/soda.png" id="2_3rydw"]
-[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/player/item.gd" id="3_cfjyx"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_m6c45"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="3_cfjyx"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fmrlp"]
+load_path = "res://.godot/imported/soda.png-568b85c513f332fbee90c27e439a1ef9.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m6c45"]
+load_path = "res://.godot/imported/soda.png-568b85c513f332fbee90c27e439a1ef9.ctex"
 
 [resource]
 script = ExtResource("3_cfjyx")
 item_name = "Small Soda"
 description = "A somewhat cold, carbonated beverage helping with focus and composure. This one is for kids."
-texture = ExtResource("2_3rydw")
-icon = ExtResource("2_3rydw")
+texture = SubResource("CompressedTexture2D_m6c45")
+icon = SubResource("CompressedTexture2D_fmrlp")
 type = 2
-item_bonuses = Dictionary[String, int]({
-"atk": 0,
-"def": 0,
-"hp": 0,
-"magic": 0,
-"mp": 20,
-"speed": 0
-})
 mana_amount = 20
 metadata/_custom_type_script = "uid://dn31qme1ukrys"

@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://bbk4lna8rinsu"
+path="res://.godot/imported/Powerdown1.efkefc-f958155595118b9bf4c8db3ab229e2a4.res"
+
+[deps]
+
+source_file="res://assets/vfx/Powerdown1.efkefc"
+dest_files=["res://.godot/imported/Powerdown1.efkefc-f958155595118b9bf4c8db3ab229e2a4.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

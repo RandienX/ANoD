@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://gbf3ndunkpjn"]
+[gd_scene format=3 uid="uid://gbf3ndunkpjn"]
 
 [ext_resource type="Script" uid="uid://bebr6equ375un" path="res://scenes/ui/battle_engine_stuff/skill_box.gd" id="1_3ugnv"]
 [ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="1_gl615"]
@@ -6,47 +6,94 @@
 
 [sub_resource type="Theme" id="Theme_0f0kn"]
 default_font = ExtResource("1_gl615")
-default_font_size = 48
+default_font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_0f0kn"]
+font_size = 14
+font_color = Color(0.73064834, 0.7009574, 0, 1)
+outline_size = 6
+outline_color = Color(0.75561875, 0.783837, 0.543754, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_uvquw"]
+font_size = 14
+font_color = Color(0.24084985, 0.6777521, 0, 1)
+outline_size = 6
+outline_color = Color(0.5117114, 0.69139063, 0.59434986, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_3ugnv"]
-font_size = 48
+font_size = 14
 font_color = Color(0, 0.49019608, 1, 1)
-outline_size = 8
-outline_color = Color(0.641934, 0.641934, 0.641934, 1)
+outline_size = 6
+outline_color = Color(0.5667272, 0.63958097, 0.8261853, 1)
 
-[node name="skill_box" type="MarginContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+[node name="skill_box" type="MarginContainer" unique_id=341369657]
+anchors_preset = -1
+anchor_right = 0.44000003
+anchor_bottom = 0.056
+offset_right = -15.160034
+offset_bottom = 0.21199799
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
 script = ExtResource("1_3ugnv")
 
-[node name="HSplitContainer" type="HSplitContainer" parent="."]
-custom_minimum_size = Vector2(632, 65)
+[node name="HSplitContainer" type="HSplitContainer" parent="." unique_id=906649552]
+custom_maximum_size = Vector2(361, -1)
 layout_mode = 2
-split_offset = 10
+split_offsets = PackedInt32Array(300)
 drag_area_margin_begin = 12
 drag_area_margin_end = 12
 drag_area_offset = 12
+split_offset = 300
 
-[node name="name" type="Label" parent="HSplitContainer"]
-custom_minimum_size = Vector2(380, 0)
+[node name="name" type="Label" parent="HSplitContainer" unique_id=73330577]
+custom_minimum_size = Vector2(240, 0)
+custom_maximum_size = Vector2(240, -1)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = SubResource("Theme_0f0kn")
 text = "avocado"
+autowrap_mode = 3
+visible_characters_behavior = 3
 
-[node name="mana_cost" type="Label" parent="HSplitContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer" unique_id=1990548826]
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 2
+theme_override_constants/separation = 6
+
+[node name="hp_cost" type="Label" parent="HSplitContainer/HBoxContainer" unique_id=231590859]
+custom_minimum_size = Vector2(0, 20)
+custom_maximum_size = Vector2(-1, 50)
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("1_gl615")
-text = "30"
+theme_override_font_sizes/font_size = 12
+text = "10 HP"
+label_settings = SubResource("LabelSettings_0f0kn")
+
+[node name="tp_cost" type="Label" parent="HSplitContainer/HBoxContainer" unique_id=779543162]
+custom_minimum_size = Vector2(0, 20)
+custom_maximum_size = Vector2(-1, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_gl615")
+theme_override_font_sizes/font_size = 12
+text = "20 TP"
+label_settings = SubResource("LabelSettings_uvquw")
+
+[node name="mana_cost" type="Label" parent="HSplitContainer/HBoxContainer" unique_id=2013902369]
+custom_minimum_size = Vector2(0, 20)
+custom_maximum_size = Vector2(-1, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_gl615")
+theme_override_font_sizes/font_size = 12
+text = "30 MP"
 label_settings = SubResource("LabelSettings_3ugnv")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="."]
-custom_minimum_size = Vector2(120, 0)
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1519527628]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_0f0kn")
@@ -55,7 +102,8 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="Desc" type="Label" parent="NinePatchRect"]
+[node name="Desc" type="Label" parent="NinePatchRect" unique_id=148814256]
+custom_maximum_size = Vector2(350, -1)
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -64,11 +112,11 @@ offset_bottom = 69.0
 theme_override_font_sizes/font_size = 16
 autowrap_mode = 2
 
-[node name="fightButton" type="Button" parent="."]
+[node name="fightButton" type="Button" parent="." unique_id=2114525034]
 layout_mode = 2
 flat = true
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=1209398815]
 layout_mode = 2
 flat = true
 

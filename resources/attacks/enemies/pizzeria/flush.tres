@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://c8le88pv18h11"]
+
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_s8r1g"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_inev2"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="3_cgx71"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="4_o0a2r"]
+[ext_resource type="AudioStream" uid="uid://bh4jxdm3ydxx3" path="res://assets/sound/sfx/attack/Water1.mp3" id="5_inev2"]
+[ext_resource type="EffekseerEffect" uid="uid://c6suj2yp6cuc1" path="res://assets/vfx/WaterAll3.efkefc" id="6_o0a2r"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="7_bnhqc"]
+
+[sub_resource type="Resource" id="Resource_1udcj"]
+script = ExtResource("7_bnhqc")
+effect = ExtResource("6_o0a2r")
+
+[resource]
+script = ExtResource("4_o0a2r")
+skill_name = "Flush"
+target_type = 3
+skill_type = 1
+mana_cost = 8
+hp_cost = 10
+attack_bonus = 5
+damage_type = 6
+vfx = SubResource("Resource_1udcj")
+sfx = ExtResource("5_inev2")
+metadata/_custom_type_script = "uid://o74imedfcjis"

@@ -1,18 +1,45 @@
-[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://cl6s08n0unc3o"]
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cl6s08n0unc3o"]
 
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_5bddn"]
-[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/player/item.gd" id="2_lu6nh"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_5bddn"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_lu6nh"]
+[ext_resource type="Script" uid="uid://bdv44ymylf45" path="res://code/battle/battle_effect/battle_effect_condition.gd" id="2_v63bl"]
+[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect/battle_effect_stat_modifier.gd" id="3_qwdot"]
+[ext_resource type="Script" uid="uid://bdxyu3e5w0856" path="res://code/battle/battle_effect/battle_effect_status_definition.gd" id="4_b4ryh"]
+
+[sub_resource type="Resource" id="Resource_kxdtb"]
+script = ExtResource("3_qwdot")
+metadata/_custom_type_script = "uid://btu5sgbysqdfq"
+
+[sub_resource type="Resource" id="Resource_r6hbh"]
+script = ExtResource("4_b4ryh")
+metadata/_custom_type_script = "uid://bdxyu3e5w0856"
+
+[sub_resource type="Resource" id="Resource_va6ex"]
+script = ExtResource("1_5bddn")
+stat_modifiers = Array[ExtResource("3_qwdot")]([SubResource("Resource_kxdtb")])
+status_ref = SubResource("Resource_r6hbh")
+metadata/_custom_type_script = "uid://ch7hoesea8vrf"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5bddn"]
+load_path = "res://.godot/imported/dildo_6.png-2d9f30c44d097f69c8e69b5436574b79.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lu6nh"]
+load_path = "res://.godot/imported/dildo_6.png-2d9f30c44d097f69c8e69b5436574b79.ctex"
 
 [resource]
 script = ExtResource("2_lu6nh")
 item_name = "6cm Dildo"
 description = "TINY, but a demon."
+texture = SubResource("CompressedTexture2D_lu6nh")
+icon = SubResource("CompressedTexture2D_5bddn")
+can_use_outside_battle = false
 item_bonuses = Dictionary[String, int]({
-"atk": 5,
+"atk": 1,
 "def": 0,
 "hp": 0,
 "magic": 0,
 "mp": 0,
 "speed": 0
 })
+consume_effects = Array[ExtResource("1_5bddn")]([SubResource("Resource_va6ex")])
 metadata/_custom_type_script = "uid://dn31qme1ukrys"

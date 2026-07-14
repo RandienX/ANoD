@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://djhef0fqgqw4y"
+path="res://.godot/imported/Revive2.efkefc-47e50e88aa85eaaebe7abed40dd192e8.res"
+
+[deps]
+
+source_file="res://assets/vfx/Revive2.efkefc"
+dest_files=["res://.godot/imported/Revive2.efkefc-47e50e88aa85eaaebe7abed40dd192e8.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

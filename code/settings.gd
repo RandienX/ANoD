@@ -20,7 +20,7 @@ var battle_speed: float = 1.0
 var text_speed: float = 1.0
 var show_damage_numbers: bool = true
 var battle_animations: bool = true
-var skip_cutscenes: bool = false
+var battle_log: bool = false
 
 # === Control Settings (stored as strings for key mappings) ===
 var control_mappings: Dictionary = {
@@ -37,6 +37,7 @@ var control_mappings: Dictionary = {
 const SETTINGS_FILE := "user://settings.json"
 
 func _ready() -> void:
+	process_mode = Node.ProcessMode.PROCESS_MODE_ALWAYS
 	load_settings()
 	_apply_audio_settings()
 	_apply_display_settings()
@@ -138,11 +139,11 @@ func set_battle_animations(value: bool) -> void:
 	battle_animations = value
 	settings_changed.emit("gameplay", "battle_animations", battle_animations)
 
-## Toggle cutscene skipping
-func set_skip_cutscenes(value: bool) -> void:
-	skip_cutscenes = value
-	settings_changed.emit("gameplay", "skip_cutscenes", skip_cutscenes)
-
+## Toggle battle animations
+func set_battle_log(value: bool) -> void:
+	battle_log = value
+	settings_changed.emit("gameplay", "battle_log", battle_log)
+	
 ## Update a control mapping
 func set_control_mapping(action: String, key_name: String) -> void:
 	control_mappings[action] = key_name
@@ -167,7 +168,7 @@ func get_save_data() -> Dictionary:
 			"text_speed": text_speed,
 			"show_damage_numbers": show_damage_numbers,
 			"battle_animations": battle_animations,
-			"skip_cutscenes": skip_cutscenes
+			"battle_log": battle_log,
 		},
 		"controls": control_mappings.duplicate()
 	}
@@ -194,7 +195,7 @@ func load_from_data(data: Dictionary) -> void:
 		text_speed = gameplay.get("text_speed", text_speed)
 		show_damage_numbers = gameplay.get("show_damage_numbers", show_damage_numbers)
 		battle_animations = gameplay.get("battle_animations", battle_animations)
-		skip_cutscenes = gameplay.get("skip_cutscenes", skip_cutscenes)
+		battle_log = gameplay.get("battle_log", battle_log)
 	
 	if data.has("controls"):
 		for key in data["controls"]:
@@ -251,7 +252,7 @@ func reset_to_defaults() -> void:
 	text_speed = 1.0
 	show_damage_numbers = true
 	battle_animations = true
-	skip_cutscenes = false
+	battle_log = false
 	control_mappings = {
 		"left": "A",
 		"up": "W", 

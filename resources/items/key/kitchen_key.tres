@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://qrcs2ja606me"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_smlag"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_76v2d"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_smlag"]
+load_path = "res://.godot/imported/key.png-8551956748f99f33921e9fa8cd62fa67.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_76v2d"]
+load_path = "res://.godot/imported/key.png-8551956748f99f33921e9fa8cd62fa67.ctex"
+
+[resource]
+script = ExtResource("2_76v2d")
+item_name = "Kitchen Key"
+description = "... it's a key... yup... to the Kitchen in Freddy Fuckboy's Pizza... i think that's it."
+texture = SubResource("CompressedTexture2D_76v2d")
+icon = SubResource("CompressedTexture2D_smlag")
+type = 3
+sell_price = Dictionary[int, int]({})
+can_use_in_battle = false
+can_use_outside_battle = false
+item_bonuses = Dictionary[String, int]({
+"hp": 0,
+"magic": 0,
+"mp": 0,
+"speed": 0
+})
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://chgntohf5wfwf"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_6pp0l"]
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_40fw1"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="2_0y0vr"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_ovaba"]
+[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect/battle_effect_stat_modifier.gd" id="3_ikcfn"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="4_brsk1"]
+[ext_resource type="AudioStream" uid="uid://be64uoyurtkb4" path="res://assets/sound/sfx/attack/Starlight.mp3" id="7_brsk1"]
+[ext_resource type="EffekseerEffect" uid="uid://exrgyrb2ao7o" path="res://assets/vfx/HealAll1.efkefc" id="8_brsk1"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="9_irigr"]
+
+[sub_resource type="Resource" id="Resource_i1cot"]
+script = ExtResource("1_6pp0l")
+effect_id = "Heal"
+effect_name = "Cumcakes"
+target_type = 5
+base_value = 25.0
+scaling_type = 2
+critical_multiplier = 1.55
+variance_percent = 0.3
+metadata/_custom_type_script = "uid://ch7hoesea8vrf"
+
+[sub_resource type="Resource" id="Resource_ci525"]
+script = ExtResource("9_irigr")
+effect = ExtResource("8_brsk1")
+on_target = 1
+
+[resource]
+script = ExtResource("2_0y0vr")
+skill_name = "Cumcakes"
+target_type = 2
+skill_type = 1
+mana_cost = 15
+on_hit_effects = Array[ExtResource("1_6pp0l")]([SubResource("Resource_i1cot")])
+vfx = SubResource("Resource_ci525")
+sfx = ExtResource("7_brsk1")
+metadata/_custom_type_script = "uid://o74imedfcjis"

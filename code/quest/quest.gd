@@ -21,7 +21,7 @@ class_name Quest
 
 @export_group("Quest Structure")
 @export var points: Array[QuestPoint] = []  # Linear progression of points (steps)
-@export var effects: Array[QuestEffect] = []  # Rewards on completion
+@export var effects: Array[Effect] = []  # Rewards on completion
 
 @export_group("Progress Tracking")
 @export var current_point_index: int = 0
@@ -34,17 +34,14 @@ class_name Quest
 @export var priority: int = 0  # For sorting (higher = more important)
 @export var metadata: Dictionary = {}
 
-# Cached evaluator reference
-var _evaluator: QuestConditionEvaluator = null
 
-func initialize(evaluator: QuestConditionEvaluator = null) -> void:
+func initialize() -> void:
 	# Only reset state if not being initialized during load
 	# This allows load_save_data to restore the actual saved state
 	is_active = true
 	is_complete = false
 	is_failed = false
 	current_point_index = 0
-	_evaluator = evaluator if evaluator else QuestConditionEvaluator.new()
 
 	# Reset all points and initialize kill baselines and battle baselines
 	# Reset all points and initialize baselines only for the current point
@@ -55,10 +52,7 @@ func initialize(evaluator: QuestConditionEvaluator = null) -> void:
 	_initialize_baselines_for_current_point()
 
 	## Initialize this quest without resetting state (for loading from save)
-func initialize_without_reset(evaluator: QuestConditionEvaluator = null) -> void:
-	_evaluator = evaluator if evaluator else QuestConditionEvaluator.new()
-
-	# Initialize baselines only for conditions in the current point
+func initialize_without_reset() -> void:
 	_initialize_baselines_for_current_point()
 
 	## Initialize baselines for conditions in the current point only
@@ -68,10 +62,10 @@ func _initialize_baselines_for_current_point() -> void:
 		return
 
 	for condition in current_point.conditions:
-		if condition.type == QuestPointCondition.ConditionType.KILLED_ENEMY:
-			_evaluator.initialize_kill_baseline(condition)
-		elif condition.type == QuestPointCondition.ConditionType.BATTLE_WON:
-			_evaluator.initialize_battle_baseline(condition)
+		if condition.condition_type == Condition.ConditionType.KILLED_ENEMY:
+			condition.initialize_kill_baseline(condition)
+		elif condition.condition_type == Condition.ConditionType.BATTLE_WON:
+			condition.initialize_battle_baseline(condition)
 								
 ## Get the current active point
 func get_current_point() -> QuestPoint:
@@ -82,25 +76,13 @@ func get_current_point() -> QuestPoint:
 	return points[current_point_index]
 
 ## Evaluate current point and return its state
-func evaluate(evaluator: QuestConditionEvaluator = null) -> QuestPoint.QuestState:
+func evaluate() -> QuestPoint.QuestState:
 	var point = get_current_point()
 	if not point:
 		return QuestPoint.QuestState.YES
-
-	var eval = evaluator if evaluator else _evaluator
-	if not eval:
-		eval = QuestConditionEvaluator.new()
-
-	return point.evaluate(eval)
-
-## Update progress for a specific condition type/target
-func update_progress(type: QuestPointCondition.ConditionType, target_key: String, amount: float = 1.0) -> QuestPoint.QuestState:
-	var point = get_current_point()
-	if not point:
-		return QuestPoint.QuestState.NO
-
-	var state = point.update_condition_progress(type, target_key, amount)
-
+		
+	var state = point.evaluate()
+		
 	# Check if point is complete and advance
 	if state == QuestPoint.QuestState.YES and point.auto_advance:
 		_advance_to_next_point()
@@ -118,7 +100,7 @@ func _advance_to_next_point() -> bool:
 		complete_quest()
 		return false
 
-	## Complete this quest and execute effects
+## Complete this quest and execute effects
 func complete_quest() -> void:
 	if is_complete:
 		return
@@ -128,7 +110,7 @@ func complete_quest() -> void:
 	
 	# Execute all reward effects
 	for effect in effects:
-		effect.execute(self)
+		effect.execute()
 
 ## Fail this quest
 func fail_quest() -> void:
@@ -144,13 +126,12 @@ func reset() -> void:
 	is_complete = false
 	is_failed = false
 	current_point_index = 0
-	_evaluator = null
 
 	for point in points:
 		point.reset()
 
 ## Get overall completion percentage (0.0 to 1.0)
-func get_completion_percentage(evaluator: QuestConditionEvaluator = null) -> float:
+func get_completion_percentage() -> float:
 	if points.is_empty():
 		return 1.0
 
@@ -160,17 +141,10 @@ func get_completion_percentage(evaluator: QuestConditionEvaluator = null) -> flo
 	if is_failed:
 		return 0.0
 
-	var eval = evaluator if evaluator else _evaluator
-	if not eval:
-		eval = QuestConditionEvaluator.new()
-
 	var total_progress := 0.0
 	for i in range(points.size()):
 		var point = points[i]
-		if i < current_point_index:
-			total_progress += 1.0
-		elif i == current_point_index:
-			total_progress += point.get_completion_percentage(eval)
+		total_progress += point.get_completion_percentage()
 
 	return total_progress / points.size()
 
@@ -201,17 +175,16 @@ func _serialize_points() -> Array:
 		var point_data := {
 		"step_name": point.step_name,
 		"is_complete": point.is_complete,
-		"logic_gate": point.logic_gate,
 		"auto_advance": point.auto_advance,
 		"conditions_data": []
 		}
 
 		for condition in point.conditions:
 			point_data["conditions_data"].append({
-			"type": condition.type,
-			"target_key": condition.target_key,
+			"type": condition.condition_type,
+			"target_key": condition.param_string,
 			"progress_current": condition.progress_current,
-			"progress_target": condition.progress_target,
+			"progress_target": condition.param_value,
 			"initial_value_count": condition._initial_value_count
 			})
 

@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://dhilxxmsig5sq"
+path="res://.godot/imported/Blind.efkefc-8fbfde2f8ce556fc4cc08a24f3a97dfa.res"
+
+[deps]
+
+source_file="res://assets/vfx/Blind.efkefc"
+dest_files=["res://.godot/imported/Blind.efkefc-8fbfde2f8ce556fc4cc08a24f3a97dfa.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

@@ -36,15 +36,6 @@ func update_display() -> void:
 	if quest_name_label:
 		quest_name_label.text = _quest.quest_name
 
-	# Update point/step label
-	if step_label:
-		var total_points = _quest.points.size()
-		var current_point = _quest.get_current_point()
-		if current_point:
-			step_label.text = "Point %d/%d: %s" % [_quest.current_point_index + 1, total_points, current_point.step_name]
-		else:
-			step_label.text = "Point %d/%d: Complete!" % [total_points, total_points]
-
 	# Update conditions
 	_update_conditions()
 
@@ -77,7 +68,7 @@ func _refresh_condition_displays() -> void:
 		if is_instance_valid(item) and item.has_method("update_display"):
 			item.update_display()
 
-func _create_condition_item(condition: QuestPointCondition, point: QuestPoint) -> void:
+func _create_condition_item(condition: Condition, point: QuestPoint) -> void:
 	if not condition_container:
 		return
 
@@ -102,15 +93,6 @@ func _update_buttons() -> void:
 		if not _quest:
 				return
 
-		var current_point = _quest.get_current_point()
-		if not current_point:
-				# Quest complete - disable navigation
-				if list_backward:
-						list_backward.disabled = true
-				if list_forward:
-						list_forward.disabled = true
-				return
-
 		# Enable/disable based on point navigation possibility
 		if list_backward:
 				list_backward.disabled = _quest.current_point_index <= 0
@@ -119,11 +101,15 @@ func _update_buttons() -> void:
 
 func _on_backward_pressed() -> void:
 	if _quest and _quest.current_point_index > 0:
+		Sfx.stream = load("res://assets/sound/sfx/select.wav")
+		Sfx.play()
 		_quest.current_point_index -= 1
 		update_display()
 
 func _on_forward_pressed() -> void:
 	if _quest and _quest.current_point_index < _quest.points.size() - 1:
+		Sfx.stream = load("res://assets/sound/sfx/select.wav")
+		Sfx.play()
 		_quest.current_point_index += 1
 		update_display()
 
@@ -147,6 +133,7 @@ func flash_condition_done(condition_item: Control, color_from: Color, color_to: 
 	_flash_tween.set_loops()
 
 	var progress_bar = _find_progress_bar(condition_item)
+	_flash_tween.bind_node(progress_bar)
 	if progress_bar:
 		_flash_tween.tween_property(progress_bar, "theme_override_styles/fill:bg_color", color_from, duration / 4.0)
 		_flash_tween.tween_property(progress_bar, "theme_override_styles/fill:bg_color", color_to, duration / 4.0)

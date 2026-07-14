@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://cgui3t54g0dw1"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_3cqip"]
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_bofh5"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_dcgl7"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="2_nyj3r"]
+[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect/battle_effect_stat_modifier.gd" id="3_ek7bw"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="4_ho6ao"]
+[ext_resource type="EffekseerEffect" uid="uid://b4axrkrwhkkrk" path="res://assets/vfx/Sweep.efkefc" id="7_ho6ao"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="8_hivbx"]
+
+[sub_resource type="Resource" id="Resource_3cqip"]
+script = ExtResource("1_3cqip")
+effect_id = "heal"
+effect_name = "Heal"
+effect_type = 1
+base_value = 15.0
+scaling_type = 2
+critical_multiplier = 1.0
+status_apply_chance = 85.0
+metadata/_custom_type_script = "uid://ch7hoesea8vrf"
+
+[sub_resource type="Resource" id="Resource_ot27y"]
+script = ExtResource("8_hivbx")
+effect = ExtResource("7_ho6ao")
+on_target = 4
+
+[resource]
+script = ExtResource("2_nyj3r")
+skill_name = "Heal Strike"
+mana_cost = 15
+attack_bonus = 5
+damage_type = 2
+on_use_effects = Array[ExtResource("1_3cqip")]([SubResource("Resource_3cqip")])
+vfx = SubResource("Resource_ot27y")
+metadata/_custom_type_script = "uid://o74imedfcjis"

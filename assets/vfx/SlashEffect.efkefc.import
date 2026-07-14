@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://daml7s43ug3u0"
+path="res://.godot/imported/SlashEffect.efkefc-9a56b79696038aac1d3d0e1f4f1f7921.res"
+
+[deps]
+
+source_file="res://assets/vfx/SlashEffect.efkefc"
+dest_files=["res://.godot/imported/SlashEffect.efkefc-9a56b79696038aac1d3d0e1f4f1f7921.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

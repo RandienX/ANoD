@@ -1,13 +1,28 @@
-[gd_resource type="Resource" script_class="Skill" load_steps=3 format=3 uid="uid://duj14sl0ett0i"]
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://duj14sl0ett0i"]
 
 [ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="1_okuf6"]
-[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect.gd" id="1_v8fga"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_v8fga"]
+[ext_resource type="AudioStream" uid="uid://3b5dbujc8yye" path="res://assets/sound/sfx/attack/Damage4.mp3" id="1_x27wn"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_umb3x"]
+[ext_resource type="AudioStream" uid="uid://ekpv1egmfgss" path="res://assets/sound/sfx/attack/Earth1.mp3" id="5_p88cc"]
+[ext_resource type="EffekseerEffect" uid="uid://b5q4j0b1wmlkc" path="res://assets/vfx/SlashPhysical.efkefc" id="6_p88cc"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="7_hjw42"]
+
+[sub_resource type="Resource" id="Resource_jabyw"]
+script = ExtResource("7_hjw42")
+effect = ExtResource("6_p88cc")
+on_target = 4
+flip_h = true
 
 [resource]
 script = ExtResource("1_okuf6")
 skill_name = "Bunny Hop"
 mana_cost = 15
+tp_cost = 5
 attack_bonus = 1
 hit_count = 3
 hit_damage_multiplier = 0.6
+vfx = SubResource("Resource_jabyw")
+sfx = ExtResource("5_p88cc")
+hit_sound = ExtResource("1_x27wn")
 metadata/_custom_type_script = "uid://o74imedfcjis"

@@ -4,9 +4,6 @@ class_name ShopItemCard
 ## ShopItemCard - Reusable UI component for displaying a single shop item
 ## Shows icon, name, description, price, and handles purchase interaction
 
-signal purchase_requested(shop_item: ShopItem, quantity: int)
-signal sold(item: Item, quantity: int, currency_type: PlayerStats.CurrencyType, earnings: int)
-
 @onready var icon_texture: TextureRect = $HBoxContainer/Icon
 @onready var name_label: Label = $HBoxContainer/VBoxContainer/Name
 @onready var description_label: Label = $HBoxContainer/VBoxContainer/ScrollContainer/Desc
@@ -25,9 +22,8 @@ var sell_currency_type: PlayerStats.CurrencyType = PlayerStats.CurrencyType.GOLD
 var quantity: int = 1
 var is_sell_mode: bool = false
 
-
 ## Initialize for BUY mode (existing functionality)
-func init(item: ShopItem) -> void:
+func setup(item: ShopItem) -> void:
 	is_sell_mode = false
 	shop_item = item
 	_setup()
@@ -137,29 +133,44 @@ func _on_buy_pressed() -> void:
 	else:
 		if shop_item and quantity_spinbox:
 			quantity = int(quantity_spinbox.value)
-			purchase_requested.emit(shop_item, quantity)
+			_attempt_purchase()
+
+func _attempt_purchase() -> void:
+	if not shop_item:
+		return
+	
+	var success = false
+	success = shop_item.purchase(quantity)
+	get_tree().current_scene._update_currency_display()
+	
+	if success:
+		Sfx.stream = load("res://assets/sound/sfx/select.wav")
+		Sfx.play()
+		PlayerStats.add_item(shop_item.item, quantity)
+	else:
+		Sfx.stream = load("res://assets/sound/sfx/error.wav")
+		Sfx.play()
 
 func _on_sell_pressed() -> void:
 	if not sell_item or not quantity_spinbox:
 		return
 	
 	var qty_to_sell = int(quantity_spinbox.value)
-	if qty_to_sell <= 0 or qty_to_sell > sell_quantity:
-		push_warning("ShopItemCard: Invalid sell quantity")
-		return
-	
 	var total_earnings = sell_price_value * qty_to_sell
 	
-	# Emit sold signal with all necessary data
-	sold.emit(sell_item, qty_to_sell, sell_currency_type, total_earnings)
+	if not shop_item.item or quantity <= 0 or quantity >= PlayerStats.get_item_amount(shop_item.item):
+		push_warning("ShopUI: Invalid sell transaction")
+		return
 
-func on_currency_changed() -> void:
-	_update_visuals()
+	var removed = PlayerStats.remove_item(shop_item.item, quantity)
+	if not removed:
+		push_warning("ShopUI: Failed to remove sold item from inventory")
+		return
 
-## Enable or disable bulk buying (show/hide spinbox)
-func enable_bulk_buy(enabled: bool) -> void:
-	if quantity_spinbox:
-		quantity_spinbox.visible = enabled
+	PlayerStats.add_currency(total_earnings, get_tree().current_scene.shop_data.currency_type)
+	get_tree().current_scene._update_currency_display()
+
+	get_tree().current_scene._refresh_sell_grid()
 
 ## Check if this card is in sell mode
 func is_in_sell_mode() -> bool:

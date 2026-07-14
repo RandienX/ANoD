@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://cdlrma0v1geqg"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_33io0"]
+[ext_resource type="Texture2D" uid="uid://4kl48ww0ey2r" path="res://assets/battlesprites/mini_music_man.png" id="1_m628h"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_kptrc"]
+[ext_resource type="Resource" uid="uid://bm2swlibbpbh4" path="res://resources/attacks/attack.tres" id="2_snlrn"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="3_4drr5"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="4_nrb85"]
+[ext_resource type="Resource" uid="uid://b3qdog10ofahg" path="res://resources/items/consumables/small_pizza.tres" id="5_sh264"]
+[ext_resource type="Resource" uid="uid://k5bt08406g44" path="res://resources/attacks/enemies/pizzeria/cymbal_crash.tres" id="8_2twhg"]
+
+[resource]
+script = ExtResource("4_nrb85")
+name = "Mini Music Man"
+role = 1
+battle_sprite = ExtResource("1_m628h")
+base_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 120,
+"magic": 10,
+"magic_def": 5,
+"mp": 50,
+"speed": 10
+})
+stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 0,
+"magic": 10,
+"mp": 0,
+"speed": 10
+})
+max_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"mp": 50,
+"speed": 10
+})
+skills = Dictionary[int, Array]({
+0: [ExtResource("8_2twhg")]
+})
+default_attack = ExtResource("2_snlrn")
+aggression = 0.45
+enemy_inventory = Array[ExtResource("2_kptrc")]([ExtResource("5_sh264")])
+xp_reward = 75
+currency_reward = 30
+metadata/_custom_type_script = "uid://c2cret7fy87bn"

@@ -6,16 +6,29 @@ const EFFECT_ATLAS_PATH = "res://assets/battleui/status_effects.png"
 const EFFECT_TILE_SIZE = 64
 const EFFECT_COLS = 4
 
+var previous_hp = 100
+var battle_start = false
+
 func _ready() -> void:
 	# Create effect container for status icons
 	effect_container = $EffectContainer
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if enemy:
-		$ProgressBar.value = enemy.hp
-		$ProgressBar.max_value = enemy.base_stats["hp"]
+		if battle_start and Settings.show_damage_numbers:
+			check_hp_change()
+		$VBoxContainer/hp.value = enemy.stats["hp"]
+		$VBoxContainer/hp.max_value = enemy.max_stats["hp"]
+		$VBoxContainer/mp.value = enemy.stats["mp"]
+		$VBoxContainer/mp.max_value = enemy.max_stats["mp"]
+		$name.text = enemy.name
+		$name/NinePatchRect2.size.x = $name.size.x + 6
+		$EffekseerEmitter2D.target_position = texture.get_size() / Vector2(2,2)
+		previous_hp = enemy.stats["hp"]
+		battle_start = true
 	else:
-		$ProgressBar.visible = false
+		$VBoxContainer/hp.visible = false
+		visible = false
 	update_effects_ui()
 
 ## Updates status effects display for enemy
@@ -25,7 +38,6 @@ func update_effects_ui() -> void:
 
 	if enemy:
 		# Use new status system API
-		var active_status_ids = enemy.get_active_status_ids()
 		for status_id in enemy.get_active_status_ids():
 			var stacks = enemy.get_status_stacks(status_id)
 			var duration = enemy.get_status_duration(status_id)
@@ -65,3 +77,27 @@ func create_effect_icon_from_texture(tex: Texture2D) -> TextureRect:
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.texture = tex
 	return icon
+
+func check_hp_change():
+	if enemy.stats["hp"] < previous_hp:
+		create_dmg_label(previous_hp-enemy.stats["hp"], Color.WHITE_SMOKE, Color.BLACK)
+	elif enemy.stats["hp"] > previous_hp:
+		create_dmg_label(enemy.stats["hp"]-previous_hp, Color.LIME_GREEN, Color.CORNSILK)
+		
+func create_dmg_label(dmg: int, color: Color, outline: Color):
+	var label = Label.new()
+	label.label_settings = load("res://scenes/ui/battle_engine_stuff/dmg_label_settings.tres").duplicate_deep()
+	label.label_settings.font_color = color
+	label.label_settings.outline_color = outline
+	label.text = str(dmg)
+	label.position = texture.get_size() / Vector2(2,2)
+	add_child(label)
+	var tween = get_tree().create_tween().bind_node(label)
+	var x_offset = randi_range(-20, 20)
+	var y_offset = randi_range(-10, 40)
+	tween.tween_property(label, "position", Vector2(label.position.x + x_offset, label.position.y - y_offset - 25), 0.1)
+	await tween.finished
+	tween = get_tree().create_tween().bind_node(label)
+	tween.tween_property(label, "position", Vector2(label.position.x + x_offset, label.position.y + y_offset + 25), 0.5).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	await get_tree().create_timer(0.5).timeout
+	label.queue_free()

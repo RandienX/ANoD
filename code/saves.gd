@@ -10,11 +10,17 @@ const MAX_SLOTS = 10
 var _save_manager: Node = null
 
 func _ready() -> void:
+	process_mode = Node.ProcessMode.PROCESS_MODE_ALWAYS
 	DirAccess.make_dir_recursive_absolute(SAVE_PATH)
 	# Try to get reference to AutoSaveManager
 	if has_node("/root/SaveManager"):
 		_save_manager = get_node("/root/SaveManager")
-
+		
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("erase_savez"):
+		for i in range(11):
+			delete_slot(i)
+			
 func save_game(slot: int, save_name: String):
 	# Use AutoSaveManager if available
 	_save_manager.save_game(slot, save_name)
@@ -29,14 +35,16 @@ func get_slot_info(slot: int) -> Dictionary:
 	return _save_manager.get_slot_info(slot)
 
 func format_time(seconds: float) -> String:
+	@warning_ignore("integer_division")
 	var h = int(seconds) / 3600
+	@warning_ignore("integer_division")
 	var m = (int(seconds) % 3600) / 60
 	var s = int(seconds) % 60
 	return "%02d:%02d:%02d" % [h, m, s]
 
 # === New AutoSaveManager Integration Methods ===
 ## Enable autosave functionality
-func enable_autosave(interval_seconds: float = 300.0) -> void:
+func enable_autosave(_interval_seconds: float = 300.0) -> void:
 	if _save_manager:
 		_save_manager.set_autosave_enabled(true)
 		# Note: interval would need to be set via a separate method on AutoSaveManager

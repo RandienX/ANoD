@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://ejg2kt701p0l"]
+
+[ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office.mp3" id="1_dqxgn"]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" unique_id=350531821]
+process_mode = 3
+stream = ExtResource("1_dqxgn")
+autoplay = true
+bus = &"Music"
+
+[connection signal="finished" from="." to="." method="_on_finished"]

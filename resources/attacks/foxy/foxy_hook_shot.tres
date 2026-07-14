@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://bjsbtv5uw2jr2"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_58wax"]
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_orir7"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="1_skill"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_7g0uy"]
+[ext_resource type="Resource" uid="uid://dc5cs2m8msofl" path="res://resources/effects/poison.tres" id="2_q3xwb"]
+[ext_resource type="AudioStream" uid="uid://dabvhefdalo6t" path="res://assets/sound/sfx/attack/Slash1.mp3" id="6_23nwj"]
+[ext_resource type="EffekseerEffect" uid="uid://bxtbolj2hnkpi" path="res://assets/vfx/PiercePhysical.efkefc" id="7_23nwj"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="8_l8778"]
+
+[sub_resource type="Resource" id="Resource_s3ty0"]
+script = ExtResource("8_l8778")
+effect = ExtResource("7_23nwj")
+on_target = 4
+metadata/_custom_type_script = "uid://bqcm6g85k8bau"
+
+[resource]
+script = ExtResource("1_skill")
+skill_name = "Degenerate Hook Shot"
+description = "Foxy lashes out with his fucked-up pirate hook in a manic, angry burst."
+tp_cost = -3
+attack_multiplier = 0.8
+attack_bonus = 3
+hit_count = 2
+hit_damage_multiplier = 0.66
+on_hit_effects = Array[ExtResource("1_58wax")]([ExtResource("2_q3xwb")])
+vfx = SubResource("Resource_s3ty0")
+sfx = ExtResource("6_23nwj")

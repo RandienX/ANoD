@@ -10,8 +10,10 @@ signal party_member_selected(member: Resource)
 @export var member_portrait: TextureRect
 @export var hp_progress: ProgressBar
 @export var mp_progress: ProgressBar
+@export var xp_progress: ProgressBar
 @export var hp_label: Label
 @export var mp_label: Label
+@export var xp_label: Label
 @export var stats_grid: GridContainer
 @export var equipment_container: VBoxContainer
 @export var equipment_slots: GridContainer
@@ -20,7 +22,7 @@ signal party_member_selected(member: Resource)
 
 @onready var equip_select: Control = $EquipmentSelection
 
-var party_members: Array[Object] = []
+var party_members: Array = []
 var selected_member_index: int = -1
 var member_buttons: Array[Button] = []
 var equipment_slot_buttons: Array[Button] = []
@@ -38,10 +40,9 @@ const SLOT_DISPLAY_NAMES = {
 }
 
 func _ready() -> void:
+	await get_tree().create_timer(0.05).timeout
 	_refresh_party_display()
 	_update_detail_panel()
-	if not party_members.is_empty():
-		_select_member(0)
 
 func _refresh_party_display() -> void:
 	for btn in member_buttons:
@@ -69,8 +70,6 @@ func _refresh_party_display() -> void:
 				btn.icon.region = member.portrait_rect
 		
 		btn.pressed.connect(_on_member_button_pressed.bind(i))
-		if $"../../../..".pending_item != null:
-			party_member_selected.connect(_on_member_button_pressed.bind(party_members[selected_member_index]))
 		members_container.add_child(btn)
 		member_buttons.append(btn)
 		
@@ -85,6 +84,8 @@ func _refresh_party_display() -> void:
 		btn.add_child(npr)
 
 func _on_member_button_pressed(index: int) -> void:
+	Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx.play()
 	_select_member(index)
 
 func _select_member(index: int) -> void:
@@ -102,6 +103,16 @@ func _select_member(index: int) -> void:
 	party_member_selected.emit(member)
 
 func _update_detail_panel() -> void:
+	var member: Entity = party_members[selected_member_index]
+	
+	if party_member_selected.has_connections():
+		$MarginContainer/VBoxContainer/CurrentSelected.visible = true
+		if member:
+			$MarginContainer/VBoxContainer/CurrentSelected.text = "Currently Selected for Item Use: %s (click again to apply)" % [member.name]
+	else:
+		$MarginContainer/VBoxContainer/CurrentSelected.visible = false
+		
+	
 	if selected_member_index < 0 or selected_member_index >= party_members.size():
 		no_member_label.visible = true
 		member_name_label.visible = false
@@ -130,8 +141,6 @@ func _update_detail_panel() -> void:
 	equipment_container.visible = true
 	skills_list.visible = true
 	
-	var member: Entity = party_members[selected_member_index]
-	
 	var member_name = member.get("name") if "name" in member else "Member " + str(selected_member_index + 1)
 	member_name_label.text = member_name
 	var member_level = member.get("level") if "level" in member else 1
@@ -148,10 +157,12 @@ func _update_detail_panel() -> void:
 	else:
 		member_portrait.texture = null
 	
-	var current_hp = member.get("hp") if "hp" in member else 100
-	var max_hp = member.get_max_stat(&"hp")
-	var current_mp = member.get("mp") if "mp" in member else 50
-	var max_mp = member.get_max_stat(&"mp")
+	var current_hp = member.stats["hp"]
+	var max_hp = member.max_stats["hp"]
+	var current_mp = member.stats["mp"]
+	var max_mp = member.max_stats["mp"]
+	var current_xp = member.xp
+	var needed_xp = member.xp_to_level_up
 	
 	hp_progress.max_value = max_hp
 	hp_progress.value = current_hp
@@ -160,6 +171,10 @@ func _update_detail_panel() -> void:
 	mp_progress.max_value = max_mp
 	mp_progress.value = current_mp
 	mp_label.text = str(current_mp) + "/" + str(max_mp)
+	
+	xp_progress.max_value = needed_xp
+	xp_progress.value = current_xp
+	xp_label.text = str(current_xp) + "/" + str(needed_xp)
 	
 	_update_stats_grid(member)
 	update_equipment_grid(member)
@@ -170,17 +185,21 @@ func _update_stats_grid(member: Entity) -> void:
 	for child in stats_grid.get_children():
 		child.queue_free()
 	
-	var stat_names = [&"hp", &"mp", &"atk", &"def", &"speed", &"magic"]
+	var stats = ["atk", "def", "speed", "magic", "magic_def", "tp"]
+	var stat_names = ["atk", "def", "spd", "m.atk", "m.def", "tp"]
 	
 	for stat_name in stat_names:
 		var label = Label.new()
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		
 		var bonuses = 0
 		for statMod in member._stat_modifiers.values():
 			if statMod.stat_key == str(stat_name):
 				bonuses = statMod.applied_delta * statMod.stack_count
 			
-		label.text = stat_name.to_upper() + ": " + str(int(member.get_base_stat(stat_name) + bonuses))
+		label.text = stat_name.to_upper() + ": " + str(int(member.stats[stats[stat_names.find(stat_name)]] + bonuses))
 		stats_grid.add_child(label)
 
 func update_equipment_grid(member) -> void:
@@ -210,14 +229,19 @@ func update_equipment_grid(member) -> void:
 		
 		equipment_slots.add_child(btn)
 		btn.pressed.connect(on_equipment_slot_pressed.bind(slot_name))
+		btn.mouse_entered.connect(on_any_focus_entered)
 		equipment_slot_buttons.append(btn)
 
 func on_equipment_slot_pressed(slot: String) -> void:
+	Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx.play()
 	var member: Entity = party_members[selected_member_index] as Entity
 	equip_select.setup(member, slot)
 	$MarginContainer.visible = false
 
 func _on_equip_button_pressed() -> void:
+	Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx.play()
 	var member: Entity = party_members[selected_member_index] as Entity
 	var target_slot = "weapon_left"
 	for slot in EQUIPMENT_SLOTS:
@@ -255,3 +279,15 @@ func _update_skills_list(member: Resource) -> void:
 func refresh() -> void:
 	_refresh_party_display()
 	_update_detail_panel()
+
+func _on_tab_container_tab_clicked(_tab: int) -> void:
+	Sfx.stream = load("res://assets/sound/sfx/select.wav")
+	Sfx.play()
+
+func _on_tab_container_tab_hovered(_tab: int) -> void:
+	Sfx.stream = load("res://assets/sound/sfx/button_squeak.wav")
+	Sfx.play()
+
+func on_any_focus_entered():
+	Sfx.stream = load("res://assets/sound/sfx/button_squeak.wav")
+	Sfx.play()

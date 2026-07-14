@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://85sfkifgg54h"
+path="res://.godot/imported/Radiation.efkefc-18a11d70d370e4610cf7769a59e151a3.res"
+
+[deps]
+
+source_file="res://assets/vfx/Radiation.efkefc"
+dest_files=["res://.godot/imported/Radiation.efkefc-18a11d70d370e4610cf7769a59e151a3.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

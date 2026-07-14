@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://b1r7su5c04iyl"
+path="res://.godot/imported/Poison.efkefc-6ad4d5205bdd4656aa858d3ed7c1829b.res"
+
+[deps]
+
+source_file="res://assets/vfx/Poison.efkefc"
+dest_files=["res://.godot/imported/Poison.efkefc-6ad4d5205bdd4656aa858d3ed7c1829b.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

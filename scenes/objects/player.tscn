@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://yq7stgud35n5"]
 
-[ext_resource type="Script" uid="uid://bfig1a1xxata" path="res://code/player/player.gd" id="1_g2els"]
-[ext_resource type="Texture2D" uid="uid://c3y8ca0x1eua" path="res://assets/party/$RemasteredFreddy.png" id="2_qhqgy"]
-[ext_resource type="Shader" uid="uid://4wnkt214i5ld" path="res://resources/items/consumables/fnafCrt.gdshader" id="4_ksjmp"]
-[ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office-running-sfx-made-with-Voicemod.mp3" id="4_q8hb4"]
+[ext_resource type="Script" uid="uid://bfig1a1xxata" path="res://scenes/objects/player.gd" id="1_g2els"]
+[ext_resource type="SpriteFrames" uid="uid://bdtrn780y6dlh" path="res://assets/spriteframes/freddy.tres" id="2_0ay4w"]
+[ext_resource type="Shader" uid="uid://4wnkt214i5ld" path="res://addons/crt/fnafCrt.gdshader" id="4_ksjmp"]
+[ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office.mp3" id="4_q8hb4"]
 [ext_resource type="Texture2D" uid="uid://bhrp0qayah1j8" path="res://assets/ui/PizzariaMap.png" id="5_0ay4w"]
 [ext_resource type="PackedScene" uid="uid://boxlcoa7yx6um" path="res://scenes/ui/game_menu/game_menu.tscn" id="5_q8hb4"]
 [ext_resource type="Shader" uid="uid://du5berr60a7ln" path="res://scenes/objects/pizzaria_map.gdshader" id="6_0ay4w"]
@@ -35,6 +35,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [0.0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_q8hb4"]
 resource_name = "camera_battle_zoom"
@@ -65,131 +77,53 @@ tracks/1/keys = {
 "values": [0.0, 0.5, 0.1, 0.6, 0.15, 0.55, 0.0]
 }
 
+[sub_resource type="Animation" id="Animation_0ay4w"]
+resource_name = "wiggl_camera"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.76666665, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(48, 0), Vector2(-48, 0), Vector2(0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.033333335, 0.26666668, 0.5, 0.76666665),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"wiggl_left"
+}, {
+"args": [],
+"method": &"wiggl_right"
+}, {
+"args": [],
+"method": &"wiggl_right"
+}, {
+"args": [],
+"method": &"wiggl_left"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2rlf8"]
 _data = {
 &"RESET": SubResource("Animation_ksjmp"),
-&"camera_battle_zoom": SubResource("Animation_q8hb4")
+&"camera_battle_zoom": SubResource("Animation_q8hb4"),
+&"wiggl_camera": SubResource("Animation_0ay4w")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5uus"]
-size = Vector2(16, 15.5)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tuyoq"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(96, 128, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(96, 0, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(96, 192, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tuhu7"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(0, 128, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4c2uj"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(96, 128, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dunks"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(192, 128, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_h5uus"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(0, 0, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_54rde"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(96, 0, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_q8hb4"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(192, 0, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_68atb"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(0, 192, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2lybl"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(96, 192, 96, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6uaar"]
-atlas = ExtResource("2_qhqgy")
-region = Rect2(192, 192, 96, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_smehm"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tuyoq")
-}],
-"loop": 1,
-"name": &"idle0",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dqkch")
-}],
-"loop": 1,
-"name": &"idle1",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fjrip")
-}],
-"loop": 1,
-"name": &"idle2",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tuhu7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4c2uj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dunks")
-}],
-"loop": 1,
-"name": &"run0",
-"speed": 6.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_h5uus")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_54rde")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_q8hb4")
-}],
-"loop": 1,
-"name": &"run1",
-"speed": 6.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_68atb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2lybl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6uaar")
-}],
-"loop": 1,
-"name": &"run2",
-"speed": 6.0
-}]
+size = Vector2(16, 14.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dunks"]
 
@@ -200,34 +134,35 @@ shader_parameter/threshold = 0.15
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksjmp"]
 shader = ExtResource("4_ksjmp")
 shader_parameter/resolution = Vector2(864, 684)
-shader_parameter/brightness = 0.1850000087875
+shader_parameter/brightness = 0.3330000158175
 shader_parameter/scanline_amount = 0.2000000095
 shader_parameter/scanline_count = 100.00000475
 shader_parameter/scanline_alpha = 0.5210000247475
 shader_parameter/warp_amount = 0.294000013965
 shader_parameter/noise_amount = 0.80000001192093
 shader_parameter/interference_amount = 0.2400000114
-shader_parameter/grille_amount = 0.1110000052725
+shader_parameter/grille_amount = 0.062000002945
 shader_parameter/grille_size = 1.8630000409925
 shader_parameter/vignette_amount = 0.258000012255
 shader_parameter/vignette_intensity = 0.3450000163875
 shader_parameter/aberation_amount = 0.0
-shader_parameter/roll_line_amount = 0.1330000063175
-shader_parameter/roll_speed = -1.0819996713949998
-shader_parameter/pixel_strength = -1.4969998811075
+shader_parameter/roll_line_amount = 0.10000000475
+shader_parameter/roll_speed = -0.11499962546249964
+shader_parameter/pixel_strength = -2.001999905095
 
 [node name="player" type="CharacterBody2D" unique_id=1549319012]
+y_sort_enabled = true
 script = ExtResource("1_g2els")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=501865082]
 libraries/ = SubResource("AnimationLibrary_2rlf8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=215829104]
-position = Vector2(0, 24.25)
+position = Vector2(0, 23.75)
 shape = SubResource("RectangleShape2D_h5uus")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=34071342]
-sprite_frames = SubResource("SpriteFrames_smehm")
+sprite_frames = ExtResource("2_0ay4w")
 animation = &"idle0"
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=573326480]
@@ -240,6 +175,7 @@ limit_left = -32
 limit_top = -224
 limit_right = 544
 limit_bottom = 672
+limit_smoothed = true
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
@@ -260,13 +196,13 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="PizzariaMap" type="TextureRect" parent="Camera2D/CanvasLayer/shader" unique_id=505928146]
-modulate = Color(1, 1, 1, 0.8)
 material = SubResource("ShaderMaterial_dunks")
 layout_mode = 0
-offset_left = 574.0
-offset_top = 411.0
-offset_right = 834.0
-offset_bottom = 613.0
+offset_left = 649.0
+offset_top = 386.0
+offset_right = 909.0
+offset_bottom = 588.0
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("5_0ay4w")
 
 [node name="PizzariaMapShader" type="TextureRect" parent="Camera2D/CanvasLayer/shader/PizzariaMap" unique_id=668179558]
@@ -307,7 +243,7 @@ offset_top = 611.0
 offset_right = 864.0
 offset_bottom = 648.0
 theme_override_font_sizes/font_size = 32
-text = "TECH_3  0.3"
+text = "TECH_FINAL"
 horizontal_alignment = 2
 
 [node name="white_flash" type="ColorRect" parent="Camera2D/CanvasLayer" unique_id=1085070386]
@@ -317,5 +253,6 @@ offset_bottom = 648.0
 mouse_filter = 1
 
 [node name="game_menu" parent="Camera2D/CanvasLayer" unique_id=1642697853 instance=ExtResource("5_q8hb4")]
+process_mode = 2
 visible = false
 z_index = 10

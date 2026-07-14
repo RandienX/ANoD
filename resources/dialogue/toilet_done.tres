@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://bjq1s3uudmkiq"]
+
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="1_683er"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="2_dq3tq"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="3_aio4i"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="3_pkfyp"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="4_rtdhq"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="5_8t48v"]
+
+[sub_resource type="Resource" id="Resource_82mix"]
+script = ExtResource("4_rtdhq")
+effect_type = 17
+custom_script = "res://code/dialogue/custom_effect/bonnie_get_mask.gd"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_uh3wy"]
+script = ExtResource("4_rtdhq")
+effect_type = 15
+is_battle_effect = null
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_a8ds7"]
+script = ExtResource("4_rtdhq")
+effect_type = 9
+param_string = "res://resources/quests/pizzeria/find_bonnie_mask.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_63plr"]
+script = ExtResource("1_683er")
+text = "w.i.p, see you in 0.4 ;P"
+label = "start"
+on_exit_effects = Array[ExtResource("4_rtdhq")]([SubResource("Resource_82mix"), SubResource("Resource_uh3wy"), SubResource("Resource_a8ds7")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[resource]
+script = ExtResource("2_dq3tq")
+nodes = Array[ExtResource("1_683er")]([SubResource("Resource_63plr")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"

@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://44a5117ghjb2"
+path="res://.godot/imported/Absorb.efkefc-fe687a4ab12ad8548769fcb950a6fa45.res"
+
+[deps]
+
+source_file="res://assets/vfx/Absorb.efkefc"
+dest_files=["res://.godot/imported/Absorb.efkefc-fe687a4ab12ad8548769fcb950a6fa45.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

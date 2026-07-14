@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://vka04oi1si33"
+path="res://.godot/imported/FireOne1.efkefc-6b4f72f52424f17f8c2e1e9243e952e1.res"
+
+[deps]
+
+source_file="res://assets/vfx/FireOne1.efkefc"
+dest_files=["res://.godot/imported/FireOne1.efkefc-6b4f72f52424f17f8c2e1e9243e952e1.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

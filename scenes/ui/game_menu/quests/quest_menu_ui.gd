@@ -10,7 +10,6 @@ signal quest_tab_closed()
 @export var quest_container: VBoxContainer = %QuestContainer if has_node("%QuestContainer") else null
 
 var _quest_items: Dictionary = {}  ## Maps quest_id -> UI item
-var _is_initialized := false
 
 func _ready() -> void:
 	_connect_to_quest_system()

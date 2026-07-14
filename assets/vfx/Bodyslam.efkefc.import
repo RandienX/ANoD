@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://deqikbop8o4eh"
+path="res://.godot/imported/Bodyslam.efkefc-be1fc04441b262f44f7b1d38a0c84634.res"
+
+[deps]
+
+source_file="res://assets/vfx/Bodyslam.efkefc"
+dest_files=["res://.godot/imported/Bodyslam.efkefc-be1fc04441b262f44f7b1d38a0c84634.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

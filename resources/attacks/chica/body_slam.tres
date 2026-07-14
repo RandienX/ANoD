@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://cvnvft3cs54p4"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_02228"]
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_ru6li"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_v5vio"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="2_yjxcj"]
+[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect/battle_effect_stat_modifier.gd" id="3_wyeqb"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="4_h78c3"]
+[ext_resource type="AudioStream" uid="uid://dj6tiucyr8c1c" path="res://assets/sound/sfx/attack/Earth4.mp3" id="7_h78c3"]
+[ext_resource type="EffekseerEffect" uid="uid://deqikbop8o4eh" path="res://assets/vfx/Bodyslam.efkefc" id="8_h78c3"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="9_mm2e8"]
+
+[sub_resource type="Resource" id="Resource_2cjub"]
+script = ExtResource("1_02228")
+effect_id = "Hurt"
+timing = 2
+base_value = 5.0
+scaling_type = 2
+critical_multiplier = 0.5
+metadata/_custom_type_script = "uid://ch7hoesea8vrf"
+
+[sub_resource type="Resource" id="Resource_lnfnh"]
+script = ExtResource("9_mm2e8")
+effect = ExtResource("8_h78c3")
+
+[resource]
+script = ExtResource("2_yjxcj")
+skill_name = "Body Slam"
+target_type = 5
+mana_cost = 5
+hp_cost = 15
+tp_cost = 25
+accuracy = 0.9
+attack_multiplier = 3.0
+attack_bonus = 10
+on_miss_effects = Array[ExtResource("1_02228")]([SubResource("Resource_2cjub")])
+vfx = SubResource("Resource_lnfnh")
+sfx = ExtResource("7_h78c3")
+metadata/_custom_type_script = "uid://o74imedfcjis"

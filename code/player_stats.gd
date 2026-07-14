@@ -8,23 +8,23 @@ signal stat_changed(stat_name: StringName, new_value: Variant)
 
 enum CurrencyType {GOLD, SHIT, FAZTOKENS}
 
-@export var gold: int = 10000
+@export var gold: int = 100
 @export var shit: int = 0
 @export var tokens: int = 25
 
 var stats: Dictionary[StringName, Variant] = {}
-var party: Array[Object] = [load("res://resources/party/freddy.tres").duplicate_deep(), load("res://resources/party/bonnie.tres").duplicate_deep()]
-var stored_party: Array[Object] = []
+var party: Array = []
+var stored_party: Array = []
 var inventory: Dictionary[Item, int] = {}
 var player_position: Vector2 = Vector2(272, -82)
 
 func _ready() -> void:
-	add_item(load("res://resources/items/consumables/small_pizza.tres") as Item, 5)
-	add_item(load("res://resources/items/consumables/small_soda.tres") as Item, 5)
-	add_item(load("res://resources/items/consumables/degreaser.tres") as Item, 5)
-	add_item(load("res://resources/items/consumables/molotov.tres") as Item, 1)
-	add_item(load("res://resources/items/consumables/attack_item.tres") as Item, 1)
-	add_item(load("res://resources/items/armor/EndoBodyA.tres") as Item, 1)
+	party.append(load("res://resources/party/freddy.tres").duplicate_deep(Resource.DEEP_DUPLICATE_ALL))
+	party[0].stats["hp"] = 100
+	party[0].stats["mp"] = 25
+	process_mode = Node.ProcessMode.PROCESS_MODE_ALWAYS
+	add_item(load("res://resources/items/consumables/small_pizza.tres") as Item, 3)
+	add_item(load("res://resources/items/consumables/small_soda.tres") as Item, 2)
 	for p in party:
 		p.equip_stats_change()
 
@@ -37,7 +37,8 @@ func get_save_data() -> Dictionary:
 		"stats": stats,
 		"player_position": var_to_str(player_position),
 		"inventory": {},
-		"party": []
+		"party": [],
+		"stored_party": []
 	}
 	
 	# Serialize inventory (Item resources -> resource_path)
@@ -63,7 +64,24 @@ func get_save_data() -> Dictionary:
 						# Use SaveManager's serialization for consistency
 						p_dict[prop_name] = SaveManager.serialize_value(prop_value, prop.type)
 			data["party"].append(p_dict)
-	
+			
+	for p in stored_party:
+		if p is Resource:
+			var p_dict: Dictionary = {
+			}
+			# Serialize all storage properties
+			for prop in p.get_property_list():
+				if prop.usage & PROPERTY_USAGE_STORAGE:
+					var prop_name: String = prop.name
+					# Skip internal/resource management properties
+					if prop_name in ["script", "resource_local_to_scene", "resource_name", "_resource_type",
+					"metadata/_custom_type_script", "resource_scene_unique_id"]:
+						continue
+					if p.has_method("get") or prop_name in p:
+						var prop_value = p.get(prop_name)
+						# Use SaveManager's serialization for consistency
+						p_dict[prop_name] = SaveManager.serialize_value(prop_value, prop.type)
+			data["stored_party"].append(p_dict)
 	return data
 
 func load_save_data(data: Dictionary) -> void:
@@ -90,17 +108,10 @@ func load_save_data(data: Dictionary) -> void:
 	# Load party
 	if data.has("party"):
 		party.clear()
-		for p_dict in data["party"]:
-			var base_entity: Entity = load(p_dict["path_to"])
-			if base_entity:
-				var resource: Entity = base_entity.duplicate_deep()
-				for prop_name in p_dict.keys():
-					var prop_value = SaveManager.deserialize_value(p_dict[prop_name])
-					if prop_name in resource:
-						resource.set(prop_name, prop_value)
-				# Re-initialize equipment effects after loading
-				resource.equip_stats_change()
-				party.append(resource)
+		party = await SaveManager._restore_party_array(data["party"])
+	if data.has("stored_party"):
+		stored_party.clear()
+		stored_party = await SaveManager._restore_party_array(data["stored_party"])
 
 # === Currency Management ===
 func get_currency(type: CurrencyType = CurrencyType.GOLD) -> int:
@@ -166,21 +177,33 @@ func use_item(item: Item, target: Array) -> bool:
 	for t in target:
 		
 		# Apply revive effect
-		if item.revive_amount > 0 and t.hp <= 0:
-			t.hp = min(item.revive_amount, t.get_max_stat(&"hp"))
+		if item.revive_amount > 0 and t.stats["hp"] <= 0:
+			t.stats["hp"] = min(item.revive_amount, t.max_stats["hp"])
+			Sfx.stream = load("res://assets/sound/sfx/heal.wav")
+			Sfx.play()
 			
 		# Apply heal effects
-		if item.heal_amount > 0 and t.hp < t.get_max_stat(&"hp") and t.hp > 0:
-			t.hp = min(t.hp + item.heal_amount, t.get_max_stat(&"hp"))
+		if item.heal_amount > 0 and t.stats["hp"] < t.max_stats["hp"] and t.stats["hp"] > 0:
+			t.stats["hp"] = min(t.stats["hp"] + item.heal_amount, t.max_stats["hp"])
+			Sfx.stream = load("res://assets/sound/sfx/heal.wav")
+			Sfx.play()
 	
 		# Apply mana restore
-		if item.mana_amount > 0 and t.mp < t.get_max_stat(&"mp"):
-			t.mp = min(t.mp + item.mana_amount, t.get_max_stat(&"mp"))
+		if item.mana_amount > 0 and t.stats["mp"] < t.max_stats["mp"]:
+			t.stats["mp"] = min(t.stats["mp"] + item.mana_amount, t.max_stats["mp"])
 							
 		if item.consume_effects:
 			for effect in item.consume_effects:
-				# Process BattleEffect resources here if needed
-				pass
+				var effect_data: BattleEffect = effect
+				match effect_data.effect_type:
+					effect_data.EffectType.BUFF_DEBUFF:
+						for stat in effect_data.stat_modifiers:
+							t.apply_modifier(effect_data.effect_id, stat, t)
+					effect_data.EffectType.STATUS_APPLY:
+						t.apply_status(effect_data.status_ref, 
+											t.get_status_stacks(effect_data.status_ref.id), 
+											t.get_status_duration(effect_data.status_ref.id),
+											t)
 	
 	remove_item(item, 1)
 	return true
