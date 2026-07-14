@@ -1,3 +1,20 @@
+0.3.3v (July 14 2026)
+  Final Pre-production update
+
+  Main changes:
+    - Battle TP bar
+    - Mana, HP and TP skills
+    - Damage/Heal numbers
+    - Party battle face VFX emitters
+    - Added 2 sfx: toilet breaking and battle win
+    - Added battle log gameplay setting (off on default)
+
+  Bugfix:
+    - Fixed several ways the vfx engine could break
+    - Fixed BB quest completion
+    - Fixed Party Member gathering quest start
+    - Fixed checkmark settings not toggling the setting
+
 0.3.2v (July 12 2026)
   VFX and Magic patch
 
