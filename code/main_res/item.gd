@@ -15,7 +15,6 @@ enum ItemType {
 @export var item_name: String = ""
 @export_multiline var description: String = ""
 @export var texture: Texture2D
-@export var icon: Texture2D
 @export var type: ItemType = ItemType.Weapon
 
 @export_category("General")
@@ -24,11 +23,15 @@ enum ItemType {
 	PlayerStats.CurrencyType.SHIT: 10,
 	PlayerStats.CurrencyType.FAZTOKENS: 10,
 }
+@export var buy_price: Dictionary[PlayerStats.CurrencyType, int] = {
+	PlayerStats.CurrencyType.GOLD: 10,
+	PlayerStats.CurrencyType.SHIT: 10,
+	PlayerStats.CurrencyType.FAZTOKENS: 10,
+}
 @export var max_stack: int = 99
 @export var can_use_in_battle: bool = true
 @export var can_use_outside_battle: bool = true
 @export var item_attack: Skill
-@export var path_to: String
 @export var item_bonuses: Dictionary[String, int] = {
 "hp": 0,
 "mp": 0,

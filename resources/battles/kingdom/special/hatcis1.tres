@@ -1,0 +1,76 @@
+[gd_resource type="Resource" script_class="Battle" format=3 uid="uid://do2xt6ktvogvx"]
+
+[ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="1_yir0m"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="2_ud82h"]
+[ext_resource type="Resource" uid="uid://c0iuc7i2nolhp" path="res://resources/enemies/kingdom/hatcis_1/hatcis_la.tres" id="3_yev7h"]
+[ext_resource type="Resource" uid="uid://c58wbx7i1mjon" path="res://resources/enemies/kingdom/hatcis_1/hatcis_ll.tres" id="4_rqhsg"]
+[ext_resource type="Resource" uid="uid://c8cymevtxkq8d" path="res://resources/enemies/kingdom/hatcis_1/hatcis_1.tres" id="5_jcbpq"]
+[ext_resource type="Resource" uid="uid://wg7xp5jbs0cr" path="res://resources/enemies/kingdom/hatcis_1/hatcis_rl.tres" id="6_fbh84"]
+[ext_resource type="Resource" uid="uid://cfuadrpi0m4xk" path="res://resources/enemies/kingdom/hatcis_1/hatcis_ra.tres" id="7_ru3da"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="8_yhh2t"]
+[ext_resource type="AudioStream" uid="uid://djxgs8l83lxk6" path="res://assets/sound/battle/FalKKonE - Crash! Gourmet Race.mp3" id="9_ud82h"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="9_ufq8c"]
+[ext_resource type="Script" uid="uid://c87a82v6g8ug3" path="res://code/battle/battle_phase.gd" id="10_1qpvj"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="11_plxj2"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="11_yev7h"]
+
+[sub_resource type="Resource" id="Resource_05ldm"]
+script = ExtResource("1_yir0m")
+enemy = ExtResource("3_yev7h")
+ui_position_preset = 4
+z_index = 14
+connected_to_idx = 2
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_wt4us"]
+script = ExtResource("1_yir0m")
+enemy = ExtResource("4_rqhsg")
+ui_position_preset = 4
+z_index = 13
+connected_to_idx = 2
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_l76b3"]
+script = ExtResource("1_yir0m")
+enemy = ExtResource("5_jcbpq")
+ui_position_preset = 4
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_fx8v0"]
+script = ExtResource("1_yir0m")
+enemy = ExtResource("6_fbh84")
+ui_position_preset = 4
+z_index = 13
+connected_to_idx = 2
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_nwepv"]
+script = ExtResource("1_yir0m")
+enemy = ExtResource("7_ru3da")
+ui_position_preset = 4
+z_index = 14
+connected_to_idx = 2
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_rni60"]
+script = ExtResource("9_ufq8c")
+battle_effect_type = 4
+battle_effect_target = 5
+param_string = "hp"
+param_value = "1"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_a6syn"]
+script = ExtResource("9_ufq8c")
+is_battle_effect = true
+battle_effect_target = 5
+param_string = "res://resources/dialogue/hatcis/hatcis_victory.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[resource]
+script = ExtResource("11_plxj2")
+battle_name = "Hatcis1"
+enemies = Array[ExtResource("1_yir0m")]([SubResource("Resource_05ldm"), SubResource("Resource_wt4us"), SubResource("Resource_l76b3"), SubResource("Resource_fx8v0"), SubResource("Resource_nwepv")])
+music = ExtResource("9_ud82h")
+on_defeat_effects = Array[ExtResource("9_ufq8c")]([SubResource("Resource_rni60"), SubResource("Resource_a6syn")])
+metadata/_custom_type_script = "uid://s2os42vdwf6y"

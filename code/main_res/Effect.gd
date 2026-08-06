@@ -18,11 +18,15 @@ enum EffectType {
 	REMOVE_QUEST,         # Remove quest
 	TRIGGER_EVENT,        # Fire a signal/event
 	PLAY_CUTSCENE,        # Play a set cutscene
-	WAIT,                 # Pause  briefly
+	WAIT,                 # Pause brieflys
 	PLAY_SFX,             # Play an SFX
 	AUTOSAVE,
 	REMOVE_NPC,
-	START_DIALOGUE
+	START_DIALOGUE,
+	CHANGE_CURRENCY_AMOUNT,
+	START_BATTLE,
+	CHANGE_ROOM,
+	ADD_THING_DONE
 }
 
 enum InBattleEffectType {
@@ -30,6 +34,7 @@ enum InBattleEffectType {
 	TRIGGER_PHASE,
 	ADD_SKILL,
 	ADD_STAT,
+	SET_STAT,
 	ADD_STATUS,
 	END_BATTLE_PREMATURELY,
 	SPAWN_REINFORCEMENTS,
@@ -89,6 +94,8 @@ func execute():
 		_effect_custom()
 		return
 	
+	if is_battle_effect: do_battle_effect()
+	
 	match effect_type:
 		EffectType.SET_VARIABLE:
 			_effect_set_variable(param_string, str_to_var(param_value))
@@ -145,6 +152,18 @@ func execute():
 			
 		EffectType.START_DIALOGUE:
 			_effect_start_dialogue(param_string)
+			
+		EffectType.CHANGE_CURRENCY_AMOUNT:
+			_effect_change_currency_amount(param_string, int(param_value))
+			
+		EffectType.START_BATTLE:
+			_effect_start_battle(param_string)
+			
+		EffectType.CHANGE_ROOM:
+			_effect_change_room(param_string, param_value)
+			
+		EffectType.ADD_THING_DONE:
+			_effect_done_thing(param_string, param_value)
 
 func _effect_set_variable_target(var_name: String, value, target: Object) -> void:
 	if target == null:
@@ -170,8 +189,6 @@ func _effect_remove_status_target(target: Object, status_id: String) -> void:
 func _effect_set_variable(var_name: String, value) -> void:
 	if Global.get(var_name) != null:
 		Global[var_name] = value
-	if load(Global.current_scene).get(var_name) != null:
-		load(Global.current_scene)[var_name] = value
 	if Global.battle_ref != null:
 		if Global.battle_ref.get(var_name) != null:
 			Global.battle_ref[var_name] = value
@@ -242,8 +259,6 @@ func _effect_trigger_event(event_name: String, event_var, event_bonus_var) -> vo
 	if event_name.to_lower() == "open shop" or event_name.to_lower() == "open_shop":
 		Global.shop_current = load(event_var)
 		Global.get_tree().change_scene_to_file("res://scenes/ui/shop/shop.tscn")
-	elif event_name.to_lower() == "start battle" or event_name.to_lower() == "start_battle":
-		Global.get_tree().current_scene.create_battle(event_var)
 	elif event_name.to_lower() == "change room" or event_name.to_lower() == "change_room":
 		Global.get_tree().current_scene.save_data()
 		Global.get_tree().current_scene.get_node("transition/black_flash").reappear()
@@ -255,7 +270,7 @@ func _effect_trigger_event(event_name: String, event_var, event_bonus_var) -> vo
 		Global.loading = false
 	elif event_name.to_lower() == "done thing" or event_name.to_lower() == "done_thing":
 		Global.get_tree().current_scene.done_things.set(event_var, str_to_var(event_bonus_var))
-	elif event_name == "foxy_track":
+	if event_name == "foxy_track":
 		Global.is_track_story = true
 		Global.current_foxy_track = load(event_var)
 		Global.get_tree().change_scene_to_file("res://scenes/minigames/foxyGoon/foxy_goon.tscn")
@@ -287,12 +302,40 @@ func _effect_autosave():
 func _effect_remove_npc(npc_name: String):
 	if Global.get_tree().current_scene.has_method("outbattle_root_check"):
 		Global.get_tree().current_scene.enemies_deactivated.append(npc_name)
+
 		Global.get_tree().current_scene.get_node("NavigationRegion2D").get_node(npc_name).queue_free()
 
 func _effect_start_dialogue(dialogue_path: String):
 	if dialogue_path != "":
 		DialogueInitiator.start_dialogue(load(dialogue_path), false, true)
 
+func _effect_change_currency_amount(currency_type: String = "gold", amount: int = 0):
+	if currency_type == "gold":
+		PlayerStats.gold += amount
+	if currency_type == "shit":
+		PlayerStats.shit += amount
+	if currency_type == "tokens":
+		PlayerStats.tokens += amount
+
+func _effect_start_battle(battle_path: String):
+	Global.get_tree().current_scene.create_battle(battle_path)
+	
+func _effect_change_room(room_path: String, player_pos: String):
+	Global.get_tree().current_scene.save_data()
+	Global.get_tree().current_scene.get_node("transition/black_flash").reappear()
+	print("[Runner] Moving player to room %s at position %s" % [load(room_path).instantiate().room_name, player_pos])
+	if player_pos != "":
+		PlayerStats.player_position = str_to_var("Vector2"+player_pos)
+	Global.loading = true
+	Global.get_tree().change_scene_to_file(room_path)
+	Global.loading = false
+	
+func _effect_done_thing(thing_name: String, variable: String):
+	if Global.get_tree().current_scene is RootScene:
+		Global.get_tree().current_scene.done_things.set(thing_name, str_to_var(variable))
+	else:
+		Global.scene_data[load(Global.current_scene).instantiate().room_name]["done_things"].set(thing_name, str_to_var(variable))
+	
 func _effect_custom() -> void:
 	if custom_script.is_empty():
 		push_error("Runner: Custom effect has no script path")
@@ -308,3 +351,11 @@ func _effect_custom() -> void:
 	else:
 		push_error("Runner: Custom effect script missing apply() function: %s" % custom_script)
 		breakpoint
+
+func do_battle_effect():
+	var battle_engine = Global.get_tree().current_scene
+	var context = {
+		"turn_number": battle_engine.turn_number, 
+		"time_passed": battle_engine.time_passed
+	}
+	battle_engine.condition_effect_manager.execute_effect(self, PlayerStats.party[0], context)

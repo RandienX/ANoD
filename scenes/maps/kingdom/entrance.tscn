@@ -1,0 +1,138 @@
+[gd_scene format=4 uid="uid://ct48pijn0hc2m"]
+
+[ext_resource type="Script" uid="uid://duek0uk444kjf" path="res://code/root_script.gd" id="1_1ry8j"]
+[ext_resource type="Texture2D" uid="uid://bas820bgc5odr" path="res://assets/battleui/backgrounds/Blue Cave.png" id="2_680ti"]
+[ext_resource type="AudioStream" uid="uid://drecdb3nhsdfk" path="res://assets/sound/sfx/attack/Wind1.mp3" id="2_sso6p"]
+[ext_resource type="TileSet" uid="uid://cpxfb26nr2i26" path="res://assets/tilemaps/tilesets/wall_tileset.tres" id="5_40rnq"]
+[ext_resource type="PackedScene" uid="uid://clildupwuax4h" path="res://scenes/objects/transition.tscn" id="6_6c8fp"]
+[ext_resource type="PackedScene" uid="uid://cgs08pp0l2gmg" path="res://scenes/objects/textbox_maker.tscn" id="6_3734h"]
+[ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="6_rcqej"]
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="7_680ti"]
+[ext_resource type="PackedScene" uid="uid://yq7stgud35n5" path="res://scenes/objects/player.tscn" id="7_3734h"]
+[ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="8_680ti"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="8_furvs"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="9_tpg1v"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="10_4s5mq"]
+[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="11_c6qdt"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="12_35h3d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5byou"]
+atlas = ExtResource("11_c6qdt")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_q8m61"]
+script = ExtResource("7_680ti")
+text = "Woah, I couldn't imagine we have a whole cave system below the pizzeria."
+portrait = SubResource("AtlasTexture_5byou")
+label = "start"
+next_label = "1"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aai36"]
+atlas = ExtResource("11_c6qdt")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_tx07j"]
+script = ExtResource("7_680ti")
+text = "I know right?
+The bigger sinkhole we were built on, the more adventures await below."
+portrait = SubResource("AtlasTexture_aai36")
+label = "1"
+next_label = "2"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_n71fu"]
+script = ExtResource("7_680ti")
+text = "I just didn't realize how deep would it be..."
+portrait = SubResource("AtlasTexture_5byou")
+label = "2"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_yl2h5"]
+script = ExtResource("12_35h3d")
+nodes = Array[ExtResource("7_680ti")]([SubResource("Resource_q8m61"), SubResource("Resource_tx07j"), SubResource("Resource_n71fu")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tpg1v"]
+size = Vector2(32, 32)
+
+[node name="Entrance" type="Node2D" unique_id=847457266 node_paths=PackedStringArray("player")]
+script = ExtResource("1_1ry8j")
+room_name = "Cave - Entrance"
+battle_bg = ExtResource("2_680ti")
+bg_music = ExtResource("2_sso6p")
+bg_music_amp = -8.0
+player = NodePath("player")
+room_size = Rect2(7, 1, 18, 15)
+
+[node name="transition" parent="." unique_id=736995530 instance=ExtResource("6_6c8fp")]
+
+[node name="Cutscenes" type="Node" parent="." unique_id=140955557]
+
+[node name="TileMap" type="Node2D" parent="." unique_id=994226086]
+
+[node name="walls" type="TileMapLayer" parent="TileMap" unique_id=644923954]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAPAAkAAgACAAcAAQAPAAgAAgACAAcAAQAPAAcAAgACAAcAAAAPAAYAAgACAAcAAAAPAAUAAgACAAcAAQAOAAkAAgACAAcAAAAOAAgAAgACAAcAAAAOAAcAAgACAAcAAAAOAAYAAgACAAcAAQAOAAUAAgACAAcAAQANAAkAAgACAAcAAQANAAgAAgACAAcAAAANAAcAAgACAAcAAQANAAYAAgACAAcAAQANAAUAAgAEAAUABgAMAAkAAgACAAcAAAAMAAgAAgACAAcAAAAMAAcAAgACAAcAAAAMAAYAAgACAAcAAAAMAAUAAgAEAAgAAAALAAkAAgACAAcAAQALAAgAAgACAAcAAAALAAcAAgACAAcAAQALAAYAAgACAAcAAAALAAUAAgAEAAUABQAKAAkAAgABAAUAAwAKAAgAAgABAAUAAwAKAAcAAgABAAUAAwAKAAYAAgABAAUAAwAQAAoAAgACAAcAAQAQAAkAAgACAAcAAQAQAAgAAgACAAcAAQAQAAcAAgACAAcAAAAQAAYAAgACAAcAAQAQAAUAAgACAAcAAQAPAAoAAgACAAcAAAAOAAoAAgACAAcAAQANAAoAAgACAAcAAAAMAAoAAgACAAUAAwALAAoAAgABAAUAAAAKAAoAAgADAAUAAQARAAoAAgACAAcAAAARAAkAAgACAAcAAQARAAgAAgACAAcAAAARAAcAAgACAAcAAAARAAYAAgACAAcAAAARAAUAAgACAAcAAAASAAcAAgACAAcAAQASAAYAAgAEAAUABQASAAUAAgAEAAUAAAASAAQAAgACAAUAAgASAAMAAgABAAUAAQARAAQAAgACAAcAAAARAAMAAgAEAAUABgAQAAQAAgACAAcAAAAQAAMAAgAEAAgAAAAPAAQAAgACAAcAAQAPAAMAAgAEAAgAAAAOAAQAAgACAAcAAAAOAAMAAgAEAAUABQANAAQAAgAEAAUAAQAUAAoAAgADAAUAAAAUAAkAAgADAAUAAwAUAAgAAgAAAAUAAAAUAAcAAgACAAUAAgATAAoAAgACAAUAAAATAAkAAgACAAcAAAATAAgAAgACAAcAAQATAAcAAgACAAcAAAATAAYAAgAEAAUABgASAAoAAgACAAcAAQASAAkAAgACAAcAAQASAAgAAgACAAcAAQAPAAsAAgACAAcAAAAPAAwAAgACAAcAAQAQAAwAAgACAAcAAAAQAAsAAgACAAcAAQAOAAwAAgACAAcAAQAOAAsAAgACAAcAAQARAA0AAgADAAUAAAARAAwAAgABAAUAAQARAAsAAgACAAUAAAAQAA0AAgABAAUAAAAPAA0AAgABAAUAAAAOAA0AAgABAAUAAAALAAQAAgAEAAUAAAAMAAQAAgAEAAYAAAAOAAIAAgAEAAUAAAAPAAIAAgAEAAYAAAAQAAIAAgAEAAYAAAARAAIAAgAEAAUAAQATAAUAAgAEAAUAAQAUAAUAAgABAAUAAQATAAQAAgABAAUAAgAUAAQAAgADAAUAAwAKAAUAAgABAAUAAwAKAAQAAgABAAUAAwAKAAMAAgADAAUAAgANAAMAAgADAAUAAQAMAAMAAgABAAUAAgALAAMAAgABAAUAAgANAAEAAgADAAUAAgANAAIAAgABAAUAAwARAAEAAgABAAUAAgAQAAEAAgABAAUAAgAPAAEAAgABAAUAAgAOAAEAAgABAAUAAgASAAEAAgADAAUAAwANAAwAAgABAAUAAwANAAsAAgACAAUAAwANAA0AAgADAAUAAQAMAAsAAgADAAUAAQASAAsAAgABAAUAAAATAAsAAgADAAUAAAAUAAYAAgADAAUAAAASAAIAAgABAAUAAQA=")
+tile_set = ExtResource("5_40rnq")
+
+[node name="path" type="TileMapLayer" parent="TileMap" unique_id=2126248611]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAPAAkAAgAAAAYAAAAPAAgAAgAAAAUAAAAPAAcAAgAAAAUAAAAPAAYAAgAAAAcAAAAPAAUAAgACAAcAAQAOAAkAAgABAAkAAAAOAAgAAgADAAgAAAAOAAcAAgAAAAUAAAAOAAYAAgAAAAcAAAAOAAUAAgACAAcAAQANAAkAAgACAAcAAQANAAgAAgAAAAYAAAANAAcAAgAAAAUAAAANAAYAAgAAAAcAAAANAAUAAgAEAAUABgAMAAkAAgACAAcAAAAMAAgAAgAAAAYAAAAMAAcAAgAAAAUAAAAMAAYAAgAAAAcAAAAMAAUAAgAEAAgAAAALAAkAAgACAAcAAQALAAgAAgABAAkAAAALAAcAAgAAAAgAAAALAAYAAgABAAoAAAALAAUAAgAEAAUABQAKAAkAAgABAAUAAwAKAAgAAgABAAUAAwAKAAcAAgABAAUAAwAKAAYAAgABAAUAAwAQAAoAAgACAAcAAQAQAAkAAgAAAAYAAAAQAAgAAgAAAAUAAAAQAAcAAgACAAkAAAAQAAYAAgAAAAoAAAAQAAUAAgACAAcAAQAPAAoAAgACAAcAAAAOAAoAAgACAAcAAQANAAoAAgACAAcAAAAMAAoAAgACAAUAAwALAAoAAgABAAUAAAAKAAoAAgADAAUAAQARAAoAAgACAAcAAAARAAkAAgAAAAYAAAARAAgAAgAAAAUAAAARAAcAAgAAAAcAAAARAAYAAgACAAcAAAARAAUAAgACAAcAAAASAAcAAgAAAAcAAAASAAYAAgAEAAUABQASAAUAAgAEAAUAAAASAAQAAgACAAUAAgASAAMAAgABAAUAAQARAAQAAgACAAcAAAARAAMAAgAEAAUABgAQAAQAAgACAAcAAAAQAAMAAgAEAAgAAAAPAAQAAgACAAcAAQAPAAMAAgAEAAgAAAAOAAQAAgACAAcAAAAOAAMAAgAEAAUABQANAAQAAgAEAAUAAQAUAAoAAgADAAUAAAAUAAkAAgACAAUAAAAUAAgAAgAAAAUAAAAUAAcAAgACAAUAAgATAAoAAgACAAUAAAATAAkAAgAAAAYAAAATAAgAAgAAAAUAAAATAAcAAgAAAAcAAAATAAYAAgAEAAUABgASAAoAAgACAAcAAQASAAkAAgAAAAYAAAASAAgAAgAAAAUAAAAPAAsAAgACAAcAAAAPAAwAAgACAAcAAQAQAAwAAgACAAcAAAAQAAsAAgACAAcAAQAOAAwAAgACAAcAAQAOAAsAAgACAAcAAQARAA0AAgADAAUAAAARAAwAAgABAAUAAQARAAsAAgACAAUAAAAQAA0AAgABAAUAAAAPAA0AAgABAAUAAAAOAA0AAgABAAUAAAALAAQAAgAEAAUAAAAMAAQAAgAEAAYAAAAOAAIAAgAEAAUAAAAPAAIAAgAEAAYAAAAQAAIAAgAEAAYAAAARAAIAAgAEAAUAAQATAAUAAgAEAAUAAQAUAAUAAgABAAUAAQATAAQAAgABAAUAAgAUAAQAAgADAAUAAwAKAAUAAgABAAUAAwAKAAQAAgABAAUAAwAKAAMAAgADAAUAAgANAAMAAgACAAUAAQAMAAMAAgABAAUAAgALAAMAAgABAAUAAgANAAEAAgADAAUAAgANAAIAAgABAAUAAwARAAEAAgABAAUAAgAQAAEAAgABAAUAAgAPAAEAAgABAAUAAgAOAAEAAgABAAUAAgASAAEAAgADAAUAAwANAAwAAgABAAUAAwANAAsAAgACAAUAAwANAA0AAgADAAUAAQAMAAsAAgADAAUAAQASAAsAAgABAAUAAAATAAsAAgADAAUAAAAUAAYAAgABAAUAAQASAAIAAgABAAUAAQA=")
+tile_set = ExtResource("5_40rnq")
+
+[node name="objects" type="TileMapLayer" parent="TileMap" unique_id=212773860 groups=["enemy_nav_region", "navigation_polygon_source_geometry_group"]]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAALAAUAAAAAAAAAAAARAAQAAAAPAAkAAAAOAAwAAAAPAAkAAAAQAAsAAAAPAAkAAAA=")
+tile_set = ExtResource("6_rcqej")
+
+[node name="objects_top" type="TileMapLayer" parent="TileMap/objects" unique_id=158917555]
+y_sort_enabled = true
+tile_set = ExtResource("6_rcqej")
+
+[node name="Textboxes" type="Node2D" parent="." unique_id=165900944]
+
+[node name="cave_entrance" parent="Textboxes" unique_id=754736827 node_paths=PackedStringArray("player_node_path") instance=ExtResource("6_3734h")]
+position = Vector2(406, 230)
+rotation = -0.7479243
+scale = Vector2(2.546142, 0.66075754)
+dialogue_data = SubResource("Resource_yl2h5")
+once_per_session = true
+player_node_path = NodePath("../../player")
+
+[node name="player" parent="." unique_id=1549319012 instance=ExtResource("7_3734h")]
+z_index = 1
+position = Vector2(657, 252)
+static_shader = false
+move_speed = 100.0
+
+[node name="Dialogue" type="CanvasLayer" parent="." unique_id=896265786]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Dialogue" unique_id=19495823]
+
+[node name="SceneTriggers" type="Node2D" parent="." unique_id=555660571]
+
+[node name="ChangeRoomTrigger" type="Area2D" parent="SceneTriggers" unique_id=1199300778]
+position = Vector2(-185, 180)
+script = ExtResource("8_680ti")
+player_position = Vector2(208, 42)
+next_room_path = "res://scenes/maps/pizzeria/7.tscn"
+metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger" unique_id=1836342953]
+position = Vector2(560, 15)
+shape = SubResource("RectangleShape2D_tpg1v")
+
+[node name="ChangeRoomTrigger2" type="Area2D" parent="SceneTriggers" unique_id=431459890]
+position = Vector2(128, 257)
+script = ExtResource("8_680ti")
+player_position = Vector2(207, 185)
+next_room_path = "res://scenes/maps/kingdom/cave_01.tscn"
+metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger2" unique_id=1583075281]
+position = Vector2(560, 15)
+shape = SubResource("RectangleShape2D_tpg1v")
+
+[connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger" to="SceneTriggers/ChangeRoomTrigger" method="_on_body_entered"]
+[connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger2" to="SceneTriggers/ChangeRoomTrigger2" method="_on_body_entered"]

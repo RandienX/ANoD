@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://ckt7kwce5bnkx"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_fqg53"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="1_xassu"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="2_7fcw6"]
+[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect/battle_effect_stat_modifier.gd" id="3_44j8c"]
+
+[sub_resource type="Resource" id="Resource_78ec8"]
+script = ExtResource("1_fqg53")
+effect_id = "remove_poison"
+effect_name = "RemovePoison"
+effect_type = 5
+metadata/_custom_type_script = "uid://ch7hoesea8vrf"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_44j8c"]
+load_path = "res://.godot/imported/degreaser.png-59e7a86a469ed16167d181dcd1d6cf36.ctex"
+
+[resource]
+script = ExtResource("1_xassu")
+item_name = "Degreaser"
+description = "It um... Gets rid of many kinds of grease... Yes even the sticky white ones in Foxy's Cove."
+texture = SubResource("CompressedTexture2D_44j8c")
+type = 2
+consume_effects = Array[ExtResource("1_fqg53")]([SubResource("Resource_78ec8")])
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

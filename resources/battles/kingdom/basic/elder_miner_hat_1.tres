@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Battle" format=3 uid="uid://q3v1ev5f1s14"]
+
+[ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="1_guoms"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="2_6ppc2"]
+[ext_resource type="Resource" uid="uid://gdny3444knr7" path="res://resources/enemies/kingdom/elder_miner_hat.tres" id="3_guoms"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="4_0miww"]
+[ext_resource type="AudioStream" uid="uid://dv2g7mdvf8iuk" path="res://assets/sound/battle/Toby Fox - Rude Buster.mp3" id="5_w35lh"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="6_gfu7m"]
+[ext_resource type="Script" uid="uid://c87a82v6g8ug3" path="res://code/battle/battle_phase.gd" id="7_ws8hh"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="8_4eu6d"]
+
+[sub_resource type="Resource" id="Resource_cvqpj"]
+script = ExtResource("1_guoms")
+enemy = ExtResource("3_guoms")
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[resource]
+script = ExtResource("8_4eu6d")
+battle_name = "Elder Miner Hat 1"
+enemies = Array[ExtResource("1_guoms")]([SubResource("Resource_cvqpj")])
+music = ExtResource("5_w35lh")
+metadata/_custom_type_script = "uid://s2os42vdwf6y"

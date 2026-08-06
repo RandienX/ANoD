@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://7o7w0psr5q05"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_81r6t"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_3mbdy"]
+[ext_resource type="Resource" uid="uid://dlvvu0lpq6atk" path="res://resources/effects/tough.tres" id="3_3mbdy"]
+
+[resource]
+script = ExtResource("2_3mbdy")
+item_name = "Hard Hat"
+description = "Sturdy yellow miner hat for safety in cave excavation. Even party hats have worker safety laws."
+type = 1
+sell_price = Dictionary[int, int]({
+0: 100,
+1: 10,
+2: 10
+})
+buy_price = Dictionary[int, int]({
+0: 300,
+1: 10,
+2: 10
+})
+item_bonuses = Dictionary[String, int]({
+"atk": 0,
+"def": 4,
+"hp": 0,
+"magic": 0,
+"magic_def": 1,
+"mp": -5,
+"speed": 0,
+"tp": 0
+})
+startup_effects_given = Array[ExtResource("1_81r6t")]([ExtResource("3_3mbdy")])
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

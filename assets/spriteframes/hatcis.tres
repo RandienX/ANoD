@@ -1,0 +1,63 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://ibc1hn5xi3o3"]
+
+[ext_resource type="Texture2D" uid="uid://b04jglk35a608" path="res://assets/mapsprites/hat_knight.png" id="1_pc1gv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvgpj"]
+atlas = ExtResource("1_pc1gv")
+region = Rect2(72, 192, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hf28j"]
+atlas = ExtResource("1_pc1gv")
+region = Rect2(144, 128, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l2qmy"]
+atlas = ExtResource("1_pc1gv")
+region = Rect2(0, 128, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6syn"]
+atlas = ExtResource("1_pc1gv")
+region = Rect2(72, 128, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rni60"]
+atlas = ExtResource("1_pc1gv")
+region = Rect2(144, 128, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojwy8"]
+atlas = ExtResource("1_pc1gv")
+region = Rect2(216, 128, 72, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fvgpj")
+}],
+"loop": 1,
+"name": &"fight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hf28j")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l2qmy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a6syn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rni60")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojwy8")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 2.0
+}]

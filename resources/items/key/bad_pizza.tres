@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://bdwl8msr6pq4v"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_8h6kn"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="3_7pavf"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7xm35"]
+load_path = "res://.godot/imported/bad_pizza.png-015ad766b0910521877433dff5e17b1d.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8h6kn"]
+load_path = "res://.godot/imported/bad_pizza.png-015ad766b0910521877433dff5e17b1d.ctex"
+
+[resource]
+script = ExtResource("3_7pavf")
+item_name = "Bad Pizza"
+description = "Plasticey, mediocre, cheap Freddy's pizza. This one was in the trash for WAYY too long. It started growing a civilization on the crust."
+texture = SubResource("CompressedTexture2D_8h6kn")
+icon = SubResource("CompressedTexture2D_7xm35")
+type = 3
+sell_price = Dictionary[int, int]({})
+can_use_in_battle = false
+can_use_outside_battle = false
+item_bonuses = Dictionary[String, int]({
+"hp": 0,
+"magic": 0,
+"mp": 0,
+"speed": 0
+})
+heal_amount = 50
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

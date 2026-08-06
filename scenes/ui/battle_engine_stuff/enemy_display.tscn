@@ -1,0 +1,148 @@
+[gd_scene format=3 uid="uid://bplixhdyfam0k"]
+
+[ext_resource type="Shader" uid="uid://78ytsnaia8ko" path="res://resources/battles/white_flash.tres" id="1_u6u46"]
+[ext_resource type="Texture2D" uid="uid://cmviu18i7cll" path="res://assets/battlesprites/Hitcis_Right_leg.png" id="2_aifsw"]
+[ext_resource type="Script" uid="uid://cktt8sbju7vyf" path="res://scenes/ui/battle_engine_stuff/enemies_hp_bars.gd" id="2_fsduj"]
+[ext_resource type="Texture2D" uid="uid://byldo041hj3cn" path="res://assets/ui/button.png" id="3_aifsw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bhyi3"]
+shader = ExtResource("1_u6u46")
+shader_parameter/is_flashing = false
+shader_parameter/FlashColor = Color(1, 1, 1, 1)
+shader_parameter/FlashSpeed = 5.0
+shader_parameter/FlashIntensity = 1.50000006473023
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smy0y"]
+content_margin_right = 98.0
+bg_color = Color(0.19793725, 0.19793722, 0.19793728, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.15847227, 0.15847233, 0.15847221, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvxmf"]
+bg_color = Color(0.88235295, 0.84705883, 0, 1)
+border_width_left = 5
+border_width_top = 7
+border_width_right = 5
+border_width_bottom = 7
+border_color = Color(0.70275724, 0.5586243, 0, 1)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2lldr"]
+content_margin_right = 98.0
+bg_color = Color(0.19793725, 0.19793722, 0.19793728, 1)
+border_color = Color(0.15847227, 0.15847233, 0.15847221, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ilaow"]
+bg_color = Color(0.105882354, 0.6745098, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 2
+
+[node name="enemy" type="TextureRect" unique_id=680298671]
+material = SubResource("ShaderMaterial_bhyi3")
+anchors_preset = -1
+anchor_left = 3.1250002
+anchor_top = 5.65
+anchor_right = 3.1250002
+anchor_bottom = 5.65
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)
+texture = ExtResource("2_aifsw")
+script = ExtResource("2_fsduj")
+
+[node name="name" type="Label" parent="." unique_id=1150990592]
+z_index = 1
+layout_mode = 0
+offset_left = -3.0
+offset_top = -43.0
+offset_right = 19.0
+offset_bottom = -29.0
+theme_override_font_sizes/font_size = 12
+text = "ddd"
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="name" unique_id=26534700]
+z_index = -1
+custom_maximum_size = Vector2(140, -1)
+layout_mode = 0
+offset_left = -3.0
+offset_top = -6.0
+offset_right = 67.0
+offset_bottom = 24.0
+texture = ExtResource("3_aifsw")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1973922023]
+custom_minimum_size = Vector2(140, 32)
+layout_mode = 0
+offset_left = -6.0
+offset_top = -29.0
+offset_right = 134.0
+offset_bottom = 3.0
+texture = ExtResource("3_aifsw")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=647286961]
+layout_mode = 0
+offset_top = -22.0
+offset_right = 128.0
+offset_bottom = 18.0
+
+[node name="hp" type="ProgressBar" parent="VBoxContainer" unique_id=586434866]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_smy0y")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bvxmf")
+show_percentage = false
+
+[node name="mp" type="ProgressBar" parent="VBoxContainer" unique_id=1146804113]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_2lldr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ilaow")
+show_percentage = false
+
+[node name="EffectContainer" type="GridContainer" parent="." unique_id=480563951]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.009000001
+anchor_top = -0.36200002
+anchor_right = 1.1240001
+anchor_bottom = -0.162
+offset_left = -0.9829978
+offset_top = -22.079998
+offset_right = 134.98772
+offset_bottom = 9.92
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+columns = 4
+
+[node name="EffekseerEmitter2D" type="EffekseerEmitter2D" parent="." unique_id=1650337654]
+scale = Vector2(15, 15)

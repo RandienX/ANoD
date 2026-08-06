@@ -1,0 +1,293 @@
+[gd_scene format=4 uid="uid://boxlcoa7yx6um"]
+
+[ext_resource type="Script" uid="uid://875oleikcbyw" path="res://scenes/ui/game_menu/menu.gd" id="1_t8iaa"]
+[ext_resource type="Texture2D" uid="uid://c6t3yqacgcfe1" path="res://assets/menu/Window.png" id="2_88hgd"]
+[ext_resource type="Shader" uid="uid://78ytsnaia8ko" path="res://resources/battles/white_flash.tres" id="3_45a32"]
+[ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="3_n4xiy"]
+[ext_resource type="Script" uid="uid://jghaqibniequ" path="res://scenes/ui/game_menu/menu_button.gd" id="4_45a32"]
+[ext_resource type="Texture2D" uid="uid://byldo041hj3cn" path="res://assets/ui/button.png" id="5_075ci"]
+[ext_resource type="Script" uid="uid://b8dty2ph122sc" path="res://scenes/ui/game_menu/extras.gd" id="7_n4xiy"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_288ov"]
+texture = ExtResource("2_88hgd")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_tub5d"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_288ov")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_075ci"]
+shader = ExtResource("3_45a32")
+shader_parameter/FlashColor = Color(1, 1, 1, 1)
+shader_parameter/FlashSpeed = 1.0000000475
+shader_parameter/FlashIntensity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_58q04"]
+shader = ExtResource("3_45a32")
+shader_parameter/FlashColor = Color(1, 1, 1, 1)
+shader_parameter/FlashSpeed = 1.0
+shader_parameter/FlashIntensity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ex2pj"]
+shader = ExtResource("3_45a32")
+shader_parameter/FlashColor = Color(1, 1, 1, 1)
+shader_parameter/FlashSpeed = 1.0
+shader_parameter/FlashIntensity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5qn1y"]
+shader = ExtResource("3_45a32")
+shader_parameter/FlashColor = Color(1, 1, 1, 1)
+shader_parameter/FlashSpeed = 1.0
+shader_parameter/FlashIntensity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yvio7"]
+shader = ExtResource("3_45a32")
+shader_parameter/FlashColor = Color(1, 1, 1, 1)
+shader_parameter/FlashSpeed = 1.0
+shader_parameter/FlashIntensity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_88hgd"]
+shader = ExtResource("3_45a32")
+shader_parameter/FlashColor = Color(1, 1, 1, 1)
+shader_parameter/FlashSpeed = 1.0
+shader_parameter/FlashIntensity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n4xiy"]
+shader = ExtResource("3_45a32")
+shader_parameter/FlashColor = Color(1, 1, 1, 1)
+shader_parameter/FlashSpeed = 1.0
+shader_parameter/FlashIntensity = 1.0
+
+[node name="game_menu" type="Control" unique_id=46906290]
+process_mode = 3
+z_index = 999
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t8iaa")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1432873841]
+z_index = -5
+scale = Vector2(2, 2)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAAAAAQAAAAAAAEAAAABAAAAAAAAAAEAAAABAAEAAAAAAAEAAAABAAIAAAAAAAEAAAABAAMAAAAAAAEAAAABAAQAAAAAAAEAAAACAAAAAAAAAAEAAAACAAEAAAAAAAEAAAACAAIAAAAAAAEAAAACAAMAAAAAAAEAAAACAAQAAAAAAAEAAAADAAAAAAAAAAEAAAADAAEAAAAAAAEAAAADAAIAAAAAAAEAAAADAAMAAAAAAAEAAAADAAQAAAAAAAEAAAAEAAAAAAAAAAEAAAAEAAEAAAAAAAEAAAAEAAIAAAAAAAEAAAAEAAMAAAAAAAEAAAAEAAQAAAAAAAEAAAAFAAAAAAAAAAEAAAAFAAEAAAAAAAEAAAAFAAIAAAAAAAEAAAAFAAMAAAAAAAEAAAAFAAQAAAAAAAEAAAAGAAAAAAAAAAEAAAAGAAEAAAAAAAEAAAAGAAIAAAAAAAEAAAAGAAMAAAAAAAEAAAAGAAQAAAAAAAEAAAAAAAUAAAAAAAEAAAABAAUAAAAAAAEAAAACAAUAAAAAAAEAAAADAAUAAAAAAAEAAAAEAAUAAAAAAAEAAAAFAAUAAAAAAAEAAAAGAAUAAAAAAAEAAAAHAAAAAAAAAAEAAAAIAAAAAAAAAAEAAAAIAAEAAAAAAAEAAAAIAAIAAAAAAAEAAAAIAAMAAAAAAAEAAAAIAAQAAAAAAAEAAAAIAAUAAAAAAAEAAAAHAAUAAAAAAAEAAAAHAAYAAAAAAAEAAAAIAAYAAAAAAAEAAAAGAAYAAAAAAAEAAAAFAAYAAAAAAAEAAAAEAAYAAAAAAAEAAAADAAYAAAAAAAEAAAACAAYAAAAAAAEAAAABAAYAAAAAAAEAAAAAAAYAAAAAAAEAAAAHAAQAAAAAAAEAAAAHAAMAAAAAAAEAAAAHAAIAAAAAAAEAAAAHAAEAAAAAAAEAAAA=")
+tile_set = SubResource("TileSet_tub5d")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1247674252]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer" unique_id=502364895]
+layout_mode = 2
+theme_override_constants/separation = 12
+split_offsets = PackedInt32Array(10)
+split_offset = 10
+
+[node name="categories" type="VBoxContainer" parent="MarginContainer/HSplitContainer" unique_id=2134858693]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="party" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=622442565]
+material = SubResource("ShaderMaterial_075ci")
+custom_minimum_size = Vector2(180, 87)
+layout_mode = 2
+offset_transform_position = Vector2(0, 52)
+theme_override_fonts/font = ExtResource("3_n4xiy")
+theme_override_font_sizes/font_size = 28
+text = "Party"
+flat = true
+script = ExtResource("4_45a32")
+menu_path = "res://scenes/ui/game_menu/party/party.tscn"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/party" unique_id=454255785]
+z_index = -1
+use_parent_material = true
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 87.0
+texture = ExtResource("5_075ci")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="inventory" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=336757278]
+material = SubResource("ShaderMaterial_58q04")
+custom_minimum_size = Vector2(180, 87)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_n4xiy")
+theme_override_font_sizes/font_size = 28
+text = "Inventory"
+flat = true
+script = ExtResource("4_45a32")
+menu_path = "res://scenes/ui/game_menu/inventory/inventory.tscn"
+id = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/inventory" unique_id=1978087011]
+z_index = -1
+use_parent_material = true
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 87.0
+texture = ExtResource("5_075ci")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="quests" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=1144322609]
+material = SubResource("ShaderMaterial_ex2pj")
+custom_minimum_size = Vector2(180, 87)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_n4xiy")
+theme_override_font_sizes/font_size = 28
+text = "Quests"
+flat = true
+script = ExtResource("4_45a32")
+id = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/quests" unique_id=63363935]
+z_index = -1
+use_parent_material = true
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 87.0
+texture = ExtResource("5_075ci")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="settings" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=422843910]
+material = SubResource("ShaderMaterial_5qn1y")
+custom_minimum_size = Vector2(180, 87)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_n4xiy")
+theme_override_font_sizes/font_size = 28
+text = "Settings"
+flat = true
+script = ExtResource("4_45a32")
+menu_path = "res://scenes/ui/game_menu/settings/settings.tscn"
+id = 3
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/settings" unique_id=1543702978]
+z_index = -1
+use_parent_material = true
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 87.0
+texture = ExtResource("5_075ci")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="save" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=2037100583]
+material = SubResource("ShaderMaterial_yvio7")
+custom_minimum_size = Vector2(180, 87)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_n4xiy")
+theme_override_font_sizes/font_size = 28
+text = "Save"
+flat = true
+script = ExtResource("4_45a32")
+menu_path = "res://scenes/ui/game_menu/save/saves.tscn"
+id = 4
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/save" unique_id=206778592]
+z_index = -1
+use_parent_material = true
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 87.0
+texture = ExtResource("5_075ci")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="BackButton" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=280755387]
+material = SubResource("ShaderMaterial_88hgd")
+custom_minimum_size = Vector2(180, 87)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_n4xiy")
+theme_override_font_sizes/font_size = 28
+text = "Back"
+flat = true
+script = ExtResource("7_n4xiy")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/BackButton" unique_id=1869259528]
+z_index = -1
+use_parent_material = true
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 87.0
+texture = ExtResource("5_075ci")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="ExitButton" type="Button" parent="MarginContainer/HSplitContainer/categories" unique_id=1406355834]
+material = SubResource("ShaderMaterial_n4xiy")
+custom_minimum_size = Vector2(180, 87)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_n4xiy")
+theme_override_font_sizes/font_size = 28
+text = "Exit"
+flat = true
+script = ExtResource("7_n4xiy")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HSplitContainer/categories/ExitButton" unique_id=550678836]
+z_index = -1
+use_parent_material = true
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 87.0
+texture = ExtResource("5_075ci")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="display_category" type="MarginContainer" parent="MarginContainer/HSplitContainer" unique_id=135171712]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="gold" type="Label" parent="." unique_id=220862514]
+z_index = -2
+layout_mode = 0
+offset_left = 950.0
+offset_top = 825.0
+offset_right = 1152.0
+offset_bottom = 864.0
+theme_override_font_sizes/font_size = 28
+text = "Gold: 999999"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="MarginContainer/HSplitContainer/categories/party" to="MarginContainer/HSplitContainer/categories/party" method="_on_mouse_entered"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/categories/party" to="MarginContainer/HSplitContainer/categories/party" method="change_menu"]
+[connection signal="mouse_entered" from="MarginContainer/HSplitContainer/categories/inventory" to="MarginContainer/HSplitContainer/categories/inventory" method="_on_mouse_entered"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/categories/inventory" to="MarginContainer/HSplitContainer/categories/inventory" method="change_menu"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/categories/quests" to="MarginContainer/HSplitContainer/categories/quests" method="change_menu"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/categories/settings" to="MarginContainer/HSplitContainer/categories/settings" method="change_menu"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/categories/save" to="MarginContainer/HSplitContainer/categories/save" method="change_menu"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/categories/BackButton" to="MarginContainer/HSplitContainer/categories/BackButton" method="change_menu"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/categories/ExitButton" to="MarginContainer/HSplitContainer/categories/ExitButton" method="change_menu"]

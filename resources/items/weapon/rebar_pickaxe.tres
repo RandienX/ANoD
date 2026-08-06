@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://ujqjdfye5lkr"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_syihj"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_53vhf"]
+[ext_resource type="Resource" uid="uid://dg224qcft1awy" path="res://resources/attacks/enemies/kingdom/hook_shot.tres" id="2_ixy13"]
+[ext_resource type="Texture2D" uid="uid://c3eg7ga8is6dp" path="res://assets/tilemaps/Objects_Kingdom.png" id="3_53vhf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixy13"]
+atlas = ExtResource("3_53vhf")
+region = Rect2(352, 128, 32, 32)
+
+[resource]
+script = ExtResource("2_53vhf")
+item_name = "Rebar Pickaxe"
+texture = SubResource("AtlasTexture_ixy13")
+can_use_outside_battle = false
+item_attack = ExtResource("2_ixy13")
+item_bonuses = Dictionary[String, int]({
+"atk": 5,
+"def": 0,
+"hp": 0,
+"magic": 0,
+"magic_def": 0,
+"mp": 0,
+"speed": -1,
+"tp": 10
+})
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

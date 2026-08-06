@@ -1,0 +1,173 @@
+@tool
+extends MarginContainer
+class_name ShopItemCard
+## ShopItemCard - Reusable UI component for displaying a single shop item
+## Shows icon, name, description, price, and handles purchase interaction
+
+@onready var icon_texture: TextureRect = $HBoxContainer/Icon
+@onready var name_label: Label = $HBoxContainer/VBoxContainer/Name
+@onready var description_label: Label = $HBoxContainer/VBoxContainer/ScrollContainer/Desc
+@onready var price_label: Label = $HBoxContainer/VBoxContainer/Price
+@onready var buy_button: Button = $HBoxContainer/VBoxContainer2/MarginContainer/Buy
+@onready var quantity_spinbox: SpinBox = $HBoxContainer/VBoxContainer2/SpinBox
+
+# For buy mode
+var shop_item: ShopItem
+# For sell mode
+var sell_item: Item
+var sell_quantity: int = 0
+var sell_price_value: int = 0
+var sell_currency_type: PlayerStats.CurrencyType = PlayerStats.CurrencyType.GOLD
+
+var quantity: int = 1
+var is_sell_mode: bool = false
+
+## Initialize for BUY mode (existing functionality)
+func setup(item: ShopItem) -> void:
+	is_sell_mode = false
+	shop_item = item
+	_setup()
+	_update_visuals()
+
+func setup_for_sell(item: Item, amount: int) -> void:
+	is_sell_mode = true
+	sell_item = item
+	sell_quantity = amount
+	
+	if item and item.sell_price is Dictionary:
+		sell_price_value = item.sell_price.get(PlayerStats.CurrencyType.GOLD, 10)
+		sell_currency_type = PlayerStats.CurrencyType.GOLD
+	else:
+		sell_price_value = 10
+		sell_currency_type = PlayerStats.CurrencyType.GOLD
+	
+	_setup_sell_ui()
+
+func _setup() -> void:
+	if not shop_item or not shop_item.item:
+		return
+	
+	# Icon
+	if shop_item.item.texture:
+		icon_texture.texture = shop_item.item.texture
+	else:
+		icon_texture.texture = null
+	
+	name_label.text = shop_item.item.item_name if shop_item.item.item_name != "" else "Unknown Item"
+	description_label.text = shop_item.item.description if shop_item.item.description != "" else "No description"
+	
+	var currency_symbol = _get_currency_symbol(shop_item.currency_type)
+	price_label.text = "%d %s" % [shop_item.price, currency_symbol]
+
+func _setup_sell_ui() -> void:
+	# Icon
+	if sell_item.texture:
+		icon_texture.texture = sell_item.texture
+	else:
+		icon_texture.texture = null
+	
+	name_label.text = sell_item.item_name if sell_item.item_name != "" else "Unknown Item"
+	description_label.text = sell_item.description if sell_item.description != "" else "No description"
+	
+	var currency_symbol = _get_currency_symbol(sell_currency_type)
+	price_label.text = "Sell: %d %s each\nOwned: %d" % [sell_price_value, currency_symbol, sell_quantity]
+	
+	if buy_button:
+		buy_button.text = "Sell"
+
+## Get currency symbol based on type
+func _get_currency_symbol(type: PlayerStats.CurrencyType) -> String:
+	match type:
+		PlayerStats.CurrencyType.GOLD:
+			return "G"
+		PlayerStats.CurrencyType.SHIT:
+			return "S"
+		PlayerStats.CurrencyType.FAZTOKENS:
+			return "FT"
+	return ""
+
+func _update_visuals() -> void:
+	if is_sell_mode:
+		_update_sell_visuals()
+		return
+	if not shop_item:
+		set_disabled(true)
+		return
+	
+	var can_afford = shop_item._can_afford()
+	
+	if not is_sell_mode:
+		if not can_afford:
+			set_disabled(true)
+			price_label.modulate = Color.RED
+		else:
+			set_disabled(false)
+			price_label.modulate = Color.WHITE
+
+func _update_sell_visuals() -> void:
+	price_label.modulate = Color.GREEN  # Green to indicate earning
+
+func set_disabled(disabled: bool) -> void:
+	if buy_button:
+		buy_button.disabled = disabled
+	modulate.a = 0.5 if disabled == true else 1.0
+
+func refresh() -> void:
+	if is_sell_mode:
+		_update_sell_visuals()
+		# Update quantity in case inventory changed
+		if PlayerStats and sell_item:
+			sell_quantity = PlayerStats.get_item_amount(sell_item)
+			var currency_symbol = _get_currency_symbol(sell_currency_type)
+			price_label.text = "Sell: %d %s each\nOwned: %d" % [sell_price_value, currency_symbol, sell_quantity]
+	else:
+		_update_visuals()
+		
+func _on_buy_pressed() -> void:
+	if is_sell_mode:
+		_on_sell_pressed()
+	else:
+		if shop_item and quantity_spinbox:
+			quantity = int(quantity_spinbox.value)
+			_attempt_purchase()
+
+func _attempt_purchase() -> void:
+	if not shop_item:
+		return
+	
+	var success = false
+	success = shop_item.purchase(quantity)
+	get_tree().current_scene._update_currency_display()
+	
+	if success:
+		Sfx.stream = load("res://assets/sound/sfx/select.wav")
+		Sfx.play()
+		PlayerStats.add_item(shop_item.item, quantity)
+	else:
+		Sfx.stream = load("res://assets/sound/sfx/error.wav")
+		Sfx.play()
+
+func _on_sell_pressed() -> void:
+	if not sell_item or not quantity_spinbox:
+		return
+	
+	var qty_to_sell = int(quantity_spinbox.value)
+	var total_earnings = sell_price_value * qty_to_sell
+	
+	if not shop_item.item or quantity <= 0 or quantity >= PlayerStats.get_item_amount(shop_item.item):
+		push_warning("ShopUI: Invalid sell transaction")
+		return
+
+	var removed = PlayerStats.remove_item(shop_item.item, quantity)
+	if not removed:
+		push_warning("ShopUI: Failed to remove sold item from inventory")
+		return
+
+	PlayerStats.add_currency(total_earnings, get_tree().current_scene.shop_data.currency_type)
+	get_tree().current_scene._update_currency_display()
+
+	get_tree().current_scene._refresh_sell_grid()
+
+## Check if this card is in sell mode
+func is_in_sell_mode() -> bool:
+	return is_sell_mode

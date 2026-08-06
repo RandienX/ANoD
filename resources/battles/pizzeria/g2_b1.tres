@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="Battle" format=3 uid="uid://bhfnl537c8pxi"]
+
+[ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="4_y3oy3"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="5_ogmn7"]
+[ext_resource type="Resource" uid="uid://dqu0dik6olrpu" path="res://resources/enemies/pizzeria/b_party_hat.tres" id="6_k84dl"]
+[ext_resource type="Resource" uid="uid://b7val374sectd" path="res://resources/enemies/pizzeria/y_party_hat.tres" id="6_r4cj1"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="7_f3y23"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="7_yr2tn"]
+[ext_resource type="AudioStream" uid="uid://b8b2magh1twoe" path="res://assets/sound/battle/Pepper Steak - OFF.mp3" id="9_y3oy3"]
+[ext_resource type="Script" uid="uid://c87a82v6g8ug3" path="res://code/battle/battle_phase.gd" id="10_pl382"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="11_jdug4"]
+
+[sub_resource type="Resource" id="Resource_w3sal"]
+script = ExtResource("4_y3oy3")
+enemy = ExtResource("6_r4cj1")
+ui_position_preset = 1
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_4a0t1"]
+script = ExtResource("4_y3oy3")
+enemy = ExtResource("6_k84dl")
+ui_position_preset = 4
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_vx1ff"]
+script = ExtResource("4_y3oy3")
+enemy = ExtResource("6_r4cj1")
+ui_position_preset = 7
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[resource]
+script = ExtResource("11_jdug4")
+battle_name = "Beta Party Hat 3"
+enemies = Array[ExtResource("4_y3oy3")]([SubResource("Resource_w3sal"), SubResource("Resource_4a0t1"), SubResource("Resource_vx1ff")])
+music = ExtResource("9_y3oy3")
+xp_multiplier = 1.1
+metadata/_custom_type_script = "uid://s2os42vdwf6y"

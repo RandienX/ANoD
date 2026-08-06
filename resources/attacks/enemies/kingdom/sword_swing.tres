@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://db8lchf6jgto"]
+
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_1tkuh"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_ncvti"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="3_0nyay"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="4_6woey"]
+[ext_resource type="AudioStream" uid="uid://dbwrs5mlh0mbr" path="res://assets/sound/sfx/attack/Slash2.mp3" id="5_bpgfa"]
+[ext_resource type="EffekseerEffect" uid="uid://daml7s43ug3u0" path="res://assets/vfx/SlashEffect.efkefc" id="6_4pl5e"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="7_10gwc"]
+
+[sub_resource type="Resource" id="Resource_gnqt0"]
+script = ExtResource("7_10gwc")
+effect = ExtResource("6_4pl5e")
+on_target = 4
+
+[resource]
+script = ExtResource("4_6woey")
+skill_name = "Sword Swing"
+attack_multiplier = 1.25
+vfx = SubResource("Resource_gnqt0")
+sfx = ExtResource("5_bpgfa")
+metadata/_custom_type_script = "uid://o74imedfcjis"

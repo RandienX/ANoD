@@ -1,0 +1,200 @@
+[gd_scene format=4 uid="uid://do48aycmbkp07"]
+
+[ext_resource type="Script" uid="uid://duek0uk444kjf" path="res://code/root_script.gd" id="1_5h02r"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="2_67s2n"]
+[ext_resource type="Resource" uid="uid://d0alullmmxp3b" path="res://resources/battles/pizzeria/alpha_party_hat_1.tres" id="3_2emfl"]
+[ext_resource type="AudioStream" uid="uid://bwn4gyrb4dtg" path="res://assets/sound/Christopher Larkin - Crossroads.mp3" id="4_67s2n"]
+[ext_resource type="PackedScene" uid="uid://clildupwuax4h" path="res://scenes/objects/transition.tscn" id="4_72o3r"]
+[ext_resource type="Texture2D" uid="uid://bas820bgc5odr" path="res://assets/battleui/backgrounds/Blue Cave.png" id="4_xtf10"]
+[ext_resource type="TileSet" uid="uid://cpxfb26nr2i26" path="res://assets/tilemaps/tilesets/wall_tileset.tres" id="5_i3uop"]
+[ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="6_vekfa"]
+[ext_resource type="PackedScene" uid="uid://yq7stgud35n5" path="res://scenes/objects/player.tscn" id="7_1p2yr"]
+[ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="8_3iw5v"]
+[ext_resource type="PackedScene" uid="uid://cgs08pp0l2gmg" path="res://scenes/objects/textbox_maker.tscn" id="8_kwv8l"]
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="9_xtf10"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="10_wtjvf"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="11_ysox8"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="12_fcw1q"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="13_4kuy7"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="14_kwv8l"]
+
+[sub_resource type="Resource" id="Resource_2p737"]
+script = ExtResource("9_xtf10")
+text = "The box contained nothing."
+label = "start"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_2m1vk"]
+script = ExtResource("13_4kuy7")
+nodes = Array[ExtResource("9_xtf10")]([SubResource("Resource_2p737")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"
+
+[sub_resource type="Resource" id="Resource_j785l"]
+script = ExtResource("12_fcw1q")
+param_string = "res://resources/items/weapon/rebar_pickaxe.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_qqkol"]
+script = ExtResource("9_xtf10")
+text = "Found Rebar Pickaxe."
+label = "start"
+on_enter_effects = Array[ExtResource("12_fcw1q")]([SubResource("Resource_j785l")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_cwrde"]
+script = ExtResource("13_4kuy7")
+nodes = Array[ExtResource("9_xtf10")]([SubResource("Resource_qqkol")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"
+
+[sub_resource type="Resource" id="Resource_4kuy7"]
+script = ExtResource("12_fcw1q")
+param_string = "res://resources/items/consumables/small_pizza.tres"
+param_value = "2"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_5e2f0"]
+script = ExtResource("9_xtf10")
+text = "Found 2 Small Pizzas."
+label = "start"
+on_enter_effects = Array[ExtResource("12_fcw1q")]([SubResource("Resource_4kuy7")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_ewxle"]
+script = ExtResource("13_4kuy7")
+nodes = Array[ExtResource("9_xtf10")]([SubResource("Resource_5e2f0")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"
+
+[sub_resource type="Resource" id="Resource_xtf10"]
+script = ExtResource("12_fcw1q")
+param_string = "res://resources/items/consumables/medium_pizza.tres"
+param_value = "3"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_fcw1q"]
+script = ExtResource("12_fcw1q")
+param_string = "res://resources/items/consumables/small_soda.tres"
+param_value = "2"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_kwv8l"]
+script = ExtResource("12_fcw1q")
+effect_type = 18
+param_string = "gold"
+param_value = "100"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_wtjvf"]
+script = ExtResource("9_xtf10")
+text = "Found 2 Small Soda, 3 Medium Pizza and 100 Gold."
+label = "start"
+on_enter_effects = Array[ExtResource("12_fcw1q")]([SubResource("Resource_xtf10"), SubResource("Resource_fcw1q"), SubResource("Resource_kwv8l")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_ysox8"]
+script = ExtResource("13_4kuy7")
+nodes = Array[ExtResource("9_xtf10")]([SubResource("Resource_wtjvf")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ywghk"]
+size = Vector2(32, 32)
+
+[node name="RootScene" type="Node2D" unique_id=1519412412 node_paths=PackedStringArray("player")]
+script = ExtResource("1_5h02r")
+room_name = "Cave - Dusty Storage"
+possible_battles = Array[ExtResource("2_67s2n")]([ExtResource("3_2emfl")])
+enemy_intensity = 0
+enemy_agressiveness = 0
+battle_bg = ExtResource("4_xtf10")
+bg_music = ExtResource("4_67s2n")
+player = NodePath("player")
+room_size = Rect2(2, 1, 18, 15)
+metadata/_custom_type_script = "uid://duek0uk444kjf"
+
+[node name="transition" parent="." unique_id=736995530 instance=ExtResource("4_72o3r")]
+
+[node name="Cutscenes" type="Node" parent="." unique_id=1174815890]
+
+[node name="TileMap" type="Node2D" parent="." unique_id=1697236339]
+
+[node name="walls" type="TileMapLayer" parent="TileMap" unique_id=386399745]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAKAAcAAgACAAcAAAAKAAgAAgACAAcAAQAJAAcAAgACAAcAAQAKAAYAAgACAAcAAAALAAYAAgACAAcAAAALAAcAAgACAAcAAQANAAoAAgACAAcAAQANAAkAAgACAAcAAQANAAgAAgACAAcAAAANAAcAAgACAAcAAAANAAYAAgACAAcAAAAMAAoAAgACAAcAAAAMAAkAAgACAAcAAAAMAAgAAgACAAcAAQAMAAcAAgACAAcAAAAMAAYAAgACAAcAAAALAAoAAgACAAcAAAALAAkAAgACAAcAAAALAAgAAgACAAcAAQAKAAoAAgACAAcAAQAKAAkAAgACAAcAAAAJAAoAAgACAAcAAAAJAAkAAgACAAcAAAAJAAgAAgACAAcAAQAJAAYAAgACAAcAAAAIAAoAAgACAAUAAwAIAAkAAgACAAcAAAAIAAgAAgACAAcAAQAIAAcAAgACAAcAAQAIAAYAAgACAAcAAQAOAAoAAgACAAcAAAAOAAkAAgACAAcAAAAOAAgAAgAEAAUABQAOAAcAAgAEAAUAAAAOAAYAAgACAAUAAgAOAAUAAgABAAUAAQANAAUAAgAEAAUABgAMAAUAAgAEAAgAAAALAAUAAgAEAAgAAAAKAAUAAgAEAAgAAAAJAAUAAgAEAAgAAAAIAAUAAgAEAAUABQAHAAoAAgADAAUAAQAHAAkAAgABAAUAAwAHAAgAAgACAAUAAwAHAAcAAgACAAcAAAAHAAYAAgACAAUAAQAHAAUAAgABAAUAAwAQAAwAAgACAAcAAQAQAAsAAgACAAcAAAAQAAoAAgACAAcAAQAQAAkAAgACAAcAAQAPAAwAAgACAAUAAwAPAAsAAgACAAcAAQAPAAoAAgACAAcAAAAPAAkAAgACAAcAAAAOAAwAAgABAAUAAAAOAAsAAgACAAcAAQANAAwAAgABAAUAAAANAAsAAgACAAcAAQAMAAwAAgABAAUAAAAMAAsAAgACAAcAAAALAAwAAgACAAUAAAALAAsAAgACAAcAAQAKAAwAAgACAAcAAAAKAAsAAgACAAcAAAASAAkAAgABAAUAAQASAAgAAgADAAUAAwARAAkAAgAEAAUAAAARAAgAAgACAAUAAgAQAAgAAgAEAAUABgAPAAgAAgAEAAgAAAAPAAcAAgAEAAYAAAAQAAcAAgAEAAUAAQARAAcAAgABAAUAAQARAAYAAgADAAUAAwAQAAYAAgABAAUAAgAPAAYAAgABAAUAAgASAAoAAgABAAUAAQARAAoAAgAEAAUABQALAA0AAgADAAUAAAAKAA0AAgABAAUAAAAJAA0AAgACAAUAAAAJAAwAAgACAAcAAQAIAA0AAgACAAcAAAAIAAwAAgACAAUAAQAJAAsAAgACAAcAAAAIAAsAAgABAAUAAwAJAA4AAgADAAUAAAAIAA4AAgABAAUAAAAHAA4AAgADAAUAAQAHAA0AAgABAAUAAwAHAAwAAgADAAUAAgARAA0AAgACAAcAAQARAAwAAgACAAcAAAAQAA0AAgACAAUAAwASAA4AAgADAAUAAAASAA0AAgABAAUAAQASAAwAAgABAAUAAQARAA4AAgABAAUAAAAQAA4AAgADAAUAAQAPAA0AAgADAAUAAQARAAsAAgACAAcAAQAIAAQAAgAEAAUAAAAJAAQAAgAEAAYAAAAKAAQAAgAEAAYAAAALAAQAAgAEAAYAAAAMAAQAAgAEAAYAAAANAAQAAgAEAAUAAQAOAAQAAgABAAUAAQANAAMAAgABAAUAAgAMAAMAAgABAAUAAgALAAMAAgABAAUAAgAKAAMAAgABAAUAAgAJAAMAAgABAAUAAgAIAAMAAgABAAUAAgAHAAQAAgABAAUAAwAHAAMAAgADAAUAAgAOAAMAAgADAAUAAwASAAsAAgABAAUAAQA=")
+tile_set = ExtResource("5_i3uop")
+
+[node name="path" type="TileMapLayer" parent="TileMap" unique_id=1630701520]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAKAAcAAgACAAcAAAAKAAgAAgACAAcAAQAJAAcAAgACAAcAAQAKAAYAAgACAAcAAAALAAYAAgACAAcAAAALAAcAAgACAAcAAQANAAoAAgACAAcAAQANAAkAAgACAAcAAQANAAgAAgACAAcAAAANAAcAAgACAAcAAAANAAYAAgACAAcAAAAMAAoAAgACAAcAAAAMAAkAAgACAAcAAAAMAAgAAgACAAcAAQAMAAcAAgACAAcAAAAMAAYAAgACAAcAAAALAAoAAgACAAcAAAALAAkAAgACAAcAAAALAAgAAgACAAcAAQAKAAoAAgACAAcAAQAKAAkAAgACAAcAAAAJAAoAAgACAAcAAAAJAAkAAgACAAcAAAAJAAgAAgACAAcAAQAJAAYAAgACAAcAAAAIAAoAAgACAAUAAwAIAAkAAgACAAcAAAAIAAgAAgACAAcAAQAIAAcAAgACAAcAAQAIAAYAAgACAAcAAQAOAAoAAgACAAcAAAAOAAkAAgACAAcAAAAOAAgAAgAEAAUABQAOAAcAAgAEAAUAAAAOAAYAAgACAAUAAgAOAAUAAgABAAUAAQANAAUAAgAEAAUABgAMAAUAAgAEAAgAAAALAAUAAgAEAAgAAAAKAAUAAgAEAAgAAAAJAAUAAgAEAAgAAAAIAAUAAgAEAAUABQAHAAoAAgADAAUAAQAHAAkAAgABAAUAAwAHAAgAAgACAAUAAwAHAAcAAgACAAcAAAAHAAYAAgACAAUAAQAHAAUAAgABAAUAAwAQAAwAAgACAAcAAQAQAAsAAgACAAcAAAAQAAoAAgACAAcAAQAQAAkAAgACAAcAAQAPAAwAAgACAAUAAwAPAAsAAgACAAcAAQAPAAoAAgACAAcAAAAPAAkAAgACAAcAAAAOAAwAAgABAAUAAAAOAAsAAgACAAcAAQANAAwAAgABAAUAAAANAAsAAgACAAcAAQAMAAwAAgABAAUAAAAMAAsAAgACAAcAAAALAAwAAgACAAUAAAALAAsAAgACAAcAAQAKAAwAAgACAAcAAAAKAAsAAgACAAcAAAASAAkAAgABAAUAAQASAAgAAgADAAUAAwARAAkAAgAEAAUAAAARAAgAAgACAAUAAgAQAAgAAgAEAAUABgAPAAgAAgAEAAgAAAAPAAcAAgAEAAYAAAAQAAcAAgAEAAUAAQARAAcAAgABAAUAAQARAAYAAgADAAUAAwAQAAYAAgABAAUAAgAPAAYAAgABAAUAAgASAAoAAgABAAUAAQARAAoAAgAEAAUABQALAA0AAgADAAUAAAAKAA0AAgABAAUAAAAJAA0AAgACAAUAAAAJAAwAAgACAAcAAQAIAA0AAgACAAcAAAAIAAwAAgACAAUAAQAJAAsAAgACAAcAAAAIAAsAAgABAAUAAwAJAA4AAgADAAUAAAAIAA4AAgABAAUAAAAHAA4AAgADAAUAAQAHAA0AAgABAAUAAwAHAAwAAgADAAUAAgARAA0AAgACAAcAAQARAAwAAgACAAcAAAAQAA0AAgACAAUAAwASAA4AAgADAAUAAAASAA0AAgABAAUAAQASAAwAAgABAAUAAQARAA4AAgABAAUAAAAQAA4AAgADAAUAAQAPAA0AAgADAAUAAQARAAsAAgACAAcAAQAIAAQAAgAEAAUAAAAJAAQAAgAEAAYAAAAKAAQAAgAEAAYAAAALAAQAAgAEAAYAAAAMAAQAAgAEAAYAAAANAAQAAgAEAAUAAQAOAAQAAgABAAUAAQANAAMAAgABAAUAAgAMAAMAAgABAAUAAgALAAMAAgABAAUAAgAKAAMAAgABAAUAAgAJAAMAAgABAAUAAgAIAAMAAgABAAUAAgAHAAQAAgABAAUAAwAHAAMAAgADAAUAAgAOAAMAAgADAAUAAwASAAsAAgABAAUAAQA=")
+tile_set = ExtResource("5_i3uop")
+
+[node name="objects" type="TileMapLayer" parent="TileMap" unique_id=1267639804]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAQAAkAAQADAAAAAAARAAsAAQADAAAAAAANAAYAAQADAAAAAAAJAAwAAQADAAAAAAALAAYAAQAEAAEAAAAMAAYAAQAFAAEAAAAMAAUAAQAFAAAAAAALAAUAAQAEAAAAAAALAAkAAAAFAAAAAQAMAAkAAAAFAAIAAwAMAAoAAAAFAAIAAAANAAoAAAAFAAAAAgAOAAsAAAALAAQAAwAQAAoAAAALAAQAAwAKAAYAAAALAAQAAgAIAA0AAAALAAQAAQAKAAwAAAAPAAkAAAA=")
+tile_set = ExtResource("6_vekfa")
+
+[node name="objects_top" type="TileMapLayer" parent="TileMap/objects" unique_id=970906488]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAANAAoAAAAJAAQAAAA=")
+tile_set = ExtResource("6_vekfa")
+
+[node name="Textboxes" type="Node2D" parent="." unique_id=1024677748]
+
+[node name="box_empty" parent="Textboxes" unique_id=754736827 node_paths=PackedStringArray("player_node_path") instance=ExtResource("8_kwv8l")]
+position = Vector2(305, 398)
+dialogue_data = SubResource("Resource_2m1vk")
+once_per_session = true
+require_input_to_start = true
+player_node_path = NodePath("../../player")
+
+[node name="box_empty2" parent="Textboxes" unique_id=1868197321 node_paths=PackedStringArray("player_node_path") instance=ExtResource("8_kwv8l")]
+position = Vector2(432, 207)
+dialogue_data = SubResource("Resource_2m1vk")
+once_per_session = true
+require_input_to_start = true
+player_node_path = NodePath("../../player")
+
+[node name="box_pick" parent="Textboxes" unique_id=943725776 node_paths=PackedStringArray("player_node_path") instance=ExtResource("8_kwv8l")]
+position = Vector2(560, 368)
+dialogue_data = SubResource("Resource_cwrde")
+once_per_session = true
+require_input_to_start = true
+player_node_path = NodePath("../../player")
+
+[node name="box_pizza" parent="Textboxes" unique_id=2029253307 node_paths=PackedStringArray("player_node_path") instance=ExtResource("8_kwv8l")]
+position = Vector2(528, 303)
+dialogue_data = SubResource("Resource_ewxle")
+once_per_session = true
+require_input_to_start = true
+player_node_path = NodePath("../../player")
+
+[node name="box_pizza2" parent="Textboxes" unique_id=794990741 node_paths=PackedStringArray("player_node_path") instance=ExtResource("8_kwv8l")]
+position = Vector2(380, 206)
+scale = Vector2(1.8800098, 1)
+dialogue_data = SubResource("Resource_ysox8")
+once_per_session = true
+require_input_to_start = true
+player_node_path = NodePath("../../player")
+
+[node name="player" parent="." unique_id=1002093154 instance=ExtResource("7_1p2yr")]
+z_index = 1
+position = Vector2(240, 223)
+static_shader = false
+move_speed = 100.0
+
+[node name="Dialogue" type="CanvasLayer" parent="." unique_id=1044641630]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Dialogue" unique_id=465900755]
+
+[node name="SceneTriggers" type="Node2D" parent="." unique_id=2147108983]
+
+[node name="ChangeRoomTrigger" type="Area2D" parent="SceneTriggers" unique_id=65924589]
+position = Vector2(-352, 225)
+script = ExtResource("8_3iw5v")
+player_position = Vector2(593, 127)
+next_room_path = "res://scenes/maps/kingdom/cave_01.tscn"
+metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger" unique_id=578206076]
+position = Vector2(560, 15)
+shape = SubResource("RectangleShape2D_ywghk")
+
+[connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger" to="SceneTriggers/ChangeRoomTrigger" method="_on_body_entered"]

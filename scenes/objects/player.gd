@@ -6,6 +6,8 @@ extends CharacterBody2D
 @export var stop_move := false
 @export var static_shader := true
 @export var can_menu := true
+@export var camera_color_tint: Color = Color("0000148c")
+@export_range(0,1, 0.01) var max_tint_alpha: float = 0.6
 
 enum PIZZARIA_SHADER_ENUM {
 	DiningHall,
@@ -41,8 +43,12 @@ func _ready() -> void:
 	room = $"..".room_name
 	enumify_room()
 	camera.global_position = global_position
+	camera.zoom = Vector2(2,2)
+	
+	if camera_color_tint.a > max_tint_alpha:
+		camera_color_tint.a = max_tint_alpha
+	$Camera2D/CanvasLayer/shader/ColorRect.color = camera_color_tint
 	$Camera2D/CanvasLayer/shader/crt.visible = static_shader
-	$Camera2D/CanvasLayer/shader/Label.visible = static_shader
 
 	# Create party member sprites based on PlayerStats.party array
 	await get_tree().create_timer(0.1).timeout
@@ -97,6 +103,8 @@ func create_party_sprites():
 		add_child(body)
 		sprite.sprite_frames = entity.sprite
 		sprite.play("idle1")
+		sprite.offset = Vector2(0, 16)
+		sprite.position = Vector2(0, -16)
 		
 		party_sprites.append(body)
 		party_positions.append(global_position)  # Start at player's global position
@@ -193,10 +201,6 @@ func update_party_sprites(delta) -> void:
 		party_positions[pm] = pos
 		party_sprites[pm].global_position = party_positions[pm]
 		
-		if global_position.y > party_sprites[pm].global_position.y:
-			party_sprites[pm].z_index = -1
-		else:
-			party_sprites[pm].z_index = 0
 
 func animate_sprites():
 	for pm in range(len(party_sprites)):
@@ -227,10 +231,12 @@ func wiggl_camera():
 func wiggl_left():
 	var tween = get_tree().create_tween()
 	tween.tween_property($Camera2D, "limit_left", $Camera2D.limit_left-48, 0.125)
+	tween.tween_property(camera, "global_position", camera.global_position.x-48, 0.125)
 	tween.tween_property($Camera2D, "limit_right", $Camera2D.limit_right-48, 0.125)
 func wiggl_right():
 	var tween = get_tree().create_tween()
 	tween.tween_property($Camera2D, "limit_right", $Camera2D.limit_right+48, 0.125)
+	tween.tween_property(camera, "global_position", camera.global_position.x+48, 0.125)
 	tween.tween_property($Camera2D, "limit_left", $Camera2D.limit_left+48, 0.125)
 
 func _input(_event: InputEvent) -> void:
@@ -238,13 +244,14 @@ func _input(_event: InputEvent) -> void:
 		if menu.visible == false:
 			menu.visible = true
 			stop_move = true
-			get_tree().paused = true
 		else:
 			menu.visible = false
 			stop_move = false
-			get_tree().paused = false
-			
+	
+func move_cam(offset: Vector2, time: float):
+	var tween = camera.create_tween()
+	tween.tween_property(camera, "global_position", camera.global_position + offset, time)
 
 func battle_zoom():
-		stop_move = true
-		$AnimationPlayer.play("camera_battle_zoom")
+	stop_move = true
+	$AnimationPlayer.play("camera_battle_zoom")

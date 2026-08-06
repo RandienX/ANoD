@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://d1wykr8i6rlkk"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_rqr7d"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_ewk2k"]
+
+[resource]
+script = ExtResource("2_ewk2k")
+item_name = "Prison Key"
+description = "Key to the mysterious figure behind the bars."
+type = 3
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

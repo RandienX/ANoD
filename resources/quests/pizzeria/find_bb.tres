@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="Quest" format=3 uid="uid://cvchierf4p8s0"]
+
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="1_k4pjf"]
+[ext_resource type="Script" uid="uid://bqx0fphf238fw" path="res://code/quest/quest_point.gd" id="2_m2ehq"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="3_m2ehq"]
+[ext_resource type="Script" uid="uid://ky4vxed24run" path="res://code/quest/quest.gd" id="3_v0r2y"]
+[ext_resource type="Texture2D" uid="uid://0dhqip2ffp2h" path="res://assets/mapsprites/Toys 2.png" id="4_v0r2y"]
+
+[sub_resource type="Resource" id="Resource_v0r2y"]
+script = ExtResource("1_k4pjf")
+metadata/_custom_type_script = "uid://d28tdylvml4bl"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4mmop"]
+atlas = ExtResource("4_v0r2y")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="Resource" id="Resource_4mmop"]
+script = ExtResource("3_m2ehq")
+condition_type = 11
+description = "Find Baloon Boy"
+param_string = "Pizzeria - Safe Room"
+quest_icon = SubResource("AtlasTexture_4mmop")
+
+[sub_resource type="Resource" id="Resource_wb5yx"]
+script = ExtResource("2_m2ehq")
+conditions = Array[ExtResource("3_m2ehq")]([SubResource("Resource_4mmop")])
+metadata/_custom_type_script = "uid://bqx0fphf238fw"
+
+[resource]
+script = ExtResource("3_v0r2y")
+quest_name = "Look for the Enragement Child."
+quest_id = "find_bb"
+points = Array[ExtResource("2_m2ehq")]([SubResource("Resource_wb5yx")])
+effects = Array[ExtResource("1_k4pjf")]([SubResource("Resource_v0r2y")])
+metadata/_custom_type_script = "uid://ky4vxed24run"

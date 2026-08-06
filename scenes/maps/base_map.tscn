@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://q88lvfpqtyi7"]
+
+[ext_resource type="Script" uid="uid://duek0uk444kjf" path="res://code/root_script.gd" id="1_iciq6"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="2_y42xl"]
+[ext_resource type="Resource" uid="uid://d0alullmmxp3b" path="res://resources/battles/pizzeria/alpha_party_hat_1.tres" id="3_rbkgq"]
+[ext_resource type="TileSet" uid="uid://cpxfb26nr2i26" path="res://assets/tilemaps/tilesets/wall_tileset.tres" id="4_iciq6"]
+[ext_resource type="PackedScene" uid="uid://clildupwuax4h" path="res://scenes/objects/transition.tscn" id="4_y42xl"]
+[ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="5_y42xl"]
+[ext_resource type="PackedScene" uid="uid://yq7stgud35n5" path="res://scenes/objects/player.tscn" id="6_qngx7"]
+[ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="7_8rvf5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ywghk"]
+size = Vector2(32, 32)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_y42xl"]
+vertices = PackedVector2Array(1130, 1162, -298, 1162, -298, -138, 1130, -138)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-313, -153, 1145, -153, 1145, 1177, -313, 1177)])
+parsed_collision_mask = 4278190081
+source_geometry_mode = 1
+agent_radius = 15.0
+
+[node name="RootScene" type="Node2D" unique_id=1519412412 node_paths=PackedStringArray("player")]
+y_sort_enabled = true
+script = ExtResource("1_iciq6")
+possible_battles = Array[ExtResource("2_y42xl")]([ExtResource("3_rbkgq")])
+player = NodePath("player")
+room_size = Rect2(0, 0, 18, 15)
+metadata/_custom_type_script = "uid://duek0uk444kjf"
+
+[node name="transition" parent="." unique_id=736995530 instance=ExtResource("4_y42xl")]
+
+[node name="Cutscenes" type="Node" parent="." unique_id=1174815890]
+
+[node name="TileMap" type="Node2D" parent="." unique_id=1697236339]
+y_sort_enabled = true
+
+[node name="walls" type="TileMapLayer" parent="TileMap" unique_id=386399745]
+y_sort_enabled = true
+tile_map_data = PackedByteArray(0, 0, 10, 0, 7, 0, 2, 0, 3, 0, 0, 0, 0, 0, 10, 0, 8, 0, 2, 0, 3, 0, 1, 0, 0, 0)
+tile_set = ExtResource("4_iciq6")
+
+[node name="objects" type="TileMapLayer" parent="TileMap" unique_id=1267639804]
+y_sort_enabled = true
+tile_set = ExtResource("5_y42xl")
+
+[node name="objects_top" type="TileMapLayer" parent="TileMap/objects" unique_id=970906488]
+y_sort_enabled = true
+tile_set = ExtResource("5_y42xl")
+
+[node name="Textboxes" type="Node2D" parent="." unique_id=1024677748]
+
+[node name="player" parent="." unique_id=1002093154 instance=ExtResource("6_qngx7")]
+z_index = 1
+position = Vector2(336, 228)
+move_speed = 100.0
+
+[node name="Dialogue" type="CanvasLayer" parent="." unique_id=1044641630]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Dialogue" unique_id=465900755]
+
+[node name="SceneTriggers" type="Node2D" parent="." unique_id=2147108983]
+
+[node name="ChangeRoomTrigger" type="Area2D" parent="SceneTriggers" unique_id=65924589]
+position = Vector2(-192, 225)
+script = ExtResource("7_8rvf5")
+player_position = Vector2(48, 94)
+next_room_path = "res://scenes/maps/pizzeria/2-4.tscn"
+metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger" unique_id=578206076]
+position = Vector2(560, 15)
+shape = SubResource("RectangleShape2D_ywghk")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1270989332]
+navigation_polygon = SubResource("NavigationPolygon_y42xl")
+
+[node name="Enemies" type="Node2D" parent="." unique_id=276265112]
+
+[connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger" to="SceneTriggers/ChangeRoomTrigger" method="_on_body_entered"]

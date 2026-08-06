@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="Quest" format=3 uid="uid://baej8m03rikxg"]
+
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="1_2udkl"]
+[ext_resource type="Script" uid="uid://bqx0fphf238fw" path="res://code/quest/quest_point.gd" id="2_kyy2q"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="3_kyy2q"]
+[ext_resource type="Script" uid="uid://ky4vxed24run" path="res://code/quest/quest.gd" id="3_x7ugv"]
+[ext_resource type="Texture2D" uid="uid://d0glmbof6db6x" path="res://assets/party/$RemasteredBonnie.png" id="4_jo6fi"]
+[ext_resource type="Texture2D" uid="uid://ipp88bfyrbj3" path="res://assets/party/$RemasteredChica.png" id="5_vnx07"]
+[ext_resource type="Texture2D" uid="uid://dabt8811ek4bt" path="res://assets/party/$RemasteredFoxy.png" id="6_m7tvq"]
+
+[sub_resource type="Resource" id="Resource_2udkl"]
+script = ExtResource("1_2udkl")
+effect_type = 11
+param_string = "done_thing"
+param_value = "full_party"
+param_value2 = "true"
+
+[sub_resource type="Resource" id="Resource_kyy2q"]
+script = ExtResource("1_2udkl")
+effect_type = 15
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84bji"]
+atlas = ExtResource("4_jo6fi")
+region = Rect2(128, 19, 32, 44)
+
+[sub_resource type="Resource" id="Resource_x7ugv"]
+script = ExtResource("3_kyy2q")
+condition_type = 2
+description = "Involve Bonnie."
+param_string = "Bonnie"
+quest_icon = SubResource("AtlasTexture_84bji")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8dt81"]
+atlas = ExtResource("5_vnx07")
+region = Rect2(128, 24, 32, 39)
+
+[sub_resource type="Resource" id="Resource_x3sld"]
+script = ExtResource("3_kyy2q")
+condition_type = 2
+description = "Involve Chica."
+param_string = "Chica"
+quest_icon = SubResource("AtlasTexture_8dt81")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t84j2"]
+atlas = ExtResource("6_m7tvq")
+region = Rect2(128, 23, 32, 40)
+
+[sub_resource type="Resource" id="Resource_jo6fi"]
+script = ExtResource("3_kyy2q")
+condition_type = 2
+description = "Involve Foxy."
+param_string = "Foxy"
+quest_icon = SubResource("AtlasTexture_t84j2")
+
+[sub_resource type="Resource" id="Resource_vnx07"]
+script = ExtResource("2_kyy2q")
+step_name = "Gather the co."
+conditions = Array[ExtResource("3_kyy2q")]([SubResource("Resource_x7ugv"), SubResource("Resource_x3sld"), SubResource("Resource_jo6fi")])
+metadata/_custom_type_script = "uid://bqx0fphf238fw"
+
+[resource]
+script = ExtResource("3_x7ugv")
+quest_name = "Involve the co."
+quest_id = "gather_party"
+points = Array[ExtResource("2_kyy2q")]([SubResource("Resource_vnx07")])
+effects = Array[ExtResource("1_2udkl")]([SubResource("Resource_2udkl"), SubResource("Resource_kyy2q")])
+metadata/_custom_type_script = "uid://ky4vxed24run"

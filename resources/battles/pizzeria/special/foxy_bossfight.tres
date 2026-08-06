@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Battle" format=3 uid="uid://bhyjd6cye56xa"]
+
+[ext_resource type="Texture2D" uid="uid://cism2a7d3ilgn" path="res://assets/battleui/backgrounds/FNaF 1 - Pirate Cove 2.png" id="1_vvuno"]
+[ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="3_70qp7"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="4_eucyl"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="5_tsyoy"]
+[ext_resource type="AudioStream" uid="uid://cnm4v8unfvuev" path="res://assets/sound/battle/Beethoven Virus.mp3" id="6_70qp7"]
+[ext_resource type="Resource" uid="uid://dc3six02ul61o" path="res://resources/enemies/pizzeria/foxy_enemy.tres" id="6_nsvkc"]
+[ext_resource type="Script" uid="uid://c87a82v6g8ug3" path="res://code/battle/battle_phase.gd" id="6_tsyoy"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="7_eucyl"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="7_nsvkc"]
+
+[sub_resource type="Resource" id="Resource_vvuno"]
+script = ExtResource("3_70qp7")
+enemy = ExtResource("6_nsvkc")
+ui_position_preset = 4
+ui_position = Vector2(470, 320)
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[resource]
+script = ExtResource("7_nsvkc")
+battle_name = "Foxy_Boss"
+enemies = Array[ExtResource("3_70qp7")]([SubResource("Resource_vvuno")])
+background_override = ExtResource("1_vvuno")
+music = ExtResource("6_70qp7")
+can_flee = false
+metadata/_custom_type_script = "uid://s2os42vdwf6y"

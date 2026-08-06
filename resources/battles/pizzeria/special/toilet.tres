@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="2_kdlj7"]
 [ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="3_jc1d5"]
 [ext_resource type="Script" uid="uid://c87a82v6g8ug3" path="res://code/battle/battle_phase.gd" id="4_1csbm"]
-[ext_resource type="Resource" uid="uid://b5hxy0c0ibgcr" path="res://resources/enemies/toilet.tres" id="4_lmerd"]
+[ext_resource type="Resource" uid="uid://b5hxy0c0ibgcr" path="res://resources/enemies/pizzeria/toilet.tres" id="4_lmerd"]
 [ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="5_508qg"]
 [ext_resource type="AudioStream" uid="uid://50rjpnm8j5cm" path="res://assets/sound/battle/Skibidi Toilet.mp3" id="6_lmerd"]
 [ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="7_1csbm"]
@@ -14,18 +14,19 @@
 [sub_resource type="Resource" id="Resource_508qg"]
 script = ExtResource("1_ue0jv")
 enemy = ExtResource("4_lmerd")
+ui_position_preset = 1
 metadata/_custom_type_script = "uid://cpuojkdrhbref"
 
 [sub_resource type="Resource" id="Resource_lmerd"]
 script = ExtResource("1_ue0jv")
 enemy = ExtResource("4_lmerd")
-position_index = 2
+ui_position_preset = 4
 metadata/_custom_type_script = "uid://cpuojkdrhbref"
 
 [sub_resource type="Resource" id="Resource_n42i7"]
 script = ExtResource("1_ue0jv")
 enemy = ExtResource("4_lmerd")
-position_index = 4
+ui_position_preset = 7
 metadata/_custom_type_script = "uid://cpuojkdrhbref"
 
 [sub_resource type="Resource" id="Resource_yecd3"]
@@ -62,7 +63,7 @@ metadata/_custom_type_script = "uid://c7om4j5v1vj04"
 script = ExtResource("3_jc1d5")
 conditions = Array[ExtResource("7_1csbm")]([SubResource("Resource_bavuk"), SubResource("Resource_838t1")])
 is_battle_effect = true
-battle_target_string = "2"
+battle_target_string = "1"
 param_string = "res://resources/dialogue/battle/toilet2.tres"
 metadata/_custom_type_script = "uid://t5qfe8igpeg3"
 
@@ -81,7 +82,7 @@ metadata/_custom_type_script = "uid://c7om4j5v1vj04"
 script = ExtResource("3_jc1d5")
 conditions = Array[ExtResource("7_1csbm")]([SubResource("Resource_28ank"), SubResource("Resource_po4jq")])
 is_battle_effect = true
-battle_target_string = "4"
+battle_target_string = "2"
 param_string = "res://resources/dialogue/battle/toilet4.tres"
 metadata/_custom_type_script = "uid://t5qfe8igpeg3"
 

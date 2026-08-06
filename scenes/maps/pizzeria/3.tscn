@@ -1,0 +1,141 @@
+[gd_scene format=4 uid="uid://d3empkhhumb1"]
+
+[ext_resource type="Script" uid="uid://duek0uk444kjf" path="res://code/root_script.gd" id="1_4a4t6"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="2_yobt7"]
+[ext_resource type="Resource" uid="uid://d0alullmmxp3b" path="res://resources/battles/pizzeria/alpha_party_hat_1.tres" id="3_ml5db"]
+[ext_resource type="TileSet" uid="uid://cpxfb26nr2i26" path="res://assets/tilemaps/tilesets/wall_tileset.tres" id="4_5tfqc"]
+[ext_resource type="Resource" uid="uid://ipowsvu8u24u" path="res://resources/battles/pizzeria/beta_party_hat_2.tres" id="4_inedl"]
+[ext_resource type="Resource" uid="uid://ddcvj0kdlk1hv" path="res://resources/battles/pizzeria/beta_party_hat_3.tres" id="5_po8qv"]
+[ext_resource type="TileSet" uid="uid://de5yt04up4w5d" path="res://assets/tilemaps/tilesets/object_tileset.tres" id="5_u86nv"]
+[ext_resource type="PackedScene" uid="uid://yq7stgud35n5" path="res://scenes/objects/player.tscn" id="6_2grc0"]
+[ext_resource type="Resource" uid="uid://da40cco6xlmcx" path="res://resources/battles/pizzeria/g1_b2.tres" id="6_rmwsq"]
+[ext_resource type="PackedScene" uid="uid://cgs08pp0l2gmg" path="res://scenes/objects/textbox_maker.tscn" id="7_2grc0"]
+[ext_resource type="Script" uid="uid://c7gylu1ll5qfu" path="res://scenes/objects/room_change_trigger.gd" id="7_8673g"]
+[ext_resource type="Resource" uid="uid://clfi17lu28dwy" path="res://resources/battles/pizzeria/gamma_party_hat_2.tres" id="7_xtj73"]
+[ext_resource type="Resource" uid="uid://cfw5lt6sdnwb1" path="res://resources/battles/pizzeria/gamma_party_hat_3.tres" id="8_4ndln"]
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="8_8673g"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="9_feixl"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="9_tenmc"]
+[ext_resource type="Resource" uid="uid://3f2lyv1np1l1" path="res://resources/battles/pizzeria/o1_g1.tres" id="9_uexdx"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="10_5tfqc"]
+[ext_resource type="Resource" uid="uid://c7bu4yykoa0ob" path="res://resources/battles/pizzeria/o2_g1.tres" id="10_feeub"]
+[ext_resource type="Texture2D" uid="uid://87djgt8meto3" path="res://assets/battleui/backgrounds/FNaF 1 - Supply Closet.png" id="11_1mkgo"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="11_u86nv"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="14_uo5u6"]
+[ext_resource type="PackedScene" uid="uid://clildupwuax4h" path="res://scenes/objects/transition.tscn" id="16_5tfqc"]
+[ext_resource type="AudioStream" uid="uid://bpwep5m8km6ag" path="res://assets/sound/fnaf-1-office.mp3" id="17_u86nv"]
+
+[sub_resource type="Resource" id="Resource_kcw0b"]
+script = ExtResource("11_u86nv")
+param_string = "res://resources/items/key/kitchen_key.tres"
+metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+
+[sub_resource type="Resource" id="Resource_5tfqc"]
+script = ExtResource("8_8673g")
+text = "You found the Kitchen key!"
+label = "start"
+next_label = "1"
+on_enter_effects = Array[ExtResource("11_u86nv")]([SubResource("Resource_kcw0b")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_r2beg"]
+script = ExtResource("14_uo5u6")
+condition_type = 4
+param_string = "Box_1"
+metadata/_custom_type_script = "uid://c7om4j5v1vj04"
+
+[sub_resource type="Resource" id="Resource_s4woj"]
+script = ExtResource("9_tenmc")
+conditions = Array[ExtResource("14_uo5u6")]([SubResource("Resource_r2beg")])
+target_label = "empty"
+metadata/_custom_type_script = "uid://q863dboya0u8"
+
+[sub_resource type="Resource" id="Resource_u86nv"]
+script = ExtResource("9_feixl")
+nodes = Array[ExtResource("8_8673g")]([SubResource("Resource_5tfqc")])
+start_branches = Array[ExtResource("9_tenmc")]([SubResource("Resource_s4woj")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ywghk"]
+size = Vector2(32, 32)
+
+[node name="RootScene" type="Node2D" unique_id=2055121524 node_paths=PackedStringArray("player")]
+z_index = -1
+script = ExtResource("1_4a4t6")
+room_name = "Pizzeria - Closet"
+possible_battles = Array[ExtResource("2_yobt7")]([ExtResource("3_ml5db"), ExtResource("4_inedl"), ExtResource("5_po8qv"), ExtResource("6_rmwsq"), ExtResource("7_xtj73"), ExtResource("8_4ndln"), ExtResource("9_uexdx"), ExtResource("10_feeub")])
+enemy_intensity = 90
+enemy_agressiveness = 25
+battle_bg = ExtResource("11_1mkgo")
+bg_music = ExtResource("17_u86nv")
+bg_music_amp = 1.0
+player = NodePath("player")
+room_size = Rect2(0, 0, 18, 15)
+metadata/_custom_type_script = "uid://duek0uk444kjf"
+
+[node name="transition" parent="." unique_id=736995530 instance=ExtResource("16_5tfqc")]
+
+[node name="Cutscenes" type="Node" parent="." unique_id=543158246]
+
+[node name="TileMap" type="Node2D" parent="." unique_id=1158853708]
+
+[node name="walls" type="TileMapLayer" parent="TileMap" unique_id=554390853]
+tile_map_data = PackedByteArray("AAAAAAAAAgAAAAEAAAAAAAEAAgAAAAEAAAAAAAIAAgAAAAEAAAAAAAMAAgAAAAEAAAAAAAQAAgAAAAEAAAAAAAUAAgAAAAEAAAAAAAYAAgAAAAEAAAAAAAcAAgAAAAEAAAAAAAgAAgAAAAEAAAAAAAkAAgAAAAEAAAAAAAoAAgAAAAEAAAAAAAsAAgAAAAEAAAAAAAwAAgAAAAEAAAAAAA0AAgAAAAEAAAAAAA4AAgAAAAEAAAABAAAAAgAAAAEAAAABAAEAAgAAAAEAAAABAAIAAgAAAAEAAAABAAMAAgAAAAEAAAABAAQAAgAAAAEAAAABAAUAAgAAAAEAAAABAAYAAgAAAAEAAAABAAcAAgAAAAEAAAABAAgAAgAAAAEAAAABAAkAAgAAAAEAAAABAAoAAgAAAAEAAAABAAsAAgAAAAEAAAABAAwAAgAAAAEAAAABAA0AAgAAAAEAAAABAA4AAgAAAAEAAAACAAAAAgAAAAEAAAACAAEAAgAAAAEAAAACAAIAAgAAAAEAAAACAAMAAgAAAAEAAAACAAQAAgAAAAEAAAACAAUAAgAAAAEAAAACAAYAAgAAAAEAAAACAAcAAgAAAAEAAAACAAgAAgAAAAEAAAACAAkAAgAAAAEAAAACAAoAAgAAAAEAAAACAAsAAgAAAAEAAAACAAwAAgAAAAEAAAACAA0AAgAAAAEAAAACAA4AAgAAAAEAAAADAAAAAgAAAAEAAAADAAEAAgAAAAEAAAADAAIAAgAAAAEAAAADAAMAAgAAAAEAAAADAAQAAgAAAAEAAAADAAUAAgAAAAEAAAADAAYAAgAAAAEAAAADAAcAAgAAAAEAAAADAAgAAgAAAAEAAAADAAkAAgAAAAEAAAADAAoAAgAAAAEAAAADAAsAAgAAAAEAAAADAAwAAgAAAAEAAAADAA0AAgAAAAEAAAADAA4AAgAAAAEAAAAEAAAAAgAAAAEAAAAEAAEAAgAAAAEAAAAEAAIAAgAAAAEAAAAEAAMAAgAAAAEAAAAEAAQAAgAAAAEAAAAEAAUAAgAAAAEAAAAEAAYAAgAAAAEAAAAEAAcAAgAAAAEAAAAEAAgAAgAAAAEAAAAEAAkAAgAAAAEAAAAEAAoAAgAAAAEAAAAEAAsAAgAAAAEAAAAEAAwAAgAAAAEAAAAEAA0AAgAAAAEAAAAEAA4AAgAAAAEAAAAFAAAAAgAAAAEAAAAFAAEAAgAAAAEAAAAFAAIAAgAAAAEAAAAFAAMAAgAAAAEAAAAFAAQAAgAAAAEAAAAFAAUAAgAAAAEAAAAFAAYAAgAAAAEAAAAFAAcAAgAAAAEAAAAFAAgAAgAAAAEAAAAFAAkAAgAAAAEAAAAFAAoAAgAAAAEAAAAFAAsAAgAAAAEAAAAFAAwAAgAAAAEAAAAFAA0AAgAAAAEAAAAFAA4AAgAAAAEAAAAGAAAAAgAAAAEAAAAGAAEAAgAAAAEAAAAGAAMAAgABAAMAAgAGAAQAAgABAAIAAHAGAAUAAgABAAIAAHAGAAYAAgABAAIAAHAGAAcAAgABAAIAAHAGAAgAAgABAAIAAHAGAAkAAgABAAMAAFAGAAoAAgAAAAEAAAAGAAsAAgAAAAEAAAAGAAwAAgAAAAEAAAAGAA0AAgAAAAEAAAAGAA4AAgAAAAEAAAAHAAAAAgAAAAEAAAAHAAEAAgAAAAEAAAAHAAMAAgABAAIAAgAHAAQAAgADAAAAAAAHAAUAAgADAAIAAAAHAAYAAgAAAAAAAAAHAAcAAgAAAAAAAAAHAAgAAgAAAAAAAAAHAAkAAgABAAIAABAHAAoAAgAAAAEAAAAHAAsAAgAAAAEAAAAHAAwAAgAAAAEAAAAHAA0AAgAAAAEAAAAHAA4AAgAAAAEAAAAIAAAAAgAAAAEAAAAIAAEAAgAAAAEAAAAIAAMAAgABAAIAAgAIAAQAAgADAAAAAAAIAAUAAgADAAIAAAAIAAYAAgAAAAAAAAAIAAcAAgAAAAAAAAAIAAgAAgAAAAAAAAAIAAkAAgABAAIAABAIAAoAAgAAAAEAAAAIAAsAAgAAAAEAAAAIAAwAAgAAAAEAAAAIAA0AAgAAAAEAAAAIAA4AAgAAAAEAAAAJAAAAAgAAAAEAAAAJAAEAAgAAAAEAAAAJAAMAAgABAAIAAgAJAAQAAgADAAAAAAAJAAUAAgADAAIAAAAJAAYAAgAAAAAAAAAJAAcAAgAAAAAAAAAJAAgAAgAAAAAAAAAJAAkAAgABAAIAABAJAAoAAgAAAAEAAAAJAAsAAgAAAAEAAAAJAAwAAgAAAAEAAAAJAA0AAgAAAAEAAAAJAA4AAgAAAAEAAAAKAAAAAgAAAAEAAAAKAAEAAgAAAAEAAAAKAAMAAgABAAMAAwAKAAQAAgABAAIAAGAKAAUAAgABAAIAAGAKAAYAAgACAAIAAGAKAAcAAgAAAAAAAAAKAAgAAgACAAIAAAAKAAkAAgABAAMAAAAKAAoAAgAAAAEAAAAKAAsAAgAAAAEAAAAKAAwAAgAAAAEAAAAKAA0AAgAAAAEAAAAKAA4AAgAAAAEAAAALAAAAAgAAAAEAAAALAAEAAgAAAAEAAAALAAMAAgAAAAEAAAALAAQAAgAAAAEAAAALAAUAAgAAAAEAAAALAAYAAgAAAAEAAAALAAcAAgAAAAEAAAALAAgAAgAAAAEAAAALAAkAAgAAAAEAAAALAAoAAgAAAAEAAAALAAsAAgAAAAEAAAALAAwAAgAAAAEAAAALAA0AAgAAAAEAAAALAA4AAgAAAAEAAAAMAAAAAgAAAAEAAAAMAAEAAgAAAAEAAAAMAAIAAgAAAAEAAAAMAAMAAgAAAAEAAAAMAAQAAgAAAAEAAAAMAAUAAgAAAAEAAAAMAAYAAgAAAAEAAAAMAAcAAgAAAAEAAAAMAAgAAgAAAAEAAAAMAAkAAgAAAAEAAAAMAAoAAgAAAAEAAAAMAAsAAgAAAAEAAAAMAAwAAgAAAAEAAAAMAA0AAgAAAAEAAAAMAA4AAgAAAAEAAAANAAAAAgAAAAEAAAANAAEAAgAAAAEAAAANAAIAAgAAAAEAAAANAAMAAgAAAAEAAAANAAQAAgAAAAEAAAANAAUAAgAAAAEAAAANAAYAAgAAAAEAAAANAAcAAgAAAAEAAAANAAgAAgAAAAEAAAANAAkAAgAAAAEAAAANAAoAAgAAAAEAAAANAAsAAgAAAAEAAAANAAwAAgAAAAEAAAANAA0AAgAAAAEAAAANAA4AAgAAAAEAAAAOAAAAAgAAAAEAAAAOAAEAAgAAAAEAAAAOAAIAAgAAAAEAAAAOAAMAAgAAAAEAAAAOAAQAAgAAAAEAAAAOAAUAAgAAAAEAAAAOAAYAAgAAAAEAAAAOAAcAAgAAAAEAAAAOAAgAAgAAAAEAAAAOAAkAAgAAAAEAAAAOAAoAAgAAAAEAAAAOAAsAAgAAAAEAAAAOAAwAAgAAAAEAAAAOAA0AAgAAAAEAAAAOAA4AAgAAAAEAAAAPAAAAAgAAAAEAAAAPAAEAAgAAAAEAAAAPAAIAAgAAAAEAAAAPAAMAAgAAAAEAAAAPAAQAAgAAAAEAAAAPAAUAAgAAAAEAAAAPAAYAAgAAAAEAAAAPAAcAAgAAAAEAAAAPAAgAAgAAAAEAAAAPAAkAAgAAAAEAAAAPAAoAAgAAAAEAAAAPAAsAAgAAAAEAAAAPAAwAAgAAAAEAAAAPAA0AAgAAAAEAAAAPAA4AAgAAAAEAAAAQAAAAAgAAAAEAAAAQAAEAAgAAAAEAAAAQAAIAAgAAAAEAAAAQAAMAAgAAAAEAAAAQAAQAAgAAAAEAAAAQAAUAAgAAAAEAAAAQAAYAAgAAAAEAAAAQAAcAAgAAAAEAAAAQAAgAAgAAAAEAAAAQAAkAAgAAAAEAAAAQAAoAAgAAAAEAAAAQAAsAAgAAAAEAAAAQAAwAAgAAAAEAAAAQAA0AAgAAAAEAAAAQAA4AAgAAAAEAAAARAAAAAgAAAAEAAAARAAEAAgAAAAEAAAARAAIAAgAAAAEAAAARAAMAAgAAAAEAAAARAAQAAgAAAAEAAAARAAUAAgAAAAEAAAARAAYAAgAAAAEAAAARAAcAAgAAAAEAAAARAAgAAgAAAAEAAAARAAkAAgAAAAEAAAARAAoAAgAAAAEAAAARAAsAAgAAAAEAAAARAAwAAgAAAAEAAAARAA0AAgAAAAEAAAARAA4AAgAAAAEAAAA=")
+tile_set = ExtResource("4_5tfqc")
+
+[node name="objects" type="TileMapLayer" parent="TileMap" unique_id=947248077]
+tile_map_data = PackedByteArray("AAAHAAgAAQAAAAkAAAAHAAcAAQACAAkAAAAHAAUAAQAAAAgAAAAHAAYAAQACAAkAAAAJAAgAAQABAAkAAAAJAAcAAQAAAAgAABAJAAYAAQADAAkAAAAJAAUAAQADAAgAAAAIAAYAAQADAAAAAAA=")
+tile_set = ExtResource("5_u86nv")
+
+[node name="objects_top" type="TileMapLayer" parent="TileMap/objects" unique_id=1654477143]
+z_index = 10
+tile_map_data = PackedByteArray("AAAHAAcAAQABAAgAAAAHAAYAAQACAAgAAAAHAAgAAQAAAAkAAAAJAAgAAQABAAkAAAAJAAcAAQAAAAgAABAHAAUAAQAAAAgAAAA=")
+tile_set = ExtResource("5_u86nv")
+
+[node name="Textboxes" type="Node2D" parent="." unique_id=1898347500]
+
+[node name="Box" parent="Textboxes" unique_id=1766900139 node_paths=PackedStringArray("player_node_path") instance=ExtResource("7_2grc0")]
+process_mode = 3
+position = Vector2(272, 208)
+dialogue_data = SubResource("Resource_u86nv")
+once_per_session = true
+require_input_to_start = true
+player_node_path = NodePath("../../player")
+
+[node name="player" parent="." unique_id=124558449 instance=ExtResource("6_2grc0")]
+z_index = 1
+position = Vector2(272, 222)
+move_speed = 100.0
+
+[node name="Dialogue" type="CanvasLayer" parent="." unique_id=1533219490]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Dialogue" unique_id=927939004]
+volume_db = 4.0
+bus = &"Voice"
+
+[node name="SceneTriggers" type="Node2D" parent="." unique_id=266672886]
+
+[node name="ChangeRoomTrigger" type="Area2D" parent="SceneTriggers" unique_id=969938719]
+position = Vector2(-192, 225)
+script = ExtResource("7_8673g")
+player_position = Vector2(48, 94)
+next_room_path = "res://scenes/maps/pizzeria/2-4.tscn"
+metadata/_custom_type_script = "uid://c7gylu1ll5qfu"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTriggers/ChangeRoomTrigger" unique_id=1275668902]
+position = Vector2(560, 15)
+shape = SubResource("RectangleShape2D_ywghk")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=1753340418]
+stream = ExtResource("17_u86nv")
+volume_db = 1.75
+autoplay = true
+bus = &"Music"
+
+[node name="Sfx1" type="AudioStreamPlayer" parent="." unique_id=373007399]
+bus = &"SFX"
+
+[node name="Sfx2" type="AudioStreamPlayer" parent="." unique_id=3242206]
+bus = &"SFX"
+
+[connection signal="body_entered" from="SceneTriggers/ChangeRoomTrigger" to="SceneTriggers/ChangeRoomTrigger" method="_on_body_entered"]

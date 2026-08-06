@@ -1,0 +1,74 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://gdny3444knr7"]
+
+[ext_resource type="Texture2D" uid="uid://dmfltwlm4ndde" path="res://assets/battlesprites/Elder Miner Hat.png" id="1_86emy"]
+[ext_resource type="Resource" uid="uid://dg224qcft1awy" path="res://resources/attacks/enemies/kingdom/hook_shot.tres" id="2_b3rq3"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="3_1dowp"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="4_xrs7p"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="5_4cwcp"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="6_l1pmq"]
+[ext_resource type="Resource" uid="uid://blg160472u6co" path="res://resources/attacks/enemies/kingdom/pick_a_head.tres" id="7_is8ff"]
+[ext_resource type="Resource" uid="uid://cw264mfvuhrnn" path="res://resources/attacks/enemies/kingdom/earth_tremor.tres" id="8_b3rq3"]
+
+[sub_resource type="Resource" id="Resource_i27a3"]
+script = ExtResource("4_xrs7p")
+item_name = "Lunch"
+type = 2
+heal_amount = 20
+metadata/_custom_type_script = "uid://dn31qme1ukrys"
+
+[sub_resource type="Resource" id="Resource_mf4bk"]
+script = ExtResource("5_4cwcp")
+drop_chance_percent = 10.0
+metadata/_custom_type_script = "uid://c3x5tbne416sl"
+
+[resource]
+script = ExtResource("6_l1pmq")
+name = "Elder Miner Hat"
+description = "Those miner hats went through multiple hat years of miner life.
+It's working conditions toughened it very much.
+Distrusts magic and is scared of magical attacks.
+"
+role = 1
+portrait = ExtResource("1_86emy")
+base_stats = Dictionary[String, int]({
+"atk": 14,
+"def": 6,
+"hp": 65,
+"magic": 2,
+"magic_def": 3,
+"mp": 25,
+"speed": 5,
+"tp": 0
+})
+stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 0,
+"magic": 10,
+"magic_def": 5,
+"mp": 0,
+"speed": 10,
+"tp": 100
+})
+max_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"magic_def": 5,
+"mp": 50,
+"speed": 10,
+"tp": 100
+})
+damage_weakness = Array[int]([1, 11])
+damage_resistance = Array[int]([0])
+skills = Dictionary[int, Array]({
+0: [ExtResource("7_is8ff"), ExtResource("8_b3rq3")]
+})
+default_attack = ExtResource("2_b3rq3")
+ai_behavior = 0
+enemy_inventory = Array[ExtResource("4_xrs7p")]([SubResource("Resource_i27a3")])
+xp_reward = 15
+currency_reward = 15
+item_drops = Array[ExtResource("5_4cwcp")]([SubResource("Resource_mf4bk")])
+metadata/_custom_type_script = "uid://c2cret7fy87bn"

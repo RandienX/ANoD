@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="Battle" format=3 uid="uid://3f2lyv1np1l1"]
+
+[ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="4_dhknl"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="5_2qgij"]
+[ext_resource type="Resource" uid="uid://b7val374sectd" path="res://resources/enemies/pizzeria/y_party_hat.tres" id="6_6vkcm"]
+[ext_resource type="Resource" uid="uid://js76od81la8g" path="res://resources/enemies/pizzeria/o_party_hat.tres" id="6_g08ri"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="7_fvsmw"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="7_jrq82"]
+[ext_resource type="AudioStream" uid="uid://cskc30lrddixe" path="res://assets/sound/battle/Black Knife.mp3" id="8_np2ku"]
+[ext_resource type="Script" uid="uid://c87a82v6g8ug3" path="res://code/battle/battle_phase.gd" id="10_lbd8q"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="11_8t0df"]
+
+[sub_resource type="Resource" id="Resource_h2t3o"]
+script = ExtResource("4_dhknl")
+enemy = ExtResource("6_6vkcm")
+ui_position_preset = 2
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_ykmfe"]
+script = ExtResource("4_dhknl")
+enemy = ExtResource("6_g08ri")
+ui_position_preset = 6
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[resource]
+script = ExtResource("11_8t0df")
+battle_name = "Omega Gamma"
+enemies = Array[ExtResource("4_dhknl")]([SubResource("Resource_h2t3o"), SubResource("Resource_ykmfe")])
+music = ExtResource("8_np2ku")
+metadata/_custom_type_script = "uid://s2os42vdwf6y"

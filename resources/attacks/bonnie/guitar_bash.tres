@@ -55,6 +55,7 @@ tp_cost = 10
 accuracy = 0.75
 attack_multiplier = 1.6
 attack_bonus = 6
+damage_type = 5
 on_use_effects = Array[ExtResource("1_queud")]([SubResource("Resource_nalep")])
 vfx = SubResource("Resource_tbmbh")
 sfx = ExtResource("9_xru6a")

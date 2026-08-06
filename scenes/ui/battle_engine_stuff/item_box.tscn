@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://dw0f15dvn0b3m"]
+
+[ext_resource type="Script" uid="uid://boqkwaru5awd3" path="res://scenes/ui/battle_engine_stuff/item_box.gd" id="1_fc3a4"]
+[ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="2_ig582"]
+
+[sub_resource type="Theme" id="Theme_fc3a4"]
+default_font = ExtResource("2_ig582")
+default_font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_3ugnv"]
+font_size = 24
+font_color = Color(0, 0.49019608, 1, 1)
+outline_size = 8
+outline_color = Color(0.641934, 0.641934, 0.641934, 1)
+
+[node name="item_box" type="MarginContainer" unique_id=914392237]
+offset_right = 294.0
+offset_bottom = 40.5
+scale = Vector2(0.75, 0.75)
+offset_transform_enabled = true
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+script = ExtResource("1_fc3a4")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="." unique_id=1287930298]
+custom_minimum_size = Vector2(286, 32.5)
+custom_maximum_size = Vector2(316, -1)
+layout_mode = 2
+split_offsets = PackedInt32Array(5)
+drag_area_margin_begin = 12
+drag_area_margin_end = 12
+drag_area_offset = 12
+split_offset = 5
+
+[node name="HSplitContainer" type="HSplitContainer" parent="HSplitContainer" unique_id=696925442]
+layout_mode = 2
+
+[node name="item_texture" type="TextureRect" parent="HSplitContainer/HSplitContainer" unique_id=246273352]
+layout_mode = 2
+expand_mode = 4
+
+[node name="name" type="Label" parent="HSplitContainer/HSplitContainer" unique_id=1920251539]
+custom_minimum_size = Vector2(155, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme = SubResource("Theme_fc3a4")
+theme_override_fonts/font = ExtResource("2_ig582")
+theme_override_font_sizes/font_size = 24
+text = "avocado"
+
+[node name="item_amount" type="Label" parent="HSplitContainer" unique_id=773276366]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("2_ig582")
+text = "30x"
+label_settings = SubResource("LabelSettings_3ugnv")
+
+[node name="Button" type="Button" parent="." unique_id=921490130]
+layout_mode = 2
+flat = true

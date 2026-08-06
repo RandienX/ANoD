@@ -1,10 +1,10 @@
+DialogueData
+Battle
+Entity
+Item
 LabelSettings
 VisualEffect
-DialogueData
 Skill
-Entity
-Battle
-Item
 Quest
 AudioBusLayout
 BattleEffect

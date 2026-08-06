@@ -19,8 +19,6 @@ enum AIIntelligencePreset { DUMB, NORMAL, SMART, INTELLIGENT }
 @export var role: Role = Role.PARTY
 @export var portrait: Texture2D
 @export var portrait_rect := Rect2()
-@export var battle_sprite: Texture2D
-@export var back_sprite: Texture2D
 @export var sprite: SpriteFrames
 @export var path_to: String = ""
 
@@ -687,7 +685,6 @@ func clear_equipment_bonuses():
 func effect_damage_hp(status_instance: Dictionary, data: Dictionary):
 	"""Called each turn when burn status ticks - deals burn damage"""
 	var damage: float = abs(int(status_instance.definition.stat_modifiers[0].value))
-	print(damage)
 	if damage > 0:
 		if data["damage_type"]:
 			if (data["damage_type"] as Skill.Damage_Types) in damage_weakness:

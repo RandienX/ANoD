@@ -6,33 +6,94 @@
 [ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="3_pkfyp"]
 [ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="4_rtdhq"]
 [ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="5_8t48v"]
-
-[sub_resource type="Resource" id="Resource_82mix"]
-script = ExtResource("4_rtdhq")
-effect_type = 17
-custom_script = "res://code/dialogue/custom_effect/bonnie_get_mask.gd"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="6_rtdhq"]
 
 [sub_resource type="Resource" id="Resource_uh3wy"]
 script = ExtResource("4_rtdhq")
 effect_type = 15
-is_battle_effect = null
 metadata/_custom_type_script = "uid://t5qfe8igpeg3"
 
-[sub_resource type="Resource" id="Resource_a8ds7"]
-script = ExtResource("4_rtdhq")
-effect_type = 9
-param_string = "res://resources/quests/pizzeria/find_bonnie_mask.tres"
-metadata/_custom_type_script = "uid://t5qfe8igpeg3"
+[sub_resource type="AtlasTexture" id="AtlasTexture_7n2yr"]
+atlas = ExtResource("6_rtdhq")
+region = Rect2(0, 0, 96, 96)
 
 [sub_resource type="Resource" id="Resource_63plr"]
 script = ExtResource("1_683er")
-text = "w.i.p, see you in 0.4 ;P"
+text = "Huh, didn't think our power as a team would be so incredible still after all this time since last night of Debauchery."
+portrait = SubResource("AtlasTexture_7n2yr")
 label = "start"
-on_exit_effects = Array[ExtResource("4_rtdhq")]([SubResource("Resource_82mix"), SubResource("Resource_uh3wy"), SubResource("Resource_a8ds7")])
+next_label = "1"
+beep_type = 1
+on_exit_effects = Array[ExtResource("4_rtdhq")]([SubResource("Resource_uh3wy")])
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_2mb0h"]
+script = ExtResource("1_683er")
+text = "Although there is one question I want to ask Bonnie."
+portrait = SubResource("AtlasTexture_7n2yr")
+label = "1"
+next_label = "2"
+beep_type = 1
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_dhaw8"]
+script = ExtResource("1_683er")
+text = "Why wouldn't you use any special moves of yours? Those easily had secured our victory upon use."
+portrait = SubResource("AtlasTexture_7n2yr")
+label = "2"
+next_label = "3"
+beep_type = 1
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47rmk"]
+atlas = ExtResource("6_rtdhq")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_o0jia"]
+script = ExtResource("1_683er")
+text = "Told you Freddy my mask was special, it is the reason I can use my fighting skills which require power inside."
+portrait = SubResource("AtlasTexture_47rmk")
+label = "3"
+next_label = "4"
+beep_type = 2
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_i6duy"]
+script = ExtResource("1_683er")
+text = "Without it I cannot cast magical spells."
+portrait = SubResource("AtlasTexture_47rmk")
+label = "4"
+next_label = "5"
+beep_type = 2
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_eaq02"]
+script = ExtResource("1_683er")
+text = "I see, that makes our quest to find your face even more essential."
+portrait = SubResource("AtlasTexture_7n2yr")
+label = "5"
+next_label = "6"
+beep_type = 1
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_klrsx"]
+script = ExtResource("1_683er")
+text = "Wait a second Freddy, you see this hole in a stall? Maybe we could investigate my face's whereabouts there, my instincts tell me."
+portrait = SubResource("AtlasTexture_47rmk")
+label = "6"
+next_label = "7"
+beep_type = 2
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_lx761"]
+script = ExtResource("1_683er")
+text = "Excellent idea, approved!"
+portrait = SubResource("AtlasTexture_7n2yr")
+label = "7"
+beep_type = 1
 metadata/_custom_type_script = "uid://dag3ualk0velp"
 
 [resource]
 script = ExtResource("2_dq3tq")
-nodes = Array[ExtResource("1_683er")]([SubResource("Resource_63plr")])
+nodes = Array[ExtResource("1_683er")]([SubResource("Resource_63plr"), SubResource("Resource_2mb0h"), SubResource("Resource_dhaw8"), SubResource("Resource_o0jia"), SubResource("Resource_i6duy"), SubResource("Resource_eaq02"), SubResource("Resource_klrsx"), SubResource("Resource_lx761")])
 metadata/_custom_type_script = "uid://nfr8xstn6iuk"

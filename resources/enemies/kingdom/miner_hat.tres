@@ -1,0 +1,73 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://c8hlwlqbtky76"]
+
+[ext_resource type="Texture2D" uid="uid://bcx7gihfdm7cn" path="res://assets/battlesprites/Miner Hat.png" id="1_2p4km"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_jmney"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_2p4km"]
+[ext_resource type="Resource" uid="uid://dg224qcft1awy" path="res://resources/attacks/enemies/kingdom/hook_shot.tres" id="2_b1qgd"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="3_pms8b"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="4_b1qgd"]
+[ext_resource type="Resource" uid="uid://blg160472u6co" path="res://resources/attacks/enemies/kingdom/pick_a_head.tres" id="7_1lb3m"]
+
+[sub_resource type="Resource" id="Resource_i27a3"]
+script = ExtResource("2_2p4km")
+item_name = "Lunch"
+type = 2
+heal_amount = 20
+metadata/_custom_type_script = "uid://dn31qme1ukrys"
+
+[sub_resource type="Resource" id="Resource_mf4bk"]
+script = ExtResource("3_pms8b")
+drop_chance_percent = 10.0
+metadata/_custom_type_script = "uid://c3x5tbne416sl"
+
+[resource]
+script = ExtResource("4_b1qgd")
+name = "Miner Hat"
+description = "A hard-hat base worker of the Hat Kingdom.
+It's working conditions toughened it very much.
+Distrusts magic and is scared of magical attacks.
+"
+role = 1
+portrait = ExtResource("1_2p4km")
+base_stats = Dictionary[String, int]({
+"atk": 9,
+"def": 3,
+"hp": 20,
+"magic": 1,
+"magic_def": 2,
+"mp": 15,
+"speed": 3,
+"tp": 0
+})
+stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 0,
+"magic": 10,
+"magic_def": 5,
+"mp": 0,
+"speed": 10,
+"tp": 100
+})
+max_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"magic_def": 5,
+"mp": 50,
+"speed": 10,
+"tp": 100
+})
+damage_weakness = Array[int]([1, 11])
+damage_resistance = Array[int]([0])
+skills = Dictionary[int, Array]({
+0: [ExtResource("7_1lb3m")]
+})
+default_attack = ExtResource("2_b1qgd")
+ai_behavior = 0
+enemy_inventory = Array[ExtResource("2_2p4km")]([SubResource("Resource_i27a3")])
+xp_reward = 15
+currency_reward = 15
+item_drops = Array[ExtResource("3_pms8b")]([SubResource("Resource_mf4bk")])
+metadata/_custom_type_script = "uid://c2cret7fy87bn"

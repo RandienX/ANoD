@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="Quest" format=3 uid="uid://be0dlkwjau6ai"]
+
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="1_6v23t"]
+[ext_resource type="Script" uid="uid://bqx0fphf238fw" path="res://code/quest/quest_point.gd" id="2_6v23t"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="3_6v23t"]
+[ext_resource type="Script" uid="uid://ky4vxed24run" path="res://code/quest/quest.gd" id="3_67rjg"]
+[ext_resource type="Texture2D" uid="uid://b4lpbatwc0gl0" path="res://assets/item_textures/cupcake.png" id="4_dycpl"]
+[ext_resource type="Texture2D" uid="uid://ipp88bfyrbj3" path="res://assets/party/$RemasteredChica.png" id="5_g663r"]
+
+[sub_resource type="Resource" id="Resource_67rjg"]
+script = ExtResource("3_6v23t")
+description = "Get 10 Small Pizzas."
+param_string = "res://resources/items/consumables/small_pizza.tres"
+param_value = 10.0
+
+[sub_resource type="Resource" id="Resource_dycpl"]
+script = ExtResource("3_6v23t")
+description = "Get Carl."
+param_string = "res://resources/items/key/carl.tres"
+quest_icon = ExtResource("4_dycpl")
+
+[sub_resource type="Resource" id="Resource_g663r"]
+script = ExtResource("2_6v23t")
+step_name = "Get the items"
+conditions = Array[ExtResource("3_6v23t")]([SubResource("Resource_67rjg"), SubResource("Resource_dycpl")])
+metadata/_custom_type_script = "uid://bqx0fphf238fw"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wp38m"]
+atlas = ExtResource("5_g663r")
+region = Rect2(128, 24, 32, 40)
+
+[sub_resource type="Resource" id="Resource_wp38m"]
+script = ExtResource("3_6v23t")
+condition_type = 2
+description = "Talk to Chica"
+param_string = "Chica"
+quest_icon = SubResource("AtlasTexture_wp38m")
+
+[sub_resource type="Resource" id="Resource_gai0h"]
+script = ExtResource("2_6v23t")
+conditions = Array[ExtResource("3_6v23t")]([SubResource("Resource_wp38m")])
+metadata/_custom_type_script = "uid://bqx0fphf238fw"
+
+[resource]
+script = ExtResource("3_67rjg")
+quest_name = "Feed the Fatass."
+quest_id = "feed_chica"
+points = Array[ExtResource("2_6v23t")]([SubResource("Resource_g663r"), SubResource("Resource_gai0h")])
+metadata/_custom_type_script = "uid://ky4vxed24run"

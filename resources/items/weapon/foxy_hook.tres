@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cv6wj07maa42q"]
+
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="1_item"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_v64jo"]
+[ext_resource type="Resource" uid="uid://bjsbtv5uw2jr2" path="res://resources/attacks/foxy/foxy_hook_shot.tres" id="2_j785l"]
+[ext_resource type="Resource" uid="uid://dc5cs2m8msofl" path="res://resources/effects/poison.tres" id="4_j785l"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_b2mx8"]
+load_path = "res://.godot/imported/hook.png-ae8a35407e8800b5e0d1e97e03260e27.ctex"
+
+[resource]
+script = ExtResource("1_item")
+item_name = "Degenerate Hook"
+description = "Ass pirate hook Foxy uses to gouge and gut. This... thing... stinks of fury and cum."
+texture = SubResource("CompressedTexture2D_b2mx8")
+sell_price = Dictionary[int, int]({
+0: 250,
+1: 300,
+2: 0
+})
+can_use_outside_battle = false
+item_attack = ExtResource("2_j785l")
+item_bonuses = Dictionary[String, int]({
+"atk": 3,
+"def": 1,
+"hp": 0,
+"magic": 0,
+"mp": 0,
+"speed": 0
+})
+weapon_effects_given = Array[ExtResource("1_v64jo")]([ExtResource("4_j785l")])

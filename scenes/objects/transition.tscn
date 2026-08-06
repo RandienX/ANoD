@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://clildupwuax4h"]
+
+[ext_resource type="Script" uid="uid://8xdjua3jhdqd" path="res://scenes/maps/black_flash_on_scene.gd" id="1_cg2j6"]
+[ext_resource type="FontFile" uid="uid://bbkqbneky7jdt" path="res://assets/courbd.ttf" id="2_xnn2q"]
+
+[sub_resource type="FontVariation" id="FontVariation_p76nr"]
+base_font = ExtResource("2_xnn2q")
+spacing_glyph = -1
+spacing_space = -4
+
+[node name="transition" type="CanvasLayer" unique_id=736995530]
+
+[node name="black_flash" type="ColorRect" parent="." unique_id=1669375892]
+modulate = Color(1, 1, 1, 0)
+z_index = 999
+custom_minimum_size = Vector2(1152, 864)
+offset_right = 864.0
+offset_bottom = 648.0
+mouse_filter = 1
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_cg2j6")
+
+[node name="Label" type="Label" parent="black_flash" unique_id=1263837276]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 19.0
+theme_override_fonts/font = SubResource("FontVariation_p76nr")
+theme_override_font_sizes/font_size = 24
+text = "Pizzeria - Dining Hall"

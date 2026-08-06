@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dv2g7mdvf8iuk"
+path="res://.godot/imported/Toby Fox - Rude Buster.mp3-90a2ab438e2d9eb9b1db990e28f19f35.mp3str"
+
+[deps]
+
+source_file="res://assets/sound/battle/Toby Fox - Rude Buster.mp3"
+dest_files=["res://.godot/imported/Toby Fox - Rude Buster.mp3-90a2ab438e2d9eb9b1db990e28f19f35.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

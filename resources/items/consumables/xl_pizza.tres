@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://u81xuoxw3hq5"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_43lgq"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_mgvvv"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_htsio"]
+load_path = "res://.godot/imported/pizza.png-0e3c9696c52b7847eb38cd94cc205ced.ctex"
+
+[resource]
+script = ExtResource("2_mgvvv")
+item_name = "XL Pizza"
+description = "Plasticey, mediocre, cheap Freddy's pizza. Good if you are hungry, never in any other circumstances. Overwhelmingly large, Chica's go-to size."
+texture = SubResource("CompressedTexture2D_htsio")
+type = 2
+sell_price = Dictionary[int, int]({
+0: 200,
+1: 100,
+2: 50
+})
+buy_price = Dictionary[int, int]({
+0: 800,
+1: 2000,
+2: 300
+})
+path_to = ""
+heal_amount = 300
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

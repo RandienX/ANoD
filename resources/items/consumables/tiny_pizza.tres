@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://dlxeylilwh1gg"]
+
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="1_4xfe2"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_htsio"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xb2ix"]
+load_path = "res://.godot/imported/pizza.png-0e3c9696c52b7847eb38cd94cc205ced.ctex"
+
+[resource]
+script = ExtResource("1_4xfe2")
+item_name = "XS Pizza"
+description = "Plasticey, mediocre, cheap Freddy's pizza. Good if you are hungry, never in any other circumstances. The size of this pizza is so puny even Chica sometimes refuses to eat it."
+texture = SubResource("CompressedTexture2D_xb2ix")
+type = 2
+heal_amount = 25
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://dlcmcteyfojpl"]
+
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_wbnm6"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_np6g5"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="3_cfvuq"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="4_fr733"]
+[ext_resource type="AudioStream" uid="uid://chd3ecsqq2lwy" path="res://assets/sound/sfx/attack/Wind2.mp3" id="5_btobw"]
+[ext_resource type="EffekseerEffect" uid="uid://8q78i0rongs2" path="res://assets/vfx/SlashSpecial3.efkefc" id="6_g8quu"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="7_ky41d"]
+
+[sub_resource type="Resource" id="Resource_s5hhu"]
+script = ExtResource("7_ky41d")
+effect = ExtResource("6_g8quu")
+speed = 2.0
+
+[resource]
+script = ExtResource("4_fr733")
+skill_name = "Martial Arts"
+target_type = 5
+mana_cost = 25
+attack_multiplier = 1.2
+damage_type = 5
+hit_count = 5
+hit_damage_multiplier = 1.0
+vfx = SubResource("Resource_s5hhu")
+sfx = ExtResource("5_btobw")
+metadata/_custom_type_script = "uid://o74imedfcjis"

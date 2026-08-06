@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://bocl66i8sewms"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_q8ryd"]
+[ext_resource type="Resource" uid="uid://bm2swlibbpbh4" path="res://resources/attacks/attack.tres" id="1_vmljr"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_qbyrk"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="3_5uot8"]
+[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="4_vmljr"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="5_yudie"]
+[ext_resource type="SpriteFrames" uid="uid://c70dusesuvjnc" path="res://assets/spriteframes/chica.tres" id="6_q8ryd"]
+[ext_resource type="Resource" uid="uid://cq600ldyq2j8g" path="res://resources/attacks/check.tres" id="7_yudie"]
+[ext_resource type="Resource" uid="uid://cgui3t54g0dw1" path="res://resources/attacks/enemies/pizzeria/heal_strike.tres" id="8_wbci1"]
+[ext_resource type="Resource" uid="uid://chgntohf5wfwf" path="res://resources/attacks/chica/carlcakes.tres" id="9_wbci1"]
+[ext_resource type="Resource" uid="uid://cvnvft3cs54p4" path="res://resources/attacks/chica/body_slam.tres" id="10_e8d7v"]
+
+[resource]
+script = ExtResource("5_yudie")
+name = "Chica"
+description = "Chica is the girl in the group, if you couldn't tell by name we don't judge as this whale of a woman weighs a ton. She is very insecure about her body's look, yet unable to change her eating habits. Became a food addict since the Fallfest of '83. Tries to tell herself she is hot by telling everyone to eat her, that might be her fetish but we are not sure."
+portrait = ExtResource("4_vmljr")
+portrait_rect = Rect2(192, 0, 96, 96)
+sprite = ExtResource("6_q8ryd")
+path_to = "res://resources/party/chica.tres"
+base_stats = Dictionary[String, int]({
+"atk": 2,
+"def": 7,
+"hp": 120,
+"magic": 4,
+"magic_def": 6,
+"mp": 30,
+"speed": 1,
+"tp": 95
+})
+level_up_gains = Dictionary[String, float]({
+"atk": 1.5,
+"def": 3.0,
+"hp": 2.5,
+"magic": 1.3,
+"magic_def": 2.5,
+"mp": 2.2,
+"speed": 1.2,
+"tp": 1.5
+})
+stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 0,
+"magic": 10,
+"mp": 0,
+"speed": 10
+})
+max_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"mp": 50,
+"speed": 10
+})
+level_up_xp_multiplier = 1.6
+skills = Dictionary[int, Array]({
+0: [ExtResource("7_yudie"), ExtResource("8_wbci1")],
+2: [ExtResource("9_wbci1")],
+3: [ExtResource("10_e8d7v")]
+})
+default_attack = ExtResource("1_vmljr")
+metadata/_custom_type_script = "uid://c2cret7fy87bn"

@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cs8vt16es1rpt"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_828vs"]
+[ext_resource type="Resource" uid="uid://c1r8ymlpq8pnw" path="res://resources/effects/confusion.tres" id="2_swuda"]
+[ext_resource type="Script" uid="uid://c7om4j5v1vj04" path="res://code/main_res/Condition.gd" id="3_5ywsg"]
+[ext_resource type="Script" uid="uid://btu5sgbysqdfq" path="res://code/battle/battle_effect/battle_effect_stat_modifier.gd" id="4_re2t4"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="4_vcxb7"]
+[ext_resource type="Texture2D" uid="uid://bq6thf27xq8y0" path="res://assets/battleui/status_effects.png" id="5_ujevw"]
+[ext_resource type="Script" uid="uid://bdxyu3e5w0856" path="res://code/battle/battle_effect/battle_effect_status_definition.gd" id="6_ju8rg"]
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="7_t2uc1"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="8_g60w7"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="9_f7oqx"]
+[ext_resource type="AudioStream" uid="uid://i0pfardqhs0y" path="res://assets/sound/sfx/attack/Explosion2.mp3" id="10_xyw5t"]
+[ext_resource type="EffekseerEffect" uid="uid://cd5otg73v4vwg" path="res://assets/vfx/LightOne2.efkefc" id="11_5gu3v"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="12_js5u7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lejns"]
+atlas = ExtResource("5_ujevw")
+region = Rect2(64, 256, 64, 64)
+
+[sub_resource type="Resource" id="Resource_1xfkj"]
+script = ExtResource("4_re2t4")
+stat_key = "hp"
+value = 10.0
+scaling_type = 3
+metadata/_custom_type_script = "uid://btu5sgbysqdfq"
+
+[sub_resource type="Resource" id="Resource_m8xcb"]
+script = ExtResource("6_ju8rg")
+id = "burn"
+name = "Burn"
+icon = SubResource("AtlasTexture_lejns")
+stat_modifiers = Array[ExtResource("4_re2t4")]([SubResource("Resource_1xfkj")])
+callback_data = Dictionary[String, Variant]({
+"damage_type": 2
+})
+tick_callback = "effect_damage_hp"
+metadata/_custom_type_script = "uid://bdxyu3e5w0856"
+
+[sub_resource type="Resource" id="Resource_2rwuv"]
+script = ExtResource("1_828vs")
+effect_id = "burn"
+effect_name = "Burn"
+effect_type = 2
+target_type = 5
+timing = 1
+base_value = 5.0
+scaling_type = 3
+variance_percent = 0.2
+status_ref = SubResource("Resource_m8xcb")
+status_duration_override = 3
+status_apply_chance = 90.0
+metadata/_custom_type_script = "uid://ch7hoesea8vrf"
+
+[sub_resource type="Resource" id="Resource_uavmw"]
+script = ExtResource("1_828vs")
+effect_id = "burn"
+effect_name = "Burn"
+effect_type = 2
+target_type = 5
+timing = 1
+base_value = 10.0
+scaling_type = 3
+variance_percent = 0.2
+status_ref = SubResource("Resource_m8xcb")
+status_duration_override = 3
+status_apply_chance = 90.0
+metadata/_custom_type_script = "uid://ch7hoesea8vrf"
+
+[sub_resource type="Resource" id="Resource_mir0a"]
+script = ExtResource("12_js5u7")
+effect = ExtResource("11_5gu3v")
+
+[sub_resource type="Resource" id="Resource_5qw28"]
+script = ExtResource("9_f7oqx")
+skill_name = "Explosion"
+target_type = 3
+tp_cost = -20
+accuracy = 0.8
+attack_multiplier = 2.0
+attack_bonus = 10
+damage_type = 9
+hit_count = 3
+on_hit_effects = Array[ExtResource("1_828vs")]([ExtResource("2_swuda"), SubResource("Resource_uavmw")])
+vfx = SubResource("Resource_mir0a")
+sfx = ExtResource("10_xyw5t")
+metadata/_custom_type_script = "uid://o74imedfcjis"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bhi66"]
+load_path = "res://.godot/imported/molotov.png-6e1de5c192d8c38dbeec2d21b4558993.ctex"
+
+[resource]
+script = ExtResource("4_vcxb7")
+item_name = "Dynamite"
+description = "Plow. USE WITH CAUTION!!!"
+texture = SubResource("CompressedTexture2D_bhi66")
+type = 2
+sell_price = Dictionary[int, int]({
+0: 200,
+1: 0,
+2: 0
+})
+buy_price = Dictionary[int, int]({
+0: 500,
+1: 10,
+2: 10
+})
+can_use_outside_battle = false
+item_attack = SubResource("Resource_5qw28")
+consume_effects = Array[ExtResource("1_828vs")]([ExtResource("2_swuda"), SubResource("Resource_2rwuv")])
+is_item_attack = true
+heal_amount = -30
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="Battle" format=3 uid="uid://c7bu4yykoa0ob"]
+
+[ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="4_46a8w"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="5_1ro3t"]
+[ext_resource type="Resource" uid="uid://js76od81la8g" path="res://resources/enemies/pizzeria/o_party_hat.tres" id="6_bw847"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="7_jo51g"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="7_lsbg5"]
+[ext_resource type="Resource" uid="uid://b7val374sectd" path="res://resources/enemies/pizzeria/y_party_hat.tres" id="7_mac50"]
+[ext_resource type="AudioStream" uid="uid://cskc30lrddixe" path="res://assets/sound/battle/Black Knife.mp3" id="8_h74ly"]
+[ext_resource type="Script" uid="uid://c87a82v6g8ug3" path="res://code/battle/battle_phase.gd" id="10_d0eux"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="11_cdm10"]
+
+[sub_resource type="Resource" id="Resource_w3sal"]
+script = ExtResource("4_46a8w")
+enemy = ExtResource("6_bw847")
+ui_position_preset = 1
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_4a0t1"]
+script = ExtResource("4_46a8w")
+enemy = ExtResource("7_mac50")
+ui_position_preset = 4
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[sub_resource type="Resource" id="Resource_vx1ff"]
+script = ExtResource("4_46a8w")
+enemy = ExtResource("6_bw847")
+ui_position_preset = 7
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[resource]
+script = ExtResource("11_cdm10")
+battle_name = "Omega Party Hat 3"
+enemies = Array[ExtResource("4_46a8w")]([SubResource("Resource_w3sal"), SubResource("Resource_4a0t1"), SubResource("Resource_vx1ff")])
+music = ExtResource("8_h74ly")
+xp_multiplier = 1.1
+metadata/_custom_type_script = "uid://s2os42vdwf6y"

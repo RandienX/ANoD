@@ -1,0 +1,79 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://0fx5e8sy4hgk"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_bm5ln"]
+[ext_resource type="Resource" uid="uid://bm2swlibbpbh4" path="res://resources/attacks/attack.tres" id="1_jpc2l"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_2hdvh"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="2_20w03"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="3_undqo"]
+[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="4_ivcog"]
+[ext_resource type="Resource" uid="uid://cv6wj07maa42q" path="res://resources/items/weapon/foxy_hook.tres" id="4_jruk4"]
+[ext_resource type="SpriteFrames" uid="uid://bumms83h0snyj" path="res://assets/spriteframes/foxy.tres" id="6_lg06a"]
+[ext_resource type="Resource" uid="uid://cq600ldyq2j8g" path="res://resources/attacks/check.tres" id="8_vhvym"]
+[ext_resource type="Resource" uid="uid://dt2n0v1ehisp1" path="res://resources/attacks/foxy/foxy_bite.tres" id="9_q0kxr"]
+[ext_resource type="Resource" uid="uid://c3cyejodk1a11" path="res://resources/attacks/foxy/foxy_lunge.tres" id="10_qfkvi"]
+[ext_resource type="Resource" uid="uid://brnweseswchfj" path="res://resources/attacks/foxy/foxy_hallway_sprint.tres" id="11_o2p67"]
+
+[resource]
+script = ExtResource("3_undqo")
+name = "Foxy"
+description = "This cunning fox of a pirate captain has a bit of a temper. Even if easily annoyed by his \"crew\" is the heart of the Freddy co. Spend most of the time gooning in his cove and may sometimes be reluctant to going on adventures. His relationship with Bonnie is stronger than with other members of the band, mostly because Bonnie annoys him the least."
+portrait = ExtResource("4_ivcog")
+portrait_rect = Rect2(288, 0, 96, 96)
+sprite = ExtResource("6_lg06a")
+path_to = "res://resources/party/foxy.tres"
+base_stats = Dictionary[String, int]({
+"atk": 4,
+"def": 2,
+"hp": 75,
+"magic": 2,
+"magic_def": 4,
+"mp": 30,
+"speed": 7,
+"tp": 120
+})
+level_up_gains = Dictionary[String, float]({
+"atk": 2.2,
+"def": 1.1,
+"hp": 2.6,
+"magic": 1.1,
+"magic_def": 1.3,
+"mp": 1.5,
+"speed": 2.0,
+"tp": 2.0
+})
+stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"mp": 50,
+"speed": 10
+})
+max_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"mp": 50,
+"speed": 10
+})
+level_up_xp_multiplier = 1.45
+skills = Dictionary[int, Array]({
+0: [ExtResource("8_vhvym"), ExtResource("9_q0kxr")],
+2: [ExtResource("10_qfkvi")],
+3: [ExtResource("11_o2p67")]
+})
+default_attack = ExtResource("1_jpc2l")
+equipped = {
+"accessory_1": null,
+"accessory_2": null,
+"body": null,
+"head": null,
+"legs": null,
+"shield": null,
+"weapon_left": ExtResource("4_jruk4"),
+"weapon_right": null
+}
+aggression = 0.6
+smart_targeting = false
+metadata/_custom_type_script = "uid://c2cret7fy87bn"

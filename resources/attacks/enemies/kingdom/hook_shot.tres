@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://dg224qcft1awy"]
+
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_ouvsk"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_gck4j"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="3_ehxod"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="4_2p7tb"]
+[ext_resource type="AudioStream" uid="uid://dabvhefdalo6t" path="res://assets/sound/sfx/attack/Slash1.mp3" id="5_cq8tf"]
+[ext_resource type="EffekseerEffect" uid="uid://d2lw2i3ilb7e0" path="res://assets/vfx/PierceThunder.efkefc" id="6_ouvsk"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="7_8u3lx"]
+
+[sub_resource type="Resource" id="Resource_s3ty0"]
+script = ExtResource("7_8u3lx")
+effect = ExtResource("6_ouvsk")
+on_target = 4
+color = Color(0.37342674, 0.7698625, 0.9280188, 1)
+metadata/_custom_type_script = "uid://bqcm6g85k8bau"
+
+[resource]
+script = ExtResource("4_2p7tb")
+skill_name = "Hook Shot"
+attack_bonus = 5
+hit_count = 2
+hit_damage_multiplier = 0.66
+vfx = SubResource("Resource_s3ty0")
+sfx = ExtResource("5_cq8tf")

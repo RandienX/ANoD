@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://cw264mfvuhrnn"]
+
+[ext_resource type="AudioStream" uid="uid://chthy3j58webc" path="res://assets/sound/sfx/attack/Damage5.mp3" id="1_yftjf"]
+[ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_v7k2v"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="3_c1b80"]
+[ext_resource type="Resource" uid="uid://c1r8ymlpq8pnw" path="res://resources/effects/confusion.tres" id="4_432ro"]
+[ext_resource type="Script" uid="uid://o74imedfcjis" path="res://code/battle/skill.gd" id="5_ba2qo"]
+[ext_resource type="AudioStream" uid="uid://i0pfardqhs0y" path="res://assets/sound/sfx/attack/Explosion2.mp3" id="6_3oj35"]
+[ext_resource type="EffekseerEffect" uid="uid://dxutvcnt57w21" path="res://assets/vfx/EarthOne2.efkefc" id="7_ukp54"]
+[ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="8_3uvbe"]
+
+[sub_resource type="Resource" id="Resource_lnw0t"]
+script = ExtResource("8_3uvbe")
+effect = ExtResource("7_ukp54")
+
+[resource]
+script = ExtResource("5_ba2qo")
+skill_name = "Earth Tremor"
+target_type = 3
+mana_cost = 15
+hp_cost = 25
+attack_multiplier = 0.8
+attack_bonus = 2
+damage_type = 4
+hit_count = 3
+on_hit_effects = Array[ExtResource("3_c1b80")]([ExtResource("4_432ro")])
+vfx = SubResource("Resource_lnw0t")
+sfx = ExtResource("6_3oj35")
+metadata/_custom_type_script = "uid://o74imedfcjis"

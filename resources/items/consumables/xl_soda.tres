@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://c2vmi1u766tt7"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_n3lpp"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_cc7fs"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m6c45"]
+load_path = "res://.godot/imported/soda.png-568b85c513f332fbee90c27e439a1ef9.ctex"
+
+[resource]
+script = ExtResource("2_cc7fs")
+item_name = "XL Soda"
+description = "A somewhat cold, carbonated beverage helping with focus and composure. Humongous monstrosity of a drink."
+texture = SubResource("CompressedTexture2D_m6c45")
+type = 2
+sell_price = Dictionary[int, int]({
+0: 300,
+1: 10,
+2: 10
+})
+buy_price = Dictionary[int, int]({
+0: 500,
+1: 10,
+2: 10
+})
+heal_amount = 10
+mana_amount = 150
+metadata/_custom_type_script = "uid://dn31qme1ukrys"

@@ -1,0 +1,44 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://ye5xtedgaf0g"]
+
+[ext_resource type="Texture2D" uid="uid://cxaux52qy0jwc" path="res://assets/mapsprites/carriage.png" id="1_6hyw5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6hyw5"]
+atlas = ExtResource("1_6hyw5")
+region = Rect2(0, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vgra"]
+atlas = ExtResource("1_6hyw5")
+region = Rect2(0, 80, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2s8r"]
+atlas = ExtResource("1_6hyw5")
+region = Rect2(96, 80, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4cbdi"]
+atlas = ExtResource("1_6hyw5")
+region = Rect2(192, 80, 96, 80)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6hyw5")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vgra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k2s8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4cbdi")
+}],
+"loop": 1,
+"name": &"riding",
+"speed": 5.0
+}]

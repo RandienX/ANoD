@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cu2xxx1siklfe"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_hkh5n"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+item_name = "Gooner's Slice"
+description = "A disgusting slab of stage pizza soaked in Foxy's sweat and rage. It heals you enough to keep fighting."
+type = 2
+sell_price = Dictionary[int, int]({
+0: 80,
+1: 120,
+2: 0
+})
+can_use_outside_battle = false
+item_bonuses = Dictionary[String, int]({
+"atk": 0,
+"def": 0,
+"hp": 0,
+"magic": 0,
+"mp": 0,
+"speed": 0
+})
+heal_amount = 80
+mana_amount = 20
+revive_amount = 50

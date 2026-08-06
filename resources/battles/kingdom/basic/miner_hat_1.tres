@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Battle" format=3 uid="uid://c8rorigawhlip"]
+
+[ext_resource type="Script" uid="uid://cpuojkdrhbref" path="res://code/battle/battle_enemy_slot.gd" id="1_rifhw"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="2_shicb"]
+[ext_resource type="Resource" uid="uid://c8hlwlqbtky76" path="res://resources/enemies/kingdom/miner_hat.tres" id="3_vo51a"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="4_3recp"]
+[ext_resource type="AudioStream" uid="uid://dv2g7mdvf8iuk" path="res://assets/sound/battle/Toby Fox - Rude Buster.mp3" id="5_ngcja"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="6_vtqrv"]
+[ext_resource type="Script" uid="uid://c87a82v6g8ug3" path="res://code/battle/battle_phase.gd" id="7_y8hfi"]
+[ext_resource type="Script" uid="uid://s2os42vdwf6y" path="res://code/battle/battle.gd" id="8_e0pey"]
+
+[sub_resource type="Resource" id="Resource_m0tdj"]
+script = ExtResource("1_rifhw")
+enemy = ExtResource("3_vo51a")
+metadata/_custom_type_script = "uid://cpuojkdrhbref"
+
+[resource]
+script = ExtResource("8_e0pey")
+battle_name = "Miner Hat 1"
+enemies = Array[ExtResource("1_rifhw")]([SubResource("Resource_m0tdj")])
+music = ExtResource("5_ngcja")
+metadata/_custom_type_script = "uid://s2os42vdwf6y"

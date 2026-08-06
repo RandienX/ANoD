@@ -1,0 +1,68 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://cpry1373l67d3"]
+
+[ext_resource type="Texture2D" uid="uid://ok0s30ywbc5e" path="res://assets/faceset/Classics+Swag.png" id="1_wktog"]
+[ext_resource type="Resource" uid="uid://bm2swlibbpbh4" path="res://resources/attacks/attack.tres" id="2_y56t2"]
+[ext_resource type="Resource" uid="uid://cq600ldyq2j8g" path="res://resources/attacks/check.tres" id="3_2vo3l"]
+[ext_resource type="Resource" uid="uid://duj14sl0ett0i" path="res://resources/attacks/bonnie/bunny_hop.tres" id="4_2lmmp"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="4_nwd5i"]
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="4_y56t2"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="5_nwd5i"]
+[ext_resource type="Resource" uid="uid://b5yjitpcodq3o" path="res://resources/attacks/bonnie/guitarist_inspiration.tres" id="7_ohk4t"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="7_y3y4j"]
+[ext_resource type="SpriteFrames" uid="uid://b8830yuck78ce" path="res://assets/spriteframes/toilet_bonnie.tres" id="11_nwd5i"]
+[ext_resource type="Resource" uid="uid://ct4o1jjp0vi4w" path="res://resources/attacks/bonnie/guitar_bash.tres" id="11_y3y4j"]
+
+[resource]
+script = ExtResource("7_y3y4j")
+name = "Bonnie"
+description = "This bunny is a chill buddy. He doesn't have fucks to give, unless it's about his face or toilets. In spare time dude chills in the dark and sometimes goons with Foxy. Although aloof in nature, he will do debauchery with friends."
+portrait = ExtResource("1_wktog")
+portrait_rect = Rect2(96, 0, 96, 96)
+sprite = ExtResource("11_nwd5i")
+path_to = "res://resources/party/bonnie.tres"
+base_stats = Dictionary[String, int]({
+"atk": 4,
+"def": 2,
+"hp": 80,
+"magic": 6,
+"magic_def": 5,
+"mp": 40,
+"speed": 5,
+"tp": 90
+})
+level_up_gains = Dictionary[String, float]({
+"atk": 1.3,
+"def": 1.3,
+"hp": 1.8,
+"magic": 2.0,
+"magic_def": 1.6,
+"mp": 2.5,
+"speed": 1.8,
+"tp": 1.2
+})
+stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"mp": 50,
+"speed": 10
+})
+max_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"mp": 50,
+"speed": 10
+})
+level_up_xp_multiplier = 1.55
+cannot_use_skills = true
+skills = Dictionary[int, Array]({
+0: [ExtResource("3_2vo3l")],
+2: [ExtResource("4_2lmmp")],
+3: [ExtResource("7_ohk4t")],
+4: [ExtResource("11_y3y4j")]
+})
+default_attack = ExtResource("2_y56t2")
+metadata/_custom_type_script = "uid://c2cret7fy87bn"

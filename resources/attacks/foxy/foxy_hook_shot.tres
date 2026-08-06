@@ -6,13 +6,14 @@
 [ext_resource type="AudioStream" uid="uid://bbwdtr3map0w" path="res://assets/sound/sfx/Miss.mp3" id="2_7g0uy"]
 [ext_resource type="Resource" uid="uid://dc5cs2m8msofl" path="res://resources/effects/poison.tres" id="2_q3xwb"]
 [ext_resource type="AudioStream" uid="uid://dabvhefdalo6t" path="res://assets/sound/sfx/attack/Slash1.mp3" id="6_23nwj"]
-[ext_resource type="EffekseerEffect" uid="uid://bxtbolj2hnkpi" path="res://assets/vfx/PiercePhysical.efkefc" id="7_23nwj"]
+[ext_resource type="EffekseerEffect" uid="uid://d2lw2i3ilb7e0" path="res://assets/vfx/PierceThunder.efkefc" id="7_23nwj"]
 [ext_resource type="Script" uid="uid://bqcm6g85k8bau" path="res://code/battle/VisualEffect.gd" id="8_l8778"]
 
 [sub_resource type="Resource" id="Resource_s3ty0"]
 script = ExtResource("8_l8778")
 effect = ExtResource("7_23nwj")
 on_target = 4
+color = Color(0.37342674, 0.7698625, 0.9280188, 1)
 metadata/_custom_type_script = "uid://bqcm6g85k8bau"
 
 [resource]
@@ -22,6 +23,7 @@ description = "Foxy lashes out with his fucked-up pirate hook in a manic, angry 
 tp_cost = -3
 attack_multiplier = 0.8
 attack_bonus = 3
+damage_type = 11
 hit_count = 2
 hit_damage_multiplier = 0.66
 on_hit_effects = Array[ExtResource("1_58wax")]([ExtResource("2_q3xwb")])

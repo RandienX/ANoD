@@ -1,0 +1,180 @@
+[gd_resource type="Resource" script_class="ShopData" format=3 uid="uid://bl6fq4p6ulpwx"]
+
+[ext_resource type="Script" uid="uid://b2nv155ae50jn" path="res://code/shop/shop_item.gd" id="1_n4ldh"]
+[ext_resource type="Resource" uid="uid://dlxeylilwh1gg" path="res://resources/items/consumables/tiny_pizza.tres" id="2_qyfhw"]
+[ext_resource type="Resource" uid="uid://b3qdog10ofahg" path="res://resources/items/consumables/small_pizza.tres" id="3_450q3"]
+[ext_resource type="Resource" uid="uid://bw0e1yparf4hs" path="res://resources/items/consumables/tiny_soda.tres" id="3_jnhrj"]
+[ext_resource type="Resource" uid="uid://djy42cikg1wae" path="res://resources/items/consumables/crack.tres" id="4_0ijwn"]
+[ext_resource type="Resource" uid="uid://ckt7kwce5bnkx" path="res://resources/items/consumables/degreaser.tres" id="4_cw18n"]
+[ext_resource type="Resource" uid="uid://blq4np0unbgga" path="res://resources/items/armor/EndoBodyA.tres" id="5_dxi5a"]
+[ext_resource type="Resource" uid="uid://dp1welb2vy3sa" path="res://resources/items/consumables/small_soda.tres" id="5_ebysb"]
+[ext_resource type="Resource" uid="uid://btt5e5gygccbm" path="res://resources/items/weapon/DragonDildo.tres" id="6_qyfhw"]
+[ext_resource type="Script" uid="uid://dqtfnwt45e6s6" path="res://code/shop/shop_data.gd" id="6_rirsh"]
+[ext_resource type="Resource" uid="uid://comuahi34o6sw" path="res://resources/items/armor/EndoBodyB.tres" id="8_0ijwn"]
+[ext_resource type="Resource" uid="uid://cl6s08n0unc3o" path="res://resources/items/weapon/Dildo6.tres" id="9_i2wwk"]
+[ext_resource type="Resource" uid="uid://yvj82upxou3h" path="res://resources/items/consumables/molotov.tres" id="11_m81lt"]
+[ext_resource type="AudioStream" uid="uid://bfuo5doypgqfy" path="res://assets/sound/shop_bb.mp3" id="13_ebysb"]
+[ext_resource type="Script" uid="uid://nfr8xstn6iuk" path="res://code/dialogue/DialogueData.gd" id="15_1o0p0"]
+[ext_resource type="Script" uid="uid://dag3ualk0velp" path="res://code/dialogue/DialogueNode.gd" id="16_sc8p0"]
+[ext_resource type="Script" uid="uid://q863dboya0u8" path="res://code/dialogue/DialogueBranch.gd" id="17_dy7nh"]
+[ext_resource type="Script" uid="uid://cns0ts3txlu6v" path="res://code/dialogue/DialogueChoice.gd" id="18_d4vvn"]
+[ext_resource type="Script" uid="uid://t5qfe8igpeg3" path="res://code/main_res/Effect.gd" id="19_ab47x"]
+[ext_resource type="Texture2D" uid="uid://ck13wm701kyvg" path="res://assets/faceset/Children & Puppets.png" id="20_n38p3"]
+
+[sub_resource type="Resource" id="Resource_fwt8y"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("2_qyfhw")
+price = 15
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_qwjfq"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("3_450q3")
+price = 40
+sort_order = 1
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_i2wwk"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("4_0ijwn")
+price = 300
+sort_order = 2
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_hj4dh"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("3_jnhrj")
+price = 20
+sort_order = 2
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_ep0h4"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("5_ebysb")
+price = 50
+sort_order = 3
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_gj6xf"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("4_cw18n")
+sort_order = 4
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_h45c7"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("5_dxi5a")
+sort_order = 5
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_qxtrt"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("8_0ijwn")
+price = 250
+sort_order = 6
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_1o0p0"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("9_i2wwk")
+price = 150
+sort_order = 7
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_jnhrj"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("6_qyfhw")
+price = 1000
+sort_order = 7
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="Resource" id="Resource_sc8p0"]
+script = ExtResource("1_n4ldh")
+item = ExtResource("11_m81lt")
+price = 67
+sort_order = 8
+metadata/_custom_type_script = "uid://b2nv155ae50jn"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70xmm"]
+atlas = ExtResource("20_n38p3")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="Resource" id="Resource_n38p3"]
+script = ExtResource("16_sc8p0")
+text = "Yes. I am fatherless."
+portrait = SubResource("AtlasTexture_70xmm")
+label = "start"
+next_label = "1"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_70xmm"]
+script = ExtResource("16_sc8p0")
+text = "M papa didn't come back from the K-Mart to get milk."
+portrait = SubResource("AtlasTexture_70xmm")
+label = "1"
+next_label = "2"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_ohdul"]
+script = ExtResource("16_sc8p0")
+text = "I even bought the milk myself, but he didn't come back... "
+portrait = SubResource("AtlasTexture_70xmm")
+label = "2"
+next_label = "3"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_mjes3"]
+script = ExtResource("16_sc8p0")
+text = "(you see the 6 years expired milk on the shelf)"
+label = "3"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_2lc47"]
+script = ExtResource("15_1o0p0")
+nodes = Array[ExtResource("16_sc8p0")]([SubResource("Resource_n38p3"), SubResource("Resource_70xmm"), SubResource("Resource_ohdul"), SubResource("Resource_mjes3")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"
+
+[sub_resource type="Resource" id="Resource_dy7nh"]
+script = ExtResource("16_sc8p0")
+text = "I am a respectable business if you want free shit i can shit into your hands."
+portrait = SubResource("AtlasTexture_70xmm")
+label = "start"
+next_label = "1"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_d4vvn"]
+script = ExtResource("16_sc8p0")
+text = "Still with a price but small."
+portrait = SubResource("AtlasTexture_70xmm")
+label = "1"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_ab47x"]
+script = ExtResource("15_1o0p0")
+nodes = Array[ExtResource("16_sc8p0")]([SubResource("Resource_dy7nh"), SubResource("Resource_d4vvn")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"
+
+[sub_resource type="Resource" id="Resource_8irf5"]
+script = ExtResource("16_sc8p0")
+text = "Fuck off."
+portrait = SubResource("AtlasTexture_70xmm")
+label = "start"
+metadata/_custom_type_script = "uid://dag3ualk0velp"
+
+[sub_resource type="Resource" id="Resource_a2dks"]
+script = ExtResource("15_1o0p0")
+nodes = Array[ExtResource("16_sc8p0")]([SubResource("Resource_8irf5")])
+metadata/_custom_type_script = "uid://nfr8xstn6iuk"
+
+[resource]
+script = ExtResource("6_rirsh")
+shop_name = "Enragement Shop 1"
+shop_description = "bitch"
+shop_music = ExtResource("13_ebysb")
+items = Array[ExtResource("1_n4ldh")]([SubResource("Resource_fwt8y"), SubResource("Resource_qwjfq"), SubResource("Resource_i2wwk"), SubResource("Resource_hj4dh"), SubResource("Resource_ep0h4"), SubResource("Resource_gj6xf"), SubResource("Resource_h45c7"), SubResource("Resource_qxtrt"), SubResource("Resource_1o0p0"), SubResource("Resource_jnhrj"), SubResource("Resource_sc8p0")])
+talk_responses = Dictionary[String, ExtResource("15_1o0p0")]({
+"Fatherless motherfucker.": SubResource("Resource_2lc47"),
+"Give me free shit": SubResource("Resource_ab47x"),
+"Inhale my dong enragement child.": SubResource("Resource_a2dks")
+})
+metadata/_custom_type_script = "uid://dqtfnwt45e6s6"

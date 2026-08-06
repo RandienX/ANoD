@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://cfuadrpi0m4xk"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_qdxal"]
+[ext_resource type="Resource" uid="uid://db8lchf6jgto" path="res://resources/attacks/enemies/kingdom/sword_swing.tres" id="1_qo36h"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_qo36h"]
+[ext_resource type="Script" uid="uid://c3x5tbne416sl" path="res://code/battle/battle_item_drop.gd" id="3_6jlyr"]
+[ext_resource type="Texture2D" uid="uid://bfacvqya4mab4" path="res://assets/battlesprites/Hatcit_Right_arm.png" id="4_qdxal"]
+[ext_resource type="Script" uid="uid://c2cret7fy87bn" path="res://code/main_res/entity.gd" id="5_xshb0"]
+
+[resource]
+script = ExtResource("5_xshb0")
+name = "Hatcis"
+description = "The self-proclaimed grandest knight of hat kingdom, somehow on birth he developped a full body instead of just the hat part, making him much stronger than most foes encountered in Hat Kingdom."
+role = 1
+portrait = ExtResource("4_qdxal")
+base_stats = Dictionary[String, int]({
+"atk": 20,
+"def": 15,
+"hp": 80,
+"magic": 10,
+"magic_def": 8,
+"mp": 50,
+"speed": 40,
+"tp": 100
+})
+stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 0,
+"magic": 10,
+"magic_def": 5,
+"mp": 0,
+"speed": 10,
+"tp": 100
+})
+max_stats = Dictionary[String, int]({
+"atk": 10,
+"def": 5,
+"hp": 100,
+"magic": 10,
+"magic_def": 5,
+"mp": 50,
+"speed": 10,
+"tp": 100
+})
+damage_weakness = Array[int]([3])
+damage_resistance = Array[int]([0])
+default_attack = ExtResource("1_qo36h")
+ai_behavior = 4
+ai_intelligence = 2
+metadata/_custom_type_script = "uid://c2cret7fy87bn"

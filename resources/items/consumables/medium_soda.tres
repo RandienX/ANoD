@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://by5uyiu3jvxei"]
+
+[ext_resource type="Script" uid="uid://ch7hoesea8vrf" path="res://code/battle/battle_effect/battle_effect.gd" id="1_bmabe"]
+[ext_resource type="Script" uid="uid://dn31qme1ukrys" path="res://code/main_res/item.gd" id="2_5mbqx"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m6c45"]
+load_path = "res://.godot/imported/soda.png-568b85c513f332fbee90c27e439a1ef9.ctex"
+
+[resource]
+script = ExtResource("2_5mbqx")
+item_name = "Medium Soda"
+description = "A somewhat cold, carbonated beverage helping with focus and composure."
+texture = SubResource("CompressedTexture2D_m6c45")
+type = 2
+sell_price = Dictionary[int, int]({
+0: 50,
+1: 10,
+2: 10
+})
+buy_price = Dictionary[int, int]({
+0: 180,
+1: 10,
+2: 10
+})
+mana_amount = 50
+metadata/_custom_type_script = "uid://dn31qme1ukrys"
